@@ -20,4 +20,4 @@ public class RegistrationController {
     public String showRegistrationPage(Map<String, Object> model) {
         return "registration";
     }
-}
+   }
