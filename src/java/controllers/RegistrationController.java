@@ -5,10 +5,13 @@
  */
 package controllers;
 
+import entities.User;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import service.UserService;
 
 /**
  *
@@ -16,8 +19,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 public class RegistrationController {
-    @RequestMapping(value = {"/registration"}, method = RequestMethod.GET)
-    public String showRegistrationPage(Map<String, Object> model) {
+    
+    @Autowired
+    private UserService userService;
+    
+    @RequestMapping(value = {"/registration"})
+    public String showRegistrationPage(Map<String, Object> model, String submit,
+            String company, String email, String phone,String password,String name,String surname,String patronymic,
+            String emailCompany) {
+        if (submit != null) {
+            userService.save(company, email, phone, password, name, surname, patronymic, emailCompany);
+            return "redirect:/";
+        }
         return "registration";
-    }
+       }
+    
    }
