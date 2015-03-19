@@ -14,10 +14,14 @@ import org.springframework.stereotype.Repository;
  * @author Юрий
  */
 @Repository
-public class CabinetUserDao extends Dao  {
-    
-     public void save(CabinetUser cab) {
-        getCurrentSession().save(cab);
+public class CabinetUserDao extends Dao<CabinetUser>  {
+
+    @Override
+    public Class getSupportedClass() {
+        return CabinetUser.class;
     }
+    
+    
+     
     
 }
