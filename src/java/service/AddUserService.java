@@ -21,27 +21,26 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Transactional
-public class UserService {
-    
+public class AddUserService {
+
     @Autowired
     private UserDao userDao;
-    
+
     @Autowired
     private CabinetUserDao cabinetUserDao;
-    
+
     @Autowired
     private PersonalCabinetDao cabinetDao;
-    
+
     public void save(
-            String company,
+           
             String email,
             String phone,
             String password,
             String name,
             String surname,
-            String patronymic,
-            String emailCompany
-            ){
+            String patronymic    )
+    {
         User user = new User();
         user.setEmail(email);
         user.setPassword(password);
@@ -49,20 +48,12 @@ public class UserService {
         user.setSurname(surname);
         user.setPatronymic(patronymic);
         userDao.save(user);
+
         
-        PersonalCabinet cabinet = new PersonalCabinet();
-        cabinet.setEmail(emailCompany);
-        cabinet.setPhone(phone);
-        cabinet.setCompany(company);
-        cabinetDao.save(cabinet);
-        
-        CabinetUser link  = new CabinetUser();
-        link.setCabinet(cabinet);
+        CabinetUser link = new CabinetUser();
+      
         link.setUser(user);
-        link.setUser_role("Adnin");
-        
         cabinetUserDao.save(link);
-        
+
     }
-    
 }

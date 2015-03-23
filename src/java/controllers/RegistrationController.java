@@ -19,19 +19,23 @@ import service.UserService;
  */
 @Controller
 public class RegistrationController {
-    
+
     @Autowired
     private UserService userService;
-    
+
     @RequestMapping(value = {"/registration"})
     public String showRegistrationPage(Map<String, Object> model, String submit,
-            String company, String email, String phone,String password,String name,String surname,String patronymic,
+            String company, String email, String phone, String password, String name, String surname, String patronymic,
             String emailCompany) {
         if (submit != null) {
             userService.save(company, email, phone, password, name, surname, patronymic, emailCompany);
-            return "redirect:/";
+            return "redirect:/successRegistration";
         }
         return "registration";
-       }
-    
-   }
+    }
+
+    @RequestMapping(value = {"/successRegistration"}, method = RequestMethod.GET)
+    public String showIndexPage(Map<String, Object> model) {
+        return "successRegistration";
+    }
+}

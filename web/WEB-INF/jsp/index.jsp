@@ -12,14 +12,13 @@
 
     <body>
         <h1> Главная </h1>
-        <br>
-    
-        <a href="http://62.76.41.244/CallCentr/registration">перейти на регистрацию</a>
-
-        <br>
+        
+        <BR>
+        <a href=" http://62.76.41.244/CallCentr/adduser">Добавить Usera</a>
+              <br>
         <table class="header">
             <tr>
-                
+
                 <td align="right"> <a href="<c:url value="/logout"/>">Выйти</a></td>
             </tr>
         </table>

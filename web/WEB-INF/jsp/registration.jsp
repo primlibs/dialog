@@ -11,11 +11,11 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
         <title>Регистрация</title>
     </head>
     <body>
-        Текущая дата: <%= new java.util.Date()%>
-        <h1>Регистрация</h1>
+        
         <% request.setCharacterEncoding("UTF-8");%>
 
         <%

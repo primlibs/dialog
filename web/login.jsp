@@ -10,24 +10,34 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href=<c:url value='css/style.css'/> >
+
         <title>Вход в систему</title>
     </head>
     <body>
-        Текущая дата: <%= new java.util.Date()%>
-        <h1>Введите логин и пароль</h1>
-        <form action="j_spring_security_check" method="POST">
-            <div id="loginBox">
-                <div>
-                 <input placeholder="Введите логин" type="text" size="20" name="j_username"></div>
-                <div>
-                 <input placeholder="Введите пароль" type="password" size="20" name="j_password"></div>
-             <div><input type="submit" value="Авторизоваться"></div>
-            </div>
+     
+       
+      
+        <form method="post" action="j_spring_security_check" class="login">
+            <p>
+                <label for="login">Логин:</label>
+                <input placeholder="Введите логин" name="j_username" id="login"  type="text">
+            </p>
+
+            <p>
+                <label for="password">Пароль:</label>
+                <input placeholder="Введите пароль" name="j_password" id="password"  type="password">
+            </p>
+
+            <p class="login-submit">
+                <button type="submit" class="login-button">Войти</button>
+            </p>
+
+            <p class="forgot-password"><a href="index.html">Забыл пароль?</a>   
+            <a href="<c:url value="/registration" />">Регистрация!!</a></p>
         </form>
-        
-        <br>
-             <br>          
-        <a href="<c:url value="/registration" />">Регистрация!!</a>
-        
+
+
+
     </body>
 </html>
