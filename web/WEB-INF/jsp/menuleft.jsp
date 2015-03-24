@@ -1,6 +1,6 @@
 <%-- 
-    Document   : lk
-    Created on : 23.03.2015, 13:58:19
+    Document   : menuleft
+    Created on : 24.03.2015, 15:42:31
     Author     : Юрий
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -10,19 +10,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-     
-        <title>Личный кабинет</title>
+    
+        <title></title>
     </head>
-    <body class="container">
-
-        <div class="head"> 
-            <ul class="nav nav-tabs  pull-right">
-                <li>  <a href="<c:url value="/logout"/>"> <img src="<c:url value="img/exit.png"/>"> Выйти</a>  </li>
-                <li>  </li>
-            </ul>
-        </div>   
-
-
+    <body>
         <div  class="menu" >
             <ul class="nav nav-tabs nav-stacked">
                 <h2> Меню </h2>
@@ -40,13 +31,5 @@
                 <li>  <a href="<c:url value=""/>"> Назначить диалог</a>  </li>
             </ul>
         </div>
-
-        <div class="centr"> 
-
-
-        </div>    
-
-
-
     </body>
 </html>

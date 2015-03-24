@@ -3,15 +3,14 @@
     Created on : 16.03.2015, 19:17:08
     Author     : Юрий
 --%>
-
+<%@ page session="true" import="java.util.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" type="text/css" href=<c:url value='css/style.css'/> >
-
+       <link rel="stylesheet" type="text/css" href=<c:url value='css/style.css'/> >
         <title>Вход в систему</title>
     </head>
     <body>

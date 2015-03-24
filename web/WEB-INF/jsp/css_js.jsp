@@ -1,0 +1,18 @@
+<%-- 
+    Document   : css_js
+    Created on : 24.03.2015, 16:07:43
+    Author     : Юрий
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags" %> 
+
+<!--    css -->
+<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="css/mystyles.css" rel="stylesheet" media="screen">
+<link rel="stylesheet" type="text/css" href=<c:url value='css/lk.css'/> >
+<link rel="stylesheet" type="text/css" href=<c:url value='css/body.css'/> >
+
+
+<!--    js -->
