@@ -59,7 +59,7 @@ public class UserService {
         CabinetUser link  = new CabinetUser();
         link.setCabinet(cabinet);
         link.setUser(user);
-        link.setUser_role("Adnin");
+        link.setUser_role("Admin");
         
         cabinetUserDao.save(link);
         

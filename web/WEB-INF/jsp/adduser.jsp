@@ -5,15 +5,17 @@
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@include file="/WEB-INF/jsp/css_js.jsp" %>
-<%@include file="/WEB-INF/jsp/menutop.jsp" %>
-<%@include file="/WEB-INF/jsp/menuleft.jsp" %>
+
+
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Добавление пользователя</title>
+        <%@include file="/WEB-INF/jsp/css_js.jsp" %>
     </head>
     <body class="container" >
+        <%@include file="/WEB-INF/jsp/menutopadm.jsp" %>
         <form action="<c:url value="/adduser" />" method="post">
 
            <div class="form-group">
