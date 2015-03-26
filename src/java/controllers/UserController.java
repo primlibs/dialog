@@ -6,11 +6,12 @@
 package controllers;
 
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import service.AddUserService;
-import service.UserService;
+
 
 /**
  *
@@ -24,12 +25,16 @@ public class UserController {
 
     @RequestMapping(value = {"/adduser"})
     public String showAddUserPage(Map<String, Object> model, String submit,
-            String email, String phone, String password, String name, String surname, String patronymic) {
+            String email, String phone, String password, String name, String surname, String patronymic, HttpServletRequest request) {
         if (submit != null) {
-            userService.save (email, phone, password, name, surname, patronymic);
+            
+            Object cabinetId = request.getSession().getAttribute(LkController.CABINET_ID_SESSION_NAME);
+            userService.save (email, phone, password, name, surname, patronymic, cabinetId);
             return "redirect:/successRegistration";
         }
         return "adduser";
     }
 
 }
+
+ 

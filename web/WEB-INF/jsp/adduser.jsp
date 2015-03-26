@@ -16,7 +16,8 @@
     </head>
     <body class="container" >
         <%@include file="/WEB-INF/jsp/menutopadm.jsp" %>
-        <form action="<c:url value="/adduser" />" method="post">
+        <br>
+        <form action="<c:url value="/adduser" />" style="margin-top: 59px;" method="post">
 
            <div class="form-group">
                     <label class="control-label col-xs-3" for="lastName">Фамилия:</label>

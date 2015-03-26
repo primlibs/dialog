@@ -7,6 +7,11 @@ package dao;
 
 import dao.parent.Dao;
 import entities.CabinetUser;
+import entities.User;
+import java.util.List;
+import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -21,7 +26,19 @@ public class CabinetUserDao extends Dao<CabinetUser>  {
         return CabinetUser.class;
     }
     
+    public List<CabinetUser> getByUser(User user) {
+        Criteria crit = getCurrentSession().createCriteria(CabinetUser.class);
+        crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        crit.add(Restrictions.eq("user", user));
+        return crit.list();
+    }
     
+     public List<CabinetUser> getByUserHql(User user) {
+        String hql= "from CabinetUser as cu where cu.user= :user";
+        Query query= getCurrentSession().createQuery(hql);
+        query.setParameter("user", user);
+        return query.list();
+    }
      
     
 }

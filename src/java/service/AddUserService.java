@@ -11,6 +11,7 @@ import dao.UserDao;
 import entities.CabinetUser;
 import entities.PersonalCabinet;
 import entities.User;
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,8 @@ public class AddUserService {
             String password,
             String name,
             String surname,
-            String patronymic    )
+            String patronymic,
+            Object cabinetId)
     {
         User user = new User();
         user.setEmail(email);
@@ -51,7 +53,9 @@ public class AddUserService {
 
         
         CabinetUser link = new CabinetUser();
-      
+        
+        PersonalCabinet cabinet = cabinetDao.find((Long) cabinetId);
+        link.setCabinet(cabinet);
         link.setUser(user);
         cabinetUserDao.save(link);
 
