@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -25,12 +27,16 @@ public class PersonalCabinet {
     @Column(name = "personal_cabinet_id")
     private Long personalCabinetId;
 
+    @NotBlank
+    @Email
     @Column(name = "email")
     private String email;
 
+    @NotBlank
     @Column(name = "company")
     private String company;
 
+    @NotBlank
     @Column(name = "phone")
     private String phone;
 

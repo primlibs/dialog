@@ -11,6 +11,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -25,18 +28,25 @@ public class User {
     @Column(name = "user_id")
     private Long userId;
 
+    @NotBlank
+    @Email
     @Column(name = "email")
     private String email;
 
+    @NotBlank
+    @Size(min=3, max=16)
     @Column(name = "password")
     private String password;
 
+    @NotBlank
     @Column(name = "surname")
     private String surname;
 
+    @NotBlank
     @Column(name = "name")
     private String name;
     
+    @NotBlank
     @Column(name = "patronymic")
     private String patronymic;
 
