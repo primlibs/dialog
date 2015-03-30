@@ -35,7 +35,7 @@ public class RegistrationController {
     }
 
     @RequestMapping(value = {"/successRegistration"}, method = RequestMethod.GET)
-    public String showIndexPage(Map<String, Object> model) {
+    public String showCRPage(Map<String, Object> model) {
         return "successRegistration";
     }
 }

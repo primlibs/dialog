@@ -10,8 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import service.AddUserService;
-
+import service.UserService;
 
 /**
  *
@@ -21,20 +20,23 @@ import service.AddUserService;
 public class UserController {
 
     @Autowired
-    private AddUserService userService;
+    private UserService userService;
 
     @RequestMapping(value = {"/adduser"})
     public String showAddUserPage(Map<String, Object> model, String submit,
-            String email, String phone, String password, String name, String surname, String patronymic, HttpServletRequest request) {
+            String email, String phone, String password, String name, String surname, String role, String patronymic, HttpServletRequest request) {
         if (submit != null) {
-            
+
             Object cabinetId = request.getSession().getAttribute(LkController.CABINET_ID_SESSION_NAME);
-            userService.save (email, phone, password, name, surname, patronymic, cabinetId);
-            return "redirect:/successRegistration";
+            userService.addUser(email, phone, password, name, surname, patronymic, role, cabinetId);
+            String error = userService.getError();
+            if (error.isEmpty()) {
+                return "redirect:/successRegistration";
+            } else {
+                model.put("error", error);
+            }
         }
         return "adduser";
     }
 
 }
-
- 

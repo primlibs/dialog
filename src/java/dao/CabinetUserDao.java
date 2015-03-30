@@ -7,6 +7,7 @@ package dao;
 
 import dao.parent.Dao;
 import entities.CabinetUser;
+import entities.PersonalCabinet;
 import entities.User;
 import java.util.List;
 import org.hibernate.Criteria;
@@ -40,5 +41,12 @@ public class CabinetUserDao extends Dao<CabinetUser>  {
         return query.list();
     }
      
+       public List<CabinetUser> getByUserAndCabinet(User user, PersonalCabinet cabinet) {
+        String hql= "from CabinetUser as cu where cu.user= :user and cu.cabinet= :cabinet ";
+        Query query= getCurrentSession().createQuery(hql);
+        query.setParameter("user", user);
+        query.setParameter("cabinet", cabinet);
+        return query.list();
+    }
     
 }

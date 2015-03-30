@@ -12,23 +12,23 @@
 
 <html>
     <head>
-    
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <%@include file="/WEB-INF/jsp/css_js.jsp" %>
         <title>  </title>
     </head>
-     <body class="container">
-        
-         <form>
-             
-             <select>
-             <c:forEach items="${list}" var="CabinetUser">
-                 <option value="${CabinetUser.cabinet.personalCabinetId}"> ${CabinetUser.cabinet.company}</option>
-             </c:forEach>
-             </select>
-             
-             <input type="submit" />
-             
-         </form>
-                
+    <body class="container" >
+
+        <form>
+
+            <select>
+                <c:forEach items="${list}" var="CabinetUser">
+                    <option value="${CabinetUser.cabinet.personalCabinetId}"> ${CabinetUser.cabinet.company}</option>
+                </c:forEach>
+            </select>
+
+            <input type="submit" />
+
+        </form>
+
     </body>
 </html>

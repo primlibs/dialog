@@ -32,7 +32,7 @@
             <div class="form-group">
                 <label class="control-label col-xs-3"  for="inputEmail">Email:</label>
                 <div class="col-xs-9">
-                    <input type="email" class="form-control" name="emailCompany" name="email" id="inputEmail" placeholder="Email">
+                    <input type="email" class="form-control" name="emailCompany"  id="inputEmail" placeholder="Email">
                 </div>
             </div>
             <div class="form-group">
@@ -77,7 +77,7 @@
                 <div class="form-group">
                     <label class="control-label col-xs-3" for="confirmPassword">Подтвердите пароль:</label>
                     <div class="col-xs-9">
-                        <input type="password" class="form-control"  id="confirmPassword" placeholder="Введите пароль ещё раз">
+                        <input type="password" class="form-control" name="confirmPassword"  id="confirmPassword" placeholder="Введите пароль ещё раз">
                     </div>
                 </div>
 

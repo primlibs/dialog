@@ -31,5 +31,5 @@ public class UserDao extends Dao<User> {
         
         return (User) query.uniqueResult();
     }
-    
+   
 }

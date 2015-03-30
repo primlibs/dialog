@@ -7,6 +7,8 @@ package dao;
 
 import dao.parent.Dao;
 import entities.PersonalCabinet;
+import entities.User;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -19,6 +21,14 @@ public class PersonalCabinetDao extends Dao<PersonalCabinet> {
     @Override
     public Class getSupportedClass() {
         return PersonalCabinet.class;
+    }
+
+    public PersonalCabinet getCabinetByLogin(String emailCompany) {
+        String queryString = "from PersonalCabinet U where U.email = :email";
+        Query query = getCurrentSession().createQuery(queryString);
+        query.setParameter("email", emailCompany);
+
+        return (PersonalCabinet) query.uniqueResult();
     }
 
 }
