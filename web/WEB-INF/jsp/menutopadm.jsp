@@ -24,18 +24,6 @@
                 <li><a href="#">Стратегии</a></li>
             </ul>                    
         </li>
-
     </ul> 
-    <ul class="nav navbar-nav  pull-right">
-        <li class="dropdown"><a href="#" data-toggle="dropdown"  class="dropdown-toggle"> Меню 2 <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-
-            </ul>    
-        <li style="top: 15px;">  </li>    
-        <li style="top: 15px;"> <security:authentication property="principal.username" /> </li>
-        <li>  <a href="<c:url value="/logout"/>"> <img width="20px" src="<c:url value="img/exit.png"/>">Выйти</a>  </li>
-
-    </ul>
+    <%@include file="/WEB-INF/jsp/menuright.jsp" %>
 </div>  

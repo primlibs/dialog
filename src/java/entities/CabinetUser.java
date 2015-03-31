@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -27,6 +28,7 @@ public class CabinetUser {
     @Column(name = "cabinet_user_id")
     private Long cabinetUserId;
 
+    @NotBlank
     @Column(name = "user_role")
     private String user_role;
 
