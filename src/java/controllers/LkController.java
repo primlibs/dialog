@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import service.CabinetUserService;
 import support.AuthManager;
