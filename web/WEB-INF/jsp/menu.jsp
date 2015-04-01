@@ -9,7 +9,7 @@
 
 
 <c:if test="${role=='user'}">
-    <%@include file="/WEB-INF/jsp/menu.jsp" %>
+    <%@include file="/WEB-INF/jsp/menutopuser.jsp" %>
     
 </c:if>
 

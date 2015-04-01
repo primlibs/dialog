@@ -15,12 +15,12 @@
         <%@include file="/WEB-INF/jsp/css_js.jsp" %>
     </head>
     <body class="container" >
-        <%@include file="/WEB-INF/jsp/menutopadm.jsp" %>
+        <%@include file="/WEB-INF/jsp/menu.jsp" %>
         <br>
-        
-        
+
+
         ${error}
-        
+
         <form action="<c:url value="/adduser" />" style="margin-top: 59px;" method="post">
 
             <div class="form-group">
@@ -63,8 +63,8 @@
                 <label class="control-label col-xs-3" for="selectRole">Выбрать роль:</label>
                 <div class="col-xs-9">
                     <select name="role">
-                        <option>admin</option>
                         <option>user</option>
+                        <option>admin</option>
                     </select>
                 </div>
             </div>          

@@ -19,7 +19,7 @@
             <li><a href="#">Компании</a></li>  
         </ul> 
         
-             <%@include file="/WEB-INF/jsp/menutopadm.jsp" %>
+             <%@include file="/WEB-INF/jsp/menuright.jsp" %>
     </div>   
 
 

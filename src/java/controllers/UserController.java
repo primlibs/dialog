@@ -22,9 +22,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private LkController lk;
+
     @RequestMapping(value = {"/adduser"})
     public String showAddUserPage(Map<String, Object> model, String submit,
-            String email, String phone, String password, String name, String surname, String role, String patronymic, HttpServletRequest request) {
+            String email, String phone, String password, String name, String surname, String role, String patronymic, HttpServletRequest request) throws Exception {
+
+          lk.DataByUserAndCompany(request, model);
+          lk.getRole(request, model);
+        
         if (submit != null) {
 
             Object cabinetId = request.getSession().getAttribute(LkController.CABINET_ID_SESSION_NAME);

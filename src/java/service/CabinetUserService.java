@@ -39,7 +39,7 @@ public class CabinetUserService {
         return cabinetUserDao.getByUser(user);
     }
 
-    public String NameCompany(HttpServletRequest request) {
+    public String getNameCompany(HttpServletRequest request) {
         PersonalCabinet cabinet;
         Object cabinetId = request.getSession().getAttribute(LkController.CABINET_ID_SESSION_NAME);
         if (cabinetId == null) {
@@ -50,15 +50,21 @@ public class CabinetUserService {
         return cabinet.getCompany();
     }
 
-    public String NameUser() throws Exception {
-        if(user==null){
+    public String getNameUser() throws Exception {
+        if (user == null) {
             throw new Exception("user is null");
         }
-        if(user.getCurrentUser()==null){
+        if (user.getCurrentUser() == null) {
             throw new Exception("userCurrent is null");
         }
-        
+
         return user.getCurrentUser().getName() + " " + user.getCurrentUser().getSurname();
     }
 
+    public String getUserRole(User user,Long cabinetId) {
+        
+       List<CabinetUser> culist = cabinetUserDao.getByUserAndCabinet(user, cabinetDao.find(cabinetId));
+       
+        return culist.get(0).getUser_role();
+    }
 }

@@ -18,17 +18,19 @@
     </head>
     <body class="container" >
 
-        <form>
 
-            <select>
+    <center>
+        <form action="<c:url value="/selectLk" />" method="post">
+            <h3> Выбор личного кабинета </h3><br>
+            <select name="personalCabinetId" >
                 <c:forEach items="${list}" var="CabinetUser">
                     <option value="${CabinetUser.cabinet.personalCabinetId}"> ${CabinetUser.cabinet.company}</option>
                 </c:forEach>
             </select>
 
-            <input type="submit" />
+            <input type="submit" value="Выбрать" />
 
         </form>
-
-    </body>
+    </center>
+</body>
 </html>
