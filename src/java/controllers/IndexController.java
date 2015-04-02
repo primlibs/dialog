@@ -25,8 +25,8 @@ public class IndexController {
 
     @RequestMapping(value = {"/", "/index"})
     public String showIndexPage(Map<String, Object> model,HttpServletRequest request) throws Exception {
-        lk.DataByUserAndCompany(request, model);
-        lk.getRole(request, model);
+        lk.dataByUserAndCompany(request, model);
+       
         return "index";
     }
     

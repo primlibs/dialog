@@ -9,7 +9,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.request;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import service.UserService;
 
 /**
@@ -29,8 +31,8 @@ public class UserController {
     public String showAddUserPage(Map<String, Object> model, String submit,
             String email, String phone, String password, String name, String surname, String role, String patronymic, HttpServletRequest request) throws Exception {
 
-          lk.DataByUserAndCompany(request, model);
-          lk.getRole(request, model);
+          lk.dataByUserAndCompany(request, model);
+         
         
         if (submit != null) {
 
@@ -46,4 +48,19 @@ public class UserController {
         return "adduser";
     }
 
+     @RequestMapping("/changePassword")
+  public String changePassword(
+          Map<String, Object> model, HttpServletRequest request,
+          @RequestParam(value = "password", required = false) String oldPassword,
+          @RequestParam(value = "newPassword", required = false) String Password,
+          @RequestParam(value = "newPassword2", required = false) String confirmPassword,
+          String submit
+  ) throws Exception {
+     
+       lk.dataByUserAndCompany(request, model);
+         
+      return "/changePassword";
+      
+    
+}
 }

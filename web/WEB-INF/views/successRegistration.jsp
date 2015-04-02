@@ -19,10 +19,10 @@
     </head>
 
     <body class="container">
-        <%@include file="/WEB-INF/jsp/menutopadm.jsp" %>
+        <%@include file="/WEB-INF/jsp/menu.jsp" %>
         
-    <center>
-        <h1 >Регистрация посетителя успешно завершена</h1>
+    <center style="margin-top: 54px;">
+        <h2 >Регистрация посетителя успешно завершена</h2>
     </center>
 
 

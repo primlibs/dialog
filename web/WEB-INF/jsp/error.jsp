@@ -8,10 +8,9 @@
 <!DOCTYPE html>
 
 <c:if test="${! empty error}">
-    <div class="alert alert-danger">
-        <c:forEach items="${error}" var="err">
-            ${err}<br/>
-        </c:forEach>
-        <form:errors path="*" />
-    </div>    
+    <div class="error" >
+    <c:forEach items="${error}" var="error" >
+        <p>${error}</p>
+    </c:forEach>
+    </div>   
 </c:if>

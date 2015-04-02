@@ -104,9 +104,9 @@ public class UserService {
                 link.setUser_role(role);
                 link.setUser(existingUser);
                 cabinetUserDao.save(link);
-            }else {
-            error="";
-        }
+            } else {
+                error = "";
+            }
 
         } else {
 

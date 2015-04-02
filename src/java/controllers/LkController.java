@@ -38,7 +38,8 @@ public class LkController {
     public String showLkPage(Map<String, Object> model, HttpServletRequest request) throws Exception {
 
         User user = authManager.getCurrentUser();
-        DataByUserAndCompany(request, model);
+        dataByUserAndCompany(request, model);
+        getRole(request, model);
         request.setCharacterEncoding("UTF-8");
 
         List<CabinetUser> list = service.getByUser(user);
@@ -55,14 +56,16 @@ public class LkController {
     }
 
     @RequestMapping(value = {"/selectLk"})
-    public String selectPersonalCabinetId(HttpServletRequest request, String personalCabinetId) throws UnsupportedEncodingException {
-        Long longId = Long.valueOf(personalCabinetId);
-        request.getSession().setAttribute(CABINET_ID_SESSION_NAME, longId);
+    public String selectPersonalCabinetId(HttpServletRequest request,  Map<String, Object> model, Long personalCabinetId) throws UnsupportedEncodingException {
+        User user = authManager.getCurrentUser();
+      
+        request.getSession().setAttribute(CABINET_ID_SESSION_NAME, personalCabinetId);
+        request.getSession().setAttribute("role", service.getUserRole(user, personalCabinetId));
 
         return "redirect:/";
     }
 
-    public String DataByUserAndCompany(HttpServletRequest request, Map<String, Object> model) throws Exception {
+    public String dataByUserAndCompany(HttpServletRequest request, Map<String, Object> model) throws Exception {
         String company = service.getNameCompany(request);
         String user = service.getNameUser();
         model.put("nameUser", user);
@@ -73,6 +76,6 @@ public class LkController {
     public void getRole(HttpServletRequest request, Map<String, Object> model) {
         Object role = request.getSession().getAttribute("role");
         model.put("role", role);
-         
+
     }
 }

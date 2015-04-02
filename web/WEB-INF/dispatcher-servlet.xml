@@ -71,7 +71,7 @@
     <!-- Отображение видов на jsp-файлы, лежащие в папке /WEB-INF/views -->
     <bean id="viewResolver"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-          p:prefix="/WEB-INF/jsp/"
+          p:prefix="/WEB-INF/views/"
           p:suffix=".jsp" 
     />
     

@@ -5,12 +5,12 @@
  */
 package controllers;
 
-import entities.User;
+import static antlr.Utils.error;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import service.UserService;
 
 /**
@@ -23,19 +23,30 @@ public class RegistrationController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private LkController lk;
+
     @RequestMapping(value = {"/registration"})
     public String showRegistrationPage(Map<String, Object> model, String submit,
             String company, String email, String phone, String password, String name, String surname, String patronymic,
             String emailCompany) {
+         String error = userService.getError();
         if (submit != null) {
             userService.save(company, email, phone, password, name, surname, patronymic, emailCompany);
             return "redirect:/successRegistration";
+        }else
+        if (error.isEmpty()) {
+             model.put("error", error);
+           
         }
         return "registration";
+
     }
 
-    @RequestMapping(value = {"/successRegistration"}, method = RequestMethod.GET)
-    public String showCRPage(Map<String, Object> model) {
+    @RequestMapping(value = {"/successRegistration"})
+    public String showCRPage(Map<String, Object> model, HttpServletRequest request) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+
         return "successRegistration";
     }
 }
