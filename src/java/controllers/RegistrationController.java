@@ -37,7 +37,7 @@ public class RegistrationController {
         }else
         if (error.isEmpty()) {
              model.put("error", error);
-           
+            
         }
         return "registration";
 
