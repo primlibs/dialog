@@ -31,7 +31,7 @@ public class CabinetUser extends PrimEntity {
     private Long cabinetUserId;
 
     @Column(name = "user_role")
-    @NotNull(message = "Ем")
+    @NotNull(message = "Роль не может быть пустой")
     private String user_role;
 
     @JoinColumn(name = "user_id")
