@@ -15,6 +15,8 @@ import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import service.parent.PrimService;
+import support.ServiceResult;
 
 /**
  *
@@ -22,7 +24,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Transactional
-public class UserService {
+public class UserService extends PrimService {
 
     @Autowired
     private UserDao userDao;
@@ -61,21 +63,25 @@ public class UserService {
             user.setName(name);
             user.setSurname(surname);
             user.setPatronymic(patronymic);
-            userDao.save(user);
+            if (validate(user)) {
+                userDao.save(user);
+            }
 
             PersonalCabinet cabinet = new PersonalCabinet();
             cabinet.setEmail(emailCompany);
             cabinet.setPhone(phone);
             cabinet.setCompany(company);
-            cabinetDao.save(cabinet);
+            if (validate(cabinet)) {
+                cabinetDao.save(cabinet);
+            }
 
             CabinetUser link = new CabinetUser();
             link.setCabinet(cabinet);
             link.setUser(user);
             link.setUser_role("admin");
-
-            cabinetUserDao.save(link);
-
+            if (validate(link)) {
+                cabinetUserDao.save(link);
+            }
         }
 
     }
@@ -116,7 +122,9 @@ public class UserService {
             user.setName(name);
             user.setSurname(surname);
             user.setPatronymic(patronymic);
-            userDao.save(user);
+            if (validate(user)) {
+                userDao.save(user);
+            }
 
             CabinetUser link = new CabinetUser();
 
@@ -138,8 +146,39 @@ public class UserService {
         }
     }
 
+    private void addError(String error) {
+        this.error += error + "; ";
+    }
+
     public String getError() {
         return error;
+    }
+
+    public ServiceResult changePassword(
+            String oldPassword,
+            String Password,
+            String confirmPassword
+    ) {
+        ServiceResult result = new ServiceResult();
+        User user = authManager.getCurrentUser();
+        String oldHash = user.getPassword();
+        String oldHashFromUser = oldPassword;
+        if (oldHash.equals(oldHashFromUser)) {
+            if (Password.equals(confirmPassword)) {
+                if (Password.length() >= 4) {
+
+                    user.setPassword(Password);
+                    userDao.save(user);
+                } else {
+                    result.addError("Длина пароля должна быть не менее 4 символов");
+                }
+            } else {
+                result.addError("Значения паролей не совпадают");
+            }
+        } else {
+            result.addError("Неправильно введен старый пароль");
+        }
+        return result;
     }
 
 }

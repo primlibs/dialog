@@ -16,10 +16,12 @@
     </head>
     <body class="container" >
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
-        <br>
+
+        <br> 
+        <%@include file="/WEB-INF/jsp/error.jsp" %> <br>
 
 
-        ${error}
+
 
         <form action="<c:url value="/adduser" />" style="margin-top: 59px;" method="post">
 

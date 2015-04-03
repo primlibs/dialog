@@ -5,6 +5,7 @@
  */
 package entities;
 
+import entities.parent.PrimEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,7 +21,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "user_dialog")
-public class UserDialog {
+public class UserDialog extends PrimEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,6 +58,11 @@ public class UserDialog {
 
     public void setClient(Clients client) {
         this.client = client;
+    }
+
+    @Override
+    public Long getId() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     

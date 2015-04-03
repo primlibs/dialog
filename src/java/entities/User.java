@@ -5,15 +5,16 @@
  */
 package entities;
 
+import entities.parent.PrimEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -21,33 +22,33 @@ import org.hibernate.validator.constraints.NotBlank;
  */
 @Entity
 @Table(name = "users")
-public class User {
+public class User extends PrimEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long userId;
 
-    @NotBlank
     @Email
     @Column(name = "email")
+    @NotNull(message = "Email не может быть пустым")
     private String email;
 
-    @NotBlank
-    @Size(min=3, max=16)
+    @Size(min = 3, max = 16)
     @Column(name = "password")
+    @NotNull(message = "Пароль не может быть пустым")
     private String password;
 
-    @NotBlank
     @Column(name = "surname")
+    @NotNull(message = "Фамилия не может быть пустой")
     private String surname;
 
-    @NotBlank
     @Column(name = "name")
+    @NotNull(message = "имя не может быть пустым")
     private String name;
-    
-    @NotBlank
+
     @Column(name = "patronymic")
+    @NotNull(message = "отчество не может быть пустым")
     private String patronymic;
 
     public Long getUserId() {
@@ -98,5 +99,9 @@ public class User {
         this.patronymic = patronymic;
     }
 
-    
+    @Override
+    public Long getId() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

@@ -14,8 +14,8 @@
     </head>
     <body class="container">
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
-        <br>
-        ${error}
+        <br> 
+        <%@include file="/WEB-INF/jsp/error.jsp" %> <br>
 
         <form action="<c:url value="/changePassword" />" style="margin-top: 58px;" method="post">
 
@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-xs-3" for="inputPassword">новый пароль:</label>
+                <label class="control-label col-xs-3" for="inputPassword">Новый пароль:</label>
                 <div class="col-xs-9">
                     <input type="password" class="form-control" name="password" id="inputPassword" placeholder="Введите пароль">
                 </div>
@@ -37,7 +37,7 @@
                     <input type="password" class="form-control" name="confirmPassword"  id="confirmPassword" placeholder="Введите пароль ещё раз">
                 </div>
             </div>
-                 
+
             <div class="form-group">
                 <div class="col-xs-offset-3 col-xs-9">
                     <input type="submit" name="submit"  class="btn btn-primary" value="Добавить">

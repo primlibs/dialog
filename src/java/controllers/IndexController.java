@@ -5,6 +5,7 @@
 package controllers;
 
 import static controllers.LkController.CABINET_ID_SESSION_NAME;
+import controllers.parent.WebController;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author Новый профиль
  */
 @Controller
-public class IndexController {
+public class IndexController extends WebController {
     
      @Autowired
     private LkController lk;

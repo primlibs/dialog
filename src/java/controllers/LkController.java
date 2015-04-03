@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import controllers.parent.WebController;
 import entities.CabinetUser;
 import entities.User;
 import java.io.UnsupportedEncodingException;
@@ -23,7 +24,7 @@ import support.AuthManager;
  * @author Юрий
  */
 @Controller
-public class LkController {
+public class LkController extends WebController{
 
     public static final String CABINET_ID_SESSION_NAME = "CabinetId";
 

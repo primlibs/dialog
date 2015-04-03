@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import service.parent.PrimService;
 import support.AuthManager;
 
 /**
@@ -24,7 +25,7 @@ import support.AuthManager;
  */
 @Service
 @Transactional
-public class CabinetUserService {
+public class CabinetUserService extends PrimService {
 
     @Autowired
     private CabinetUserDao cabinetUserDao;

@@ -11,7 +11,6 @@
 <!--    css -->
 <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
 <link href="css/mystyles.css" rel="stylesheet" media="screen">
-
 <link rel="stylesheet" type="text/css" href=<c:url value='css/body.css'/> >
 
 

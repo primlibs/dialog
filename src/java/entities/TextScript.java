@@ -5,6 +5,7 @@
  */
 package entities;
 
+import entities.parent.PrimEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,7 +21,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "text_scripts")
-public class TextScript {
+public class TextScript extends PrimEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -81,6 +82,11 @@ public class TextScript {
 
     public void setParentId(String parentId) {
         this.parentId = parentId;
+    }
+
+    @Override
+    public Long getId() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

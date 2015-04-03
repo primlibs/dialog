@@ -16,8 +16,10 @@
         <title>Регистрация</title>
     </head>
     <body class="container" >
+        
+        <%@include file="/WEB-INF/jsp/error.jsp" %> <br>
 
-        <h2>Регистрация</h2>
+    <center><h2>Регистрация</h2></center>
 
         <form class="form-horizontal" action="<c:url value="/registration" />" method="post">
             <h3>   Данные компании:</h3>

@@ -17,6 +17,8 @@
         <title>  </title>
     </head>
     <body class="container" >
+        <br> 
+        <%@include file="/WEB-INF/jsp/error.jsp" %> <br>
 
 
     <center>

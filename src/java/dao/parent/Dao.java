@@ -9,6 +9,8 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -26,6 +28,10 @@ public abstract class Dao<T> {
         return sessionFactory.getCurrentSession();
     }
 
+    public void deleteObj(final T obj) {
+    getCurrentSession().delete(obj);
+  }
+    
     public void save(T obj) {
         getCurrentSession().save(obj);
     }
@@ -47,5 +53,14 @@ public abstract class Dao<T> {
     public T find(Long id) {
         return (T) getCurrentSession().get(getSupportedClass(), id);
     }
+    protected Criteria getCriteriaDistinctRoot(Class cl) {
+      Criteria crit = getCurrentSession().createCriteria(cl);
+      crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+      return crit;
+  }
+  
+  protected Criterion nullOrFalse(String fieldName) {
+      return Restrictions.or( Restrictions.isNull(fieldName), Restrictions.eq(fieldName, false) );
+  }
 
 }

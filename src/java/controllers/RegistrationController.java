@@ -6,6 +6,7 @@
 package controllers;
 
 import static antlr.Utils.error;
+import controllers.parent.WebController;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import service.UserService;
  * @author Юрий
  */
 @Controller
-public class RegistrationController {
+public class RegistrationController extends WebController {
 
     @Autowired
     private UserService userService;
@@ -36,7 +37,7 @@ public class RegistrationController {
             return "redirect:/successRegistration";
         }else
         if (error.isEmpty()) {
-             model.put("error", error);
+             model.put("errors", error);
             
         }
         return "registration";

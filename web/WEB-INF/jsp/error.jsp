@@ -7,9 +7,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
-<c:if test="${! empty error}">
+<c:if test="${! empty errors}">
     <div class="error" >
-    <c:forEach items="${error}" var="error" >
+    <c:forEach items="${errors}" var="error" >
         <p>${error}</p>
     </c:forEach>
     </div>   

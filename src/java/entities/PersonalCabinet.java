@@ -5,12 +5,14 @@
  */
 package entities;
 
+import entities.parent.PrimEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -20,24 +22,24 @@ import org.hibernate.validator.constraints.NotBlank;
  */
 @Entity
 @Table(name = "personal_cabinet")
-public class PersonalCabinet {
+public class PersonalCabinet extends PrimEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "personal_cabinet_id")
     private Long personalCabinetId;
 
-    @NotBlank
     @Email
     @Column(name = "email")
+    @NotNull(message = "Email не может быть пустым")
     private String email;
 
-    @NotBlank
     @Column(name = "company")
+    @NotNull(message = "Название компании не может быть пустым")
     private String company;
 
-    @NotBlank
     @Column(name = "phone")
+    @NotNull(message = "Телефон не может быть пустым")
     private String phone;
 
     public Long getPersonalCabinetId() {
@@ -70,6 +72,11 @@ public class PersonalCabinet {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    @Override
+    public Long getId() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import org.hibernate.validator.constraints.NotBlank;
+import entities.parent.PrimEntity;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -21,15 +23,15 @@ import org.hibernate.validator.constraints.NotBlank;
  */
 @Entity
 @Table(name = "cabinet_user")
-public class CabinetUser {
+public class CabinetUser extends PrimEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cabinet_user_id")
     private Long cabinetUserId;
 
-    @NotBlank
     @Column(name = "user_role")
+    @NotNull(message = "Ем")
     private String user_role;
 
     @JoinColumn(name = "user_id")
@@ -70,6 +72,11 @@ public class CabinetUser {
 
     public void setCabinet(PersonalCabinet cabinet) {
         this.cabinet = cabinet;
+    }
+
+    @Override
+    public Long getId() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

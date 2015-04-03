@@ -13,12 +13,12 @@
     </head>
     <body class="container">
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
-
-
-        
-
-
       
+
+
+
+
+
 
     </body>
 </html>
