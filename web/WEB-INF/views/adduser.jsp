@@ -59,7 +59,7 @@
                 </div>
             </div>     
             <div class="form-group">
-                <centr> <label class="control-label col-xs-9" >Стандартный пароль 0000</label> </centr>
+                <centr> <label class="control-label col-xs-9" >Стандартный пароль:&nbsp 0000</label> </centr>
                 
             </div>          
             <div class="form-group">
