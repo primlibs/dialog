@@ -163,6 +163,7 @@ public class UserService extends PrimService {
         User user = authManager.getCurrentUser();
         String oldHash = user.getPassword();
         String oldHashFromUser = oldPassword;
+        
         if (oldHash.equals(oldHashFromUser)) {
             if (Password.equals(confirmPassword)) {
                 if (Password.length() >= 4) {

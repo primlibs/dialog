@@ -13,9 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import org.hibernate.validator.constraints.NotBlank;
 import entities.parent.PrimEntity;
 import javax.validation.constraints.NotNull;
+import static sun.security.pkcs11.wrapper.Functions.getId;
 
 /**
  *
@@ -76,7 +76,7 @@ public class CabinetUser extends PrimEntity {
 
     @Override
     public Long getId() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return cabinetUserId;
     }
 
 }
