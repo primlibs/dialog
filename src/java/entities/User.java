@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -31,24 +32,29 @@ public class User extends PrimEntity {
 
     @Email
     @Column(name = "email")
-    @NotNull(message = "Email не может быть пустым")
+    @NotNull(message = "поле Email не может быть пустым")
+    @NotBlank (message = "поле Email не может быть пустым")
     private String email;
 
-    @Size(min = 3, max = 16)
+    @Size(min = 4, max = 16, message="Пароль от 4 до 16 символов" )
     @Column(name = "password")
-    @NotNull(message = "Пароль не может быть пустым")
+    @NotNull(message = " поле Пароль не может быть пустым")
+    @NotBlank (message = "поле Пароль не может быть пустым")
     private String password;
 
     @Column(name = "surname")
-    @NotNull(message = "Фамилия не может быть пустой")
+    @NotNull(message = "поле Фамилия не может быть пустым")
+    @NotBlank (message = "поле Фамилия не может быть пустым")
     private String surname;
 
     @Column(name = "name")
-    @NotNull(message = "имя не может быть пустым")
+    @NotNull(message = "поле Имя не может быть пустым")
+    @NotBlank (message = "поле Имя не может быть пустым")
     private String name;
 
     @Column(name = "patronymic")
-    @NotNull(message = "отчество не может быть пустым")
+    @NotNull(message = "поле Отчество не может быть пустым")
+    @NotBlank (message = " поле Отчество не может быть пустым")
     private String patronymic;
 
     public Long getUserId() {

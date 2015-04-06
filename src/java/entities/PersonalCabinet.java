@@ -31,15 +31,17 @@ public class PersonalCabinet extends PrimEntity {
 
     @Email
     @Column(name = "email")
-    @NotNull(message = "Email не может быть пустым")
+    @NotNull(message = "поле Email не может быть пустым")
+    @NotBlank (message = "поле Email не может быть пустым")
     private String email;
 
     @Column(name = "company")
-    @NotNull(message = "Название компании не может быть пустым")
+    @NotNull(message = "поле название компании не может быть пустым")
     private String company;
 
     @Column(name = "phone")
-    @NotNull(message = "Телефон не может быть пустым")
+    @NotNull(message = "Поле телефон не может быть пустым")
+    @NotBlank (message = "Поле телефон не может быть пустым")
     private String phone;
 
     public Long getPersonalCabinetId() {

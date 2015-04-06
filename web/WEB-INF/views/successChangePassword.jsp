@@ -9,9 +9,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <%@include file="/WEB-INF/jsp/css_js.jsp" %>
+        <title></title>
     </head>
-    <body>
-        <h1>Hello World!</h1>
+    <body class="container">
+        <%@include file="/WEB-INF/jsp/menu.jsp" %>
+        <br> 
+        <%@include file="/WEB-INF/jsp/error.jsp" %> <br>
+
+        <center> <h3>Пароль успешно изменен</h3> </center>
     </body>
 </html>

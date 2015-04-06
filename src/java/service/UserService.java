@@ -14,6 +14,8 @@ import entities.User;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import service.parent.PrimService;
 import support.ServiceResult;
@@ -24,6 +26,7 @@ import support.ServiceResult;
  */
 @Service
 @Transactional
+@Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class UserService extends PrimService {
 
     @Autowired
@@ -34,8 +37,6 @@ public class UserService extends PrimService {
 
     @Autowired
     private PersonalCabinetDao cabinetDao;
-
-    private String error = "";
 
     public void save(
             String company,
@@ -48,15 +49,12 @@ public class UserService extends PrimService {
             String emailCompany
     ) {
 
-        User existingUser;
-        PersonalCabinet existingEmailCompany;
-        existingUser = userDao.getUserByLogin(email);
-        existingEmailCompany = cabinetDao.getCabinetByLogin(emailCompany);
+        User existingUser = userDao.getUserByLogin(email);
+        PersonalCabinet existingEmailCompany = cabinetDao.getCabinetByLogin(emailCompany);
 
-        if (existingUser != null | existingEmailCompany != null) {
-            error = "Ошибка мыла личного | конторы";
+        if (existingUser != null || existingEmailCompany != null) {
+            addError("Ошибка email личного | компании");
         } else {
-
             User user = new User();
             user.setEmail(email);
             user.setPassword(password);
@@ -67,21 +65,26 @@ public class UserService extends PrimService {
                 userDao.save(user);
             }
 
-            PersonalCabinet cabinet = new PersonalCabinet();
-            cabinet.setEmail(emailCompany);
-            cabinet.setPhone(phone);
-            cabinet.setCompany(company);
-            if (validate(cabinet)) {
-                cabinetDao.save(cabinet);
+            if (getError().isEmpty()) {
+                PersonalCabinet cabinet = new PersonalCabinet();
+                cabinet.setEmail(emailCompany);
+                cabinet.setPhone(phone);
+                cabinet.setCompany(company);
+                if (validate(cabinet)) {
+                    cabinetDao.save(cabinet);
+                }
+
+                if (getError().isEmpty()) {
+                    CabinetUser link = new CabinetUser();
+                    link.setCabinet(cabinet);
+                    link.setUser(user);
+                    link.setUser_role("admin");
+                    if (validate(link)) {
+                        cabinetUserDao.save(link);
+                    }
+                }
             }
 
-            CabinetUser link = new CabinetUser();
-            link.setCabinet(cabinet);
-            link.setUser(user);
-            link.setUser_role("admin");
-            if (validate(link)) {
-                cabinetUserDao.save(link);
-            }
         }
 
     }
@@ -89,7 +92,7 @@ public class UserService extends PrimService {
     public void addUser(
             String email,
             String phone,
-            String password,
+           
             String name,
             String surname,
             String patronymic,
@@ -109,16 +112,19 @@ public class UserService extends PrimService {
                 link.setCabinet(cabinet);
                 link.setUser_role(role);
                 link.setUser(existingUser);
-                cabinetUserDao.save(link);
+                if (validate(link)) {
+                    cabinetUserDao.save(link);
+                }
+
             } else {
-                error = "";
+                addError("Пользователь уже существует");
             }
 
         } else {
 
             User user = new User();
             user.setEmail(email);
-            user.setPassword(password);
+            user.setPassword("0000");
             user.setName(name);
             user.setSurname(surname);
             user.setPatronymic(patronymic);
@@ -126,12 +132,15 @@ public class UserService extends PrimService {
                 userDao.save(user);
             }
 
-            CabinetUser link = new CabinetUser();
-
-            link.setCabinet(cabinet);
-            link.setUser_role(role);
-            link.setUser(user);
-            cabinetUserDao.save(link);
+            if (getError().isEmpty()) {
+                CabinetUser link = new CabinetUser();
+                link.setCabinet(cabinet);
+                link.setUser_role(role);
+                link.setUser(user);
+                if (validate(link)) {
+                    cabinetUserDao.save(link);
+                }
+            }
 
         }
     }
@@ -146,14 +155,6 @@ public class UserService extends PrimService {
         }
     }
 
-    private void addError(String error) {
-        this.error += error + "; ";
-    }
-
-    public String getError() {
-        return error;
-    }
-
     public ServiceResult changePassword(
             String oldPassword,
             String Password,
@@ -162,14 +163,15 @@ public class UserService extends PrimService {
         ServiceResult result = new ServiceResult();
         User user = authManager.getCurrentUser();
         String oldHash = user.getPassword();
-        String oldHashFromUser = oldPassword;
-        
-        if (oldHash.equals(oldHashFromUser)) {
+        //String oldHashFromUser = oldPassword;
+
+        if (oldHash.equals(oldPassword)) {
             if (Password.equals(confirmPassword)) {
                 if (Password.length() >= 4) {
 
                     user.setPassword(Password);
                     userDao.save(user);
+
                 } else {
                     result.addError("Длина пароля должна быть не менее 4 символов");
                 }
@@ -182,4 +184,5 @@ public class UserService extends PrimService {
         return result;
     }
 
+   
 }

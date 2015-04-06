@@ -30,39 +30,46 @@ public class UserController extends WebController {
 
     @RequestMapping(value = {"/adduser"})
     public String showAddUserPage(Map<String, Object> model, String submit,
-            String email, String phone, String password, String name, String surname, String role, String patronymic, HttpServletRequest request) throws Exception {
+            String email, String phone, String name, String surname, String role, String patronymic, HttpServletRequest request) throws Exception {
 
         lk.dataByUserAndCompany(request, model);
 
         if (submit != null) {
 
             Object cabinetId = request.getSession().getAttribute(LkController.CABINET_ID_SESSION_NAME);
-            userService.addUser(email, phone, password, name, surname, patronymic, role, cabinetId);
-            String error = userService.getError();
-            if (error.isEmpty()) {
-                return "redirect:/successRegistration";
+            userService.addUser(email, phone, name, surname, patronymic, role, cabinetId);
+            if (userService.getError().isEmpty()) {
+                model.put("errors", "Пользователь добавлен");
             } else {
-                model.put("errors", error);
+                model.put("errors", userService.getError());
             }
+
+        } else {
+            model.put("errors", userService.getError());
         }
         return "adduser";
     }
 
-    private String error = "";
-
     @RequestMapping("/changePassword")
     public String changePassword(
             Map<String, Object> model, HttpServletRequest request,
-            @RequestParam(value = "password", required = false) String oldPassword,
+            @RequestParam(value = "oldPassword", required = false) String oldPassword,
             @RequestParam(value = "newPassword", required = false) String Password,
-            @RequestParam(value = "newPassword2", required = false) String confirmPassword,
+            @RequestParam(value = "confirmPassword", required = false) String confirmPassword,
             String submit
     ) throws Exception {
         lk.dataByUserAndCompany(request, model);
         if (submit != null) {
             ServiceResult result = userService.changePassword(oldPassword, Password, confirmPassword);
-            model.put("errors", result.getErrors());
+            if (result.getErrors().isEmpty()) {
+
+                return "/successChangePassword";
+            } else {
+                model.put("errors", result.getErrors());
+                return "/changePassword";
+            }
         }
+
         return "/changePassword";
 
     }

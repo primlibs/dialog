@@ -15,6 +15,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import service.parent.PrimService;
 import support.AuthManager;
@@ -25,6 +27,7 @@ import support.AuthManager;
  */
 @Service
 @Transactional
+@Scope(value = "request",proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class CabinetUserService extends PrimService {
 
     @Autowired

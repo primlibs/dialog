@@ -15,7 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import entities.parent.PrimEntity;
 import javax.validation.constraints.NotNull;
-import static sun.security.pkcs11.wrapper.Functions.getId;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -32,6 +32,7 @@ public class CabinetUser extends PrimEntity {
 
     @Column(name = "user_role")
     @NotNull(message = "Роль не может быть пустой")
+    @NotBlank(message = "поле РОЛЬ не может быть пустым")
     private String user_role;
 
     @JoinColumn(name = "user_id")

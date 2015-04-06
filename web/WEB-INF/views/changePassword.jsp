@@ -20,27 +20,27 @@
         <form action="<c:url value="/changePassword" />" style="margin-top: 58px;" method="post">
 
             <div class="form-group">
-                <label class="control-label col-xs-3" for="inputPassword">Старый пароль:</label>
+                <label class="control-label col-xs-3" for="inputPassword">Текущий пароль:</label>
                 <div class="col-xs-9">
-                    <input type="password" class="form-control" name="oldPassword" id="inputPassword" placeholder="Введите пароль">
+                    <input type="password" class="form-control" name="oldPassword" id="inputPassword" placeholder="Введите текущий пароль">
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-xs-3" for="inputPassword">Новый пароль:</label>
                 <div class="col-xs-9">
-                    <input type="password" class="form-control" name="password" id="inputPassword" placeholder="Введите пароль">
+                    <input type="password" class="form-control" name="newPassword" id="newPassword" placeholder="Введите новый пароль">
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-xs-3" for="confirmPassword">Подтвердите новый пароль:</label>
                 <div class="col-xs-9">
-                    <input type="password" class="form-control" name="confirmPassword"  id="confirmPassword" placeholder="Введите пароль ещё раз">
+                    <input type="password" class="form-control" name="confirmPassword"  id="confirmPassword" placeholder="Введите новый пароль ещё раз">
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-xs-offset-3 col-xs-9">
-                    <input type="submit" name="submit"  class="btn btn-primary" value="Добавить">
+                    <input type="submit" name="submit"  class="btn btn-primary" value="Изменить">
                     <input type="reset" class="btn btn-default" value="Очистить форму">
                 </div>
             </div>

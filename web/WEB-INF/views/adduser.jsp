@@ -50,18 +50,6 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-xs-3" for="inputPassword">Пароль:</label>
-                <div class="col-xs-9">
-                    <input type="password" class="form-control" name="password" id="inputPassword" placeholder="Введите пароль">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-xs-3" for="confirmPassword">Подтвердите пароль:</label>
-                <div class="col-xs-9">
-                    <input type="password" class="form-control" name="confirmPassword"  id="confirmPassword" placeholder="Введите пароль ещё раз">
-                </div>
-            </div>
-            <div class="form-group">
                 <label class="control-label col-xs-3" for="selectRole">Выбрать роль:</label>
                 <div class="col-xs-9">
                     <select name="role">
@@ -69,6 +57,10 @@
                         <option>admin</option>
                     </select>
                 </div>
+            </div>     
+            <div class="form-group">
+                <centr> <label class="control-label col-xs-9" >Стандартный пароль 0000</label> </centr>
+                
             </div>          
             <div class="form-group">
                 <div class="col-xs-offset-3 col-xs-9">
@@ -76,8 +68,6 @@
                     <input type="reset" class="btn btn-default" value="Очистить форму">
                 </div>
             </div>
-
-
 
         </form>
 

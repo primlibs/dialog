@@ -19,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 //import persistence.FileDao;
 import dao.parent.Dao;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import support.AuthManager;
 import support.ServiceResult;
 
@@ -26,9 +28,11 @@ import support.ServiceResult;
  *
  * @author Rice Pavel
  */
+@Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class PrimService {
         
     protected Logger log = Logger.getLogger(this.getClass());
+    ServiceResult serviceResult=new ServiceResult();
     
     @Autowired
     protected AuthManager authManager;
@@ -71,43 +75,38 @@ public class PrimService {
     }
     
      protected <T extends PrimEntity> ServiceResult saveAndValidate(T ent, Dao<T> dao) {
-        ServiceResult res = new ServiceResult();
-        PrimService.this.validate(res, ent);
-        if (!res.hasErrors()) {
+        PrimService.this.validate( ent);
+        if (!serviceResult.hasErrors()) {
             dao.save(ent);
         }
-        return res;
+        return serviceResult;
     }
      
     protected <T extends PrimEntity> ServiceResult updateAndValidate(T ent, Dao<T> dao) {
-        ServiceResult res = new ServiceResult();
-        PrimService.this.validate(res, ent);
-        if (!res.hasErrors()) {
+        PrimService.this.validate(ent);
+        if (!serviceResult.hasErrors()) {
             dao.update(ent);
         }
-        return res;
-    }
-        
-    protected <T extends PrimEntity> void validate(ServiceResult res, T ent) {
-        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-        Set<ConstraintViolation<T>> constraintViolations = validator.validate(ent);
-        for (ConstraintViolation<T> viol : constraintViolations) {
-            res.addError(viol.getMessage());
-        }
+        return serviceResult;
     }
     
     protected  <T extends PrimEntity> boolean validate(T ent) {
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
         Set<ConstraintViolation<T>> constraintViolations = validator.validate(ent);
+        for (ConstraintViolation<T> viol : constraintViolations) {
+            serviceResult.addError(viol.getMessage());
+        }
         return constraintViolations.isEmpty();
     }
     
-    /**
-     * сохранить файл
-     * @param fileEntity - объект entity, для хранения в базе данных информации о файле
-     * @param file - объект файла
-     * @throws IOException 
-     */
     
+    
+    public void addError(String error){
+        serviceResult.addError(error);
+    }
+
+    public List<String> getError(){
+        return serviceResult.getErrors();
+    }
 
 }
