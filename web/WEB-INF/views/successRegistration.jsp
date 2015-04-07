@@ -19,7 +19,7 @@
     </head>
 
     <body class="container">
-        <%@include file="/WEB-INF/jsp/menu.jsp" %>
+       
         
     <center style="margin-top: 54px;">
         <h2 >Регистрация посетителя успешно завершена</h2>

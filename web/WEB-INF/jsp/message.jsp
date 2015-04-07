@@ -9,7 +9,7 @@
 
 <c:if test="${! empty message}">
     <center>
-        <div class="alert alert-sucess"" >
+        <div class="alert alert-success"" >
             <c:forEach items="${message}" var="message" >
                 <p>${message}</p>
             </c:forEach>
