@@ -18,7 +18,7 @@
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
 
         <br> 
-        <%@include file="/WEB-INF/jsp/error.jsp" %> <br>
+        <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> <br>
 
 
 
@@ -53,8 +53,8 @@
                 <label class="control-label col-xs-3" for="selectRole">Выбрать роль:</label>
                 <div class="col-xs-9">
                     <select name="role">
-                        <option>user</option>
-                        <option>admin</option>
+                        <option value="user">user</option>
+                        <option value="admin">admin</option>
                     </select>
                 </div>
             </div>     

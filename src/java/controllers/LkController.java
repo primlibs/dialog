@@ -41,7 +41,6 @@ public class LkController extends WebController{
         User user = authManager.getCurrentUser();
         dataByUserAndCompany(request, model);
         getRole(request, model);
-        request.setCharacterEncoding("UTF-8");
 
         List<CabinetUser> list = service.getByUser(user);
         if (list.size() == 1) {

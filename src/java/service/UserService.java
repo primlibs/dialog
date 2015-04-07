@@ -11,13 +11,17 @@ import dao.UserDao;
 import entities.CabinetUser;
 import entities.PersonalCabinet;
 import entities.User;
+import java.util.Date;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 import service.parent.PrimService;
+import support.AuthManager;
+import support.Random;
 import support.ServiceResult;
 
 /**
@@ -28,6 +32,8 @@ import support.ServiceResult;
 @Transactional
 @Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class UserService extends PrimService {
+
+    final public String DEFAULT_PASS = "0000";
 
     @Autowired
     private UserDao userDao;
@@ -57,7 +63,7 @@ public class UserService extends PrimService {
         } else {
             User user = new User();
             user.setEmail(email);
-            user.setPassword(password);
+            user.setPassword(AuthManager.md5Custom(password));
             user.setName(name);
             user.setSurname(surname);
             user.setPatronymic(patronymic);
@@ -92,7 +98,6 @@ public class UserService extends PrimService {
     public void addUser(
             String email,
             String phone,
-           
             String name,
             String surname,
             String patronymic,
@@ -124,7 +129,7 @@ public class UserService extends PrimService {
 
             User user = new User();
             user.setEmail(email);
-            user.setPassword("0000");
+            user.setPassword(AuthManager.md5Custom(DEFAULT_PASS));
             user.setName(name);
             user.setSurname(surname);
             user.setPatronymic(patronymic);
@@ -157,19 +162,17 @@ public class UserService extends PrimService {
 
     public ServiceResult changePassword(
             String oldPassword,
-            String Password,
+            String password,
             String confirmPassword
     ) {
         ServiceResult result = new ServiceResult();
         User user = authManager.getCurrentUser();
         String oldHash = user.getPassword();
-        //String oldHashFromUser = oldPassword;
 
         if (oldHash.equals(oldPassword)) {
-            if (Password.equals(confirmPassword)) {
-                if (Password.length() >= 4) {
-
-                    user.setPassword(Password);
+            if (password.equals(confirmPassword)) {
+                if (password.length() >= 4) {
+                    user.setPassword(AuthManager.md5Custom(password));
                     userDao.save(user);
 
                 } else {
@@ -184,5 +187,14 @@ public class UserService extends PrimService {
         return result;
     }
 
-   
+    public void recoveryPassword() {
+        User user = authManager.getCurrentUser();
+        user.setRecoverDate(new Date());
+        user.setRecoverHash(AuthManager.md5Custom(Random.getString("qwertyuiopasdfghjklzxcvbnm", 10)));
+        if (validate(user)) {
+                userDao.save(user);
+            }
+        
+    }
+
 }

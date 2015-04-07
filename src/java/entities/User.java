@@ -6,6 +6,7 @@
 package entities;
 
 import entities.parent.PrimEntity;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -33,29 +36,35 @@ public class User extends PrimEntity {
     @Email
     @Column(name = "email")
     @NotNull(message = "поле Email не может быть пустым")
-    @NotBlank (message = "поле Email не может быть пустым")
+    @NotBlank(message = "поле Email не может быть пустым")
     private String email;
 
-    @Size(min = 4, max = 16, message="Пароль от 4 до 16 символов" )
+    @Size(min = 4, message = "Пароль от 4 символов")
     @Column(name = "password")
     @NotNull(message = " поле Пароль не может быть пустым")
-    @NotBlank (message = "поле Пароль не может быть пустым")
+    @NotBlank(message = "поле Пароль не может быть пустым")
     private String password;
 
     @Column(name = "surname")
     @NotNull(message = "поле Фамилия не может быть пустым")
-    @NotBlank (message = "поле Фамилия не может быть пустым")
+    @NotBlank(message = "поле Фамилия не может быть пустым")
     private String surname;
 
     @Column(name = "name")
     @NotNull(message = "поле Имя не может быть пустым")
-    @NotBlank (message = "поле Имя не может быть пустым")
+    @NotBlank(message = "поле Имя не может быть пустым")
     private String name;
 
     @Column(name = "patronymic")
     @NotNull(message = "поле Отчество не может быть пустым")
-    @NotBlank (message = " поле Отчество не может быть пустым")
+    @NotBlank(message = " поле Отчество не может быть пустым")
     private String patronymic;
+
+    @Column(name = "recoverDate")
+    private Date recoverDate;
+
+    @Column(name = "recoverHash")
+    private String recoverHash;
 
     public Long getUserId() {
         return userId;
@@ -108,6 +117,22 @@ public class User extends PrimEntity {
     @Override
     public Long getId() {
         return userId;
+    }
+
+    public Date getRecoverDate() {
+        return recoverDate;
+    }
+
+    public void setRecoverDate(Date recoverDate) {
+        this.recoverDate = recoverDate;
+    }
+
+    public String getRecoverHash() {
+        return recoverHash;
+    }
+
+    public void setRecoverHash(String recoverHash) {
+        this.recoverHash = recoverHash;
     }
 
 }

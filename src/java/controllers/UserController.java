@@ -39,7 +39,7 @@ public class UserController extends WebController {
             Object cabinetId = request.getSession().getAttribute(LkController.CABINET_ID_SESSION_NAME);
             userService.addUser(email, phone, name, surname, patronymic, role, cabinetId);
             if (userService.getError().isEmpty()) {
-                model.put("errors", "Пользователь добавлен");
+                model.put("message", "Пользователь добавлен");
             } else {
                 model.put("errors", userService.getError());
             }
@@ -73,4 +73,15 @@ public class UserController extends WebController {
         return "/changePassword";
 
     }
+    
+     @RequestMapping("/recoveryPassword")
+     public String changePassword(Map<String, Object> model, HttpServletRequest request, 
+             @RequestParam(value = "email", required = false) String email,String submit){
+         
+         
+         
+        return "recoveryPassword";
+         
+     }
+         
 }

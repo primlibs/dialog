@@ -17,7 +17,7 @@
     </head>
     <body class="container" >
         
-        
+        <br><br>
 
     <center><h2>Регистрация</h2></center> <br>
     <%@include file="/WEB-INF/jsp/error.jsp" %> <br>

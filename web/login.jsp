@@ -32,10 +32,9 @@
                 <button type="submit" class="login-button">Войти</button>
             </p>
 
-            <p class="forgot-password"><a href="index.html">Забыл пароль?</a>   
+            <p class="forgot-password"><a href="<c:url value="/recoveryPassword" />">Забыл пароль?</a>   
             <a href="<c:url value="/registration" />">Регистрация!!</a></p>
         </form>
-
 
 
     </body>
