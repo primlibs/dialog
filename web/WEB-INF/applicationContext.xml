@@ -38,7 +38,7 @@
           p:username="callcentr"
           p:password="call1234" />
         
-     <tx:annotation-driven transaction-manager="transactionManager" />     
+    <tx:annotation-driven transaction-manager="transactionManager" />     
         
     <!-- Менеджер транзакций -->
     <bean id="transactionManager"
@@ -57,6 +57,24 @@
         </property>
     </bean>
     
+    
+    
+    <!-- Отправка email с приложения -->
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="mail.mycompany.com"/>
+    </bean>
+
+    <!-- this is a template message that we can pre-load with default state -
+    Это шаблонное сообщение, что мы можем предварительной нагрузки с состояние по умолчанию    -->
+    <bean id="templateMessage" class="org.springframework.mail.SimpleMailMessage">
+        <property name="from" value="customerservice@mycompany.com"/>
+        <property name="subject" value="Your order"/>
+    </bean>
+
+    <bean id="orderManager" class="com.mycompany.businessapp.support.SimpleOrderManager">
+        <property name="mailSender" ref="mailSender"/>
+        <property name="templateMessage" ref="templateMessage"/>
+    </bean>
    
 
 </beans>
