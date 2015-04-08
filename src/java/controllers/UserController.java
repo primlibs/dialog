@@ -54,13 +54,13 @@ public class UserController extends WebController {
     public String changePassword(
             Map<String, Object> model, HttpServletRequest request,
             @RequestParam(value = "oldPassword", required = false) String oldPassword,
-            @RequestParam(value = "newPassword", required = false) String Password,
+            @RequestParam(value = "newPassword", required = false) String password,
             @RequestParam(value = "confirmPassword", required = false) String confirmPassword,
             String submit
     ) throws Exception {
         lk.dataByUserAndCompany(request, model);
         if (submit != null) {
-            ServiceResult result = userService.changePassword(oldPassword, Password, confirmPassword);
+            ServiceResult result = userService.changePassword(oldPassword, password, confirmPassword);
             if (result.getErrors().isEmpty()) {
 
                 return "/successChangePassword";
