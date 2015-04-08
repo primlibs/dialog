@@ -5,10 +5,13 @@
  */
 package support;
 
+import org.springframework.stereotype.Component;
+
 /**
  *
  * @author Юрий
  */
+@Component
 public class Random {
 
     public static String getString(String sequence, int lenght) {

@@ -26,10 +26,9 @@ public class UserController extends WebController {
     @Autowired
     private UserService userService;
 
-    
+    @Autowired
     private SendMail sendMail;
-    
-    
+
     @Autowired
     private LkController lk;
 
@@ -78,15 +77,17 @@ public class UserController extends WebController {
         return "/changePassword";
 
     }
-    
-     @RequestMapping("/recoveryPassword")
-     public String changePassword(Map<String, Object> model, HttpServletRequest request, 
-             @RequestParam(value = "email", required = false) String email,String submit){
-         
-        sendMail.mailSend(email);
-          model.put("errors", userService.getError());
+
+    @RequestMapping("/recoveryPassword")
+    public String recoveryPassword(Map<String, Object> model, HttpServletRequest request,
+            @RequestParam(value = "email", required = false) String email, String submit) throws Exception {
+
+        if (submit != null) {
+            sendMail.mailSend(email);
+            model.put("errors", userService.getError());
+        }
         return "recoveryPassword";
-         
-     }
-         
+
+    }
+
 }
