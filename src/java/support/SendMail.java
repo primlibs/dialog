@@ -32,12 +32,12 @@ public class SendMail {
     }
 
     public void mailSend(String email) throws Exception {
-        SimpleMailMessage msg = new SimpleMailMessage(this.templateMessage);
+        SimpleMailMessage msg = new SimpleMailMessage(templateMessage);
         msg.setTo(email);
         msg.setText("Вы востонавливаите пароль от CallAssistent + ссылка на контроллер + параметр.хеш");
 
         try {
-            this.mailSender.send(msg);
+            mailSender.send(msg);
         } catch (MailException ex) {
             throw new Exception("nin");
         }
