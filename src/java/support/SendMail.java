@@ -5,8 +5,6 @@
  */
 package support;
 
-import org.hibernate.criterion.Order;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
@@ -18,7 +16,7 @@ import service.UserService;
  */
 public class SendMail {
 
-    @Autowired
+    
     private UserService userService;
 
     private MailSender mailSender;

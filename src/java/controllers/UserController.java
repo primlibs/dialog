@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import service.UserService;
+import support.SendMail;
 import support.ServiceResult;
 
 /**
@@ -25,6 +26,10 @@ public class UserController extends WebController {
     @Autowired
     private UserService userService;
 
+    
+    private SendMail sendMail;
+    
+    
     @Autowired
     private LkController lk;
 
@@ -78,8 +83,8 @@ public class UserController extends WebController {
      public String changePassword(Map<String, Object> model, HttpServletRequest request, 
              @RequestParam(value = "email", required = false) String email,String submit){
          
-         
-         
+        sendMail.mailSend(email);
+          model.put("errors", userService.getError());
         return "recoveryPassword";
          
      }

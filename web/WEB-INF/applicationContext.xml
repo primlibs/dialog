@@ -71,11 +71,6 @@
         <property name="subject" value="Your order"/>
     </bean>
 
-    <bean id="orderManager" class="com.mycompany.businessapp.support.SimpleOrderManager">
-        <property name="mailSender" ref="mailSender"/>
-        <property name="templateMessage" ref="templateMessage"/>
-    </bean>
-   
 
 </beans>
 
