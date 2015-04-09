@@ -8,6 +8,7 @@ package controllers;
 import controllers.parent.WebController;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import static org.apache.coyote.http11.Constants.a;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -83,8 +84,10 @@ public class UserController extends WebController {
             @RequestParam(value = "email", required = false) String email, String submit) throws Exception {
 
         if (submit != null) {
-            userService.recoveryPassword(email);
-            sendMail.sendMail(email);
+            String recoverHash = userService.recoveryPassword(email);
+            String link ="http://62.76.41.244/CallCentr/recoverPassword";
+            String text = "Вы востонавливаите пароль от CallAssistent "+link+recoverHash;
+            sendMail.sendMail(email, text);
             model.put("errors", userService.getError());
         }
         return "recoveryPassword";

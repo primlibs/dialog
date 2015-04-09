@@ -36,11 +36,10 @@ public class SendMail {
         this.templateMessage = templateMessage;
     }
 
-   
-    public void sendMail(String email) {
+    public void sendMail(String email, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
-        message.setText("Вы востонавливаите пароль от CallAssistent + ссылка на контроллер + параметр.хеш");
+        message.setText(text);
         mailSender.send(message);
     }
 
