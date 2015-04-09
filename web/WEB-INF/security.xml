@@ -16,6 +16,7 @@
         <intercept-url pattern="/login.jsp" access="hasAnyRole('ROLE_ANONYMOUS')" />
         <intercept-url pattern="/registration" access="hasAnyRole('ROLE_ANONYMOUS')" />
          <intercept-url pattern="/recoveryPassword" access="hasAnyRole('ROLE_ANONYMOUS')" />
+         <intercept-url pattern="/recoverPassword" access="hasAnyRole('ROLE_ANONYMOUS')" />
         <intercept-url pattern="/successRegistration" access="hasAnyRole('ROLE_ANONYMOUS')" />
          <intercept-url pattern="/index" access="hasAnyRole('user', 'admin')" />  
          <intercept-url pattern="/successChangePassword" access="hasAnyRole('user', 'admin')" /> 
