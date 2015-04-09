@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
-import org.springframework.util.DigestUtils;
 import service.parent.PrimService;
 import support.AuthManager;
 import support.Random;
@@ -203,19 +202,20 @@ public class UserService extends PrimService {
         return null;
     }
 
-    public void recoverPassword(String hash, String password, String confirmPassword) {
+    public String recoverPassword(String hash, String password, String confirmPassword) {
         User user = userDao.getUserByHash(hash);
 
         if (user != null) {
             if (password.equals(confirmPassword)) {
+
                 Calendar cl = Calendar.getInstance();
                 cl.add(Calendar.MINUTE, -120);
                 Date now = cl.getTime();
                 Date fromBd = user.getRecoverDate();
 
-                if (fromBd.before(now) || fromBd.equals(now)) {
+                if (now.before(fromBd) || now.equals(fromBd)) {
 
-                    user.setPassword(password);
+                    user.setPassword(AuthManager.md5Custom(password));
                     if (validate(user)) {
                         userDao.save(user);
                     }
@@ -229,6 +229,7 @@ public class UserService extends PrimService {
         } else {
             addError("пользователь не существует");
         }
+        return user.getName();
 
     }
 }
