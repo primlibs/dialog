@@ -36,15 +36,22 @@ public class SendMail {
         this.templateMessage = templateMessage;
     }
 
-    public void mailSend(String email) throws Exception {
-        SimpleMailMessage msg = new SimpleMailMessage(this.templateMessage);
-        msg.setTo(email);
-        msg.setText("Вы востонавливаите пароль от CallAssistent + ссылка на контроллер + параметр.хеш");
-
-        try {
-            mailSender.send(msg);
-        } catch (MailException ex) {
-            throw new Exception("nin" + ex);
-        }
+   
+    public void sendMail(String email) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(email);
+        message.setText("Вы востонавливаите пароль от CallAssistent + ссылка на контроллер + параметр.хеш");
+        mailSender.send(message);
     }
+
+    /**
+     * This method will send a pre-configured message
+     *
+     */
+    public void sendPreConfiguredMail(String message) {
+        SimpleMailMessage mailMessage = new SimpleMailMessage(templateMessage);
+        mailMessage.setText(message);
+        mailSender.send(mailMessage);
+    }
+
 }

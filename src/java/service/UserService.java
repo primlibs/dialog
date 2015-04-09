@@ -187,8 +187,8 @@ public class UserService extends PrimService {
         return result;
     }
 
-    public void recoveryPassword() {
-        User user = authManager.getCurrentUser();
+    public void recoveryPassword(String email) {
+        User user = userDao.getUserByLogin(email);
         user.setRecoverDate(new Date());
         user.setRecoverHash(AuthManager.md5Custom(Random.getString("qwertyuiopasdfghjklzxcvbnm", 10)));
         if (validate(user)) {

@@ -57,18 +57,26 @@
         </property>
     </bean>
     
-    
-    
-    <!-- Отправка email с приложения -->
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="mail.mycompany.com"/>
+        <property name="host" value="smtp.gmail.com"/>
+        <property name="port" value="25"/>
+        <property name="username" value="CallAssistance59@gmail.com"/>
+        <property name="password" value="nhtyntvjkkthnew"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+                <prop key="mail.debug">true</prop>
+            </props>
+        </property>
     </bean>
-
-    <!-- this is a template message that we can pre-load with default state -
-    Это шаблонное сообщение, что мы можем предварительной нагрузки с состояние по умолчанию    -->
+     
+    <!-- You can have some pre-configured messagess also which are ready to send -->
     <bean id="templateMessage" class="org.springframework.mail.SimpleMailMessage">
-        <property name="from" value="customerservice@mycompany.com"/>
-        <property name="subject" value="Your order"/>
+        <!--   <property name="to" value="lokeshgupta1981@gmail.com"></property> -->
+        <property name="from" value="CallAssistance59@gmail.com"></property>
+        <property name="subject" value="FATAL - Application crash. Save your job !!"/>
     </bean>
 
 

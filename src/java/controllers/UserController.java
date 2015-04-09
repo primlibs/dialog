@@ -83,11 +83,20 @@ public class UserController extends WebController {
             @RequestParam(value = "email", required = false) String email, String submit) throws Exception {
 
         if (submit != null) {
-            sendMail.mailSend(email);
+            userService.recoveryPassword(email);
+            sendMail.sendMail(email);
             model.put("errors", userService.getError());
         }
         return "recoveryPassword";
 
     }
 
+    @RequestMapping("/recoverPassword")
+    public String recoverPassword(Map<String, Object> model, HttpServletRequest request
+            ) throws Exception {
+
+       
+        return "recoverPassword";
+
+    }
 }
