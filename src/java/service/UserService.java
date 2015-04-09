@@ -197,4 +197,8 @@ public class UserService extends PrimService {
         
     }
 
+    public void recoverPassword(){
+         User user = userDao.getUserByHash(null);
+         user.setPassword(DEFAULT_PASS);
+    }
 }
