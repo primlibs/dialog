@@ -85,9 +85,11 @@ public class UserController extends WebController {
 
         if (submit != null) {
             String recoverHash = userService.recoveryPassword(email);
-            String link ="http://62.76.41.244/CallCentr/recoverPassword";
-            String text = "Вы востонавливаите пароль от CallAssistent. Пройдите по ссылке следуя инструкциям: "+link+"?name=hash&value="+recoverHash;
-            sendMail.sendMail(email, text);
+            if (userService.getError().isEmpty()) {
+                String link = "http://62.76.41.244/CallCentr/recoverPassword";
+                String text = "Вы восcтнавливаите пароль от CallAssistent. Пройдите по ссылке для восстановления: " + link + "?name=hash&value=" + recoverHash+"text/plain; charset=UTF-8";
+                sendMail.sendMail(email, text);
+            }
             model.put("errors", userService.getError());
         }
         return "recoveryPassword";
@@ -95,10 +97,21 @@ public class UserController extends WebController {
     }
 
     @RequestMapping("/recoverPassword")
-    public String recoverPassword(Map<String, Object> model, HttpServletRequest request, String hash) throws Exception {
+    public String recoverPassword(Map<String, Object> model, HttpServletRequest request, String hash,
+            @RequestParam(value = "newPassword", required = false) String password,
+            @RequestParam(value = "confirmPassword", required = false) String confirmPassword,
+            String submit) throws Exception {
 
-        model.put("errors", userService.getError());
+        if (submit != null) {
+
+            if (userService.getError().isEmpty()) {
+
+            }
+            model.put("errors", userService.getError());
+        }
+
         return "recoverPassword";
 
     }
+
 }

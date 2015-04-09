@@ -6,7 +6,6 @@
 package support;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
@@ -47,10 +46,11 @@ public class SendMail {
      * This method will send a pre-configured message
      *
      */
-    public void sendPreConfiguredMail(String message) {
-        SimpleMailMessage mailMessage = new SimpleMailMessage(templateMessage);
-        mailMessage.setText(message);
-        mailSender.send(mailMessage);
-    }
-
+    /*
+     public void sendPreConfiguredMail(String message) {
+     SimpleMailMessage mailMessage = new SimpleMailMessage(templateMessage);
+     mailMessage.setText(message);
+     mailSender.send(mailMessage);
+     }
+     */
 }

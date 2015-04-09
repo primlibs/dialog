@@ -195,15 +195,15 @@ public class UserService extends PrimService {
             if (validate(user)) {
                 userDao.save(user);
             }
+            return user.getRecoverHash();
         }else {
             addError("Пользователя не существует");
         }
-        return user.getRecoverHash();
-
+        return null;
     }
 
-    public void recoverPassword() {
-        User user = userDao.getUserByHash(null);
+    public void recoverPassword(String hash, String password, String confirmPassword) {
+        User user = userDao.getUserByHash(hash);
         user.setPassword(DEFAULT_PASS);
     }
 }
