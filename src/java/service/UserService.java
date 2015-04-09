@@ -11,6 +11,7 @@ import dao.UserDao;
 import entities.CabinetUser;
 import entities.PersonalCabinet;
 import entities.User;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.transaction.Transactional;
@@ -196,7 +197,7 @@ public class UserService extends PrimService {
                 userDao.save(user);
             }
             return user.getRecoverHash();
-        }else {
+        } else {
             addError("Пользователя не существует");
         }
         return null;
@@ -204,6 +205,30 @@ public class UserService extends PrimService {
 
     public void recoverPassword(String hash, String password, String confirmPassword) {
         User user = userDao.getUserByHash(hash);
-        user.setPassword(DEFAULT_PASS);
+
+        if (user != null) {
+            if (password.equals(confirmPassword)) {
+                Calendar cl = Calendar.getInstance();
+                cl.add(Calendar.MINUTE, -120);
+                Date now = cl.getTime();
+                Date fromBd = user.getRecoverDate();
+
+                if (fromBd.before(now) || fromBd.equals(now)) {
+
+                    user.setPassword(password);
+                    if (validate(user)) {
+                        userDao.save(user);
+                    }
+
+                } else {
+                    addError("время ссылки вышло");
+                }
+            } else {
+                addError("пароли не совпадают");
+            }
+        } else {
+            addError("пользователь не существует");
+        }
+
     }
 }
