@@ -229,7 +229,7 @@ public class UserService extends PrimService {
                 addError("пароли не совпадают");
             }
         } else {
-            addError("пользователь не существует "+hash+" .");
+            addError("пользователь не существует : "+hash+"");
         }
 
     }
