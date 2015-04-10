@@ -168,8 +168,9 @@ public class UserService extends PrimService {
         ServiceResult result = new ServiceResult();
         User user = authManager.getCurrentUser();
         String oldHash = user.getPassword();
+        String oldHashForm = AuthManager.md5Custom(oldPassword);
 
-        if (oldHash.equals(oldPassword)) {
+        if (oldHash.equals(oldHashForm)) {
             if (password.equals(confirmPassword)) {
                 if (password.length() >= 4) {
                     user.setPassword(AuthManager.md5Custom(password));

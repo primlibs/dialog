@@ -53,8 +53,8 @@ public class RegistrationController extends WebController {
     }
 
     @RequestMapping(value = {"/successRegistration"})
-    public String showCRPage(Map<String, Object> model, HttpServletRequest request) throws Exception {
-        lk.dataByUserAndCompany(request, model);
+    public String showSRPage(Map<String, Object> model, HttpServletRequest request) throws Exception {
+       
 
         return "successRegistration";
     }

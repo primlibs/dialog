@@ -103,9 +103,7 @@ public class UserController extends WebController {
             @RequestParam(value = "confirmPassword", required = false) String confirmPassword,
             String submit) throws Exception {
         
-        if(submit ==null){
-        model.put("errors", hash);
-        }
+       
         if (submit != null) {
             userService.recoverPassword(hash, password, confirmPassword);
             if (userService.getError().isEmpty()) {
