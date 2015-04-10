@@ -36,7 +36,7 @@
             <div class="form-group">
                 <div class="col-xs-offset-3 col-xs-9">
                     <input type="submit" name="submit"  class="btn btn-primary" value="Отправить">
-                    <input type="reset" class="btn btn-default" value="Очистить форму">
+                  
                 </div>
             </div>
 

@@ -28,25 +28,29 @@ public class RegistrationController extends WebController {
     private LkController lk;
 
     @RequestMapping(value = {"/registration"})
-    public String showRegistrationPage(Map<String, Object> model, String submit,
+    public String showRegistrationPage(Map<String, Object> model, String submit, String checkbox,
             String company, String email, String phone, String password, String confirmPassword, String name, String surname, String patronymic,
             String emailCompany) {
 
-        if (submit != null) {
-            if (password.equals(confirmPassword)) {
-                userService.save(company, email, phone, password, name, surname, patronymic, emailCompany);
-                if (userService.getError().isEmpty()) {
-                    return "redirect:/successRegistration";
+        if (checkbox != null) {
+            if (submit != null) {
+                if (password.equals(confirmPassword)) {
+                    userService.save(company, email, phone, password, name, surname, patronymic, emailCompany);
+                    if (userService.getError().isEmpty()) {
+                        return "redirect:/successRegistration";
+                    } else {
+                        model.put("errors", userService.getError());
+                    }
                 } else {
+                    userService.addError("Пароли не совпадают");
                     model.put("errors", userService.getError());
+
                 }
             } else {
-               userService.addError("Пароли не совпадают");
-               model.put("errors", userService.getError());
-
+                model.put("errors", userService.getError());
             }
         } else {
-            model.put("errors", userService.getError());
+            model.put("errors", "Ознакомтесь и согласитесь с условиями");
         }
 
         return "registration";
@@ -54,7 +58,6 @@ public class RegistrationController extends WebController {
 
     @RequestMapping(value = {"/successRegistration"})
     public String showSRPage(Map<String, Object> model, HttpServletRequest request) throws Exception {
-       
 
         return "successRegistration";
     }

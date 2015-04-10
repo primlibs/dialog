@@ -87,7 +87,7 @@
                 <div class="form-group">
                     <div class="col-xs-offset-3 col-xs-9">
                         <label class="checkbox-inline">
-                            <input type="checkbox" value="agree">  Я согласен с <a href="#">условиями</a>.
+                            <input type="checkbox" name="checkbox" value="agree">  Я согласен с <a href="#">условиями</a>.
                         </label>
                     </div>
                 </div>
@@ -95,7 +95,7 @@
                 <div class="form-group">
                     <div class="col-xs-offset-3 col-xs-9">
                         <input type="submit" name="submit"  class="btn btn-primary" value="Регистрация">
-                        <input type="reset" class="btn btn-default" value="Очистить форму">
+                      
                     </div>
                 </div>
             </form>

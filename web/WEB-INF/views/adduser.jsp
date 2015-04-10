@@ -19,12 +19,12 @@
 
         <br> 
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> <br>
+        <form action="<c:url value="/adduser" />"  method="post">
 
-
-
-
-        <form action="<c:url value="/adduser" />" style="margin-top: 59px;" method="post">
-
+            <div class="form-group">
+                <a href="<c:url value="/listUser"/>" class="btn btn-large" role="button">Список пользователей</a>
+                <a href="<c:url value="/adduser"/>" class="btn btn-large" role="button">Добавить пользователя</a>
+            </div>
             <div class="form-group">
                 <label class="control-label col-xs-3" for="lastName">Фамилия:</label>
                 <div class="col-xs-9">
@@ -60,12 +60,12 @@
             </div>     
             <div class="form-group">
                 <centr> <label class="control-label col-xs-9" >Стандартный пароль:&nbsp 0000</label> </centr>
-                
+
             </div>          
             <div class="form-group">
                 <div class="col-xs-offset-3 col-xs-9">
                     <input type="submit" name="submit"  class="btn btn-primary" value="Добавить">
-                    <input type="reset" class="btn btn-default" value="Очистить форму">
+
                 </div>
             </div>
 
