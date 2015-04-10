@@ -32,8 +32,8 @@ public class RegistrationController extends WebController {
             String company, String email, String phone, String password, String confirmPassword, String name, String surname, String patronymic,
             String emailCompany) {
 
-        if (checkbox != null) {
-            if (submit != null) {
+        if (submit != null) {
+            if (checkbox != null) {
                 if (password.equals(confirmPassword)) {
                     userService.save(company, email, phone, password, name, surname, patronymic, emailCompany);
                     if (userService.getError().isEmpty()) {
@@ -47,10 +47,10 @@ public class RegistrationController extends WebController {
 
                 }
             } else {
-                model.put("errors", userService.getError());
+                model.put("errors", "Ознакомтесь и согласитесь с условиями");
             }
         } else {
-            model.put("errors", "Ознакомтесь и согласитесь с условиями");
+            model.put("errors", userService.getError());
         }
 
         return "registration";

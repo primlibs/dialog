@@ -21,12 +21,7 @@
         <form action="<c:url value="/recoveryPassword" />"  method="post">
 
             
-            <div class="form-group">
-                <label class="control-label col-xs-3" for="firstName">Имя:</label>
-                <div class="col-xs-9">
-                    <input type="text" class="form-control" name="name" id="firstName" placeholder="Введите имя">
-                </div>
-            </div>   
+           
             <div class="form-group">
                 <label class="control-label col-xs-3"  for="inputEmail">Email:</label>
                 <div class="col-xs-9">

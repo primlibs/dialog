@@ -28,20 +28,20 @@
             <div class="form-group">
                 <label class="control-label col-xs-3" for="lastName">Название компании:</label>
                 <div class="col-xs-9">
-                    <input type="text" class="form-control" name="company" id="lastName" placeholder="Введите наименование компании">
+                    <input type="text" class="form-control ntSaveForms" name="company" id="lastName" placeholder="Введите наименование компании">
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-xs-3"  for="inputEmail">Email:</label>
                 <div class="col-xs-9">
-                    <input type="email" class="form-control" name="emailCompany"  id="inputEmail" placeholder="Email">
+                    <input type="email" class="form-control ntSaveForms" name="emailCompany"  id="inputEmail" placeholder="Email">
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-xs-3" for="phoneNumber">Телефон:</label>
                 <div class="col-xs-9">
-                    <input type="tel" class="form-control" name="phone" id="phoneNumber" placeholder="Введите номер телефона">
+                    <input type="tel" class="form-control ntSaveForms" name="phone" id="phoneNumber" placeholder="Введите номер телефона">
                 </div>
             </div>
             <h3>   Личные данные:</h3>
@@ -50,25 +50,25 @@
                 <div class="form-group">
                     <label class="control-label col-xs-3" for="lastName">Фамилия:</label>
                     <div class="col-xs-9">
-                        <input type="text" class="form-control" name="surname" id="lastName" placeholder="Введите фамилию">
+                        <input type="text" class="form-control ntSaveForms" name="surname" id="lastName" placeholder="Введите фамилию">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-xs-3" for="firstName">Имя:</label>
                     <div class="col-xs-9">
-                        <input type="text" class="form-control" name="name" id="firstName" placeholder="Введите имя">
+                        <input type="text" class="form-control ntSaveForms" name="name" id="firstName" placeholder="Введите имя">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-xs-3" for="firstName">Отчество:</label>
                     <div class="col-xs-9">
-                        <input type="text" class="form-control" name="patronymic" id="firstName" placeholder="Введите отчество">
+                        <input type="text" class="form-control ntSaveForms" name="patronymic" id="firstName" placeholder="Введите отчество">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-xs-3"  for="inputEmail">Email:</label>
                     <div class="col-xs-9">
-                        <input type="email" class="form-control" name="email" id="inputEmail" placeholder="Email">
+                        <input type="email" class="form-control ntSaveForms" name="email" id="inputEmail" placeholder="Email">
                     </div>
                 </div>
                 <div class="form-group">
@@ -99,5 +99,6 @@
                     </div>
                 </div>
             </form>
+            <script type='text/javascript' src='/ntsaveforms.js'></script>
     </body>
 </html>
