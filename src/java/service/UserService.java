@@ -5,6 +5,7 @@
  */
 package service;
 
+import static controllers.LkController.CABINET_ID_SESSION_NAME;
 import dao.CabinetUserDao;
 import dao.PersonalCabinetDao;
 import dao.UserDao;
@@ -14,11 +15,13 @@ import entities.User;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.request;
 import service.parent.PrimService;
 import support.AuthManager;
 import support.Random;
@@ -229,8 +232,19 @@ public class UserService extends PrimService {
                 addError("пароли не совпадают");
             }
         } else {
-            addError("пользователь не существует : "+hash+"");
+            addError("пользователь не существует  " );
         }
 
     }
+
+    public List<CabinetUser> cabinetUserList(HttpServletRequest request){
+        
+      Object cabinetId = request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+    
+        
+        return null;
+        
+    }
+
+
 }

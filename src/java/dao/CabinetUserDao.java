@@ -39,7 +39,7 @@ public class CabinetUserDao extends Dao<CabinetUser> {
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("user", user);
         return query.list();
-        
+
     }
 
     public List<CabinetUser> getByUserAndCabinet(User user, PersonalCabinet cabinet) {
@@ -50,5 +50,5 @@ public class CabinetUserDao extends Dao<CabinetUser> {
         return query.list();
     }
 
-    
+
 }

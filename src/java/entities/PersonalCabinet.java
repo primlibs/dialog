@@ -32,7 +32,7 @@ public class PersonalCabinet extends PrimEntity {
     @Email
     @Column(name = "email")
     @NotNull(message = "поле Email не может быть пустым")
-    @NotBlank (message = "поле Email не может быть пустым")
+    @NotBlank(message = "поле Email не может быть пустым")
     private String email;
 
     @Column(name = "company")
@@ -41,8 +41,10 @@ public class PersonalCabinet extends PrimEntity {
 
     @Column(name = "phone")
     @NotNull(message = "Поле телефон не может быть пустым")
-    @NotBlank (message = "Поле телефон не может быть пустым")
+    @NotBlank(message = "Поле телефон не может быть пустым")
     private String phone;
+    
+    
 
     public Long getPersonalCabinetId() {
         return personalCabinetId;
@@ -78,7 +80,7 @@ public class PersonalCabinet extends PrimEntity {
 
     @Override
     public Long getId() {
-       return personalCabinetId;
+        return personalCabinetId;
     }
 
 }
