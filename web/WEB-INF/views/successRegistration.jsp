@@ -19,10 +19,14 @@
     </head>
 
     <body class="container">
-       
-        
-    <center style="margin-top: 54px;">
-        <h2 >Регистрация посетителя успешно завершена</h2>
+
+
+    <center style="margin-top: 114px;">
+        <form>
+            <h2 >Регистрация посетителя успешно завершена</h2> <br>
+
+            <a href="<c:url value="/login"/>" class="btn btn-primary" role="button">Войти</a>
+        </form>
     </center>
 
 

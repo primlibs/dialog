@@ -203,7 +203,8 @@ public class UserService extends PrimService {
         return null;
     }
 
-    public String recoverPassword(String hash, String password, String confirmPassword) {
+    public void recoverPassword(String hash, String password, String confirmPassword) {
+
         User user = userDao.getUserByHash(hash);
 
         if (user != null) {
@@ -228,9 +229,8 @@ public class UserService extends PrimService {
                 addError("пароли не совпадают");
             }
         } else {
-            addError("пользователь не существует");
+            addError("пользователь не существует "+hash+" .");
         }
-        return user.getName();
 
     }
 }

@@ -8,7 +8,6 @@ package controllers;
 import controllers.parent.WebController;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-import static org.apache.coyote.http11.Constants.a;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -89,6 +88,7 @@ public class UserController extends WebController {
                 String link = "http://62.76.41.244/CallCentr/recoverPassword";
                 String text = "Вы восcтнавливаите пароль от CallAssistent. Пройдите по ссылке для восстановления: " + link + "?hash=" + recoverHash;
                 sendMail.sendMail(email, text);
+                 model.put("message", "Ссылка с востановлением отправлена на почту");
             }
             model.put("errors", userService.getError());
         }
@@ -96,9 +96,10 @@ public class UserController extends WebController {
 
     }
 
+    
     @RequestMapping("/recoverPassword")
     public String recoverPassword(Map<String, Object> model, HttpServletRequest request,
-            @RequestParam(value = "hash", required = false) String hash,
+             String hash,
             @RequestParam(value = "newPassword", required = false) String password,
             @RequestParam(value = "confirmPassword", required = false) String confirmPassword,
             String submit) throws Exception {
@@ -116,5 +117,6 @@ public class UserController extends WebController {
         return "recoverPassword";
 
     }
+
 
 }
