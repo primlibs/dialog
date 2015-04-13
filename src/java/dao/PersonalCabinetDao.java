@@ -6,8 +6,10 @@
 package dao;
 
 import dao.parent.Dao;
+import entities.CabinetUser;
 import entities.PersonalCabinet;
-import entities.User;
+import java.util.ArrayList;
+import java.util.List;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 

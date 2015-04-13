@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import static controllers.LkController.CABINET_ID_SESSION_NAME;
 import controllers.parent.WebController;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -123,9 +124,12 @@ public class UserController extends WebController {
     }
     
      @RequestMapping(value = {"/listUser"})
-    public String showIndexPage(Map<String, Object> model,HttpServletRequest request) throws Exception {
+    public String showListUserPage(Map<String, Object> model,HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         
+        model.put("cabinetUserList",userService.cabinetUserList(cabinetId));
+        model.put("error",userService.getError());
         return "listUser";
     }
 

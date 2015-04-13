@@ -5,23 +5,21 @@
  */
 package service;
 
-import static controllers.LkController.CABINET_ID_SESSION_NAME;
 import dao.CabinetUserDao;
 import dao.PersonalCabinetDao;
 import dao.UserDao;
 import entities.CabinetUser;
 import entities.PersonalCabinet;
 import entities.User;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.request;
 import service.parent.PrimService;
 import support.AuthManager;
 import support.Random;
@@ -45,7 +43,7 @@ public class UserService extends PrimService {
     private CabinetUserDao cabinetUserDao;
 
     @Autowired
-    private PersonalCabinetDao cabinetDao;
+    private PersonalCabinetDao personalCabinetDao;
 
     public void save(
             String company,
@@ -59,7 +57,7 @@ public class UserService extends PrimService {
     ) {
 
         User existingUser = userDao.getUserByLogin(email);
-        PersonalCabinet existingEmailCompany = cabinetDao.getCabinetByLogin(emailCompany);
+        PersonalCabinet existingEmailCompany = personalCabinetDao.getCabinetByLogin(emailCompany);
 
         if (existingUser != null || existingEmailCompany != null) {
             addError("Ошибка email личного | компании");
@@ -80,7 +78,7 @@ public class UserService extends PrimService {
                 cabinet.setPhone(phone);
                 cabinet.setCompany(company);
                 if (validate(cabinet)) {
-                    cabinetDao.save(cabinet);
+                    personalCabinetDao.save(cabinet);
                 }
 
                 if (getError().isEmpty()) {
@@ -109,7 +107,7 @@ public class UserService extends PrimService {
 
         User existingUser;
         existingUser = userDao.getUserByLogin(email);
-        PersonalCabinet cabinet = cabinetDao.find((Long) cabinetId);
+        PersonalCabinet cabinet = personalCabinetDao.find((Long) cabinetId);
 
         if (existingUser != null) {
 
@@ -154,7 +152,7 @@ public class UserService extends PrimService {
     }
 
     private boolean existCabinetUser(User existingUser, Object cabinetId) {
-        PersonalCabinet cabinet = cabinetDao.find((Long) cabinetId);
+        PersonalCabinet cabinet = personalCabinetDao.find((Long) cabinetId);
         List<CabinetUser> list = cabinetUserDao.getByUserAndCabinet(existingUser, cabinet);
         if (list.size() > 0) {
             return true;
@@ -237,12 +235,14 @@ public class UserService extends PrimService {
 
     }
 
-    public List<CabinetUser> cabinetUserList(HttpServletRequest request){
-        
-      Object cabinetId = request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-    
-        
-        return null;
+    public List<CabinetUser> cabinetUserList(Long cabinetId ){ 
+        PersonalCabinet pk=personalCabinetDao.find(cabinetId);
+        if(pk!=null){
+            return pk.getCabinetUser();
+        }else{
+            addError("Кабинет не найден по ид "+cabinetId);
+        }
+        return new ArrayList();
         
     }
 

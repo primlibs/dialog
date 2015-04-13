@@ -22,12 +22,12 @@
             <a href="<c:url value="/adduser"/>" class="btn btn-large" role="button">Добавить пользователя</a>
         </div> 
 
-        <table>
-            <c:forEach var="person" items="${user.people}">
+        <table class="table table-bordered table-hover">
+            <c:forEach var="cabinetUser" items="${cabinetUserList}">
                 <tr>
-                    <td>${user.name}</td>
-                    <td>${user.surname}</td>
-                    <td>${user.role}</td>
+                    <td>${cabinetUser.user.name}</td>
+                    <td>${cabinetUser.user.surname}</td>
+                    <td>${cabinetUser.user_role}</td>
                 </tr>
             </c:forEach>
         </table>

@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import entities.parent.PrimEntity;
+import javax.persistence.FetchType;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -36,11 +37,11 @@ public class CabinetUser extends PrimEntity {
     private String user_role;
 
     @JoinColumn(name = "user_id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
     @JoinColumn(name = "personal_cabinet_id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private PersonalCabinet cabinet;
 
     public Long getCabinetUserId() {
