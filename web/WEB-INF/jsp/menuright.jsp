@@ -23,6 +23,6 @@
     </li>
 
     <%--  <li style="top: 15px;"> <security:authentication property="principal.username" /> </li> --%>
-    <li>  <a href="<c:url value="/logout"/>"> <img width="20px" src="<c:url value="img/exit.png"/>">Выйти</a>  </li>
+    <li>  <a href="<c:url value="/logout"/>"> <img width="20px" src="<c:url value="/img/exit.png"/>">Выйти</a>  </li>
 
 </ul>

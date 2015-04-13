@@ -19,12 +19,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/Strategy")
 @Controller
 public class StrategyController extends WebController {
+
     @Autowired
     private LkController lk;
 
     @RequestMapping("/show")
-    public String showStrategyPage(Map<String, Object> model,HttpServletRequest request) throws Exception {
+    public String showStrategyListPage(Map<String, Object> model, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
+        
+        
+        
+        return "strategyList";
+    }
+
+    @RequestMapping("/strategy")
+    public String showStrategyPage(Map<String, Object> model, HttpServletRequest request) throws Exception {
+
         return "strategy";
     }
+
 }
