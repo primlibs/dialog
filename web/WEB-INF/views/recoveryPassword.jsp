@@ -18,7 +18,7 @@
 
         <div style="margin-top: 59px; margin-left:310px;"> <h2>Форма восстановления пароля </h2> </div>
 
-        <form action="<c:url value="/recoveryPassword" />"  method="post">
+        <form action="<c:url value="/User/recoveryPassword" />"  method="post">
 
             
            

@@ -15,9 +15,9 @@
     <body class="container">
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
         <br> 
-        <%@include file="/WEB-INF/jsp/error.jsp" %> <br>
+        <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> <br>
 
-        <form action="<c:url value="/changePassword" />" style="margin-top: 58px;" method="post">
+        <form action="<c:url value="/User/changePassword" />" style="margin-top: 58px;" method="post">
 
             <div class="form-group">
                 <label class="control-label col-xs-3" for="inputPassword">Текущий пароль:</label>

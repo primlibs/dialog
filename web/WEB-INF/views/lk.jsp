@@ -22,7 +22,7 @@
 
 
     <center>
-        <form action="<c:url value="/selectLk" />" method="post">
+        <form action="<c:url value="/Lk/selectLk" />" method="post">
             <h3> Выбор личного кабинета </h3><br>
             <select name="personalCabinetId" >
                 <c:forEach items="${list}" var="CabinetUser">

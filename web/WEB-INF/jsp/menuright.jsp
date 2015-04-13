@@ -17,7 +17,7 @@
     <li class="dropdown"><a href="#" data-toggle="dropdown"  class="dropdown-toggle" > ${nameUser } <span class="caret"></span></a>
         <ul class="dropdown-menu">
             <li> <center>${role }</center></li>
-            <li><a href="<c:url value="/changePassword"/>">Сменить пароль</a></li>
+            <li><a href="<c:url value="/User/changePassword"/>">Сменить пароль</a></li>
              
         </ul>                    
     </li>

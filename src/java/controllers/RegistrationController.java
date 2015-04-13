@@ -19,6 +19,7 @@ import service.UserService;
  * @author Юрий
  */
 @Controller
+@RequestMapping("/Registration")
 public class RegistrationController extends WebController {
 
     @Autowired
@@ -37,7 +38,7 @@ public class RegistrationController extends WebController {
                 if (password.equals(confirmPassword)) {
                     userService.save(company, email, phone, password, name, surname, patronymic, emailCompany);
                     if (userService.getError().isEmpty()) {
-                        return "redirect:/successRegistration";
+                        return "redirect:/Registration/successRegistration";
                     } else {
                         model.put("errors", userService.getError());
                     }

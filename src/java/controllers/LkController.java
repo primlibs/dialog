@@ -24,6 +24,7 @@ import support.AuthManager;
  * @author Юрий
  */
 @Controller
+@RequestMapping("/Lk")
 public class LkController extends WebController{
 
     public static final String CABINET_ID_SESSION_NAME = "CabinetId";

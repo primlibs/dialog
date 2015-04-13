@@ -16,7 +16,7 @@
         <br> 
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> <br>
         
-        <form action="<c:url value="/recoverPassword" />" style="margin-top: 58px;" method="post">
+        <form action="<c:url value="/User/recoverPassword" />" style="margin-top: 58px;" method="post">
 
             
             <div class="form-group">

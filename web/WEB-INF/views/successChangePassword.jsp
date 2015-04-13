@@ -15,7 +15,7 @@
     <body class="container">
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
         <br> 
-        <%@include file="/WEB-INF/jsp/error.jsp" %> <br>
+        <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %><br>
 
         <center> <h3>Пароль успешно изменен</h3> </center>
     </body>

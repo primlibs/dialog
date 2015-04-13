@@ -22,7 +22,7 @@
     <center><h2>Регистрация</h2></center> <br>
     <%@include file="/WEB-INF/jsp/error.jsp" %> <br>
 
-    <form class="form-horizontal" action="<c:url value="/registration" />" method="post">
+    <form class="form-horizontal" action="<c:url value="/Registration/registration" />" method="post">
         <h3>   Данные компании:</h3>
 
         <div class="form-group">

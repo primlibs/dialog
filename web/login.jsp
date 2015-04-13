@@ -32,8 +32,8 @@
                 <button type="submit" class="login-button">Войти</button>
             </p>
 
-            <p class="forgot-password"><a href="<c:url value="/recoveryPassword" />">Забыл пароль?</a>   
-            <a href="<c:url value="/registration" />">Регистрация!!</a></p>
+            <p class="forgot-password"><a href="<c:url value="/User/recoveryPassword" />">Забыл пароль?</a>   
+            <a href="<c:url value="/Registration/registration" />">Регистрация!!</a></p>
         </form>
 
 

@@ -22,6 +22,7 @@ import support.ServiceResult;
  * @author Юрий
  */
 @Controller
+@RequestMapping("/User")
 public class UserController extends WebController {
 
     @Autowired
@@ -106,10 +107,10 @@ public class UserController extends WebController {
 
         model.put("hash", hash);
         /*
-        if (StringAdapter.isNull(hash)) {
-            model.put("errors", "Не переданы идентифицирующие параметры");
-        }
-        */
+         if (StringAdapter.isNull(hash)) {
+         model.put("errors", "Не переданы идентифицирующие параметры");
+         }
+         */
         if (submit != null) {
             userService.recoverPassword(hash, password, confirmPassword);
             if (userService.getError().isEmpty()) {
@@ -122,14 +123,14 @@ public class UserController extends WebController {
         return "recoverPassword";
 
     }
-    
-     @RequestMapping(value = {"/listUser"})
-    public String showListUserPage(Map<String, Object> model,HttpServletRequest request) throws Exception {
+
+    @RequestMapping("/listUser")
+    public String showListUserPage(Map<String, Object> model, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        
-        model.put("cabinetUserList",userService.cabinetUserList(cabinetId));
-        model.put("error",userService.getError());
+
+        model.put("cabinetUserList", userService.cabinetUserList(cabinetId));
+        model.put("error", userService.getError());
         return "listUser";
     }
 

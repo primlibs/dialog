@@ -19,11 +19,13 @@
 
         <br> 
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> <br>
-        <form action="<c:url value="/adduser" />"  method="post">
+
+
+        <form action="<c:url value="/User/adduser" />"  method="post">
 
             <div class="form-group">
-                <a href="<c:url value="/listUser"/>" class="btn btn-large" role="button">Список пользователей</a>
-                <a href="<c:url value="/adduser"/>" class="btn btn-large" role="button">Добавить пользователя</a>
+                <a href="<c:url value="/User/listUser"/>" class="btn btn-large" role="button">Список пользователей</a>
+                <a href="<c:url value="/User/adduser"/>" class="btn btn-large" role="button">Добавить пользователя</a>
             </div>
             <div class="form-group">
                 <label class="control-label col-xs-3" for="lastName">Фамилия:</label>
