@@ -48,10 +48,22 @@ public class PersonalCabinet extends PrimEntity {
     @NotNull(message = "Поле телефон не может быть пустым")
     @NotBlank(message = "Поле телефон не может быть пустым")
     private String phone;
-    
+
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy="cabinet", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cabinet", cascade = CascadeType.ALL)
     private List<CabinetUser> cabinetUser;
+
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "cabinet", cascade = CascadeType.ALL)
+    private List<Strategy> strategyList;
+
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "cabinet", cascade = CascadeType.ALL)
+    private List<Groups> groupList;
+
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "cabinet", cascade = CascadeType.ALL)
+    private List<Modules> moduleList;
 
     public List<CabinetUser> getCabinetUser() {
         return cabinetUser;
@@ -60,8 +72,30 @@ public class PersonalCabinet extends PrimEntity {
     public void setCabinetUser(List<CabinetUser> cabinetUser) {
         this.cabinetUser = cabinetUser;
     }
-    
-    
+
+    public List<Strategy> getStrategyList() {
+        return strategyList;
+    }
+
+    public void setStrategyList(List<Strategy> strategyList) {
+        this.strategyList = strategyList;
+    }
+
+    public List<Groups> getGroupList() {
+        return groupList;
+    }
+
+    public void setGroupList(List<Groups> groupList) {
+        this.groupList = groupList;
+    }
+
+    public List<Modules> getModuleList() {
+        return moduleList;
+    }
+
+    public void setModuleList(List<Modules> moduleList) {
+        this.moduleList = moduleList;
+    }
 
     public Long getPersonalCabinetId() {
         return personalCabinetId;
