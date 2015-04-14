@@ -35,11 +35,13 @@
 
                             <tr>
                                 <td>${myIndex.count}</td>
-                                <%--      <td>${cabinetUser.user.name}</td>
+                                <%--      <td>${cabinetUser.user.name}</td> <c:url value="/Strategy/strategy" />
                                  <td>${cabinetUser.user.surname}</td>
-                                 <td>${cabinetUser.user_role}</td>  --%>
-
-                                <td>${strategy.strategyName}</td>
+                                 <td>${cabinetUser.user_role}</td>  
+                                
+                                <td><a href="<c:url value="/Strategy/strategy"/>"> ${strategy.strategyName} </a></td>  --%>
+                                
+                                <td onClick="location='<c:url value="/Strategy/strategy?id=${strategy.strategyId}"/>'"> ${strategy.strategyName} </td>
                             </tr>
                         </c:forEach>
                     </table>
