@@ -33,25 +33,27 @@ public class StrategyService extends PrimService {
     @Autowired
     private PersonalCabinetDao personalCabinetDao;
 
-    public void saveStrategy(String strategyName, Object cabinetId) {
-
+    public void saveStrategy(String strategyName, Long cabinetId) {
+        PersonalCabinet pk = personalCabinetDao.find(cabinetId);
+        
         if (strategyName != null) {
-
             Strategy strategy = new Strategy();
             strategy.setStrategyName(strategyName);
-            strategy.setCabinet((PersonalCabinet) cabinetId);
+            strategy.setCabinet(pk);
             if (validate(strategy)) {
                 strategyDao.save(strategy);
             }
-        }addError(strategyName+"несохранилось так как имя равно нулю");
+        } else {
+            addError("несохранилось так как имя равно нулю");
+        }
     }
 
-    public List<Strategy> strategyList(Long cabinetIdLong) {
-        PersonalCabinet pk = personalCabinetDao.find(cabinetIdLong);
+    public List<Strategy> strategyList(Long cabinetId) {
+        PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         if (pk != null) {
             return pk.getStrategyList();
         } else {
-            addError("Кабинет не найден по ид " + cabinetIdLong);
+            addError("Кабинет не найден по ид " + cabinetId);
         }
         return new ArrayList();
     }

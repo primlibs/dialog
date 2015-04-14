@@ -23,7 +23,7 @@
                 <form action="<c:url value="/Strategy/show" />"  method="post"> 
                     <div class="input-append">
                         <input class="span2" id="appendedInputButton" name="strategyName" size="16" type="text">
-                        <button type="submit" class="btn">добавить</button>
+                        <button type="submit" name="submit" class="btn">добавить</button>
                     </div>
                     <table class="table table-bordered table-hover">
                         <tr>
@@ -39,7 +39,7 @@
                                  <td>${cabinetUser.user.surname}</td>
                                  <td>${cabinetUser.user_role}</td>  --%>
 
-                                <td>${strategy.name}</td>
+                                <td>${strategy.strategyName}</td>
                             </tr>
                         </c:forEach>
                     </table>
