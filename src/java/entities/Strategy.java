@@ -20,6 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -39,6 +40,7 @@ public class Strategy extends PrimEntity {
     private PersonalCabinet cabinet;
 
     @Column(name = "name")
+    @NotBlank(message = "поле имя не может быть пустым")
     private String strategyName;
     
     @LazyCollection(LazyCollectionOption.FALSE)

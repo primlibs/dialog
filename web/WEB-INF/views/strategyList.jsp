@@ -31,7 +31,7 @@
                             <td>имя</td>
 
                         </tr>
-                        <c:forEach var="cabinetUser" items="${cabinetUserList}" varStatus="myIndex">
+                        <c:forEach var="strategy" items="${StrategyList}" varStatus="myIndex">
 
                             <tr>
                                 <td>${myIndex.count}</td>
@@ -39,7 +39,7 @@
                                  <td>${cabinetUser.user.surname}</td>
                                  <td>${cabinetUser.user_role}</td>  --%>
 
-                                <td>${cabinetUser.strategy.name}</td>
+                                <td>${strategy.name}</td>
                             </tr>
                         </c:forEach>
                     </table>

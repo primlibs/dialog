@@ -19,7 +19,7 @@
 
         <div class="row">
             <div class="col-md-6"> 
-                оп оп <br><br> текст оператора
+              
             </div>
             <div class="col-md-6">
                 Группа1

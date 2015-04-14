@@ -31,6 +31,7 @@ public class UserDao extends Dao<User> {
         
         return (User) query.uniqueResult();
     }
+     
    public User getUserByHash(String hash){
         String queryString = "from User U where U.recoverHash = :recoverHash";
         Query query = getCurrentSession().createQuery(queryString);

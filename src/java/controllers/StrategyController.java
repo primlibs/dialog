@@ -5,12 +5,15 @@
  */
 package controllers;
 
+import static controllers.LkController.CABINET_ID_SESSION_NAME;
 import controllers.parent.WebController;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import service.StrategyService;
 
 /**
  *
@@ -23,12 +26,27 @@ public class StrategyController extends WebController {
     @Autowired
     private LkController lk;
 
+    @Autowired
+    private StrategyService strategyService;
+
     @RequestMapping("/show")
-    public String showStrategyListPage(Map<String, Object> model, HttpServletRequest request) throws Exception {
+    public String showStrategyListPage(Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "strategyName", required = false) String strategyName,
+            String submit) throws Exception {
         lk.dataByUserAndCompany(request, model);
+        Object cabinetId = request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        Long cabinetIdLong = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         
-        
-        
+        model.put("StrategyList", strategyService.strategyList(cabinetIdLong));
+        model.put("message", strategyName);
+
+        if (submit != null) {
+            strategyService.saveStrategy(strategyName, cabinetId);
+            model.put("message", "Стратегия создана");
+        }
+        model.put("errors", strategyService.getError());
+
         return "strategyList";
     }
 
