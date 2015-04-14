@@ -41,7 +41,7 @@ public class StrategyController extends WebController {
 
         if (submit != null) {
             strategyService.saveStrategy(strategyName, cabinetId);
-            model.put("message", "Стратегия "+strategyName+ " создана");
+            model.put("message", "Стратегия " + strategyName + " создана");
         }
 
         model.put("errors", strategyService.getError());
@@ -50,7 +50,16 @@ public class StrategyController extends WebController {
     }
 
     @RequestMapping("/strategy")
-    public String showStrategyPage(Map<String, Object> model, HttpServletRequest request) throws Exception {
+    public String showStrategyPage(Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "strategyId", required = false) String strategyId,
+            @RequestParam(value = "groupName", required = false) String groupName,
+            @RequestParam(value = "moduleName", required = false) String moduleName,
+            String submit) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        model.put("strategyId", strategyId);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        
 
         return "strategy";
     }

@@ -21,8 +21,9 @@
         <div class="row">
             <div class="col-md-6"> 
                 <form action="<c:url value="/Strategy/show" />"  method="post"> 
-                    <div class="input-append">
-                        <input class="span2" id="appendedInputButton" name="strategyName" size="16" type="text">
+                    <center><h3> Доступные стратегии </h3></center>
+                    <div class="input-append pull-right">
+                        <input class="span5" id="appendedInputButton" name="strategyName" size="16" type="text">
                         <button type="submit" name="submit" class="btn">добавить</button>
                     </div>
                     <table class="table table-bordered table-hover">
@@ -40,8 +41,8 @@
                                  <td>${cabinetUser.user_role}</td>  
                                 
                                 <td><a href="<c:url value="/Strategy/strategy"/>"> ${strategy.strategyName} </a></td>  --%>
-                                
-                                <td onClick="location='<c:url value="/Strategy/strategy?id=${strategy.strategyId}"/>'"> ${strategy.strategyName} </td>
+
+                                <td onClick="location = '<c:url value="/Strategy/strategy?strategyId=${strategy.strategyId}"/>'"> ${strategy.strategyName} </td>
                             </tr>
                         </c:forEach>
                     </table>
