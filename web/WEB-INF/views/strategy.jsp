@@ -19,7 +19,7 @@
 
 
         <div class="form-group" size="16">  
-            стратегия сейчас  <a href="<c:url value="/Strategy/show"/>" class="btn btn-large btn-primary" role="button">Список стратегий</a>
+            ${strategyName}  <a href="<c:url value="/Strategy/show"/>" class="btn btn-large btn-primary" role="button">Список стратегий</a>
         </div>
         <div class="row">
             <div class="col-md-6"> 
@@ -38,6 +38,7 @@
 
                     <div class="input-append pull-right">
                         <input type="hidden" name="strategyId" value=${strategyId}>
+                        <input type="hidden" name="strategyName" value=${strategyName}>
                         <input class="span5" id="appendedInputButton" name="groupName" style="width: 376px " size="16" type="text">
                         <button type="submit" name="submit" class="btn"> <img src="/CallCentr/img/plus.png" height="20px"></button>
                     </div>

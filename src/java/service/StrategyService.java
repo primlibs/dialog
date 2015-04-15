@@ -83,19 +83,36 @@ public class StrategyService extends PrimService {
         return new ArrayList();
     }
 
+    /*
+     public List<Modules> groupList(Long ) {
+     // PersonalCabinet pk = personalCabinetDao.find(cabinetId);
+     // Strategy stg = strategyDao.find(strategyId);
+     Groups gr = groupDao.find(groupId);
+     if (stg != null) {
+     return stg.getGroupList();
+     } else {
+     addError("Кабинет не найден по ид " + strategyId);
+     }
+     return new ArrayList();
+     }
+     */
     public void saveGroup(Long strategyId,
             String groupName,
             Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         Strategy stg = strategyDao.find(strategyId);
-          List<Groups> st = groupList(strategyId);
-        
-        Groups gr = new Groups();
-        gr.setCabinet(pk);
-        gr.setStrategy(stg);
-        gr.setGroupName(groupName);
-        if (validate(gr)) {
-            groupDao.save(gr);
+        List<Groups> st = groupList(strategyId);
+
+        if (groupName != null) {
+            Groups gr = new Groups();
+            gr.setCabinet(pk);
+            gr.setStrategy(stg);
+            gr.setGroupName(groupName);
+            if (validate(gr)) {
+                groupDao.save(gr);
+            }
+        } else {
+            addError("Группа не сохранилась");
         }
 
     }
