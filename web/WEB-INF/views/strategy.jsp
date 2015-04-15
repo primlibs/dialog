@@ -45,14 +45,14 @@
 
 
                     <c:forEach var="group" items="${groupList}" varStatus="myIndex">
-                        <li>${groupList}   </li>
+                        <li>${group.groupName}   </li>
                         <div class="input-append pull-right">
                             <input class="span5" id="appendedInputButton" name="moduleName" style="width: 276px " size="16" type="text">
                             <button type="submit" name="submit" class="btn"> <img src="/CallCentr/img/plus.png" height="20px"></button>
                         </div>
                         <div>
                             <c:forEach var="module" items="${moduleList}" varStatus="myIndex">
-                                <li>${moduleList}   </li>
+                                <li> ${module}   </li>
                                 </c:forEach>
                         </div>    
                     </c:forEach>

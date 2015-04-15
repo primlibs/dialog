@@ -62,9 +62,16 @@ public class StrategyController extends WebController {
         lk.dataByUserAndCompany(request, model);
         model.put("strategyId", strategyId);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        
-        
 
+         if (submit != null) {
+            strategyService.saveGroup(strategyId, groupName, cabinetId);
+            if (strategyService.getError().isEmpty()) {
+                model.put("message", "Стратегия " + groupName + " создана");
+            }
+        }
+         
+        model.put("errors", strategyService.getError());
+        model.put("GroupList", strategyService.groupList(strategyId));
         return "strategy";
     }
 
