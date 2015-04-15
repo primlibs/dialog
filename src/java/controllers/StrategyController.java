@@ -53,9 +53,10 @@ public class StrategyController extends WebController {
     }
 
     @RequestMapping("/strategy")
-    public String addGroup (Map<String, Object> model,
+    public String addGroup(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "strategyId", required = false) Long strategyId,
+            @RequestParam(value = "groupId", required = false) Long groupId,
             @RequestParam(value = "groupName", required = false) String groupName,
             @RequestParam(value = "moduleName", required = false) String moduleName,
             String submit) throws Exception {
@@ -66,28 +67,33 @@ public class StrategyController extends WebController {
         if (submit != null) {
             strategyService.saveGroup(strategyId, groupName, cabinetId);
             if (strategyService.getError().isEmpty()) {
-                model.put("message", "Стратегия " + groupName + " создана");
+                model.put("message", "Группа " + groupName + " создана");
             }
         }
 
         model.put("errors", strategyService.getError());
         model.put("GroupList", strategyService.groupList(strategyId));
         model.put("strategyId", strategyId);
-        model.put("strategyName",strategyService.findStrategy(strategyId).getStrategyName() );      
+        model.put("groupId", groupId);
+        model.put("strategyName", strategyService.findStrategy(strategyId).getStrategyName());
         return "strategy";
     }
-    
-      @RequestMapping("/strategy")
-    public String addModule (Map<String, Object> model,
+
+    @RequestMapping("/addModule")
+    public String addModule(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "strategyId", required = false) Long strategyId,
             @RequestParam(value = "groupId", required = false) Long groupId,
             @RequestParam(value = "groupName", required = false) String groupName,
             @RequestParam(value = "moduleName", required = false) String moduleName,
             String submit) throws Exception {
-    
-        
-        
+
+         if (submit != null) {
+            strategyService.saveModule(groupId, moduleName, groupId);
+            if (strategyService.getError().isEmpty()) {
+                model.put("message", "Модуль " + moduleName + " создан");
+            }
+        }
         
         return "redirect:/Strategy/strategy";
     }

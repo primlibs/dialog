@@ -50,7 +50,7 @@
                           
                             <td> ${group.groupName} 
                                 <table class="table table-bordered table-hover"  align="right">
-                                    <form action="<c:url value="/Strategy/addModul" />"  method="post"> 
+                                    <form action="<c:url value="/Strategy/addModule" />"  method="post"> 
                                         <div class="pull-right">
                                             <input type="hidden" name="groupId" value=${group.groupId}>
                                             <input class="span5" id="appendedInputButton" name="moduleName" style="width: 276px " size="16" type="text">
