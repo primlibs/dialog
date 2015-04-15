@@ -40,7 +40,8 @@
                         <input type="hidden" name="strategyId" value=${strategyId}>
                         <input class="span5" id="appendedInputButton" name="groupName" style="width: 376px " size="16" type="text">
                         <button type="submit" name="submit" class="btn"> <img src="/CallCentr/img/plus.png" height="20px"></button>
-                    </div> <br>                        
+                    </div>      
+                        <br>
                     <table class="table table-bordered table-hover">
                         <c:forEach var="group" items="${GroupList}" varStatus="myIndex">
                             <tr>
@@ -51,8 +52,8 @@
                     </table>
 
 
-                </form>
 
+                </form>
             </div>
         </div>
 
