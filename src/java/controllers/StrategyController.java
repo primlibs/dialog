@@ -52,8 +52,8 @@ public class StrategyController extends WebController {
         return "strategyList";
     }
 
-    @RequestMapping("/strategy")
-    public String showStrategyPage(Map<String, Object> model,
+    @RequestMapping("/addGroup")
+    public String addGroup (Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "strategyId", required = false) Long strategyId,
             @RequestParam(value = "groupName", required = false) String groupName,
@@ -65,6 +65,32 @@ public class StrategyController extends WebController {
 
         if (submit != null) {
             strategyService.saveGroup(strategyId, groupName, cabinetId);
+            if (strategyService.getError().isEmpty()) {
+                model.put("message", "Стратегия " + groupName + " создана");
+            }
+        }
+
+        model.put("errors", strategyService.getError());
+        model.put("GroupList", strategyService.groupList(strategyId));
+        model.put("strategyId", strategyId);
+        model.put("strategyName",strategyService.findStrategy(strategyId).getStrategyName() );
+        return "strategy";
+    }
+    
+     @RequestMapping("/addModul")
+    public String addModul (Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "strategyId", required = false) Long strategyId,
+            @RequestParam(value = "groupName", required = false) String groupName,
+            @RequestParam(value = "moduleName", required = false) String moduleName,
+            String submit) throws Exception {
+
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+
+        if (submit != null) {
+         //   strategyService.saveGroup(strategyId, groupName, cabinetId); вместо сохранить модуль
+            
             if (strategyService.getError().isEmpty()) {
                 model.put("message", "Стратегия " + groupName + " создана");
             }

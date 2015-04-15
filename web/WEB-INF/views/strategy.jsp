@@ -34,26 +34,42 @@
             </div>
 
             <div class="col-md-6">
-                <form action="<c:url value="/Strategy/strategy" />"  method="post"> 
+                <form action="<c:url value="/Strategy/addGroup" />"  method="post"> 
 
                     <div class="input-append pull-right">
                         <input type="hidden" name="strategyId" value=${strategyId}>
                         <input class="span5" id="appendedInputButton" name="groupName" style="width: 376px " size="16" type="text">
                         <button type="submit" name="submit" class="btn"> <img src="/CallCentr/img/plus.png" height="20px"></button>
-                    </div>      
-                        <br>
-                    <table class="table table-bordered table-hover">
-                        <c:forEach var="group" items="${GroupList}" varStatus="myIndex">
-                            <tr>
-                                <%--  <td>${myIndex.count}</td>   --%>
-                                <td> ${group.groupName} </td>
-                            </tr>
-                        </c:forEach>
-                    </table>
-
-
-
+                    </div>  
                 </form>
+                <br>
+                <table class="table table-bordered table-hover">
+                    <c:forEach var="group" items="${GroupList}" varStatus="myIndex">
+                        <tr>
+                            <%--  <td>${myIndex.count}</td>   --%>
+                            <td> ${group.groupName} 
+                                <table class="table table-bordered table-hover">
+                                    <form action="<c:url value="/Strategy/addModul" />"  method="post"> 
+                                        <input class="span5" id="appendedInputButton" name="moduleName" style="width: 276px " size="16" type="text">
+                                        <button type="submit" name="submit" class="btn"> <img src="/CallCentr/img/plus.png" height="20px"></button>
+                                    </form>
+                                    <c:forEach var="module" items="${ModuleList}" varStatus="myIndex">
+                                        <tr>   
+
+                                            <td>
+                                                ${module} 
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </table>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </table>
+
+
+
+
             </div>
         </div>
 

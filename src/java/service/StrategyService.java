@@ -40,10 +40,10 @@ public class StrategyService extends PrimService {
 
     public void saveStrategy(String strategyName, Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
-        List<Strategy> st = strategyList(cabinetId);
+        List<Strategy> strategyList = strategyList(cabinetId);
 
         boolean existName = false;
-        for (Strategy stretagy : st) {
+        for (Strategy stretagy : strategyList) {
             existName = stretagy.getStrategyName().equals(strategyName);
             if (existName == true) {
                 break;
@@ -101,9 +101,14 @@ public class StrategyService extends PrimService {
             Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         Strategy stg = strategyDao.find(strategyId);
-        List<Groups> st = groupList(strategyId);
+        List<Groups> groupList = groupList(strategyId);
+        List<String> nameList = new ArrayList<>();
 
-        if (groupName != null) {
+        for (Groups group : groupList) {
+            nameList.add(group.getGroupName());
+        }
+       
+        if ( !nameList.contains(groupName) & groupName != null ) {
             Groups gr = new Groups();
             gr.setCabinet(pk);
             gr.setStrategy(stg);
@@ -112,13 +117,13 @@ public class StrategyService extends PrimService {
                 groupDao.save(gr);
             }
         } else {
-            addError("Группа не сохранилась");
+            addError("Такая группа уже есть");
         }
 
     }
-    
-    public Strategy findStrategy(Long strategyId){
-            return  strategyDao.find(strategyId);
-         
+
+    public Strategy findStrategy(Long strategyId) {
+        return strategyDao.find(strategyId);
+
     }
 }
