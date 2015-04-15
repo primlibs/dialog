@@ -35,8 +35,17 @@ public class StrategyService extends PrimService {
 
     public void saveStrategy(String strategyName, Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
-        
-        if (strategyName != null) {
+        List<Strategy> st = strategyList(cabinetId);
+
+        boolean existName = false;
+        for (Strategy stretagy : st) {
+            existName = stretagy.getStrategyName().equals(strategyName);
+            if (existName==true){
+                break;
+            }
+        }
+
+        if (strategyName != null &  existName == false ) {
             Strategy strategy = new Strategy();
             strategy.setStrategyName(strategyName);
             strategy.setCabinet(pk);
@@ -44,7 +53,7 @@ public class StrategyService extends PrimService {
                 strategyDao.save(strategy);
             }
         } else {
-            addError("несохранилось так как имя равно нулю");
+            addError("такая стратегия существует");
         }
     }
 
@@ -57,5 +66,5 @@ public class StrategyService extends PrimService {
         }
         return new ArrayList();
     }
-    
+
 }

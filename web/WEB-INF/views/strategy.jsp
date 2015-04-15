@@ -35,9 +35,9 @@
             <div class="col-md-6">
                 <form action="<c:url value="/Strategy/strategy" />"  method="post"> 
 
-                    <div class="input-append">
+                    <div class="input-append pull-right">
                         <input type="hidden" name="strategyId" value=${strategyId}>
-                        <input class="span5" id="appendedInputButton" name="groupName" size="16" type="text">
+                        <input class="span5" id="appendedInputButton" name="groupName" style="width: 376px " size="16" type="text">
                         <button type="submit" name="submit" class="btn">добавить</button>
                     </div>
 
@@ -45,8 +45,8 @@
 
                     <c:forEach var="group" items="${groupList}" varStatus="myIndex">
                         <li>${groupList}   </li>
-                        <div class="input-append">
-                            <input class="span5" id="appendedInputButton" name="moduleName" size="16" type="text">
+                        <div class="input-append pull-right">
+                            <input class="span5" id="appendedInputButton" name="moduleName" style="width: 276px " size="16" type="text">
                             <button type="submit" name="submit" class="btn">добавить</button>
                         </div>
                         <div>

@@ -41,7 +41,10 @@ public class StrategyController extends WebController {
 
         if (submit != null) {
             strategyService.saveStrategy(strategyName, cabinetId);
-            model.put("message", "Стратегия " + strategyName + " создана");
+            if (strategyService.getError().isEmpty()) {
+                model.put("message", "Стратегия " + strategyName + " создана");
+            }
+
         }
 
         model.put("errors", strategyService.getError());
@@ -59,6 +62,7 @@ public class StrategyController extends WebController {
         lk.dataByUserAndCompany(request, model);
         model.put("strategyId", strategyId);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        
         
 
         return "strategy";

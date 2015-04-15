@@ -23,7 +23,7 @@
                 <form action="<c:url value="/Strategy/show" />"  method="post"> 
                     <center><h3> Доступные стратегии </h3></center>
                     <div class="input-append pull-right">
-                        <input class="span5" id="appendedInputButton" name="strategyName" size="16" type="text">
+                        <input class="span5" id="appendedInputButton" name="strategyName" style="width: 376px " size="16" type="text">
                         <button type="submit" name="submit" class="btn">добавить</button>
                     </div>
                     <table class="table table-bordered table-hover">
