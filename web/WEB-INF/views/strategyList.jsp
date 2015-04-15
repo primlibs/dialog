@@ -42,7 +42,7 @@
                                 
                                 <td><a href="<c:url value="/Strategy/strategy"/>"> ${strategy.strategyName} </a></td>  --%>
 
-                                <td onClick="location = '<c:url value="/Strategy/strategy?strategyId=${strategy.strategyId}"/>'"> ${strategy.strategyName} </td>
+                                <td onClick="location = '<c:url value="/Strategy/strategy?strategyId=${strategy.strategyId}&${strategy.strategyName}"/>'"> ${strategy.strategyName} </td>
                             </tr>
                         </c:forEach>
                     </table>
