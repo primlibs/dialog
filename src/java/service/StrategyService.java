@@ -5,8 +5,10 @@
  */
 package service;
 
+import dao.GroupsDao;
 import dao.PersonalCabinetDao;
 import dao.StrategyDao;
+import entities.Groups;
 import entities.PersonalCabinet;
 import entities.Strategy;
 import java.util.ArrayList;
@@ -33,6 +35,9 @@ public class StrategyService extends PrimService {
     @Autowired
     private PersonalCabinetDao personalCabinetDao;
 
+    @Autowired
+    private GroupsDao groupDao;
+
     public void saveStrategy(String strategyName, Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         List<Strategy> st = strategyList(cabinetId);
@@ -40,12 +45,12 @@ public class StrategyService extends PrimService {
         boolean existName = false;
         for (Strategy stretagy : st) {
             existName = stretagy.getStrategyName().equals(strategyName);
-            if (existName==true){
+            if (existName == true) {
                 break;
             }
         }
 
-        if (strategyName != null &  existName == false ) {
+        if (strategyName != null & existName == false) {
             Strategy strategy = new Strategy();
             strategy.setStrategyName(strategyName);
             strategy.setCabinet(pk);
@@ -67,4 +72,31 @@ public class StrategyService extends PrimService {
         return new ArrayList();
     }
 
+    public List<Groups> groupList(Long strategyId) {
+        // PersonalCabinet pk = personalCabinetDao.find(cabinetId);
+        Strategy stg = strategyDao.find(strategyId);
+        if (stg != null) {
+            return stg.getGroupList();
+        } else {
+            addError("Кабинет не найден по ид " + strategyId);
+        }
+        return new ArrayList();
+    }
+
+    public void saveGroup(Long strategyId,
+            String groupName,
+            Long cabinetId) {
+        PersonalCabinet pk = personalCabinetDao.find(cabinetId);
+        Strategy stg = strategyDao.find(strategyId);
+          List<Groups> st = groupList(strategyId);
+        
+        Groups gr = new Groups();
+        gr.setCabinet(pk);
+        gr.setStrategy(stg);
+        gr.setGroupName(groupName);
+        if (validate(gr)) {
+            groupDao.save(gr);
+        }
+
+    }
 }

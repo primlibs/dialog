@@ -24,7 +24,7 @@
                     <center><h3> Доступные стратегии </h3></center>
                     <div class="input-append pull-right">
                         <input class="span5" id="appendedInputButton" name="strategyName" style="width: 376px " size="16" type="text">
-                        <button type="submit" name="submit" class="btn">добавить</button>
+                        <button type="submit" name="submit" class="btn">  <img src="/CallCentr/img/plus.png" height="20px">  </button>
                     </div>
                     <table class="table table-bordered table-hover">
                         <tr>

@@ -55,7 +55,7 @@ public class StrategyController extends WebController {
     @RequestMapping("/strategy")
     public String showStrategyPage(Map<String, Object> model,
             HttpServletRequest request,
-            @RequestParam(value = "strategyId", required = false) String strategyId,
+            @RequestParam(value = "strategyId", required = false) Long strategyId,
             @RequestParam(value = "groupName", required = false) String groupName,
             @RequestParam(value = "moduleName", required = false) String moduleName,
             String submit) throws Exception {
