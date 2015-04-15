@@ -73,7 +73,7 @@ public class StrategyController extends WebController {
         model.put("errors", strategyService.getError());
         model.put("GroupList", strategyService.groupList(strategyId));
         model.put("strategyId", strategyId);
-        model.put("strategyName",strategyService.findStrategy(strategyId).getStrategyName() );
+        model.put("strategyName",strategyService.findStrategy(strategyId).getStrategyName() );      
         return "strategy";
     }
     
@@ -85,7 +85,7 @@ public class StrategyController extends WebController {
             @RequestParam(value = "moduleName", required = false) String moduleName,
             String submit) throws Exception {
 
-        lk.dataByUserAndCompany(request, model);
+        
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
         if (submit != null) {
@@ -96,11 +96,8 @@ public class StrategyController extends WebController {
             }
         }
 
-        model.put("errors", strategyService.getError());
-        model.put("GroupList", strategyService.groupList(strategyId));
-        model.put("strategyId", strategyId);
-        model.put("strategyName",strategyService.findStrategy(strategyId).getStrategyName() );
-        return "strategy";
+       
+        return "redirect:/Strategy/strategy";
     }
 
 }

@@ -84,7 +84,7 @@ public class StrategyService extends PrimService {
     }
 
     /*
-     public List<Modules> groupList(Long ) {
+     public List<Modules> moduleList(Long ) {
      // PersonalCabinet pk = personalCabinetDao.find(cabinetId);
      // Strategy stg = strategyDao.find(strategyId);
      Groups gr = groupDao.find(groupId);
@@ -124,6 +124,37 @@ public class StrategyService extends PrimService {
 
     public Strategy findStrategy(Long strategyId) {
         return strategyDao.find(strategyId);
+
+    }
+    
+    public Groups findGroup (Long groupId){
+        return groupDao.find(groupId);
+    }
+    
+     public void saveModule(Long strategyId,
+            String groupName,
+            Long cabinetId) {
+        PersonalCabinet pk = personalCabinetDao.find(cabinetId);
+        Strategy stg = strategyDao.find(strategyId);
+        Groups gp = groupDao.find(cabinetId) ;
+        List<Groups> groupList = groupList(strategyId);
+        List<String> nameList = new ArrayList<>();
+
+        for (Groups group : groupList) {
+            nameList.add(group.getGroupName());
+        }
+       
+        if ( !nameList.contains(groupName) & groupName != null ) {
+            Groups gr = new Groups();
+            gr.setCabinet(pk);
+            gr.setStrategy(stg);
+            gr.setGroupName(groupName);
+            if (validate(gr)) {
+                groupDao.save(gr);
+            }
+        } else {
+            addError("Такая группа уже есть");
+        }
 
     }
 }
