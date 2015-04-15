@@ -77,26 +77,18 @@ public class StrategyController extends WebController {
         return "strategy";
     }
     
-     @RequestMapping("/addModul")
-    public String addModul (Map<String, Object> model,
+      @RequestMapping("/strategy")
+    public String addModule (Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "strategyId", required = false) Long strategyId,
+            @RequestParam(value = "groupId", required = false) Long groupId,
             @RequestParam(value = "groupName", required = false) String groupName,
             @RequestParam(value = "moduleName", required = false) String moduleName,
             String submit) throws Exception {
-
+    
         
-        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-
-        if (submit != null) {
-         //   strategyService.saveGroup(strategyId, groupName, cabinetId); вместо сохранить модуль
-            
-            if (strategyService.getError().isEmpty()) {
-                model.put("message", "Стратегия " + groupName + " создана");
-            }
-        }
-
-       
+        
+        
         return "redirect:/Strategy/strategy";
     }
 
