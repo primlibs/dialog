@@ -52,7 +52,7 @@ public class StrategyController extends WebController {
         return "strategyList";
     }
 
-    @RequestMapping("/addGroup")
+    @RequestMapping("/strategy")
     public String addGroup (Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "strategyId", required = false) Long strategyId,
