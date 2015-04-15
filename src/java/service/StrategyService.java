@@ -116,4 +116,9 @@ public class StrategyService extends PrimService {
         }
 
     }
+    
+    public Strategy findStrategy(Long strategyId){
+            return  strategyDao.find(strategyId);
+         
+    }
 }

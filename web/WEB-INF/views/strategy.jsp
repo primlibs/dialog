@@ -19,7 +19,7 @@
 
 
         <div class="form-group" size="16">  
-            ${strategyName}  <a href="<c:url value="/Strategy/show"/>" class="btn btn-large btn-primary" role="button">Список стратегий</a>
+            <a href="<c:url value="/Strategy/show"/>" class="btn btn-large btn-primary" role="button">Список стратегий</a> &nbsp &nbsp  ${strategyName} 
         </div>
         <div class="row">
             <div class="col-md-6"> 
@@ -28,7 +28,7 @@
                 </div>
                 <br>
                 <div>
-                   А тут будет текстовый редактор
+                    А тут будет текстовый редактор
                 </div>
 
             </div>
@@ -38,25 +38,17 @@
 
                     <div class="input-append pull-right">
                         <input type="hidden" name="strategyId" value=${strategyId}>
-                        <input type="hidden" name="strategyName" value=${strategyName}>
                         <input class="span5" id="appendedInputButton" name="groupName" style="width: 376px " size="16" type="text">
                         <button type="submit" name="submit" class="btn"> <img src="/CallCentr/img/plus.png" height="20px"></button>
-                    </div>
-
-
-
-                    <c:forEach var="group" items="${groupList}" varStatus="myIndex">
-                        <li>${group.groupName}   </li>
-                        <div class="input-append pull-right">
-                            <input class="span5" id="appendedInputButton" name="moduleName" style="width: 276px " size="16" type="text">
-                            <button type="submit" name="submit" class="btn"> <img src="/CallCentr/img/plus.png" height="20px"></button>
-                        </div>
-                        <div>
-                            <c:forEach var="module" items="${moduleList}" varStatus="myIndex">
-                                <li> ${module}   </li>
-                                </c:forEach>
-                        </div>    
-                    </c:forEach>
+                    </div> <br>                        
+                    <table class="table table-bordered table-hover">
+                        <c:forEach var="group" items="${GroupList}" varStatus="myIndex">
+                            <tr>
+                                <%--  <td>${myIndex.count}</td>   --%>
+                                <td> ${group.groupName} </td>
+                            </tr>
+                        </c:forEach>
+                    </table>
 
 
                 </form>
