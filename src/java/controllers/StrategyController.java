@@ -54,27 +54,40 @@ public class StrategyController extends WebController {
     }
 
     @RequestMapping("/strategy")
-    public String addGroup(Map<String, Object> model,
+    public String showStrategyPage(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "strategyId") Long strategyId,
-            @RequestParam(value = "groupName", required = false) String groupName,
             String submit) throws Exception {
 
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-
-        if (submit != null) {
-            strategyService.saveGroup(strategyId, groupName, cabinetId);
-            if (strategyService.getError().isEmpty()) {
-                model.put("message", "Группа " + groupName + " создана");
-            }
-        }
 
         model.put("errors", strategyService.getError());
         model.put("GroupList", strategyService.groupList(strategyId));
         model.put("strategyId", strategyId);
         model.put("strategyName", strategyService.findStrategy(strategyId).getStrategyName());
         return "strategy";
+    }
+
+    @RequestMapping("/addGroup")
+    public String addGroup(Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "strategyId") Long strategyId,
+            @RequestParam(value = "groupName") String groupName,
+            RedirectAttributes ras) throws Exception {
+
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+
+
+            strategyService.saveGroup(strategyId, groupName, cabinetId);
+            if (strategyService.getError().isEmpty()) {
+                ras.addFlashAttribute("message", "Группа " + groupName + " создана");
+            }
+
+
+        ras.addFlashAttribute("errors", strategyService.getError());
+        ras.addAttribute("strategyId", strategyId);       
+        return "redirect:/Strategy/strategy";
     }
 
     @RequestMapping("/addModule")
@@ -87,7 +100,7 @@ public class StrategyController extends WebController {
 
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         strategyService.saveModule(groupId, moduleName, cabinetId);
-        ras.addAttribute("errors", strategyService.getError());
+        ras.addFlashAttribute("errors", strategyService.getError());
         ras.addAttribute("strategyId", strategyId);
         ras.addAttribute("groupId", groupId);
         return "redirect:/Strategy/strategy";

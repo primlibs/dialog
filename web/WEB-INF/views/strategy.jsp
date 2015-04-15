@@ -34,7 +34,7 @@
             </div>
 
             <div class="col-md-6">
-                <form action="<c:url value="/Strategy/strategy" />"  method="post"> 
+                <form action="<c:url value="/Strategy/addGroup" />"  method="post"> 
 
                     <div class="input-append pull-right">
                         <input type="hidden" name="strategyId" value=${strategyId}>
