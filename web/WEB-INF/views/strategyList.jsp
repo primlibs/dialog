@@ -14,8 +14,8 @@
     </head>
     <body class="container">
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
-        <br> 
-        <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> <br>
+    
+        <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
 
         <div class="row">

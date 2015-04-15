@@ -59,11 +59,11 @@ public class PersonalCabinet extends PrimEntity {
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "cabinet", cascade = CascadeType.ALL)
-    private List<Groups> groupList;
+    private List<Group> groupList;
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "cabinet", cascade = CascadeType.ALL)
-    private List<Modules> moduleList;
+    private List<Module> moduleList;
 
     public List<CabinetUser> getCabinetUser() {
         return cabinetUser;
@@ -81,19 +81,19 @@ public class PersonalCabinet extends PrimEntity {
         this.strategyList = strategyList;
     }
 
-    public List<Groups> getGroupList() {
+    public List<Group> getGroupList() {
         return groupList;
     }
 
-    public void setGroupList(List<Groups> groupList) {
+    public void setGroupList(List<Group> groupList) {
         this.groupList = groupList;
     }
 
-    public List<Modules> getModuleList() {
+    public List<Module> getModuleList() {
         return moduleList;
     }
 
-    public void setModuleList(List<Modules> moduleList) {
+    public void setModuleList(List<Module> moduleList) {
         this.moduleList = moduleList;
     }
 

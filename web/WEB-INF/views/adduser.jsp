@@ -17,8 +17,8 @@
     <body class="container" >
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
 
-        <br> 
-        <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> <br>
+       
+        <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
 
         <form action="<c:url value="/User/adduser" />"  method="post">

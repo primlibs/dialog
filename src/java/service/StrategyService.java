@@ -9,8 +9,8 @@ import dao.GroupsDao;
 import dao.ModulesDao;
 import dao.PersonalCabinetDao;
 import dao.StrategyDao;
-import entities.Groups;
-import entities.Modules;
+import entities.Group;
+import entities.Module;
 import entities.PersonalCabinet;
 import entities.Strategy;
 import java.util.ArrayList;
@@ -77,25 +77,22 @@ public class StrategyService extends PrimService {
         return new ArrayList();
     }
 
-    public List<Groups> groupList(Long strategyId) {
-        // PersonalCabinet pk = personalCabinetDao.find(cabinetId);
+    public List<Group> groupList(Long strategyId) {
         Strategy stg = strategyDao.find(strategyId);
         if (stg != null) {
             return stg.getGroupList();
         } else {
-            addError("Кабинет не найден по ид " + strategyId);
+            addError("Стратегия не найден по ид " + strategyId);
         }
         return new ArrayList();
     }
 
-    public List<Modules> moduleList(Long groupId) {
-        // PersonalCabinet pk = personalCabinetDao.find(cabinetId);
-        // Strategy stg = strategyDao.find(strategyId);
-        Groups gr = groupDao.find(groupId);
+    public List<Module> moduleList(Long groupId) {
+        Group gr = groupDao.find(groupId);
         if (gr != null) {
             return gr.getModuleList();
         } else {
-            addError("Кабинет не найден по ид " + groupId);
+            addError("Группа не найден по ид " + groupId);
         }
         return new ArrayList();
     }
@@ -105,15 +102,15 @@ public class StrategyService extends PrimService {
             Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         Strategy stg = strategyDao.find(strategyId);
-        List<Groups> groupList = groupList(strategyId);
+        List<Group> groupList = groupList(strategyId);
         List<String> nameList = new ArrayList<>();
 
-        for (Groups group : groupList) {
+        for (Group group : groupList) {
             nameList.add(group.getGroupName());
         }
 
         if (!nameList.contains(groupName) & groupName != null) {
-            Groups gr = new Groups();
+            Group gr = new Group();
             gr.setCabinet(pk);
             gr.setStrategy(stg);
             gr.setGroupName(groupName);
@@ -131,7 +128,7 @@ public class StrategyService extends PrimService {
 
     }
 
-    public Groups findGroup(Long groupId) {
+    public Group findGroup(Long groupId) {
         return groupDao.find(groupId);
     }
 
@@ -139,17 +136,17 @@ public class StrategyService extends PrimService {
             String moduleName,
             Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
-        Groups gp = groupDao.find(groupId);
+        Group gp = groupDao.find(groupId);
 
-        List<Modules> moduleList = moduleList(groupId);
+        List<Module> moduleList = moduleList(groupId);
         List<String> nameList = new ArrayList<>();
 
-        for (Modules modul : moduleList) {
+        for (Module modul : moduleList) {
             nameList.add(modul.getModuleName());
         }
 
         if (!nameList.contains(moduleName) & moduleName != null) {
-            Modules ml = new Modules();
+            Module ml = new Module();
             ml.setCabinet(pk);
             ml.setGroups(gp);
             ml.setModuleName(moduleName);

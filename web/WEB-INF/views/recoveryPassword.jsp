@@ -13,8 +13,8 @@
         <title>Восстановление пароля</title>
     </head>
     <body class="container">
-        <br> 
-        <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> <br>
+        
+        <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
         <div style="margin-top: 59px; margin-left:310px;"> <h2>Форма восстановления пароля </h2> </div>
 

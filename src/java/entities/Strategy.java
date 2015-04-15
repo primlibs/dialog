@@ -45,7 +45,7 @@ public class Strategy extends PrimEntity {
     
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "strategy", cascade = CascadeType.ALL)
-    private List<Groups> groupList;
+    private List<Group> groupList;
 
     @Override
     public Long getId() {
@@ -77,11 +77,11 @@ public class Strategy extends PrimEntity {
         this.strategyName = strategyName;
     }
 
-    public List<Groups> getGroupList() {
+    public List<Group> getGroupList() {
         return groupList;
     }
 
-    public void setGroupList(List<Groups> groupList) {
+    public void setGroupList(List<Group> groupList) {
         this.groupList = groupList;
     }
 

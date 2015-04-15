@@ -22,7 +22,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "modules")
-public class Modules extends PrimEntity {
+public class Module extends PrimEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +35,7 @@ public class Modules extends PrimEntity {
 
     @JoinColumn(name = "group_id")
     @ManyToOne(fetch = FetchType.EAGER)
-    private Groups groups;
+    private Group groups;
 
     @Column(name = "name")
     private String moduleName;
@@ -64,11 +64,11 @@ public class Modules extends PrimEntity {
         this.cabinet = cabinet;
     }
 
-    public Groups getGroups() {
+    public Group getGroups() {
         return groups;
     }
 
-    public void setGroups(Groups groups) {
+    public void setGroups(Group groups) {
         this.groups = groups;
     }
 

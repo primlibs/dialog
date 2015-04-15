@@ -17,10 +17,10 @@
     </head>
     <body class="container" >
 
-        <br><br>
+      
 
-    <center><h2>Регистрация</h2></center> <br>
-    <%@include file="/WEB-INF/jsp/error.jsp" %> <br>
+    <center><h2>Регистрация</h2></center> 
+    <%@include file="/WEB-INF/jsp/error.jsp" %> 
 
     <form class="form-horizontal" action="<c:url value="/Registration/registration" />" method="post">
         <h3>   Данные компании:</h3>

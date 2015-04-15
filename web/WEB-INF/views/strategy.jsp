@@ -14,8 +14,8 @@
     </head>
     <body class="container">
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
-        <br> 
-        <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> <br>
+      
+        <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
 
         <div class="form-group" size="16">  
@@ -48,19 +48,20 @@
                         <tr>
                             <%--  <td>${myIndex.count}</td>   --%>
                           
-                            <td> ${group.groupName} 
+                            <td style="padding:0px;"> ${group.groupName} 
                                 <table class="table table-bordered table-hover"  align="right">
                                     <form action="<c:url value="/Strategy/addModule" />"  method="post"> 
                                         <div class="pull-right">
                                             <input type="hidden" name="groupId" value=${group.groupId}>
+                                            <input type="hidden" name="strategyId" value=${group.strategy.strategyId}>
                                             <input class="span5" id="appendedInputButton" name="moduleName" style="width: 276px " size="16" type="text">
                                             <button type="submit" name="submit" class="btn"> <img src="/CallCentr/img/plus.png" height="20px"></button>
                                         </div>
                                     </form>
-                                    <c:forEach var="module" items="${ModuleList}" varStatus="myIndex">
+                                    <c:forEach var="module" items="${group.getModuleList()}" varStatus="myIndex">
                                         <tr>   
-                                            <td>
-                                                ${module} 
+                                            <td style="padding:0px;">
+                                                ${module.moduleName} 
                                             </td>
                                         </tr>
                                     </c:forEach>

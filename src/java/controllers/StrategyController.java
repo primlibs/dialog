@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.StrategyService;
 
 /**
@@ -55,10 +56,8 @@ public class StrategyController extends WebController {
     @RequestMapping("/strategy")
     public String addGroup(Map<String, Object> model,
             HttpServletRequest request,
-            @RequestParam(value = "strategyId", required = false) Long strategyId,
-            @RequestParam(value = "groupId", required = false) Long groupId,
+            @RequestParam(value = "strategyId") Long strategyId,
             @RequestParam(value = "groupName", required = false) String groupName,
-            @RequestParam(value = "moduleName", required = false) String moduleName,
             String submit) throws Exception {
 
         lk.dataByUserAndCompany(request, model);
@@ -74,7 +73,6 @@ public class StrategyController extends WebController {
         model.put("errors", strategyService.getError());
         model.put("GroupList", strategyService.groupList(strategyId));
         model.put("strategyId", strategyId);
-        model.put("groupId", groupId);
         model.put("strategyName", strategyService.findStrategy(strategyId).getStrategyName());
         return "strategy";
     }
@@ -82,19 +80,16 @@ public class StrategyController extends WebController {
     @RequestMapping("/addModule")
     public String addModule(Map<String, Object> model,
             HttpServletRequest request,
-            @RequestParam(value = "strategyId", required = false) Long strategyId,
-            @RequestParam(value = "groupId", required = false) Long groupId,
-            @RequestParam(value = "groupName", required = false) String groupName,
-            @RequestParam(value = "moduleName", required = false) String moduleName,
-            String submit) throws Exception {
+            @RequestParam(value = "strategyId") Long strategyId,
+            @RequestParam(value = "groupId") Long groupId,
+            @RequestParam(value = "moduleName") String moduleName,
+            RedirectAttributes ras) throws Exception {
 
-         if (submit != null) {
-            strategyService.saveModule(groupId, moduleName, groupId);
-            if (strategyService.getError().isEmpty()) {
-                model.put("message", "Модуль " + moduleName + " создан");
-            }
-        }
-        
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        strategyService.saveModule(groupId, moduleName, cabinetId);
+        ras.addAttribute("errors", strategyService.getError());
+        ras.addAttribute("strategyId", strategyId);
+        ras.addAttribute("groupId", groupId);
         return "redirect:/Strategy/strategy";
     }
 

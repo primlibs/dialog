@@ -6,7 +6,7 @@
 package dao;
 
 import dao.parent.Dao;
-import entities.Modules;
+import entities.Module;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,11 +14,11 @@ import org.springframework.stereotype.Repository;
  * @author Юрий
  */
 @Repository
-public class ModulesDao extends Dao<Modules>{
+public class ModulesDao extends Dao<Module>{
 
     @Override
     public Class getSupportedClass() {
-        return Modules.class;
+        return Module.class;
     }
     
 }

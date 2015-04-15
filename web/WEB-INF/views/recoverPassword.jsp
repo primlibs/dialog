@@ -13,8 +13,8 @@
         <title>Восстановление пароля</title>
     </head>
     <body class="container">
-        <br> 
-        <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> <br>
+     
+        <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
         
         <form action="<c:url value="/User/recoverPassword" />" style="margin-top: 58px;" method="post">
 

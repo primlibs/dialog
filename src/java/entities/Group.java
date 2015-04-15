@@ -27,7 +27,7 @@ import org.hibernate.annotations.LazyCollectionOption;
  */
 @Entity
 @Table(name = "groups")
-public class Groups extends PrimEntity{
+public class Group extends PrimEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,7 +47,7 @@ public class Groups extends PrimEntity{
     
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "groups", cascade = CascadeType.ALL)
-    private List<Modules> moduleList;
+    private List<Module> moduleList;
 
     @Override
     public Long getId() {
@@ -86,11 +86,11 @@ public class Groups extends PrimEntity{
         this.groupName = groupName;
     }
 
-    public List<Modules> getModuleList() {
+    public List<Module> getModuleList() {
         return moduleList;
     }
 
-    public void setModuleList(List<Modules> moduleList) {
+    public void setModuleList(List<Module> moduleList) {
         this.moduleList = moduleList;
     }
     
