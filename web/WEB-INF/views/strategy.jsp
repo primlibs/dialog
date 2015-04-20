@@ -59,13 +59,13 @@
                             <td style="padding:0px;"> ${group.groupName} 
                                 <table class="table table-bordered table-hover"  align="right">
                                     <div class=" input-append pull-right btn-group">
-                                        <div class="btn-group pull-right">
+                                        <div class="btn-group ">
                                             <form action="<c:url value="/Strategy/addModule" />"  method="post"> 
 
                                                 <input type="hidden" name="groupId" value=${group.groupId}>
                                                 <input type="hidden" name="strategyId" value=${group.strategy.strategyId}>
                                                 <input class="span5" id="appendedInputButton" name="moduleName" style="width: 276px " size="16" type="text">
-                                                <button type="submit" name="submit" class="btn"> <img src="/CallCentr/img/add.png" height="20px"></button>
+                                                <button type="submit" name="submit" class="btn btn-default"> <img src="/CallCentr/img/add.png" height="20px"></button>
                                             </form>
                                         </div>
                                         <div class="btn-group pull-right">
