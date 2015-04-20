@@ -36,14 +36,15 @@
             <div class="col-md-6">
 
                 <div class=" input-append pull-right btn-group">
-                    <div class="btn-group">
+                    <div class=" btn-group">
                         <form action="<c:url value="/Strategy/addGroup" />"  method="post"> 
                             <input type="hidden" name="strategyId" value=${strategyId}>
                             <input class="span5" id="appendedInputButton" name="groupName" style="width: 376px " size="16" type="text">
-                            <button type="submit" name="submit" class="btn btn-default"> <img src="/CallCentr/img/plus.png" height="20px"></button>
+                            <button type="submit" name="submit" class="btn btn-default"> <img src="/CallCentr/img/add.png" height="20px"></button>
                         </form>
-                   
-                        <form action="<c:url value="/Strategy/deletGroup" />"  method="post">         
+                    </div>  
+                    <div class="btn-group pull-right">
+                        <form action="<c:url value="/Group/deletGroup" />"  method="post">         
                             <button type="submit" name="submit" class="btn btn-default"> <img src="/CallCentr/img/minus.png" height="20px"></button>
                         </form>
                     </div>
@@ -57,14 +58,22 @@
 
                             <td style="padding:0px;"> ${group.groupName} 
                                 <table class="table table-bordered table-hover"  align="right">
-                                    <form action="<c:url value="/Strategy/addModule" />"  method="post"> 
-                                        <div class="pull-right">
-                                            <input type="hidden" name="groupId" value=${group.groupId}>
-                                            <input type="hidden" name="strategyId" value=${group.strategy.strategyId}>
-                                            <input class="span5" id="appendedInputButton" name="moduleName" style="width: 276px " size="16" type="text">
-                                            <button type="submit" name="submit" class="btn"> <img src="/CallCentr/img/plus.png" height="20px"></button>
+                                    <div class=" input-append pull-right btn-group">
+                                        <div class="btn-group pull-right">
+                                            <form action="<c:url value="/Strategy/addModule" />"  method="post"> 
+
+                                                <input type="hidden" name="groupId" value=${group.groupId}>
+                                                <input type="hidden" name="strategyId" value=${group.strategy.strategyId}>
+                                                <input class="span5" id="appendedInputButton" name="moduleName" style="width: 276px " size="16" type="text">
+                                                <button type="submit" name="submit" class="btn"> <img src="/CallCentr/img/add.png" height="20px"></button>
+                                            </form>
                                         </div>
-                                    </form>
+                                        <div class="btn-group pull-right">
+                                            <form action="<c:url value="/Group/deletModule" />"  method="post">         
+                                                <button type="submit" name="submit" class="btn btn-default"> <img src="/CallCentr/img/minus.png" height="20px"></button>
+                                            </form>
+                                        </div>     
+                                    </div>
                                     <c:forEach var="module" items="${group.getModuleList()}" varStatus="myIndex">
                                         <tr>   
                                             <td style="padding:0px;">
