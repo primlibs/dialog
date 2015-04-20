@@ -22,17 +22,10 @@
             <div class="col-md-6"> 
                 <center><h3> Доступные стратегии </h3></center>
                 <div class=" input-append pull-right btn-group">
-                    <div class="btn-group ">
-                        <form action="<c:url value="/Strategy/show" />"  method="post"> 
-                            <input class="span5" id="appendedInputButton" name="strategyName" style="width: 376px " size="16" type="text">
-                            <button type="submit" name="submit" class="btn btn-default">  <img src="/CallCentr/img/add.png" height="20px">  </button>
-                        </form>
-                    </div>
-                    <div class="btn-group pull-right">
-                        <form action="<c:url value="/Strategy/deletStrategy" />"  method="post">         
-                            <button type="submit" name="submit" class="btn btn-default"> <img src="/CallCentr/img/minus.png" height="20px"></button>
-                        </form>
-                    </div> 
+                    <form action="<c:url value="/Strategy/show" />"  method="post"> 
+                        <input class="span5" id="appendedInputButton" name="strategyName" style="width: 376px " size="16" type="text">
+                        <button type="submit" name="submit" class="btn btn-default">  <img src="/CallCentr/img/add.png" height="20px">  </button>
+                    </form>
                 </div>
                 <table class="table table-bordered table-hover">
                     <tr>
