@@ -85,7 +85,7 @@ public class StrategyController extends WebController {
             }
 
 
-        ras.addFlashAttribute("errors", strategyService.getError());
+
         ras.addAttribute("strategyId", strategyId);       
         return "redirect:/Strategy/strategy";
     }
