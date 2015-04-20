@@ -69,11 +69,11 @@
                                 <td style="padding:0px;">
                                     ${module.moduleName} 
                                 </td>
-                                <td onClick="location = '<c:url value="/Module/deletModule?moduleId=${module.moduleId}"/>'"> <img style="padding:0px;" src="/CallCentr/img/minus.png" height="20px"> </td>
+                                <td onClick="location = '<c:url value="/Module/deletModule?moduleId=${module.moduleId}&groupId=${group.groupId}&strategyId=${group.strategy.strategyId}"/>'"> <img style="padding:0px;" src="/CallCentr/img/minus.png" height="15px"> </td>
                             </tr>
                         </c:forEach>
 
-                        </td>
+                            </td>
                         </tr>
                     </c:forEach>
                 </table>
