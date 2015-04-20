@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -38,6 +39,7 @@ public class Module extends PrimEntity {
     private Group groups;
 
     @Column(name = "name")
+    @NotBlank(message = "Поле Название модуля не может быть пустым")
     private String moduleName;
 
     @Column(name = "body")

@@ -14,7 +14,7 @@
     </head>
     <body class="container">
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
-      
+
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
 
@@ -34,20 +34,27 @@
             </div>
 
             <div class="col-md-6">
-                <form action="<c:url value="/Strategy/addGroup" />"  method="post"> 
 
-                    <div class="input-append pull-right">
-                        <input type="hidden" name="strategyId" value=${strategyId}>
-                        <input class="span5" id="appendedInputButton" name="groupName" style="width: 376px " size="16" type="text">
-                        <button type="submit" name="submit" class="btn"> <img src="/CallCentr/img/plus.png" height="20px"></button>
-                    </div>  
-                </form>
+                <div class=" input-append pull-right btn-group">
+                    <div class="btn-group">
+                        <form action="<c:url value="/Strategy/addGroup" />"  method="post"> 
+                            <input type="hidden" name="strategyId" value=${strategyId}>
+                            <input class="span5" id="appendedInputButton" name="groupName" style="width: 376px " size="16" type="text">
+                            <button type="submit" name="submit" class="btn btn-default"> <img src="/CallCentr/img/plus.png" height="20px"></button>
+                        </form>
+                   
+                        <form action="<c:url value="/Strategy/deletGroup" />"  method="post">         
+                            <button type="submit" name="submit" class="btn btn-default"> <img src="/CallCentr/img/minus.png" height="20px"></button>
+                        </form>
+                    </div>
+                </div>
+
                 <br>
                 <table class="table table-bordered table-hover">
                     <c:forEach var="group" items="${GroupList}" varStatus="myIndex">
                         <tr>
                             <%--  <td>${myIndex.count}</td>   --%>
-                          
+
                             <td style="padding:0px;"> ${group.groupName} 
                                 <table class="table table-bordered table-hover"  align="right">
                                     <form action="<c:url value="/Strategy/addModule" />"  method="post"> 

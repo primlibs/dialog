@@ -20,6 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -43,6 +44,7 @@ public class Group extends PrimEntity{
     private Strategy strategy;
     
     @Column(name="name")
+    @NotBlank(message = "Поле название группы не может быть пустым")
     private String groupName;
     
     @LazyCollection(LazyCollectionOption.FALSE)
