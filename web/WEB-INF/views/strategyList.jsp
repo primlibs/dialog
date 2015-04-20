@@ -29,7 +29,7 @@
                         </form>
                     </div>
                     <div class="btn-group pull-right">
-                        <form action="<c:url value="/Group/deletStrategy" />"  method="post">         
+                        <form action="<c:url value="/Strategy/deletStrategy" />"  method="post">         
                             <button type="submit" name="submit" class="btn btn-default"> <img src="/CallCentr/img/minus.png" height="20px"></button>
                         </form>
                     </div> 
