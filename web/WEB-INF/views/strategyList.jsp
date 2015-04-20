@@ -31,7 +31,7 @@
                     <tr>
                         <td>${myIndex.index}#</td>
                         <td>имя</td>
-
+                        <td>удалить</td>
                     </tr>
                     <c:forEach var="strategy" items="${StrategyList}" varStatus="myIndex">
 

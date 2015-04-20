@@ -53,26 +53,27 @@
                             <%--  <td>${myIndex.count}</td>   --%>
 
                             <td style="padding:0px;"> ${group.groupName} 
-                                <table class="table table-bordered table-hover"  align="right">
-                                    <div class=" input-append pull-right btn-group">
-                                        <form action="<c:url value="/Strategy/addModule" />"  method="post"> 
-                                            <input type="hidden" name="groupId" value=${group.groupId}>
-                                            <input type="hidden" name="strategyId" value=${group.strategy.strategyId}>
-                                            <input class="span5" id="appendedInputButton" name="moduleName" style="width: 276px " size="16" type="text">
-                                            <button type="submit" name="submit" class="btn btn-default"> <img src="/CallCentr/img/add.png" height="20px"></button>
-                                        </form>
+
+
+                                <form action="<c:url value="/Strategy/addModule" />"  method="post"> 
+                                    <div class=" input-append pull-right ">
+                                        <input type="hidden" name="groupId" value=${group.groupId}>
+                                        <input type="hidden" name="strategyId" value=${group.strategy.strategyId}>
+                                        <input class="span5" id="appendedInputButton" name="moduleName" style="width: 276px " size="16" type="text">
+                                        <button type="submit" name="submit" class="btn btn-default"> <img src="/CallCentr/img/add.png" height="20px"></button>
                                     </div>
+                                </form>
 
+                                <c:forEach var="module" items="${group.getModuleList()}" varStatus="myIndex">
+                            <tr>   
+                                <td style="padding:0px;">
+                                    ${module.moduleName} 
+                                </td>
+                                <td onClick="location = '<c:url value="/Module/deletModule?moduleId=${module.moduleId}"/>'"> <img style="padding:0px;" src="/CallCentr/img/minus.png" height="20px"> </td>
+                            </tr>
+                        </c:forEach>
 
-                                    <c:forEach var="module" items="${group.getModuleList()}" varStatus="myIndex">
-                                        <tr>   
-                                            <td style="padding:0px;">
-                                                ${module.moduleName} 
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
-                                </table>
-                            </td>
+                        </td>
                         </tr>
                     </c:forEach>
                 </table>
