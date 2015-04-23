@@ -11,7 +11,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -61,11 +60,13 @@ public class StrategyController extends WebController {
     @RequestMapping("/strategy")
     public String showStrategyPage(Map<String, Object> model,
             HttpServletRequest request,
+            @RequestParam(value = "moduleName", required = false) String moduleName,
             @RequestParam(value = "strategyId") Long strategyId) throws Exception {
 
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
+        model.put("moduleName", moduleName);
         model.put("errors", strategyService.getError());
         model.put("GroupList", strategyService.groupList(strategyId));
         model.put("strategyId", strategyId);
@@ -128,8 +129,8 @@ public class StrategyController extends WebController {
             @RequestParam(value = "strategyId") Long strategyId,
             RedirectAttributes ras) {
 
-        ras.addFlashAttribute("moduleName", moduleService.showModule(moduleId));
-        //ras.addAttribute("moduleName", moduleService.showModule(moduleId));
+        // ras.addFlashAttribute("moduleName", moduleService.showModule(moduleId));
+        ras.addAttribute("moduleName", moduleService.showModule(moduleId));
         ras.addAttribute("strategyId", strategyId);
         ras.addFlashAttribute("errors", moduleService.getError());
         return "redirect:/Strategy/strategy";
