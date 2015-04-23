@@ -5,15 +5,8 @@
  */
 package service;
 
-import dao.GroupDao;
 import dao.ModuleDao;
-import dao.PersonalCabinetDao;
-import dao.StrategyDao;
-import entities.Group;
 import entities.Module;
-import entities.PersonalCabinet;
-import java.util.ArrayList;
-import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -35,12 +28,26 @@ public class ModuleService extends PrimService {
 
     public void deletModule(Long moduleId) {
         Module modul = moduleDao.find(moduleId);
-        if(moduleId !=null){
-       moduleDao.delete(modul);
-        }else{
-            addError("Модуль не найден по: "+moduleId);
+        if (moduleId != null) {
+            moduleDao.delete(modul);
+        } else {
+            addError("Модуль не найден по: " + moduleId);
         }
-      
+
+    }
+
+    public String showModule(Long moduleId) {
+
+        Module modul = moduleDao.find(moduleId);
+        if (moduleId != null) {
+          String name =  modul.getModuleName();
+            return name;
+        } else {
+            addError("Модуль не найден по: " + moduleId);
+            return "Модуль не найден по: "+ moduleId ;
+        }
+        
+        
     }
 
 }

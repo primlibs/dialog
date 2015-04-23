@@ -11,9 +11,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import service.ModuleService;
 import service.StrategyService;
 
 /**
@@ -29,6 +31,9 @@ public class StrategyController extends WebController {
 
     @Autowired
     private StrategyService strategyService;
+
+    @Autowired
+    private ModuleService moduleService;
 
     @RequestMapping("/show")
     public String showStrategyListPage(Map<String, Object> model,
@@ -56,7 +61,7 @@ public class StrategyController extends WebController {
     @RequestMapping("/strategy")
     public String showStrategyPage(Map<String, Object> model,
             HttpServletRequest request,
-            @RequestParam(value = "strategyId") Long strategyId ) throws Exception {
+            @RequestParam(value = "strategyId") Long strategyId) throws Exception {
 
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
@@ -108,12 +113,25 @@ public class StrategyController extends WebController {
             @RequestParam(value = "strategyId") Long strategyId,
             RedirectAttributes ras) throws Exception {
         //Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-       
+
         strategyService.deleteStrategy(strategyId);
-        
+
         ras.addFlashAttribute("errors", strategyService.getError());
-       
 
         return "redirect:/Strategy/show";
+    }
+
+    @RequestMapping("/showModule")
+    public String showModule(Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "moduleId") Long moduleId,
+            @RequestParam(value = "strategyId") Long strategyId,
+            RedirectAttributes ras) {
+
+        ras.addFlashAttribute("moduleName", moduleService.showModule(moduleId));
+        //ras.addAttribute("moduleName", moduleService.showModule(moduleId));
+        ras.addAttribute("strategyId", strategyId);
+        ras.addFlashAttribute("errors", moduleService.getError());
+        return "redirect:/Strategy/strategy";
     }
 }
