@@ -48,7 +48,7 @@ public class Group extends PrimEntity{
     private String groupName;
     
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "groups", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "groups", orphanRemoval = true)
     private List<Module> moduleList;
 
     @Override

@@ -50,19 +50,19 @@ public class PersonalCabinet extends PrimEntity {
     private String phone;
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "cabinet", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cabinet")
     private List<CabinetUser> cabinetUser;
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "cabinet", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cabinet")
     private List<Strategy> strategyList;
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "cabinet", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cabinet")
     private List<Group> groupList;
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "cabinet", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cabinet")
     private List<Module> moduleList;
 
     public List<CabinetUser> getCabinetUser() {

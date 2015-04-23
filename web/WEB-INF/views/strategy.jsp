@@ -53,8 +53,6 @@
                             <%--  <td>${myIndex.count}</td>   --%>
 
                             <td style="padding:0px;"> ${group.groupName} 
-
-
                                 <form action="<c:url value="/Strategy/addModule" />"  method="post"> 
                                     <div class=" input-append pull-right ">
                                         <input type="hidden" name="groupId" value=${group.groupId}>
@@ -63,24 +61,19 @@
                                         <button type="submit" name="submit" class="btn btn-default"> <img src="/CallCentr/img/add.png" height="20px"></button>
                                     </div>
                                 </form>
+                            <td onClick="location = '<c:url value="/Group/deleteGroup?groupId=${group.groupId}&strategyId=${group.strategy.strategyId}"/>'"> <img style="padding:0px;" src="/CallCentr/img/minus.png" height="20px"> </td> 
 
-                                <c:forEach var="module" items="${group.getModuleList()}" varStatus="myIndex">
-                            <tr>   
+                        </tr>
+                        <c:forEach var="module" items="${group.getModuleList()}" varStatus="myIndex">
+                            <tr> 
                                 <td style="padding:0px;">
                                     ${module.moduleName} 
                                 </td>
-                                <td onClick="location = '<c:url value="/Module/deletModule?moduleId=${module.moduleId}&groupId=${group.groupId}&strategyId=${group.strategy.strategyId}"/>'"> <img style="padding:0px;" src="/CallCentr/img/minus.png" height="15px"> </td>
+                                <td onClick="location = '<c:url value="/Group/deleteModule?moduleId=${module.moduleId}&groupId=${group.groupId}&strategyId=${group.strategy.strategyId}"/>'"> <img style="padding:0px;" src="/CallCentr/img/minus.png" height="15px"> </td>
                             </tr>
                         </c:forEach>
-
-                            </td>
-                        </tr>
                     </c:forEach>
                 </table>
-
-
-
-
             </div>
         </div>
 

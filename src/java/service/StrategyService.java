@@ -5,8 +5,8 @@
  */
 package service;
 
-import dao.GroupsDao;
-import dao.ModulesDao;
+import dao.GroupDao;
+import dao.ModuleDao;
 import dao.PersonalCabinetDao;
 import dao.StrategyDao;
 import entities.Group;
@@ -38,10 +38,10 @@ public class StrategyService extends PrimService {
     private PersonalCabinetDao personalCabinetDao;
 
     @Autowired
-    private GroupsDao groupDao;
+    private GroupDao groupDao;
 
     @Autowired
-    private ModulesDao moduleDao;
+    private ModuleDao moduleDao;
 
     public void saveStrategy(String strategyName, Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
@@ -158,5 +158,11 @@ public class StrategyService extends PrimService {
         }
 
     }
+    
+    public void deleteStrategy(){
+        
+        
+    }
+            
 
 }

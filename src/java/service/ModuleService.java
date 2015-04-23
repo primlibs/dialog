@@ -5,11 +5,15 @@
  */
 package service;
 
-import dao.GroupsDao;
-import dao.ModulesDao;
+import dao.GroupDao;
+import dao.ModuleDao;
 import dao.PersonalCabinetDao;
 import dao.StrategyDao;
+import entities.Group;
 import entities.Module;
+import entities.PersonalCabinet;
+import java.util.ArrayList;
+import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -27,21 +31,13 @@ import service.parent.PrimService;
 public class ModuleService extends PrimService {
 
     @Autowired
-    private StrategyDao strategyDao;
+    private ModuleDao moduleDao;
 
-    @Autowired
-    private PersonalCabinetDao personalCabinetDao;
-
-    @Autowired
-    private GroupsDao groupDao;
-
-    @Autowired
-    private ModulesDao moduleDao;
-    
-    
-    public void deletModul(Long moduleId){
+    public void deletModule(Long moduleId) {
         Module modul = moduleDao.find(moduleId);
-        moduleDao.delete(modul);
+       moduleDao.delete(modul);
+        
+      
     }
 
 }

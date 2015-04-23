@@ -44,7 +44,7 @@ public class Strategy extends PrimEntity {
     private String strategyName;
     
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "strategy", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "strategy",orphanRemoval = true)
     private List<Group> groupList;
 
     @Override
