@@ -11,6 +11,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <%@include file="/WEB-INF/jsp/css_js.jsp" %>
         <title> </title>
+       
+       
     </head>
     <body class="container">
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
@@ -27,9 +29,7 @@
                     ${moduleName} 
                 </div>
                 <br>
-                <div>
-                    А тут будет текстовый редактор
-                </div>
+                
 
             </div>
 
@@ -78,7 +78,7 @@
             </div>
         </div>
 
-
+       
 
     </body>
 </html>
