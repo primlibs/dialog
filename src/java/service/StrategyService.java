@@ -43,6 +43,9 @@ public class StrategyService extends PrimService {
     @Autowired
     private ModuleDao moduleDao;
 
+    @Autowired
+    private GroupService groupService;
+
     public void saveStrategy(String strategyName, Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         List<Strategy> strategyList = strategyList(cabinetId);
@@ -158,11 +161,24 @@ public class StrategyService extends PrimService {
         }
 
     }
-    
-    public void deleteStrategy(){
-        
-        
-    }
+
+    public void deleteStrategy(Long strategyId) {
+
+        Strategy strategy = strategyDao.find(strategyId);
+
+        if (strategyId != null) {
+            List<Group> groupList = strategy.getGroupList();
+            if (groupList != null) {
+                for (Group group : groupList) {
+                    groupService.deleteGroup(group);
+                }
+            }
+            strategyDao.delete(strategy);
             
+        } else {
+            addError("Стратегия не найдена по: " + strategyId);
+        }
+
+    }
 
 }

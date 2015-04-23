@@ -35,8 +35,11 @@ public class ModuleService extends PrimService {
 
     public void deletModule(Long moduleId) {
         Module modul = moduleDao.find(moduleId);
+        if(moduleId !=null){
        moduleDao.delete(modul);
-        
+        }else{
+            addError("Модуль не найден по: "+moduleId);
+        }
       
     }
 

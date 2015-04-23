@@ -56,8 +56,7 @@ public class StrategyController extends WebController {
     @RequestMapping("/strategy")
     public String showStrategyPage(Map<String, Object> model,
             HttpServletRequest request,
-            @RequestParam(value = "strategyId") Long strategyId,
-            String submit) throws Exception {
+            @RequestParam(value = "strategyId") Long strategyId ) throws Exception {
 
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
@@ -78,15 +77,12 @@ public class StrategyController extends WebController {
 
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
+        strategyService.saveGroup(strategyId, groupName, cabinetId);
+        if (strategyService.getError().isEmpty()) {
+            ras.addFlashAttribute("message", "Группа " + groupName + " создана");
+        }
 
-            strategyService.saveGroup(strategyId, groupName, cabinetId);
-            if (strategyService.getError().isEmpty()) {
-                ras.addFlashAttribute("message", "Группа " + groupName + " создана");
-            }
-
-
-
-        ras.addAttribute("strategyId", strategyId);       
+        ras.addAttribute("strategyId", strategyId);
         return "redirect:/Strategy/strategy";
     }
 
@@ -106,4 +102,18 @@ public class StrategyController extends WebController {
         return "redirect:/Strategy/strategy";
     }
 
+    @RequestMapping("/deleteStrategy")
+    public String delStrategy(Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "strategyId") Long strategyId,
+            RedirectAttributes ras) throws Exception {
+        //Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+       
+        strategyService.deleteStrategy(strategyId);
+        
+        ras.addFlashAttribute("errors", strategyService.getError());
+       
+
+        return "redirect:/Strategy/show";
+    }
 }

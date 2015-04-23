@@ -26,19 +26,26 @@ import service.parent.PrimService;
 @Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class GroupService extends PrimService {
 
-   
-
     @Autowired
     private GroupDao groupDao;
 
     public void deleteGroup(Long groupId) {
 
         Group group = groupDao.find(groupId);
+
+        if (groupId != null) {
+            deleteGroup(group);
+        } else {
+            addError("группа не найдена по: " + groupId);
+        }
+    }
+
+    public void deleteGroup(Group group) {
+
         List<Module> moduleList = group.getModuleList();
-        
+
         moduleList.removeAll(moduleList);
-                groupDao.delete(group);
-        
+        groupDao.delete(group);
     }
 
 }
