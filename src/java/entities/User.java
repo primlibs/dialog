@@ -70,7 +70,7 @@ public class User extends PrimEntity {
     private String recoverHash;
     
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy="user",  cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="user")
     private List<CabinetUser> cabinetUser;
 
     public List<CabinetUser> getCabinetUser() {

@@ -130,8 +130,23 @@ public class UserController extends WebController {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
         model.put("cabinetUserList", userService.cabinetUserList(cabinetId));
-        model.put("error", userService.getError());
+        model.put("errors", userService.getError());
         return "listUser";
     }
 
+    @RequestMapping("/deleteUser")
+    public String deleteUser(Map<String, Object> model, HttpServletRequest request,
+            @RequestParam(value = "cabinetUserId", required = false) Long cabinetUserId,
+            @RequestParam(value = "userId", required = false) Long userId) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+
+        if (cabinetUserId != null & userId != null) {
+            userService.deleteUser(cabinetUserId, userId);
+        }
+
+        model.put("cabinetUserList", userService.cabinetUserList(cabinetId));
+        model.put("errors", userService.getError());
+        return "listUser";
+    }
 }

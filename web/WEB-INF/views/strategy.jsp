@@ -25,11 +25,11 @@
         <div class="row">
             <div class="col-md-6"> 
                 <div>
+                    Реплика клиента:&nbsp
                     ${module.moduleName} 
                 </div>
-                <br>
-                
-                <div>
+               <div>
+                    Ответ оператора:&nbsp
                     ${module.bodyText} 
                 </div>
                 <br>

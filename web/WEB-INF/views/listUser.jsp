@@ -26,9 +26,11 @@
 
             <tr>
                 <td>${myIndex.index}#</td>
-                <td>имя</td>
-                <td>Фамилия</td>
-                <td>роль</td>
+                <td>#имя</td>
+                <td>#Фамилия</td>
+                <td>#роль</td>
+                <td>#изменить</td>
+                <td>#удалить</td>
             </tr>
             <c:forEach var="cabinetUser" items="${cabinetUserList}" varStatus="myIndex">
 
@@ -37,6 +39,8 @@
                     <td>${cabinetUser.user.name}</td>
                     <td>${cabinetUser.user.surname}</td>
                     <td>${cabinetUser.user_role}</td>
+                    <td>изменить</td>
+                    <td onClick="location = '<c:url value="/User/deleteUser?cabinetUserId=${cabinetUser.cabinetUserId}&userId=${cabinetUser.user.userId}"/>'" >Удалить</td>
                 </tr>
             </c:forEach>
         </table>
