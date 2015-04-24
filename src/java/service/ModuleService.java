@@ -5,8 +5,12 @@
  */
 package service;
 
+import dao.GroupDao;
 import dao.ModuleDao;
+import dao.PersonalCabinetDao;
+import entities.Group;
 import entities.Module;
+import entities.PersonalCabinet;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -26,6 +30,12 @@ public class ModuleService extends PrimService {
     @Autowired
     private ModuleDao moduleDao;
 
+    @Autowired
+    private PersonalCabinetDao personalCabinetDao;
+
+    @Autowired
+    private GroupDao groupDao;
+
     public void deletModule(Long moduleId) {
         Module modul = moduleDao.find(moduleId);
         if (moduleId != null) {
@@ -36,18 +46,42 @@ public class ModuleService extends PrimService {
 
     }
 
-    public String showModule(Long moduleId) {
+    public Module showModule(Long moduleId) {
+        /*
+         Module modul = moduleDao.find(moduleId);
+         if (moduleId != null) {
+         String name =  modul.getModuleName();
+         return name;
+         } else {
+         addError("Модуль не найден по: " + moduleId);
+         return "Модуль не найден по: "+ moduleId ;
+         }
+         */
 
-        Module modul = moduleDao.find(moduleId);
         if (moduleId != null) {
-          String name =  modul.getModuleName();
-            return name;
+            Module modul = moduleDao.find(moduleId);
+            return modul;
         } else {
             addError("Модуль не найден по: " + moduleId);
-            return "Модуль не найден по: "+ moduleId ;
+            return null;
         }
-        
-        
+    }
+
+    public void addBodyText(Long moduleId,
+            String bodyText) {
+
+        Module module = moduleDao.find(moduleId);
+
+        if (moduleId != null) {
+            module.setBodyText(bodyText);
+             if (validate(module)) {
+                moduleDao.update(module);
+            }
+                    
+        } else {
+            addError("Ошибка модуль не найден по id " + moduleId);
+        }
+
     }
 
 }

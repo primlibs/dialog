@@ -11,8 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <%@include file="/WEB-INF/jsp/css_js.jsp" %>
         <title> </title>
-       
-       
+        <script  src="<c:url value='/js/tiny_mce/tinymce.min.js'/>" ></script>
     </head>
     <body class="container">
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
@@ -26,10 +25,20 @@
         <div class="row">
             <div class="col-md-6"> 
                 <div>
-                    ${moduleName} 
+                    ${module.moduleName} 
                 </div>
                 <br>
                 
+                <div>
+                    ${module.bodyText} 
+                </div>
+                <br>
+                <form action="<c:url value="/Strategy/addBodyModule" />"  method="post"> 
+                    <textarea name="bodyText"></textarea>
+                    <input type="hidden" name="moduleId" value=${module.moduleId}>
+                    <input type="hidden" name="strategyId" value=${strategyId}>
+                    <button type="submit" name="submit" class="btn btn-default"> Обновить </button>
+                </form>
 
             </div>
 
@@ -78,7 +87,20 @@
             </div>
         </div>
 
-       
+        <script type="text/javascript">
+            tinymce.init({
+                selector: "textarea",
+                plugins: [
+                    " autolink lists link image charmap print preview anchor",
+                    " visualblocks code fullscreen",
+                    "media table contextmenu paste "
+                ],
+                toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+            <%-- width: 800 --%>
+            });
+        </script>
+
+
 
     </body>
 </html>

@@ -61,12 +61,14 @@ public class StrategyController extends WebController {
     public String showStrategyPage(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "moduleName", required = false) String moduleName,
+            @RequestParam(value = "moduleId", required = false) Long moduleId,
             @RequestParam(value = "strategyId") Long strategyId) throws Exception {
 
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
-        model.put("moduleName", moduleName);
+        model.put("module", moduleService.showModule(moduleId));
+        model.put("moduleId", moduleId);
         model.put("errors", strategyService.getError());
         model.put("GroupList", strategyService.groupList(strategyId));
         model.put("strategyId", strategyId);
@@ -129,9 +131,31 @@ public class StrategyController extends WebController {
             @RequestParam(value = "strategyId") Long strategyId,
             RedirectAttributes ras) {
 
-        // ras.addFlashAttribute("moduleName", moduleService.showModule(moduleId));
-        ras.addAttribute("moduleName", moduleService.showModule(moduleId));
+        ras.addFlashAttribute("module", moduleService.showModule(moduleId));
         ras.addAttribute("strategyId", strategyId);
+        ras.addAttribute("moduleId", moduleId);
+        ras.addFlashAttribute("errors", moduleService.getError());
+        return "redirect:/Strategy/strategy";
+    }
+
+    @RequestMapping("/addBodyModule")
+    public String addBodyModule(Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "moduleId") Long moduleId,
+            @RequestParam(value = "strategyId") Long strategyId,
+            @RequestParam(value = "bodyText") String bodyText,
+            RedirectAttributes ras) {
+       
+        if(moduleId!=null){
+               moduleService.addBodyText(moduleId, bodyText);
+        }else{
+            ras.addFlashAttribute("errors","Выберите модуль");
+        }
+     
+
+        ras.addFlashAttribute("module", moduleService.showModule(moduleId));
+        ras.addAttribute("strategyId", strategyId);
+        ras.addAttribute("moduleId", moduleId);
         ras.addFlashAttribute("errors", moduleService.getError());
         return "redirect:/Strategy/strategy";
     }
