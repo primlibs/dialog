@@ -14,7 +14,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import entities.parent.PrimEntity;
+import java.util.Date;
 import javax.persistence.FetchType;
+import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -43,6 +45,10 @@ public class CabinetUser extends PrimEntity {
     @JoinColumn(name = "personal_cabinet_id")
     @ManyToOne(fetch = FetchType.EAGER)
     private PersonalCabinet cabinet;
+
+    @Column(name = "delete_date")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date deleteDate;
 
     public Long getCabinetUserId() {
         return cabinetUserId;
@@ -79,6 +85,14 @@ public class CabinetUser extends PrimEntity {
     @Override
     public Long getId() {
         return cabinetUserId;
+    }
+
+    public Date getDeleteDate() {
+        return deleteDate;
+    }
+
+    public void setDeleteDate(Date deleteDate) {
+        this.deleteDate = deleteDate;
     }
 
 }

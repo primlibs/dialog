@@ -136,13 +136,12 @@ public class UserController extends WebController {
 
     @RequestMapping("/deleteUser")
     public String deleteUser(Map<String, Object> model, HttpServletRequest request,
-            @RequestParam(value = "cabinetUserId", required = false) Long cabinetUserId,
-            @RequestParam(value = "userId", required = false) Long userId) throws Exception {
+            @RequestParam(value = "cabinetUserId") Long cabinetUserId) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
-        if (cabinetUserId != null & userId != null) {
-            userService.deleteUser(cabinetUserId, userId);
+        if (cabinetUserId != null ) {
+            userService.deleteUser(cabinetUserId);
         }
 
         model.put("cabinetUserList", userService.cabinetUserList(cabinetId));

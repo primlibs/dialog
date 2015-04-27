@@ -6,6 +6,7 @@
 package entities;
 
 import entities.parent.PrimEntity;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -51,7 +52,7 @@ public class PersonalCabinet extends PrimEntity {
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "cabinet")
-    private List<CabinetUser> cabinetUser;
+    private List<CabinetUser> cabinetUserList;
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "cabinet")
@@ -66,11 +67,11 @@ public class PersonalCabinet extends PrimEntity {
     private List<Module> moduleList;
 
     public List<CabinetUser> getCabinetUser() {
-        return cabinetUser;
+        return cabinetUserList;
     }
 
     public void setCabinetUser(List<CabinetUser> cabinetUser) {
-        this.cabinetUser = cabinetUser;
+        this.cabinetUserList = cabinetUser;
     }
 
     public List<Strategy> getStrategyList() {
@@ -134,4 +135,13 @@ public class PersonalCabinet extends PrimEntity {
         return personalCabinetId;
     }
 
+    public List<CabinetUser> getActiveCabinetUserList() {
+        List<CabinetUser> activeCabinetUserList = new ArrayList<>();
+        for (CabinetUser cabinetUser : cabinetUserList) {
+            if (cabinetUser.getDeleteDate() == null) {
+                activeCabinetUserList.add(cabinetUser);
+            }
+        }
+        return activeCabinetUserList;
+    }
 }
