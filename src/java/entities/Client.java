@@ -72,4 +72,84 @@ public class Client extends PrimEntity {
         return clientId;
     }
 
+    public Long getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
+    }
+
+    public PersonalCabinet getCabinet() {
+        return cabinet;
+    }
+
+    public void setCabinet(PersonalCabinet cabinet) {
+        this.cabinet = cabinet;
+    }
+
+    public String getNameSecretary() {
+        return nameSecretary;
+    }
+
+    public void setNameSecretary(String nameSecretary) {
+        this.nameSecretary = nameSecretary;
+    }
+
+    public String getNameLpr() {
+        return nameLpr;
+    }
+
+    public void setNameLpr(String nameLpr) {
+        this.nameLpr = nameLpr;
+    }
+
+    public String getNameCompany() {
+        return nameCompany;
+    }
+
+    public void setNameCompany(String nameCompany) {
+        this.nameCompany = nameCompany;
+    }
+
+    public Long getPhoneSecretary() {
+        return phoneSecretary;
+    }
+
+    public void setPhoneSecretary(Long phoneSecretary) {
+        this.phoneSecretary = phoneSecretary;
+    }
+
+    public Long getPhoneLpr() {
+        return phoneLpr;
+    }
+
+    public void setPhoneLpr(Long phoneLpr) {
+        this.phoneLpr = phoneLpr;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public List<EventClientLink> getEventClientList() {
+        return eventClientList;
+    }
+
+    public void setEventClientList(List<EventClientLink> eventClientList) {
+        this.eventClientList = eventClientList;
+    }
+
 }

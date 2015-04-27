@@ -115,4 +115,12 @@ public class Strategy extends PrimEntity {
         return activeGroupList;
     }
 
+    public List<Event> getEventList() {
+        return eventList;
+    }
+
+    public void setEventList(List<Event> eventList) {
+        this.eventList = eventList;
+    }
+
 }

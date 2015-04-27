@@ -70,14 +70,6 @@ public class PersonalCabinet extends PrimEntity {
     @OneToMany(mappedBy = "cabinet")
     private List<Event> eventList;
 
-    public List<CabinetUser> getCabinetUser() {
-        return cabinetUserList;
-    }
-
-    public void setCabinetUser(List<CabinetUser> cabinetUser) {
-        this.cabinetUserList = cabinetUser;
-    }
-
     public List<Strategy> getStrategyList() {
         return strategyList;
     }
@@ -148,5 +140,21 @@ public class PersonalCabinet extends PrimEntity {
         }
         return activeCabinetUserList;
     }
-    
+
+    public List<CabinetUser> getCabinetUserList() {
+        return cabinetUserList;
+    }
+
+    public void setCabinetUserList(List<CabinetUser> cabinetUserList) {
+        this.cabinetUserList = cabinetUserList;
+    }
+
+    public List<Event> getEventList() {
+        return eventList;
+    }
+
+    public void setEventList(List<Event> eventList) {
+        this.eventList = eventList;
+    }
+
 }

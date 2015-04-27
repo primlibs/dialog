@@ -154,4 +154,12 @@ public class User extends PrimEntity {
         this.recoverHash = recoverHash;
     }
 
+    public List<EventClientLink> getEventClientList() {
+        return eventClientList;
+    }
+
+    public void setEventClientList(List<EventClientLink> eventClientList) {
+        this.eventClientList = eventClientList;
+    }
+
 }

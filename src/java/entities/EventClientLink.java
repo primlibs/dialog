@@ -56,4 +56,60 @@ public class EventClientLink extends PrimEntity {
         return eventClientLinkId;
     }
 
+    public Long getEventClientLinkId() {
+        return eventClientLinkId;
+    }
+
+    public void setEventClientLinkId(Long eventClientLinkId) {
+        this.eventClientLinkId = eventClientLinkId;
+    }
+
+    public PersonalCabinet getCabinet() {
+        return cabinet;
+    }
+
+    public void setCabinet(PersonalCabinet cabinet) {
+        this.cabinet = cabinet;
+    }
+
+    public Event getEvent() {
+        return event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
 }

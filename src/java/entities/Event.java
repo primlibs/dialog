@@ -68,4 +68,60 @@ public class Event extends PrimEntity {
         return eventId;
     }
 
+    public Long getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(Long eventId) {
+        this.eventId = eventId;
+    }
+
+    public PersonalCabinet getCabinet() {
+        return cabinet;
+    }
+
+    public void setCabinet(PersonalCabinet cabinet) {
+        this.cabinet = cabinet;
+    }
+
+    public Strategy getStrategy() {
+        return strategy;
+    }
+
+    public void setStrategy(Strategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public List<EventClientLink> getEventClientList() {
+        return eventClientList;
+    }
+
+    public void setEventClientList(List<EventClientLink> eventClientList) {
+        this.eventClientList = eventClientList;
+    }
+
 }
