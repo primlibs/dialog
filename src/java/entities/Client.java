@@ -42,6 +42,31 @@ public class Client extends PrimEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     private PersonalCabinet cabinet;
 
+    @Column(name = "name_secretary")
+    private String nameSecretary;
+
+    @Column(name = "name_lpr")
+    private String nameLpr;
+
+    @Column(name = "name_company")
+    private String nameCompany;
+
+    @Column(name = "phone_secretary")
+    private Long phoneSecretary;
+
+    @Column(name = "phone_lpr")
+    private Long phoneLpr;
+
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "comment")
+    private String comment;
+
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "client")
+    private List<EventClientLink> eventClientList;
+
     @Override
     public Long getId() {
         return clientId;

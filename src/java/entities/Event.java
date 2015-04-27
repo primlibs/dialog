@@ -57,8 +57,11 @@ public class Event extends PrimEntity {
     private Date endDate;
 
     @Column(name = "status")
-    @NotBlank(message = "поле имя не может быть пустым")
     private String status;
+
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "event")
+    private List<EventClientLink> eventClientList;
 
     @Override
     public Long getId() {

@@ -33,6 +33,24 @@ public class EventClientLink extends PrimEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     private PersonalCabinet cabinet;
 
+    @JoinColumn(name = "event_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Event event;
+
+    @JoinColumn(name = "client_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Client client;
+
+    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private User user;
+
+    @Column(name = "status")
+    private String status;
+
+    @Column(name = "comment")
+    private String comment;
+
     @Override
     public Long getId() {
         return eventClientLinkId;
