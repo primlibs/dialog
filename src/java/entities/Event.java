@@ -7,15 +7,20 @@ package entities;
 
 import entities.parent.PrimEntity;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -34,6 +39,26 @@ public class Event extends PrimEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "event_id")
     private Long eventId;
+
+    @JoinColumn(name = "personal_cabinet_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private PersonalCabinet cabinet;
+
+    @JoinColumn(name = "strategy_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Strategy strategy;
+
+    @Column(name = "creation_date")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date creationDate;
+
+    @Column(name = "end_date")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date endDate;
+
+    @Column(name = "status")
+    @NotBlank(message = "поле имя не может быть пустым")
+    private String status;
 
     @Override
     public Long getId() {

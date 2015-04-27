@@ -17,7 +17,7 @@
             <ul class="dropdown-menu">
                 <li><a href="<c:url value="/User/listUser"/>">Пользователи</a></li>
                 <li><a href="#">Клиенты</a></li>
-                <li><a href="#">Компании</a></li>
+                <li><a href="#">Кампании(event)</a></li>
                 <li><a href="#">Клиент</a></li>
                 <li><a href="#">Отчет по компании</a></li>
                 <li><a href="#">Отчет по операторам</a></li>

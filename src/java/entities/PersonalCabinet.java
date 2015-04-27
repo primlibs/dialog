@@ -66,6 +66,10 @@ public class PersonalCabinet extends PrimEntity {
     @OneToMany(mappedBy = "cabinet")
     private List<Module> moduleList;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "cabinet")
+    private List<Event> eventList;
+
     public List<CabinetUser> getCabinetUser() {
         return cabinetUserList;
     }
@@ -144,4 +148,5 @@ public class PersonalCabinet extends PrimEntity {
         }
         return activeCabinetUserList;
     }
+    
 }

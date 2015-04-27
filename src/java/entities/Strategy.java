@@ -53,6 +53,10 @@ public class Strategy extends PrimEntity {
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "strategy", orphanRemoval = true)
     private List<Group> groupList;
+    
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "strategy")
+    private List<Event> eventList;
 
     @Override
     public Long getId() {
