@@ -28,13 +28,10 @@
                     Реплика клиента:&nbsp
                     ${module.moduleName} 
                 </div>
-               <div>
-                    Ответ оператора:&nbsp
-                    ${module.bodyText} 
-                </div>
+               
                 <br>
                 <form action="<c:url value="/Strategy/addBodyModule" />"  method="post"> 
-                    <textarea name="bodyText"></textarea>
+                    <textarea name="bodyText"> ${module.bodyText}   </textarea>
                     <input type="hidden" name="moduleId" value=${module.moduleId}>
                     <input type="hidden" name="strategyId" value=${strategyId}>
                     <button type="submit" name="submit" class="btn btn-default"> Обновить </button>
