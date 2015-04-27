@@ -6,6 +6,7 @@
 package entities;
 
 import entities.parent.PrimEntity;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -110,4 +111,14 @@ public class Group extends PrimEntity {
         this.deleteDate = deleteDate;
     }
 
+    public List<Module> getActiveModuleList() {
+
+        List<Module> activeModeleList = new ArrayList<>();
+        for (Module module : moduleList) {
+            if (module.getDeleteDate() == null) {
+                activeModeleList.add(module);
+            }
+        }
+        return activeModeleList;
+    }
 }

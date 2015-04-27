@@ -70,7 +70,7 @@ public class StrategyService extends PrimService {
             addError("такая стратегия существует");
         }
     }
-
+//метод не используется
     public List<Strategy> strategyList(Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         if (pk != null) {
@@ -81,10 +81,28 @@ public class StrategyService extends PrimService {
         return new ArrayList();
     }
 
+    public List<Strategy> activeStrategyList(Long cabinetId) {
+        PersonalCabinet pk = personalCabinetDao.find(cabinetId);
+        if (pk != null) {
+          List<Strategy> listStrategy =   pk.getStrategyList();
+          List<Strategy> activeStrategyList = new ArrayList<>();
+             for(Strategy strategy : listStrategy){
+                 if(strategy.getDeleteDate()== null){
+                     activeStrategyList.add(strategy);
+                 }
+             }
+            return activeStrategyList;
+
+        } else {
+            addError("Кабинет не найден по ид " + cabinetId);
+        }
+        return new ArrayList();
+    }
+
     public List<Group> groupList(Long strategyId) {
         Strategy stg = strategyDao.find(strategyId);
         if (stg != null) {
-            return stg.getGroupList();
+            return stg.getActiveGroupList();
         } else {
             addError("Стратегия не найден по ид " + strategyId);
         }
@@ -94,7 +112,7 @@ public class StrategyService extends PrimService {
     public List<Module> moduleList(Long groupId) {
         Group gr = groupDao.find(groupId);
         if (gr != null) {
-            return gr.getModuleList();
+            return gr.getActiveModuleList();
         } else {
             addError("Группа не найден по ид " + groupId);
         }
@@ -177,7 +195,7 @@ public class StrategyService extends PrimService {
             }
             strategy.setDeleteDate(date);
             strategyDao.update(strategy);
-            
+
         } else {
             addError("Стратегия не найдена по: " + strategyId);
         }

@@ -74,7 +74,7 @@
 
                         </tr>
 
-                        <c:forEach var="module" items="${group.getModuleList()}" varStatus="myIndex">
+                        <c:forEach var="module" items="${group.getActiveModuleList()}" varStatus="myIndex">
                             <tr style="padding:0px;" > 
                                 <td style="padding:0px;" onClick="location = '<c:url value="/Strategy/showModule?moduleId=${module.moduleId}&strategyId=${group.strategy.strategyId}"/>'">
                                     ${module.moduleName} 

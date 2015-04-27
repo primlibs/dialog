@@ -53,7 +53,7 @@ public class StrategyController extends WebController {
         }
 
         model.put("errors", strategyService.getError());
-        model.put("StrategyList", strategyService.strategyList(cabinetId));
+        model.put("StrategyList", strategyService.activeStrategyList(cabinetId));
         return "strategyList";
     }
 

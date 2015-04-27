@@ -6,6 +6,7 @@
 package entities;
 
 import entities.parent.PrimEntity;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -97,6 +98,17 @@ public class Strategy extends PrimEntity {
 
     public void setDeleteDate(Date deleteDate) {
         this.deleteDate = deleteDate;
+    }
+
+    public List<Group> getActiveGroupList() {
+
+        List<Group> activeGroupList = new ArrayList<>();
+        for (Group group : groupList) {
+            if (group.getDeleteDate() == null) {
+                activeGroupList.add(group);
+            }
+        }
+        return activeGroupList;
     }
 
 }
