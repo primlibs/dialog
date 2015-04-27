@@ -6,6 +6,7 @@
 package entities;
 
 import entities.parent.PrimEntity;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.NotBlank;
@@ -28,7 +30,7 @@ import org.hibernate.validator.constraints.NotBlank;
  */
 @Entity
 @Table(name = "groups")
-public class Group extends PrimEntity{
+public class Group extends PrimEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,15 +40,19 @@ public class Group extends PrimEntity{
     @JoinColumn(name = "personal_cabinet_id")
     @ManyToOne(fetch = FetchType.EAGER)
     private PersonalCabinet cabinet;
-    
+
     @JoinColumn(name = "strategy_id")
     @ManyToOne(fetch = FetchType.EAGER)
     private Strategy strategy;
-    
-    @Column(name="name")
+
+    @Column(name = "name")
     @NotBlank(message = "Поле название группы не может быть пустым")
     private String groupName;
-    
+
+    @Column(name = "delete_date")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date deleteDate;
+
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "groups", orphanRemoval = true)
     private List<Module> moduleList;
@@ -95,6 +101,13 @@ public class Group extends PrimEntity{
     public void setModuleList(List<Module> moduleList) {
         this.moduleList = moduleList;
     }
-    
-    
+
+    public Date getDeleteDate() {
+        return deleteDate;
+    }
+
+    public void setDeleteDate(Date deleteDate) {
+        this.deleteDate = deleteDate;
+    }
+
 }

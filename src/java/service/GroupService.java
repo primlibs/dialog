@@ -9,6 +9,7 @@ import dao.GroupDao;
 import dao.ModuleDao;
 import entities.Group;
 import entities.Module;
+import java.util.Date;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class GroupService extends PrimService {
 
     @Autowired
     private GroupDao groupDao;
+    
+    @Autowired
+    private ModuleDao moduleDao;
 
     public void deleteGroup(Long groupId) {
 
@@ -43,9 +47,16 @@ public class GroupService extends PrimService {
     public void deleteGroup(Group group) {
 
         List<Module> moduleList = group.getModuleList();
-
-        moduleList.removeAll(moduleList);
-        groupDao.delete(group);
+        Date date = new Date();
+      //  moduleList.removeAll(moduleList);
+        
+          for (Module modul : moduleList) {
+            modul.setDeleteDate(date);
+            moduleDao.update(modul);
+        }
+        
+        group.setDeleteDate(date);
+        groupDao.update(group);
     }
 
 }

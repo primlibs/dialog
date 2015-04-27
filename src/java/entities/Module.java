@@ -6,6 +6,7 @@
 package entities;
 
 import entities.parent.PrimEntity;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -44,6 +46,10 @@ public class Module extends PrimEntity {
 
     @Column(name = "body")
     private String bodyText;
+    
+    @Column(name = "delete_date")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date deleteDate;
 
     @Override
     public Long getId() {
@@ -88,6 +94,14 @@ public class Module extends PrimEntity {
 
     public void setBodyText(String bodyText) {
         this.bodyText = bodyText;
+    }
+
+    public Date getDeleteDate() {
+        return deleteDate;
+    }
+
+    public void setDeleteDate(Date deleteDate) {
+        this.deleteDate = deleteDate;
     }
 
     

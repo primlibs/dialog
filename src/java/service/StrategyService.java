@@ -14,6 +14,7 @@ import entities.Module;
 import entities.PersonalCabinet;
 import entities.Strategy;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -166,6 +167,7 @@ public class StrategyService extends PrimService {
 
         Strategy strategy = strategyDao.find(strategyId);
 
+        Date date = new Date();
         if (strategyId != null) {
             List<Group> groupList = strategy.getGroupList();
             if (groupList != null) {
@@ -173,7 +175,8 @@ public class StrategyService extends PrimService {
                     groupService.deleteGroup(group);
                 }
             }
-            strategyDao.delete(strategy);
+            strategy.setDeleteDate(date);
+            strategyDao.update(strategy);
             
         } else {
             addError("Стратегия не найдена по: " + strategyId);

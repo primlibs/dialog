@@ -6,6 +6,7 @@
 package entities;
 
 import entities.parent.PrimEntity;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.NotBlank;
@@ -42,9 +44,13 @@ public class Strategy extends PrimEntity {
     @Column(name = "name")
     @NotBlank(message = "поле имя не может быть пустым")
     private String strategyName;
-    
+
+    @Column(name = "delete_date")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date deleteDate;
+
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "strategy",orphanRemoval = true)
+    @OneToMany(mappedBy = "strategy", orphanRemoval = true)
     private List<Group> groupList;
 
     @Override
@@ -85,5 +91,12 @@ public class Strategy extends PrimEntity {
         this.groupList = groupList;
     }
 
-    
+    public Date getDeleteDate() {
+        return deleteDate;
+    }
+
+    public void setDeleteDate(Date deleteDate) {
+        this.deleteDate = deleteDate;
+    }
+
 }

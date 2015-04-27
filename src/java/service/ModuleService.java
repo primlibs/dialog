@@ -11,6 +11,7 @@ import dao.PersonalCabinetDao;
 import entities.Group;
 import entities.Module;
 import entities.PersonalCabinet;
+import java.util.Date;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -39,7 +40,9 @@ public class ModuleService extends PrimService {
     public void deletModule(Long moduleId) {
         Module modul = moduleDao.find(moduleId);
         if (moduleId != null) {
-            moduleDao.delete(modul);
+            Date date = new Date();
+            modul.setDeleteDate(date);
+            moduleDao.update(modul);
         } else {
             addError("Модуль не найден по: " + moduleId);
         }
