@@ -6,6 +6,7 @@
 package entities;
 
 import entities.parent.PrimEntity;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,7 +15,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  *
@@ -50,6 +54,10 @@ public class EventClientLink extends PrimEntity {
 
     @Column(name = "comment")
     private String comment;
+
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "eventClientLink")
+    private List<ModuleEventClient> moduleEventClientList;
 
     @Override
     public Long getId() {
@@ -110,6 +118,14 @@ public class EventClientLink extends PrimEntity {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public List<ModuleEventClient> getModuleEventClientList() {
+        return moduleEventClientList;
+    }
+
+    public void setModuleEventClientList(List<ModuleEventClient> moduleEventClientList) {
+        this.moduleEventClientList = moduleEventClientList;
     }
 
 }

@@ -58,6 +58,10 @@ public class Group extends PrimEntity {
     @OneToMany(mappedBy = "groups", orphanRemoval = true)
     private List<Module> moduleList;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "groups")
+    private List<ModuleEventClient> moduleEventClientList;
+
     @Override
     public Long getId() {
         return groupId;
@@ -121,5 +125,13 @@ public class Group extends PrimEntity {
         }
         return activeModeleList;
     }
-    
+
+    public List<ModuleEventClient> getModuleEventClientList() {
+        return moduleEventClientList;
+    }
+
+    public void setModuleEventClientList(List<ModuleEventClient> moduleEventClientList) {
+        this.moduleEventClientList = moduleEventClientList;
+    }
+
 }

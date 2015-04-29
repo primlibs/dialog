@@ -53,10 +53,14 @@ public class Strategy extends PrimEntity {
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "strategy", orphanRemoval = true)
     private List<Group> groupList;
-    
+
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "strategy")
     private List<Event> eventList;
+
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "strategy")
+    private List<ModuleEventClient> moduleEventClientList;
 
     @Override
     public Long getId() {
@@ -121,6 +125,14 @@ public class Strategy extends PrimEntity {
 
     public void setEventList(List<Event> eventList) {
         this.eventList = eventList;
+    }
+
+    public List<ModuleEventClient> getModuleEventClientList() {
+        return moduleEventClientList;
+    }
+
+    public void setModuleEventClientList(List<ModuleEventClient> moduleEventClientList) {
+        this.moduleEventClientList = moduleEventClientList;
     }
 
 }
