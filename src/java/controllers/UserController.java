@@ -34,7 +34,7 @@ public class UserController extends WebController {
     @Autowired
     private LkController lk;
 
-    @RequestMapping(value = {"/adduser"})
+    @RequestMapping(value = {"/userAdd"})
     public String showAddUserPage(Map<String, Object> model, String submit,
             String email, String phone, String name, String surname, String role, String patronymic, HttpServletRequest request) throws Exception {
 
@@ -53,7 +53,7 @@ public class UserController extends WebController {
         } else {
             model.put("errors", userService.getError());
         }
-        return "adduser";
+        return "userAdd";
     }
 
     @RequestMapping("/changePassword")
@@ -124,14 +124,14 @@ public class UserController extends WebController {
 
     }
 
-    @RequestMapping("/listUser")
+    @RequestMapping("/userList")
     public String showListUserPage(Map<String, Object> model, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
         model.put("cabinetUserList", userService.cabinetUserList(cabinetId));
         model.put("errors", userService.getError());
-        return "listUser";
+        return "userList";
     }
 
     @RequestMapping("/deleteUser")
@@ -146,6 +146,6 @@ public class UserController extends WebController {
 
         model.put("cabinetUserList", userService.cabinetUserList(cabinetId));
         model.put("errors", userService.getError());
-        return "listUser";
+        return "userList";
     }
 }

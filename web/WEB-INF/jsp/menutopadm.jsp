@@ -15,7 +15,7 @@
         <li><a href="<c:url value="/index"/>" class="dropdown-toggle">Главная</a></li>
         <li class="dropdown"><a href="#" data-toggle="dropdown"  class="dropdown-toggle" >Меню <span class="caret"></span></a>
             <ul class="dropdown-menu">
-                <li><a href="<c:url value="/User/listUser"/>">Пользователи</a></li>
+                <li><a href="<c:url value="/User/userList"/>">Пользователи</a></li>
                 <li><a href="<c:url value="/Client/clientList"/>">Клиенты</a></li>
                 <li><a href="<c:url value="/Event/eventList"/>">Кампании(event)</a></li>
                 <li><a href="#">Клиент</a></li>
