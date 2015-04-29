@@ -43,13 +43,14 @@ public class CabinetUserService extends PrimService {
         return cabinetUserDao.getByUser(user);
     }
 
-    public String getNameCompany(HttpServletRequest request) {
-        PersonalCabinet cabinet;
-        Object cabinetId = request.getSession().getAttribute(LkController.CABINET_ID_SESSION_NAME);
+    public String getNameCompany(Long cabinetId) {
+       
+      
         if (cabinetId == null) {
             return "не определено";
         }
-        cabinet = cabinetDao.find((Long) cabinetId);
+         PersonalCabinet cabinet= cabinetDao.find(cabinetId);
+        cabinet = cabinetDao.find(cabinetId);
 
         return cabinet.getCompany();
     }

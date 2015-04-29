@@ -25,8 +25,7 @@ public class RegistrationController extends WebController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private LkController lk;
+
 
     @RequestMapping(value = {"/registration"})
     public String showRegistrationPage(Map<String, Object> model, String submit, String checkbox,

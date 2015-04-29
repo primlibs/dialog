@@ -67,7 +67,10 @@ public class LkController extends WebController{
     }
 
     public String dataByUserAndCompany(HttpServletRequest request, Map<String, Object> model) throws Exception {
-        String company = service.getNameCompany(request);
+        
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+         
+        String company = service.getNameCompany(cabinetId);
         String user = service.getNameUser();
         model.put("nameUser", user);
         model.put("nameCompany", company);
