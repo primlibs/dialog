@@ -6,10 +6,8 @@
 package entities;
 
 import entities.parent.PrimEntity;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,10 +19,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -55,6 +51,10 @@ public class Event extends PrimEntity {
     @Column(name = "end_date")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date endDate;
+
+    @Column(name = "name")
+    @NotBlank(message = "поле Имя не может быть пустым")
+    private String name;
 
     @Column(name = "status")
     private String status;

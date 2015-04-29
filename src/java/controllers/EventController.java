@@ -7,11 +7,14 @@ package controllers;
 
 import static controllers.LkController.CABINET_ID_SESSION_NAME;
 import controllers.parent.WebController;
+import java.util.Date;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import service.EventService;
 
 /**
  *
@@ -24,14 +27,31 @@ public class EventController extends WebController {
     @Autowired
     private LkController lk;
 
+    @Autowired
+    private EventService eventService;
+
     @RequestMapping("/eventList")
     public String showEventListPage(Map<String, Object> model, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
-     
+
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
-        
         return "eventList";
     }
 
+    @RequestMapping("/eventAdd")
+    public String eventAdd(Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "strategyId", required = false) Long strategyId,
+            @RequestParam(value = "insertDate", required = false) Date insertDate,
+            @RequestParam(value = "endDate", required = false) Date endDate
+    ) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+
+        model.put("numericName",eventService.numericName(cabinetId) );
+       
+        return "eventAdd";
+    }
 }

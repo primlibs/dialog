@@ -13,10 +13,13 @@
         <%@include file="/WEB-INF/jsp/css_js.jsp" %>
     </head>
     <body class="container" >
+        
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
         <div class="row ">
+            <a href="<c:url value="/Event/eventAdd"/>" class="btn btn-large" role="button">Список пользователей</a>
+            
              <table class="table table-bordered table-hover">
 
                 <tr>
@@ -33,7 +36,7 @@
                         <td>${aaa.user.name}</td>
                         <td>${aaa.user.surname}</td>
                         <td>${aaa.user_role}</td>
-                        <td>изменить</td>
+                       
                         <td onClick="location = '<c:url value="/User/deleteUser?cabinetUserId=${cabinetUser.cabinetUserId}&userId=${cabinetUser.user.userId}"/>'" >Удалить</td>
                     </tr>
                 </c:forEach>
