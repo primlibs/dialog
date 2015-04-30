@@ -27,16 +27,16 @@
                     <td>Стратегия </td>
                     <td>Дата создания </td>
                     <td>Дата окончания </td>
-                    <td>статус</td>
+                  
                 </tr>
                 <c:forEach var="event" items="${eventList}" varStatus="myIndex">
 
                     <tr>
-                        <td>${event.name}</td>
-                        <td>${event.strategy.strategyName}</td>
+                        <td onClick="location = '<c:url value="/Event/eventTask?eventId=${event.eventId}"/>'" >${event.name}</td>
+                        <td onClick="location = '<c:url value="/Event/eventTask?eventId=${event.eventId}"/>'" >${event.strategy.strategyName}</td>
                         <td>${event.creationDate}</td>
                         <td>${event.endDate}</td>
-                        <td>${event.status}</td>
+               
                         <%--
                         <td onClick="location = '<c:url value="/User/deleteUser?cabinetUserId=${cabinetUser.cabinetUserId}&userId=${cabinetUser.user.userId}"/>'" >Удалить</td>
                         --%>

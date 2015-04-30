@@ -92,6 +92,7 @@ public class EventService extends PrimService {
                 if (name != null) {
                     Event event = new Event();
                     event.setCabinet(pk);
+                    event.setName(name);
                     event.setStrategy(strategy);
                     event.setCreationDate(dt);
                     event.setStatus(Event.ACTIVE);

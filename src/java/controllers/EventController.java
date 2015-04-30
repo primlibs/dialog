@@ -35,7 +35,8 @@ public class EventController extends WebController {
         lk.dataByUserAndCompany(request, model);
 
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        model.put("strategytList", eventService.eventList(cabinetId));
+        
+        model.put("eventList", eventService.eventList(cabinetId));
         model.put("errors", eventService.getError());
         return "eventList";
     }
@@ -59,5 +60,16 @@ public class EventController extends WebController {
         model.put("strategytList", eventService.strategytList(cabinetId));
         model.put("errors", eventService.getError());
         return "eventAdd";
+    }
+    
+      @RequestMapping("/eventTask")
+    public String showEventTaskPage(Map<String, Object> model, HttpServletRequest request) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        
+       
+        model.put("errors", eventService.getError());
+        return "eventTask";
     }
 }
