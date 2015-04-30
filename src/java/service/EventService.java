@@ -13,6 +13,7 @@ import dao.StrategyDao;
 import entities.Event;
 import entities.PersonalCabinet;
 import entities.Strategy;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.transaction.Transactional;
@@ -47,17 +48,13 @@ public class EventService extends PrimService {
     private EventDao eventDao;
 
     public String numericName(Long cabinetId) {
-        int n = 0;
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         if (pk != null) {
             List<Event> eventList = pk.getEventList();
-            if (eventList == null) {
-                return "0";
-            }
             if (eventList != null) {
-                for (int i = 0; i <= eventList.size(); i++) {
-                    return i + 1+"оп оп";
-                }
+                return eventList.size() + 1 + "";
+            } else {
+                return "1";
             }
         } else {
             addError("не найден по " + cabinetId);
@@ -66,11 +63,51 @@ public class EventService extends PrimService {
 
     }
 
-    public void eventAdd(String name, Long strategyId, Date insertDate, Date endDate, Long cabinetId) {
+    public List<Strategy> strategytList(Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
-       
-       
+        if (pk != null) {
+            return pk.getStrategyList();
+        } else {
+            addError("Стратегия не найден по id " + cabinetId);
+        }
+        return new ArrayList();
+    }
     
+    public List<Event> eventList(Long cabinetId){
+         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
+        if (pk != null) {
+            return pk.getEventList();
+        } else {
+            addError("Евент не найден по id " + cabinetId);
+        }
+        return new ArrayList();
+    }
+
+    public void eventAdd(String name, Long strategyId, Long cabinetId) {
+        PersonalCabinet pk = personalCabinetDao.find(cabinetId);
+        Strategy strategy = strategyDao.find(strategyId);
+        Date dt = new Date();
+        if (pk != null) {
+            if (strategyId != null) {
+                if (name != null) {
+                    Event event = new Event();
+                    event.setCabinet(pk);
+                    event.setStrategy(strategy);
+                    event.setCreationDate(dt);
+                    event.setStatus(Event.ACTIVE);
+                    if (validate(event)) {
+                        eventDao.save(event);
+                    }
+                } else {
+                    addError("поле название эвента не может быть пустым");
+                }
+            } else {
+                addError("не найдена стратегия по id" + strategyId);
+            }
+        } else {
+            addError("не найден личный кабинет по id" + cabinetId);
+        }
+
     }
 
 }

@@ -35,7 +35,8 @@ public class EventController extends WebController {
         lk.dataByUserAndCompany(request, model);
 
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-
+        model.put("strategytList", eventService.eventList(cabinetId));
+        model.put("errors", eventService.getError());
         return "eventList";
     }
 
@@ -43,15 +44,20 @@ public class EventController extends WebController {
     public String eventAdd(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "strategyId", required = false) Long strategyId,
-            @RequestParam(value = "insertDate", required = false) Date insertDate,
-            @RequestParam(value = "endDate", required = false) Date endDate
+            @RequestParam(value = "strategyId", required = false) Long strategyId
     ) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
-        model.put("numericName",eventService.numericName(cabinetId) );
-       
+        if (strategyId != null) {
+            eventService.eventAdd(name, strategyId, cabinetId);
+            if (eventService.getError().isEmpty()) {
+                model.put("message", "Евент " + name + " успешно создан");
+            }
+        }
+        model.put("numericName", eventService.numericName(cabinetId));
+        model.put("strategytList", eventService.strategytList(cabinetId));
+        model.put("errors", eventService.getError());
         return "eventAdd";
     }
 }

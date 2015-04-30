@@ -19,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.NotBlank;
@@ -30,6 +31,9 @@ import org.hibernate.validator.constraints.NotBlank;
 @Entity
 @Table(name = "event")
 public class Event extends PrimEntity {
+    
+    static public Long ACTIVE=Long.valueOf(0);
+    static public Long CLOSE=Long.valueOf(1);
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,11 +57,12 @@ public class Event extends PrimEntity {
     private Date endDate;
 
     @Column(name = "name")
-    @NotBlank(message = "поле Имя не может быть пустым")
+    @NotBlank(message = "поле Название эвента не может быть пустым")
     private String name;
 
     @Column(name = "status")
-    private String status;
+    @NotNull(message = "поле статус не может быть пустым")
+    private Long status;
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "event")
@@ -108,14 +113,24 @@ public class Event extends PrimEntity {
         this.endDate = endDate;
     }
 
-    public String getStatus() {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Long status) {
         this.status = status;
     }
 
+    
+    
     public List<EventClientLink> getEventClientList() {
         return eventClientList;
     }
@@ -123,5 +138,6 @@ public class Event extends PrimEntity {
     public void setEventClientList(List<EventClientLink> eventClientList) {
         this.eventClientList = eventClientList;
     }
+    
 
 }

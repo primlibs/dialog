@@ -21,32 +21,21 @@
                 <div class="form-group">
                     <label class="control-label col-xs-3" for="firstName">Название эвента:</label>
                     <div class="col-xs-9">
-                        <input type="text" class="form-control" name="name" id="firstName" placeholder="${numericName}">
+                        <input type="text" class="form-control" name="name" id="firstName" value="${numericName}" placeholder="Название эвента">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-xs-3" for="selectRole">Выбрать стратегию:</label>
                     <div class="col-xs-9">
                         <select name="strategyId">
-                            <c:forEach var="cabinet" items="${pk}" varStatus="myIndex">
-                                <option value="${cabinet}">${cabinet}</option>
+                            <c:forEach var="strateg" items="${strategytList}" varStatus="myIndex">
+                                <option value="${strateg.strategyId}">${strateg.strategyName}</option>
 
                             </c:forEach>
                         </select>
                     </div>
                 </div>   
-                <div class="form-group">
-                    <label class="control-label col-xs-3" for="insertDate">Дата создания:</label>
-                    <div class="col-xs-9">
-                        <input type="date" class="form-control" name="insertDate" id="insertDate" placeholder="Дата создания">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-xs-3" for="endDate">Дата окончания:</label>
-                    <div class="col-xs-9">
-                        <input type="date" class="form-control" name="endDate" id="endDate" placeholder="Дата окончания">
-                    </div>
-                </div>
+             
 
                 <div class="form-group">
                     <div class="col-xs-offset-3 col-xs-9">

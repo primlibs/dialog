@@ -18,7 +18,7 @@
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
         <div class="row ">
-            <a href="<c:url value="/Event/eventAdd"/>" class="btn btn-large" role="button">Список пользователей</a>
+            <a href="<c:url value="/Event/eventAdd"/>" class="btn btn-large" role="button">Создать эвент</a>
             
              <table class="table table-bordered table-hover">
 
@@ -29,15 +29,17 @@
                     <td>Дата окончания </td>
                     <td>статус</td>
                 </tr>
-                <c:forEach var="aaa" items="${www}" varStatus="myIndex">
+                <c:forEach var="event" items="${eventList}" varStatus="myIndex">
 
                     <tr>
-                        <td>${myIndex.count}</td>
-                        <td>${aaa.user.name}</td>
-                        <td>${aaa.user.surname}</td>
-                        <td>${aaa.user_role}</td>
-                       
+                        <td>${event.name}</td>
+                        <td>${event.strategy.strategyName}</td>
+                        <td>${event.creationDate}</td>
+                        <td>${event.endDate}</td>
+                        <td>${event.status}</td>
+                        <%--
                         <td onClick="location = '<c:url value="/User/deleteUser?cabinetUserId=${cabinetUser.cabinetUserId}&userId=${cabinetUser.user.userId}"/>'" >Удалить</td>
+                        --%>
                     </tr>
                 </c:forEach>
             </table>
