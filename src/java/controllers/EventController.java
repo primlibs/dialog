@@ -7,6 +7,7 @@ package controllers;
 
 import static controllers.LkController.CABINET_ID_SESSION_NAME;
 import controllers.parent.WebController;
+import entities.PersonalCabinet;
 import java.util.Date;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +36,7 @@ public class EventController extends WebController {
         lk.dataByUserAndCompany(request, model);
 
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        
+
         model.put("eventList", eventService.eventList(cabinetId));
         model.put("errors", eventService.getError());
         return "eventList";
@@ -61,14 +62,23 @@ public class EventController extends WebController {
         model.put("errors", eventService.getError());
         return "eventAdd";
     }
-    
-      @RequestMapping("/eventTask")
+
+    @RequestMapping("/eventTask")
     public String showEventTaskPage(Map<String, Object> model, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
+       
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+
+        model.put("errors", eventService.getError());
+         model.put("listUser",eventService.listRoleUserActiveCabinetUser(cabinetId));
+        return "eventTask";
+    }
+
+    @RequestMapping("/getShapeExcel")
+    public String getShapeExcel(Map<String, Object> model, HttpServletRequest request) throws Exception {
 
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        
-       
+
         model.put("errors", eventService.getError());
         return "eventTask";
     }

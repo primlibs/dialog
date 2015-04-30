@@ -144,6 +144,17 @@ public class PersonalCabinet extends PrimEntity {
         }
         return activeCabinetUserList;
     }
+    
+     public List<CabinetUser> getRoleUserActiveCabinetUserList() {
+        List<CabinetUser> activeCabinetUserList = getActiveCabinetUserList();
+         List<CabinetUser> roleUserActiveCabinetUserList = new ArrayList<>();
+        for (CabinetUser cabinetUser : activeCabinetUserList) {
+            if (cabinetUser.getUser_role().equals("user") ) {
+                roleUserActiveCabinetUserList.add(cabinetUser);
+            }
+        }
+        return roleUserActiveCabinetUserList;
+    }
 
     public List<CabinetUser> getCabinetUserList() {
         return cabinetUserList;

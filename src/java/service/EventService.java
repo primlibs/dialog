@@ -10,6 +10,7 @@ import dao.GroupDao;
 import dao.ModuleDao;
 import dao.PersonalCabinetDao;
 import dao.StrategyDao;
+import entities.CabinetUser;
 import entities.Event;
 import entities.PersonalCabinet;
 import entities.Strategy;
@@ -72,9 +73,9 @@ public class EventService extends PrimService {
         }
         return new ArrayList();
     }
-    
-    public List<Event> eventList(Long cabinetId){
-         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
+
+    public List<Event> eventList(Long cabinetId) {
+        PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         if (pk != null) {
             return pk.getEventList();
         } else {
@@ -109,6 +110,12 @@ public class EventService extends PrimService {
             addError("не найден личный кабинет по id" + cabinetId);
         }
 
+    }
+
+    public List<CabinetUser> listRoleUserActiveCabinetUser(Long cabinetId) {
+        PersonalCabinet pk = personalCabinetDao.find(cabinetId);
+        List<CabinetUser> listRoleUser = pk.getRoleUserActiveCabinetUserList();
+        return listRoleUser;
     }
 
 }

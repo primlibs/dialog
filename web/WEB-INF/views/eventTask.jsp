@@ -19,7 +19,8 @@
 
         <div class="row ">
 
-
+             <a href="<c:url value="/Event/getShapeExcel"/>" class="btn btn-large btn-primary" role="button">Получить форму excel</a>
+             
             <table class="table table-bordered table-hover">
 
                 <tr>
@@ -34,11 +35,11 @@
                     <td>Не успешно </td>
                     <td>Всего</td>
                 </tr>
-                <c:forEach var="user" items="${userList}" varStatus="myIndex">
+                <c:forEach var="user" items="${listUser}" varStatus="myIndex">
                     <tr>
                         <td >${user.name} </td>
-                        <td >${user.name} </td>
-                        <td >${user.name} </td>
+                        <td > </td>
+                        <td > </td>
                         <td >  </td>
                    
                         <td>  </td>
