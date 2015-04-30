@@ -37,7 +37,7 @@
                 </tr>
                 <c:forEach var="user" items="${listUser}" varStatus="myIndex">
                     <tr>
-                        <td >${user.name} </td>
+                        <td >${user.user.surname}&nbsp ${user.user.name} </td>
                         <td > </td>
                         <td > </td>
                         <td >  </td>
