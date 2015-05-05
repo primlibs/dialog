@@ -75,7 +75,9 @@
           p:suffix=".jsp" 
     />
     
-
+    <bean id="multipartResolver" class=
+"org.springframework.web.multipart.commons.CommonsMultipartResolver"
+       p:maxUploadSize="1500000" />
 
     
  

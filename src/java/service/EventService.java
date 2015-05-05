@@ -16,9 +16,9 @@ import entities.Client;
 import entities.Event;
 import entities.PersonalCabinet;
 import entities.Strategy;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import service.parent.PrimService;
 import support.StringAdapter;
 
@@ -141,7 +142,7 @@ public class EventService extends PrimService {
         int n = 0;
         HSSFSheet sheet = workbook.createSheet("Клиенты");
         HSSFRow rowhead = sheet.createRow((short) n);
-        rowhead.createCell(0).setCellValue("Номер уникальный ");
+        rowhead.createCell(0).setCellValue("Номер уникальный");
         rowhead.createCell(1).setCellValue("Название компании");
         rowhead.createCell(2).setCellValue("Имя секретаря");
         rowhead.createCell(3).setCellValue("Имя лица принимающего решение");
@@ -153,31 +154,32 @@ public class EventService extends PrimService {
         return workbook;
     }
 
-    public void read(File fileXls) throws Exception {
-        FileInputStream fis = new FileInputStream(fileXls);
+    public void readXls(MultipartFile fileXls) throws Exception {
+        //FileInputStream fis = new FileInputStream(fileXls);
+        InputStream fis = fileXls.getInputStream();
         HSSFWorkbook inputWorkbook = new HSSFWorkbook(fis);
         int sheetCount = inputWorkbook.getNumberOfSheets();
-        for (int i = 0; i <= sheetCount; i++) {
+        for (int i = 0; i < sheetCount; i++) {
             HSSFSheet hss = inputWorkbook.getSheetAt(i);
             Iterator<Row> it = hss.iterator();
             while (it.hasNext()) {
                 Row rw = it.next();
-                Client cl = new Client();
-                cl.setUniqueId(StringAdapter.getString(rw.getCell(0).toString()));
-                cl.setNameCompany(StringAdapter.getString(rw.getCell(1).toString()));
-                cl.setNameSecretary(StringAdapter.getString(rw.getCell(2).toString()));
-                cl.setNameLpr(StringAdapter.getString(rw.getCell(3).toString()));
-                cl.setPhoneSecretary(Long.getLong(rw.getCell(4).toString()));
-                cl.setPhoneLpr(Long.getLong(rw.getCell(5).toString()));
-                cl.setAddress(StringAdapter.getString(rw.getCell(6).toString()));
-                cl.setComment(StringAdapter.getString(rw.getCell(7).toString()));
-                
-                if (validate(cl)) {
-                    clientDao.save(cl);
+                if (!(StringAdapter.getString(rw.getCell(0))).equals("Номер уникальный")) {
+                    Client cl = new Client();
+                    cl.setUniqueId(StringAdapter.getString(rw.getCell(0)));
+                    cl.setNameCompany(StringAdapter.getString(rw.getCell(1)));
+                    cl.setNameSecretary(StringAdapter.getString(rw.getCell(2)));
+                    cl.setNameLpr(StringAdapter.getString(rw.getCell(3)));
+                    cl.setPhoneSecretary(Long.getLong(StringAdapter.getString(rw.getCell(4))));
+                    cl.setPhoneLpr(Long.getLong(StringAdapter.getString(rw.getCell(5))));
+                    cl.setAddress(StringAdapter.getString(rw.getCell(6)));
+                    cl.setComment(StringAdapter.getString(rw.getCell(7)));
+                    if (validate(cl)) {
+                        clientDao.save(cl);
+                    }
                 }
             }
-
         }
-    }
 
+    }
 }

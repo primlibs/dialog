@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import service.EventService;
 
 /**
@@ -82,10 +83,14 @@ public class EventController extends WebController {
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition", "attachment; filename=Clients.xls");
         eventService.getXls().write(response.getOutputStream());
-      }
+    }
 
-       @RequestMapping("/setXls")
-    public void setXls(@RequestParam(value = "fileXls") File fileXls) throws Exception{
-        
+    @RequestMapping("/setXls")
+    public String setXls(Map<String, Object> model, @RequestParam(value = "fileXls") MultipartFile fileXls, HttpServletRequest request) throws Exception {
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        eventService.readXls(fileXls);
+        model.put("errors", eventService.getError());
+        model.put("listUser", eventService.listRoleUserActiveCabinetUser(cabinetId));
+        return "eventTask";
     }
 }
