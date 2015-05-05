@@ -19,8 +19,13 @@
 
         <div class="row ">
 
-             <a href="<c:url value="/Event/getShapeExcel"/>" class="btn btn-large btn-primary" role="button">Получить форму excel</a>
-             
+            <a href="<c:url value="/Event/getShapeExcel"/>" class="btn btn-large btn-primary" role="button">Получить форму excel</a>
+
+            <form enctype="multipart/form-data" action="<c:url value="/Event/setXls" />" method="post">
+                Загрузить файл: <input name="fileXls" type="file">
+                <input type="submit" value="Отправить">
+            </form>
+
             <table class="table table-bordered table-hover">
 
                 <tr>
@@ -41,22 +46,22 @@
                         <td > </td>
                         <td > </td>
                         <td >  </td>
-                   
+
                         <td>  </td>
                         <td>  </td>
                         <td> </td>
                     </tr>
                 </c:forEach>
-                     <tr>
-                        <td > Итого:</td>
-                        <td >  </td>
-                        <td >  </td>
-                        <td >   </td>
-                   
-                        <td>  </td>
-                        <td>  </td>
-                        <td> </td>
-                    </tr>
+                <tr>
+                    <td > Итого:</td>
+                    <td >  </td>
+                    <td >  </td>
+                    <td >   </td>
+
+                    <td>  </td>
+                    <td>  </td>
+                    <td> </td>
+                </tr>
             </table>
     </body>
 </html>

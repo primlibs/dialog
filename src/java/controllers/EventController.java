@@ -7,8 +7,7 @@ package controllers;
 
 import static controllers.LkController.CABINET_ID_SESSION_NAME;
 import controllers.parent.WebController;
-import entities.PersonalCabinet;
-import java.util.Date;
+import java.io.File;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -76,24 +75,17 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/getShapeExcel")
-    public String getShapeExcel(Map<String, Object> model, HttpServletResponse response, HttpServletRequest request) throws Exception {
+    public void getShapeExcel(Map<String, Object> model, HttpServletResponse response, HttpServletRequest request) throws Exception {
 
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition", "attachment; filename=Clients.xls");
         eventService.getXls().write(response.getOutputStream());
+      }
 
-        model.put("listUser", eventService.listRoleUserActiveCabinetUser(cabinetId));
-        model.put("errors", eventService.getError());
-        return "eventTask";
-    }
-
-    @RequestMapping("/getXls")
-    public void getXls(HttpServletResponse response, Map<String, Object> model) throws Exception {
-        response.setContentType("application/octet-stream");
-        response.setHeader("Content-Disposition", "attachment; filename=Clients.xls");
-        eventService.getXls().write(response.getOutputStream());
-
+       @RequestMapping("/setXls")
+    public void setXls(@RequestParam(value = "fileXls") File fileXls) throws Exception{
+        
     }
 }

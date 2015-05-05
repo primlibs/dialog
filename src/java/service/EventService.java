@@ -125,11 +125,6 @@ public class EventService extends PrimService {
         return listRoleUser;
     }
 
-    public void getBook(File fl) throws FileNotFoundException, IOException{
-        FileInputStream fis= new FileInputStream(fl);
-        HSSFWorkbook  hss=new HSSFWorkbook(fis);
-        
-    }
        public HSSFWorkbook getXls() throws IOException {
         HSSFWorkbook workbook = new HSSFWorkbook();
      
@@ -153,5 +148,7 @@ public class EventService extends PrimService {
             return workbook;
         }
         
+        
+       
     }
 
