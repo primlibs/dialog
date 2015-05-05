@@ -11,6 +11,7 @@ import entities.PersonalCabinet;
 import java.util.Date;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,20 +67,33 @@ public class EventController extends WebController {
     @RequestMapping("/eventTask")
     public String showEventTaskPage(Map<String, Object> model, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
-       
+
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
         model.put("errors", eventService.getError());
-         model.put("listUser",eventService.listRoleUserActiveCabinetUser(cabinetId));
+        model.put("listUser", eventService.listRoleUserActiveCabinetUser(cabinetId));
         return "eventTask";
     }
 
     @RequestMapping("/getShapeExcel")
-    public String getShapeExcel(Map<String, Object> model, HttpServletRequest request) throws Exception {
+    public String getShapeExcel(Map<String, Object> model, HttpServletResponse response, HttpServletRequest request) throws Exception {
 
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; filename=Clients.xls");
+        eventService.getXls().write(response.getOutputStream());
+
+        model.put("listUser", eventService.listRoleUserActiveCabinetUser(cabinetId));
         model.put("errors", eventService.getError());
         return "eventTask";
+    }
+
+    @RequestMapping("/getXls")
+    public void getXls(HttpServletResponse response, Map<String, Object> model) throws Exception {
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; filename=Clients.xls");
+        eventService.getXls().write(response.getOutputStream());
+
     }
 }

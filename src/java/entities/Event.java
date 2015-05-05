@@ -31,9 +31,9 @@ import org.hibernate.validator.constraints.NotBlank;
 @Entity
 @Table(name = "event")
 public class Event extends PrimEntity {
-    
-    static public Long ACTIVE=Long.valueOf(0);
-    static public Long CLOSE=Long.valueOf(1);
+
+    static public Long ACTIVE = Long.valueOf(0);
+    static public Long CLOSE = Long.valueOf(1);
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,6 +63,9 @@ public class Event extends PrimEntity {
     @Column(name = "status")
     @NotNull(message = "поле статус не может быть пустым")
     private Long status;
+
+    @Column(name = "unique_id")
+    private String uniqueId;
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "event")
@@ -129,8 +132,6 @@ public class Event extends PrimEntity {
         this.status = status;
     }
 
-    
-    
     public List<EventClientLink> getEventClientList() {
         return eventClientList;
     }
@@ -138,6 +139,5 @@ public class Event extends PrimEntity {
     public void setEventClientList(List<EventClientLink> eventClientList) {
         this.eventClientList = eventClientList;
     }
-    
 
 }

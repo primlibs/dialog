@@ -66,7 +66,7 @@ public class LkController extends WebController{
         return "redirect:/";
     }
 
-    public String dataByUserAndCompany(HttpServletRequest request, Map<String, Object> model) throws Exception {
+    public void dataByUserAndCompany(HttpServletRequest request, Map<String, Object> model) throws Exception {
         
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
          
@@ -74,7 +74,7 @@ public class LkController extends WebController{
         String user = service.getNameUser();
         model.put("nameUser", user);
         model.put("nameCompany", company);
-        return service.toString();
+       // return service.toString();
     }
 
     public void getRole(HttpServletRequest request, Map<String, Object> model) {

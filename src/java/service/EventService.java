@@ -14,10 +14,17 @@ import entities.CabinetUser;
 import entities.Event;
 import entities.PersonalCabinet;
 import entities.Strategy;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.transaction.Transactional;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -118,4 +125,33 @@ public class EventService extends PrimService {
         return listRoleUser;
     }
 
-}
+    public void getBook(File fl) throws FileNotFoundException, IOException{
+        FileInputStream fis= new FileInputStream(fl);
+        HSSFWorkbook  hss=new HSSFWorkbook(fis);
+        
+    }
+       public HSSFWorkbook getXls() throws IOException {
+        HSSFWorkbook workbook = new HSSFWorkbook();
+     
+            int n = 0;
+            HSSFSheet sheet = workbook.createSheet("Клиенты");
+            HSSFRow rowhead = sheet.createRow((short) n);
+            rowhead.createCell(0).setCellValue("Номер по порядку ");
+            rowhead.createCell(1).setCellValue("Название компании");
+            rowhead.createCell(2).setCellValue("Имя секретаря");
+            rowhead.createCell(3).setCellValue("Имя лица принимающего решение");
+            rowhead.createCell(4).setCellValue("Телефон секретаря");
+            rowhead.createCell(5).setCellValue("Телефон лица принимающего решение ");
+            rowhead.createCell(6).setCellValue("Адрес");
+            rowhead.createCell(7).setCellValue("Коментарии");
+            n++;
+           
+            HSSFSheet sheetLog = workbook.createSheet("LOG");
+          //  HSSFRow rowwLog = sheetLog.createRow(1);
+         //   rowwLog.createCell(0).setCellValue(eve.getResult());
+          //  rowwLog.createCell(1).setCellValue(eve.getShortLog());
+            return workbook;
+        }
+        
+    }
+
