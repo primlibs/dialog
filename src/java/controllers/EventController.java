@@ -86,9 +86,16 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/setXls")
-    public String setXls(Map<String, Object> model, @RequestParam(value = "fileXls") MultipartFile fileXls, HttpServletRequest request) throws Exception {
+    public String setXls(Map<String, Object> model,
+            @RequestParam(value = "fileXls") MultipartFile fileXls, 
+            String checkbox, HttpServletRequest request,
+            @RequestParam(value = "eventId") Long eventId) throws Exception {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-      //  eventService.
+        Boolean update=false;
+        if(checkbox!=null){
+            update = true;
+        }
+        eventService.readXls(fileXls, cabinetId, eventId, update);
         model.put("errors", eventService.getError());
         model.put("listUser", eventService.listRoleUserActiveCabinetUser(cabinetId));
         return "eventTask";

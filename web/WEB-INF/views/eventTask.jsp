@@ -23,6 +23,8 @@
 
             <form enctype="multipart/form-data" action="<c:url value="/Event/setXls" />" method="post">
                 Загрузить файл: <input name="fileXls" type="file">
+                Обновлять клиентов: <input type="checkbox" name="checkbox" value="agree"> 
+                 <input type="hidden" name="eventId" value=${eventId}>
                 <input type="submit" value="Отправить">
             </form>
 
