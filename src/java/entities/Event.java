@@ -64,9 +64,6 @@ public class Event extends PrimEntity {
     @NotNull(message = "поле статус не может быть пустым")
     private Long status;
 
-    @Column(name = "unique_id")
-    private String uniqueId;
-
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "event")
     private List<EventClientLink> eventClientList;

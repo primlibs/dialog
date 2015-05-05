@@ -6,9 +6,7 @@
 package entities;
 
 import entities.parent.PrimEntity;
-import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,11 +17,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -67,6 +62,9 @@ public class Client extends PrimEntity {
     @OneToMany(mappedBy = "client")
     private List<EventClientLink> eventClientList;
 
+    @Column(name = "unique_id")
+    private String uniqueId;
+    
     @Override
     public Long getId() {
         return clientId;
@@ -150,6 +148,14 @@ public class Client extends PrimEntity {
 
     public void setEventClientList(List<EventClientLink> eventClientList) {
         this.eventClientList = eventClientList;
+    }
+
+    public String getUniqueId() {
+        return uniqueId;
+    }
+
+    public void setUniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
     }
 
 }
