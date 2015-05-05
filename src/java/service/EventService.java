@@ -6,6 +6,7 @@
 package service;
 
 import dao.ClientDao;
+import dao.EventClientLinkDao;
 import dao.EventDao;
 import dao.GroupDao;
 import dao.ModuleDao;
@@ -14,9 +15,9 @@ import dao.StrategyDao;
 import entities.CabinetUser;
 import entities.Client;
 import entities.Event;
+import entities.EventClientLink;
 import entities.PersonalCabinet;
 import entities.Strategy;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -62,6 +63,9 @@ public class EventService extends PrimService {
 
     @Autowired
     private ClientDao clientDao;
+
+    @Autowired
+    private EventClientLinkDao eventClientLinkDao;
 
     @Autowired
     private ClientService clientService;
@@ -154,8 +158,11 @@ public class EventService extends PrimService {
         return workbook;
     }
 
-    public void readXls(MultipartFile fileXls) throws Exception {
-        //FileInputStream fis = new FileInputStream(fileXls);
+    public void readXls(MultipartFile fileXls, Long cabinetId, Long eventId,Boolean update) throws Exception {
+        Boolean newClient = false;
+        PersonalCabinet pk = personalCabinetDao.find(cabinetId);
+        List<Client> pkList = pk.getClientList();
+        Event event = eventDao.find(eventId);
         InputStream fis = fileXls.getInputStream();
         HSSFWorkbook inputWorkbook = new HSSFWorkbook(fis);
         int sheetCount = inputWorkbook.getNumberOfSheets();
@@ -165,17 +172,34 @@ public class EventService extends PrimService {
             while (it.hasNext()) {
                 Row rw = it.next();
                 if (!(StringAdapter.getString(rw.getCell(0))).equals("Номер уникальный")) {
-                    Client cl = new Client();
-                    cl.setUniqueId(StringAdapter.getString(rw.getCell(0)));
-                    cl.setNameCompany(StringAdapter.getString(rw.getCell(1)));
-                    cl.setNameSecretary(StringAdapter.getString(rw.getCell(2)));
-                    cl.setNameLpr(StringAdapter.getString(rw.getCell(3)));
-                    cl.setPhoneSecretary(Long.getLong(StringAdapter.getString(rw.getCell(4))));
-                    cl.setPhoneLpr(Long.getLong(StringAdapter.getString(rw.getCell(5))));
-                    cl.setAddress(StringAdapter.getString(rw.getCell(6)));
-                    cl.setComment(StringAdapter.getString(rw.getCell(7)));
-                    if (validate(cl)) {
-                        clientDao.save(cl);
+                    Client cl = clientDao.getClientByUniqueIdInLk(StringAdapter.getString(rw.getCell(0)), cabinetId);
+                    if (cl == null) {
+                        cl = new Client();
+                        newClient = true;
+                    } 
+                    if (newClient == true || update == true) {
+                        cl.setUniqueId(StringAdapter.getString(rw.getCell(0)));
+                        cl.setNameCompany(StringAdapter.getString(rw.getCell(1)));
+                        cl.setNameSecretary(StringAdapter.getString(rw.getCell(2)));
+                        cl.setNameLpr(StringAdapter.getString(rw.getCell(3)));
+                        cl.setPhoneSecretary(Long.getLong(StringAdapter.getString(rw.getCell(4))));
+                        cl.setPhoneLpr(Long.getLong(StringAdapter.getString(rw.getCell(5))));
+                        cl.setAddress(StringAdapter.getString(rw.getCell(6)));
+                        cl.setComment(StringAdapter.getString(rw.getCell(7)));
+                        cl.setCabinet(pk);
+                        if (validate(cl)) {
+                            clientDao.save(cl);
+                        }
+                    }
+
+                    if (getError().isEmpty()) {
+                        EventClientLink eventLinkClient = new EventClientLink();
+                        eventLinkClient.setCabinet(pk);
+                        eventLinkClient.setClient(cl);
+                        eventLinkClient.setEvent(event);
+                        if (validate(eventLinkClient)) {
+                            eventClientLinkDao.save(eventLinkClient);
+                        }
                     }
                 }
             }

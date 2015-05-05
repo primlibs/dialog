@@ -88,7 +88,7 @@ public class EventController extends WebController {
     @RequestMapping("/setXls")
     public String setXls(Map<String, Object> model, @RequestParam(value = "fileXls") MultipartFile fileXls, HttpServletRequest request) throws Exception {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        eventService.readXls(fileXls);
+      //  eventService.
         model.put("errors", eventService.getError());
         model.put("listUser", eventService.listRoleUserActiveCabinetUser(cabinetId));
         return "eventTask";

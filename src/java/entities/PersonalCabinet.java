@@ -72,6 +72,10 @@ public class PersonalCabinet extends PrimEntity {
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "cabinet")
+    private List<Client> clientList;
+
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "cabinet")
     private List<ModuleEventClient> moduleEventClientList;
 
     public List<Strategy> getStrategyList() {
@@ -144,12 +148,12 @@ public class PersonalCabinet extends PrimEntity {
         }
         return activeCabinetUserList;
     }
-    
-     public List<CabinetUser> getRoleUserActiveCabinetUserList() {
+
+    public List<CabinetUser> getRoleUserActiveCabinetUserList() {
         List<CabinetUser> activeCabinetUserList = getActiveCabinetUserList();
-         List<CabinetUser> roleUserActiveCabinetUserList = new ArrayList<>();
+        List<CabinetUser> roleUserActiveCabinetUserList = new ArrayList<>();
         for (CabinetUser cabinetUser : activeCabinetUserList) {
-            if (cabinetUser.getUser_role().equals("user") ) {
+            if (cabinetUser.getUser_role().equals("user")) {
                 roleUserActiveCabinetUserList.add(cabinetUser);
             }
         }
@@ -180,4 +184,13 @@ public class PersonalCabinet extends PrimEntity {
         this.moduleEventClientList = moduleEventClientList;
     }
 
+    public List<Client> getClientList() {
+        return clientList;
+    }
+
+    public void setClientList(List<Client> clientList) {
+        this.clientList = clientList;
+    }
+
+    
 }
