@@ -23,10 +23,19 @@ public class EventClientLinkDao extends Dao<EventClientLink>  {
       return EventClientLink.class;
     }
      public List<EventClientLink> getEventClientLinkListByEventId(Long eventId) {
-        String hql = "from EventClientLink as ecl where ecl.eventClientLinkId= :eventId";
+        String hql = "from EventClientLink as ecl where ecl.event.eventId= :eventId";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("eventId", eventId);
-        return query.list();
+        List<EventClientLink> ecl = query.list();
+        return ecl;
 
     }
+     // получить лист ЕвенКлиентов не назначеных
+       public List<EventClientLink> getUnassignedEventClientLink(Long eventId){ 
+        String hql = "from EventClientLink as ecl where ecl.event.eventId= :eventId and ecl.user is null";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("eventId", eventId);
+          List<EventClientLink> ecl = query.list();
+        return ecl;
+       }
 }

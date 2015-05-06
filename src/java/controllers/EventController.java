@@ -67,7 +67,8 @@ public class EventController extends WebController {
     @RequestMapping("/eventTask")
     public String showEventTaskPage(Map<String, Object> model,
             HttpServletRequest request,
-            @RequestParam(value = "eventId", required = false) Long eventId) throws Exception {
+            @RequestParam(value = "eventId"//, required = false
+            ) Long eventId) throws Exception {
         lk.dataByUserAndCompany(request, model);
 
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
@@ -75,6 +76,7 @@ public class EventController extends WebController {
         model.put("errors", eventService.getError());
         model.put("listUser", eventService.listRoleUserActiveCabinetUser(cabinetId));
         model.put("eventClientLinkList", eventService.getEventClientLinkList(eventId));
+        model.put("unassignedEventClientLinkList", eventService.getUnassignedEventClientLink(eventId));
         model.put("event", eventService.getEvent(eventId));
         return "eventTask";
     }
@@ -101,7 +103,7 @@ public class EventController extends WebController {
             update = true;
         }
         eventService.readXls(fileXls, cabinetId, eventId, update);
-        ras.addFlashAttribute("eventId", eventId);
+        ras.addAttribute("eventId", eventId);
         ras.addFlashAttribute("errors", eventService.getError());
         if (eventService.getError().isEmpty()) {
             ras.addFlashAttribute("message", "Клиенты успешно добавлены");

@@ -55,7 +55,7 @@
                         <td > </td>
 
                         <c:if test="${number== 1}">
-                            <td rowspan="${listUser.size()}" >  </td>
+                            <td rowspan="${listUser.size()}" >${unassignedEventClientLinkList.size()}  </td>
                         </c:if>
                         <td>  </td>
                         <td>  </td>
@@ -68,7 +68,7 @@
                     <td > Итого:</td>
                     <td >${eventClientLinkList.size()}  </td>
                     <td >  </td>
-                    <td >   </td>
+                    <td >  ${unassignedEventClientLinkList.size()}  </td>
 
                     <td>  </td>
                     <td>  </td>
