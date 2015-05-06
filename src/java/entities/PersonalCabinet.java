@@ -78,6 +78,10 @@ public class PersonalCabinet extends PrimEntity {
     @OneToMany(mappedBy = "cabinet")
     private List<ModuleEventClient> moduleEventClientList;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "cabinet")
+    private List<EventClientLink> eventClientLinkList;
+
     public List<Strategy> getStrategyList() {
         return strategyList;
     }
@@ -192,5 +196,12 @@ public class PersonalCabinet extends PrimEntity {
         this.clientList = clientList;
     }
 
-    
+    public List<EventClientLink> getEventClientLinkList() {
+        return eventClientLinkList;
+    }
+
+    public void setEventClientLinkList(List<EventClientLink> eventClientLinkList) {
+        this.eventClientLinkList = eventClientLinkList;
+    }
+
 }

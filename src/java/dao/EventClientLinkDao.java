@@ -7,6 +7,8 @@ package dao;
 
 import dao.parent.Dao;
 import entities.EventClientLink;
+import java.util.List;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -20,5 +22,11 @@ public class EventClientLinkDao extends Dao<EventClientLink>  {
     public Class getSupportedClass() {
       return EventClientLink.class;
     }
-    
+     public List<EventClientLink> getEventClientLinkListByEventId(Long eventId) {
+        String hql = "from EventClientLink as ecl where ecl.eventClientLinkId= :eventId";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("eventId", eventId);
+        return query.list();
+
+    }
 }

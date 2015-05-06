@@ -158,7 +158,7 @@ public class EventService extends PrimService {
         return workbook;
     }
 
-    public void readXls(MultipartFile fileXls, Long cabinetId, Long eventId,Boolean update) throws Exception {
+    public void readXls(MultipartFile fileXls, Long cabinetId, Long eventId, Boolean update) throws Exception {
         Boolean newClient = false;
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         List<Client> pkList = pk.getClientList();
@@ -171,12 +171,12 @@ public class EventService extends PrimService {
             Iterator<Row> it = hss.iterator();
             while (it.hasNext()) {
                 Row rw = it.next();
-                if (!(StringAdapter.getString(rw.getCell(0))).equals("Номер уникальный")) {
+                if (!(StringAdapter.getString(rw.getCell(0))).trim().equals("Номер уникальный")) {
                     Client cl = clientDao.getClientByUniqueIdInLk(StringAdapter.getString(rw.getCell(0)), cabinetId);
                     if (cl == null) {
                         cl = new Client();
                         newClient = true;
-                    } 
+                    }
                     if (newClient == true || update == true) {
                         cl.setUniqueId(StringAdapter.getString(rw.getCell(0)));
                         cl.setNameCompany(StringAdapter.getString(rw.getCell(1)));
@@ -204,6 +204,34 @@ public class EventService extends PrimService {
                 }
             }
         }
+
+    }
+
+    public Event getEvent(Long eventId) {
+        Event event = eventDao.find(eventId);
+        event.getName();
+        return event;
+    }
+
+    public List<EventClientLink> getEventClientLinkList(Long eventId) {
+        List<EventClientLink> eventClientLinkList = eventClientLinkDao.getEventClientLinkListByEventId(eventId);
+
+        return eventClientLinkList;
+    }
+
+    public List<EventClientLink> getEventClientLinkList(Long eventId, Long cabinetId) {
+        PersonalCabinet pk = personalCabinetDao.find(cabinetId);
+        List<EventClientLink> ecl = pk.getEventClientLinkList();
+
+     // List<EventClientLink> eventClientLinkList = 
+        return null;
+    }
+
+// получить лист НЕ назначиных клиентов
+    public List<EventClientLink> getEventClientLinkListUnassigned(Long eventId) {
+        List<EventClientLink> eventClientLinkList = eventClientLinkDao.getEventClientLinkListByEventId(eventId);
+
+        return eventClientLinkList;
 
     }
 }

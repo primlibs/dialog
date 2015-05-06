@@ -7,7 +7,6 @@ package controllers;
 
 import static controllers.LkController.CABINET_ID_SESSION_NAME;
 import controllers.parent.WebController;
-import java.io.File;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.EventService;
 
 /**
@@ -65,13 +65,17 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/eventTask")
-    public String showEventTaskPage(Map<String, Object> model, HttpServletRequest request) throws Exception {
+    public String showEventTaskPage(Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "eventId", required = false) Long eventId) throws Exception {
         lk.dataByUserAndCompany(request, model);
 
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
         model.put("errors", eventService.getError());
         model.put("listUser", eventService.listRoleUserActiveCabinetUser(cabinetId));
+        model.put("eventClientLinkList", eventService.getEventClientLinkList(eventId));
+        model.put("event", eventService.getEvent(eventId));
         return "eventTask";
     }
 
@@ -87,18 +91,23 @@ public class EventController extends WebController {
 
     @RequestMapping("/setXls")
     public String setXls(Map<String, Object> model,
-            @RequestParam(value = "fileXls") MultipartFile fileXls, 
+            @RequestParam(value = "fileXls") MultipartFile fileXls,
             String checkbox, HttpServletRequest request,
-            @RequestParam(value = "eventId") Long eventId) throws Exception {
+            @RequestParam(value = "eventId") Long eventId,
+            RedirectAttributes ras) throws Exception {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        Boolean update=false;
-        if(checkbox!=null){
+        Boolean update = false;
+        if (checkbox != null) {
             update = true;
         }
         eventService.readXls(fileXls, cabinetId, eventId, update);
-        model.put("errors", eventService.getError());
-        model.put("message", "Залилось удачно");
-       // model.put("listUser", eventService.listRoleUserActiveCabinetUser(cabinetId));
-        return "eventTask";
+        ras.addFlashAttribute("eventId", eventId);
+        ras.addFlashAttribute("errors", eventService.getError());
+        if (eventService.getError().isEmpty()) {
+            ras.addFlashAttribute("message", "Клиенты успешно добавлены");
+        }
+        ras.addFlashAttribute("event", eventService.getEvent(eventId));
+        // model.put("listUser", eventService.listRoleUserActiveCabinetUser(cabinetId));
+        return "redirect:/Event/eventTask";
     }
 }
