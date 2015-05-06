@@ -97,7 +97,8 @@ public class EventController extends WebController {
         }
         eventService.readXls(fileXls, cabinetId, eventId, update);
         model.put("errors", eventService.getError());
-        model.put("listUser", eventService.listRoleUserActiveCabinetUser(cabinetId));
+        model.put("message", "Залилось удачно");
+       // model.put("listUser", eventService.listRoleUserActiveCabinetUser(cabinetId));
         return "eventTask";
     }
 }

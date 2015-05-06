@@ -25,7 +25,7 @@ public class ClientDao extends Dao<Client> {
 
     public Client getClientByUniqueIdInLk(String uid,Long cabinetId){
         
-        String hql = "from Client as cu where cu.uniqueId= :uniqueId and cu.cabinet= :cabinet ";
+        String hql = "from Client as cu where cu.uniqueId= :uniqueId and cu.cabinet.personalCabinetId= :cabinet ";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("uniqueId", uid);
         query.setParameter("cabinet", cabinetId);
