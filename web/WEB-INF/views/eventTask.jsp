@@ -19,13 +19,15 @@
 
         <div class="row ">
             <h4>  Евент:  ${event.name} &nbsp Стратегия: ${event.strategy.strategyName} </h4>
+         <div class="btn-group" role="group" aria-label="...">
             <a href="<c:url value="/Event/getShapeExcel"/>" class="btn btn-large btn-primary" role="button">Получить форму excel</a>
-
+            <a href="<c:url value="/Event/appointAll"/>" class="btn btn-large btn-primary" role="button">Назначить всем</a>
+         </div>
             <form enctype="multipart/form-data" action="<c:url value="/Event/setXls" />" method="post">
                 Загрузить файл: <input name="fileXls" type="file">
-                Обновлять клиентов: <input type="checkbox" name="checkbox" value="agree"> 
+                Обновлять клиентов: <input class="btn btn-primary" type="checkbox" name="checkbox" value="agree"> 
                 <input type="hidden" name="eventId" value=${param['eventId']}>
-                <input type="submit" value="Отправить">
+                <input class="btn btn-primary" type="submit" value="Отправить">
             </form>
 
             <table class="table table-bordered table-hover">

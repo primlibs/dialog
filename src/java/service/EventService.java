@@ -193,14 +193,16 @@ public class EventService extends PrimService {
                     }
 
                     if (getError().isEmpty()) {
+                      
+                     
+                            EventClientLink eventLinkClient = new EventClientLink();
+                            eventLinkClient.setCabinet(pk);
+                            eventLinkClient.setClient(cl);
+                            eventLinkClient.setEvent(event);
+                            if (validate(eventLinkClient)) {
+                                eventClientLinkDao.save(eventLinkClient);
+                            }
                         
-                        EventClientLink eventLinkClient = new EventClientLink();
-                        eventLinkClient.setCabinet(pk);
-                        eventLinkClient.setClient(cl);
-                        eventLinkClient.setEvent(event);
-                        if (validate(eventLinkClient)) {
-                            eventClientLinkDao.save(eventLinkClient);
-                        }
                     }
                 }
             }
@@ -210,7 +212,7 @@ public class EventService extends PrimService {
 
     public Event getEvent(Long eventId) {
         Event event = eventDao.find(eventId);
-       // event.getName();
+        // event.getName();
         return event;
     }
 
@@ -220,11 +222,12 @@ public class EventService extends PrimService {
         return eventClientLinkList;
     }
 // не использую
+
     public List<EventClientLink> getEventClientLinkList(Long eventId, Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         List<EventClientLink> ecl = pk.getEventClientLinkList();
 
-     // List<EventClientLink> eventClientLinkList = 
+        // List<EventClientLink> eventClientLinkList = 
         return null;
     }
 
