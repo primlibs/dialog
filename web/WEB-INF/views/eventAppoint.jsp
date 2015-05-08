@@ -55,8 +55,8 @@
                             <td>
                                 <select name="arrayClientIdUserId">
                                     <c:forEach var="cabinetUser" items="${cabinetUserList}" varStatus="myIndex">
-                                        <option value="null">  </option>
-                                        <option value="${client.clientId}_${cabinetUser.user.userId}">${user.user.surname} &nbsp ${cabinetUser.user.name} </option>
+                                        
+                                        <option value="${client.clientId}_${cabinetUser.user.userId}">${cabinetUser.user.surname} &nbsp ${cabinetUser.user.name} </option>
 
                                     </c:forEach>
                                 </select> 
@@ -64,7 +64,9 @@
                         </tr>
                     </c:forEach>
                 </table>
-                <input class="btn btn-primary" type="submit" value="Отправить">
+                <c:if test="${clientList!=null && !clientList.isEmpty()}">
+                    <input class="btn btn-primary" type="submit" value="Отправить">
+                </c:if>
             </form>
         </div>
 
