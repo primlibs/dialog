@@ -1,6 +1,6 @@
 <%-- 
-    Document   : eventAppoint
-    Created on : 07.05.2015, 11:41:44
+    Document   : eventClient
+    Created on : 08.05.2015, 16:04:44
     Author     : Юрий
 --%>
 
@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title> </title>
+          <title> </title>
         <%@include file="/WEB-INF/jsp/css_js.jsp" %>
     </head>
     <body class="container" >
@@ -18,13 +18,9 @@
         <div class="row">
             <h4>  Евент:  ${event.name} &nbsp Стратегия: ${event.strategy.strategyName} </h4>
             <input type="hidden" name="eventId" value=${param['eventId']}>
-
-            <div class="btn-group" role="group" >
+          
                 <a href="<c:url value="/Event/eventTask?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Перейти на Евент</a>
-                <c:if test="${clientList!=null && !clientList.isEmpty()}">
-                    <a href="<c:url value="/Event/#"/>" class="btn btn-primary" role="button">Назначить всем</a>
-                </c:if>
-            </div>
+          
 
             <form  action="<c:url value="/Event/eventAppointSave" />" method="post">
                 <table class="table table-bordered table-hover">
@@ -64,10 +60,8 @@
                         </tr>
                     </c:forEach>
                 </table>
-                <input class="btn btn-primary" type="submit" value="Отправить">
+                         <input class="btn btn-primary" type="submit" value="Отправить">
             </form>
         </div>
-
-
     </body>
 </html>

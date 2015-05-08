@@ -7,6 +7,7 @@ package controllers;
 
 import static controllers.LkController.CABINET_ID_SESSION_NAME;
 import controllers.parent.WebController;
+import java.lang.reflect.Array;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -130,9 +131,27 @@ public class EventController extends WebController {
         return "eventAppoint";
     }
 
+    @RequestMapping("/eventClient")
+    public String eventClient(Map<String, Object> model,
+            @RequestParam(value = "eventId") Long eventId,
+            RedirectAttributes ras,
+            HttpServletRequest request) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+
+        model.put("clientList", eventService.getClientList(eventId, cabinetId));
+        model.put("event", eventService.getEvent(eventId));
+        model.put("cabinetUserList", eventService.listRoleUserActiveCabinetUser(cabinetId));
+        ras.addAttribute("eventId", eventId);
+        ras.addFlashAttribute("errors", eventService.getError());
+        ras.addFlashAttribute("event", eventService.getEvent(eventId));
+        return "eventClient";
+    }
+
     @RequestMapping("/eventAppointSave")
     public String saveAppointEvent(Map<String, Object> model,
             @RequestParam(value = "eventId") Long eventId,
+            @RequestParam(value = "arrayClientIdUserId") Array arrayClientIdUserId,
             RedirectAttributes ras,
             HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
@@ -146,4 +165,5 @@ public class EventController extends WebController {
         ras.addFlashAttribute("event", eventService.getEvent(eventId));
         return "eventAppoint";
     }
+
 }
