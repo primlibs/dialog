@@ -18,7 +18,7 @@
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
         <div class="row ">
-            <a href="<c:url value="/Event/eventAdd"/>" class="btn btn-large" role="button">Создать эвент</a>
+            <a href="<c:url value="/Event/eventAdd"/>" class="btn btn-primary" role="button">Создать эвент</a>
             
              <table class="table table-bordered table-hover">
 

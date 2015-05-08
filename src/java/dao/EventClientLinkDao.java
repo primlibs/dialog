@@ -45,9 +45,7 @@ public class EventClientLinkDao extends Dao<EventClientLink> {
     }
 
     public EventClientLink getEventClientLink(Client cl, PersonalCabinet pk, Event event) {
-        Long clientId = cl.getClientId();
-        Long cabinetId = pk.getPersonalCabinetId();
-        Long eventId = event.getEventId();
+       
 
         //   String hql = "from EventClientLink as ecl where ecl.event.eventId= :event and ecl.cabinet.personalCabinetId= :cabinet and ecl.client.clientId= :client";
         String hql = "from EventClientLink as ecl where ecl.event= :event and ecl.cabinet= :cabinet and ecl.client= :client";

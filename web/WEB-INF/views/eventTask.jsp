@@ -19,13 +19,20 @@
 
         <div class="row ">
             <h4>  Евент:  ${event.name} &nbsp Стратегия: ${event.strategy.strategyName} </h4>
-         <div class="btn-group" role="group" aria-label="...">
+
             <a href="<c:url value="/Event/getShapeExcel"/>" class="btn btn-large btn-primary" role="button">Получить форму excel</a>
-            <a href="<c:url value="/Event/appointAll"/>" class="btn btn-large btn-primary" role="button">Назначить всем</a>
-         </div>
+
+
             <form enctype="multipart/form-data" action="<c:url value="/Event/setXls" />" method="post">
-                Загрузить файл: <input name="fileXls" type="file">
-                Обновлять клиентов: <input class="btn btn-primary" type="checkbox" name="checkbox" value="agree"> 
+                <div style="position:relative;">
+                    <a class='btn btn-primary' href='javascript:;'>
+                          Загрузить файл...
+                        <input type="file" style='position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;' name="fileXls" size="40"  onchange='$("#upload-file-info").html($(this).val());'>
+                    </a>
+                    &nbsp;
+                    <span class='label label-info' id="upload-file-info"></span>
+                </div>
+                Обновлять клиентов: <input  type="checkbox" name="checkbox" value="agree"> 
                 <input type="hidden" name="eventId" value=${param['eventId']}>
                 <input class="btn btn-primary" type="submit" value="Отправить">
             </form>
@@ -51,13 +58,13 @@
                         <td >${user.user.surname} &nbsp ${user.user.name} </td>
 
                         <c:if test="${number== 1}">
-                            <td rowspan="${listUser.size()}" > ${eventClientLinkList.size()} </td>
+                            <td rowspan="${listUser.size()}" onClick="location = '<c:url value="/Event/#"/>'" > ${eventClientLinkList.size()} </td>
                         </c:if>
 
                         <td > </td>
 
                         <c:if test="${number== 1}">
-                            <td rowspan="${listUser.size()}" >${unassignedEventClientLinkList.size()}  </td>
+                            <td rowspan="${listUser.size()}" onClick="location = '<c:url value="/Event/eventAppoint"/>'" >${unassignedEventClientLinkList.size()}  </td>
                         </c:if>
                         <td>  </td>
                         <td>  </td>

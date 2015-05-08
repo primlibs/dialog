@@ -193,8 +193,8 @@ public class EventService extends PrimService {
                     }
 
                     if (getError().isEmpty()) {
-                      
-                     
+                        EventClientLink ecl = eventClientLinkDao.getEventClientLink(cl, pk, event);
+                        if (ecl == null) {
                             EventClientLink eventLinkClient = new EventClientLink();
                             eventLinkClient.setCabinet(pk);
                             eventLinkClient.setClient(cl);
@@ -202,7 +202,8 @@ public class EventService extends PrimService {
                             if (validate(eventLinkClient)) {
                                 eventClientLinkDao.save(eventLinkClient);
                             }
-                        
+
+                        }
                     }
                 }
             }

@@ -113,17 +113,20 @@ public class EventController extends WebController {
         return "redirect:/Event/eventTask";
     }
 
-    @RequestMapping("/appointAll")
+    @RequestMapping("/eventAppoint")
     public String setXls(Map<String, Object> model,
             @RequestParam(value = "eventId") Long eventId,
-            RedirectAttributes ras) throws Exception {
+            RedirectAttributes ras,
+            HttpServletRequest request) throws Exception {
 
-        
-        
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+
+        model.put("event", eventService.getEvent(eventId));
+        model.put("listUser", eventService.listRoleUserActiveCabinetUser(cabinetId));
         ras.addAttribute("eventId", eventId);
         ras.addFlashAttribute("errors", eventService.getError());
         ras.addFlashAttribute("event", eventService.getEvent(eventId));
-        return "redirect:/Event/eventTask";
+        return "eventAppoint";
     }
 
 }
