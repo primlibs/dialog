@@ -58,7 +58,7 @@
                         <td >${cabinetUser.user.surname} &nbsp ${cabinetUser.user.name} </td>
 
                         <c:if test="${number== 1}">
-                            <td rowspan="${cabinetUserList.size()}" onClick="location = '<c:url value="/Event/#"/>'" > ${eventClientLinkList.size()} </td>
+                            <td rowspan="${cabinetUserList.size()}" onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}"/>'" > ${eventClientLinkList.size()} </td>
                         </c:if>
 
                         <td > </td>
