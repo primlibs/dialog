@@ -75,8 +75,8 @@ public class EventController extends WebController {
 
         model.put("errors", eventService.getError());
         model.put("listUser", eventService.listRoleUserActiveCabinetUser(cabinetId));
-        model.put("eventClientLinkList", eventService.getEventClientLinkList(eventId));
-        model.put("unassignedEventClientLinkList", eventService.getUnassignedEventClientLink(eventId));
+        model.put("eventClientLinkList", eventService.getEventClientLinkList(eventId, cabinetId));
+        model.put("unassignedEventClientLinkList", eventService.getUnassignedEventClientLink(eventId, cabinetId));
         model.put("event", eventService.getEvent(eventId));
         return "eventTask";
     }
@@ -121,6 +121,7 @@ public class EventController extends WebController {
 
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
+         model.put("clientList", null);
         model.put("event", eventService.getEvent(eventId));
         model.put("listUser", eventService.listRoleUserActiveCabinetUser(cabinetId));
         ras.addAttribute("eventId", eventId);

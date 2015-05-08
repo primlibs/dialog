@@ -7,6 +7,9 @@ package dao;
 
 import dao.parent.Dao;
 import entities.Client;
+import entities.Event;
+import entities.EventClientLink;
+import entities.PersonalCabinet;
 import java.util.List;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
@@ -36,5 +39,16 @@ public class ClientDao extends Dao<Client> {
             return clist.get(0);
         }
     }
+     public List<Client> getClientByEvent( PersonalCabinet pk, Event event) {
+               //   String hql = "from EventClientLink as ecl where ecl.event.eventId= :event and ecl.cabinet.personalCabinetId= :cabinet and ecl.client.clientId= :client";
+        String hql = "select ecl.client from EventClientLink as ecl where ecl.event= :event and ecl.cabinet= :cabinet";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("event", event);
+        query.setParameter("cabinet", pk);
+        
+         List<Client> clist = query.list();
+       
+            return clist;
     
+    }
 }

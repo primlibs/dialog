@@ -55,7 +55,7 @@
                 <c:forEach var="user"  items="${listUser}" varStatus="myIndex">
                     <tr>
 
-                        <td >${user.user.surname} &nbsp ${user.user.name} </td>
+                        <td >${user.surname} &nbsp ${user.name} </td>
 
                         <c:if test="${number== 1}">
                             <td rowspan="${listUser.size()}" onClick="location = '<c:url value="/Event/#"/>'" > ${eventClientLinkList.size()} </td>

@@ -217,26 +217,23 @@ public class EventService extends PrimService {
         return event;
     }
 
-    public List<EventClientLink> getEventClientLinkList(Long eventId) {
-        List<EventClientLink> eventClientLinkList = eventClientLinkDao.getEventClientLinkListByEventId(eventId);
-
-        return eventClientLinkList;
-    }
-// не использую
-
     public List<EventClientLink> getEventClientLinkList(Long eventId, Long cabinetId) {
-        PersonalCabinet pk = personalCabinetDao.find(cabinetId);
-        List<EventClientLink> ecl = pk.getEventClientLinkList();
-
-        // List<EventClientLink> eventClientLinkList = 
-        return null;
+        List<EventClientLink> eventClientLinkList = eventClientLinkDao.getEventClientLinkListByEventId(eventId, cabinetId);
+        return eventClientLinkList;
     }
 
 // получить лист НЕ назначиных клиентов
-    public List<EventClientLink> getUnassignedEventClientLink(Long eventId) {
-        List<EventClientLink> eventClientLinkList = eventClientLinkDao.getUnassignedEventClientLink(eventId);
-
+    public List<EventClientLink> getUnassignedEventClientLink(Long eventId, Long cabinetId) {
+        List<EventClientLink> eventClientLinkList = eventClientLinkDao.getUnassignedEventClientLink(eventId, cabinetId);
         return eventClientLinkList;
+
+    }
+
+    public List<Client> clientList(Long eventId, Long cabinetId) {
+        PersonalCabinet pk = personalCabinetDao.find(cabinetId);
+        Event event = eventDao.find(eventId);
+        List<Client> clList = clientDao.getClientByEvent(pk, event);
+        return clList;
 
     }
 }

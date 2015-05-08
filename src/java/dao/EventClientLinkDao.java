@@ -26,28 +26,28 @@ public class EventClientLinkDao extends Dao<EventClientLink> {
         return EventClientLink.class;
     }
 
-    public List<EventClientLink> getEventClientLinkListByEventId(Long eventId) {
-        String hql = "from EventClientLink as ecl where ecl.event.eventId= :eventId";
+    public List<EventClientLink> getEventClientLinkListByEventId(Long eventId,Long cabinetId) {
+        String hql = "from EventClientLink as ecl where ecl.event.eventId= :eventId and ecl.cabinet.personalCabinetId= :cabinet";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("eventId", eventId);
+        query.setParameter("cabinet", cabinetId);
         List<EventClientLink> ecl = query.list();
         return ecl;
 
     }
 
     // получить лист ЕвенКлиентов не назначеных
-    public List<EventClientLink> getUnassignedEventClientLink(Long eventId) {
-        String hql = "from EventClientLink as ecl where ecl.event.eventId= :eventId and ecl.user is null";
+    public List<EventClientLink> getUnassignedEventClientLink(Long eventId,Long cabinetId) {
+        String hql = "from EventClientLink as ecl where ecl.event.eventId= :eventId and ecl.user is null and ecl.cabinet.personalCabinetId= :cabinet";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("eventId", eventId);
+        query.setParameter("cabinet", cabinetId);
         List<EventClientLink> ecl = query.list();
         return ecl;
     }
 
     public EventClientLink getEventClientLink(Client cl, PersonalCabinet pk, Event event) {
-       
-
-        //   String hql = "from EventClientLink as ecl where ecl.event.eventId= :event and ecl.cabinet.personalCabinetId= :cabinet and ecl.client.clientId= :client";
+               //   String hql = "from EventClientLink as ecl where ecl.event.eventId= :event and ecl.cabinet.personalCabinetId= :cabinet and ecl.client.clientId= :client";
         String hql = "from EventClientLink as ecl where ecl.event= :event and ecl.cabinet= :cabinet and ecl.client= :client";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("event", event);

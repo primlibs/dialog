@@ -30,19 +30,28 @@
                     <td>Телефон лица принимающего решение</td>
                     <td>Адрес</td>
                     <td>Комментарии</td>
+                    <td>Назначить юзера</td>
                 </tr>
-                <c:forEach var="client" items="${ClientList}" varStatus="myIndex">
+                <c:forEach var="client" items="${clientList}" varStatus="myIndex">
 
                     <tr>
                         <td>${myIndex.count}</td>
-                        <td>${cabinetUser.user.name}</td> 
-                        <td>${cabinetUser.user.surname}</td>
-                        <td>${cabinetUser.user_role}</td>  
-                        <td> </td>  
-                        <td> </td>  
-                        <td> </td>  
-                        <td > ${strategy.strategyName} </td>
-                        <td> </td>  
+                        <td>${client.uniqueId}</td> 
+                        <td>${client.nameCompany}</td>
+                        <td>${client.nameSecretary}</td>  
+                        <td>${client.nameLpr} </td>  
+                        <td>${client.phoneSecretary} </td>  
+                        <td>${client.phoneLpr} </td>  
+                        <td >${client.address} </td>
+                        <td>${client.comment} </td>  
+                        <td>
+                            <select name="user">
+                                <c:forEach var="user" items="${listUser}" varStatus="myIndex">
+                                    <option value="${user.userId}">${user.surname} &nbsp ${user.name} </option>
+
+                                </c:forEach>
+                            </select> 
+                        </td> 
                     </tr>
                 </c:forEach>
             </table>
