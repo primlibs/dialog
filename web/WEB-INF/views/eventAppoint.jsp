@@ -17,7 +17,11 @@
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
         <div class="row">
             <h4>  Евент:  ${event.name} &nbsp Стратегия: ${event.strategy.strategyName} </h4>
-            <a href="<c:url value="/Event/#"/>" class="btn btn-primary" role="button">Назначить всем</a>
+             <input type="hidden" name="eventId" value=${param['eventId']}>
+            <c:if test="${clientList!=null && !clientList.isEmpty()}">
+                  <a href="<c:url value="/Event/#"/>" class="btn btn-primary" role="button">Назначить всем</a>
+            </c:if>
+         
 
             <table class="table table-bordered table-hover">
                 <tr>
@@ -45,9 +49,10 @@
                         <td >${client.address} </td>
                         <td>${client.comment} </td>  
                         <td>
-                            <select name="user">
-                                <c:forEach var="user" items="${listUser}" varStatus="myIndex">
-                                    <option value="${user.userId}">${user.surname} &nbsp ${user.name} </option>
+                            <select name="arrayClientIdUserId">
+                                <c:forEach var="cabinetUser" items="${cabinetUserList}" varStatus="myIndex">
+                                    <option value="null">  </option>
+                                    <option value="${client.clientId}_${cabinetUser.user.userId}">${user.user.surname} &nbsp ${cabinetUser.user.name} </option>
 
                                 </c:forEach>
                             </select> 

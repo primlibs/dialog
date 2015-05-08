@@ -52,10 +52,10 @@
                     <td>Всего</td>
                 </tr>
                 <c:set var="number" value="1" />
-                <c:forEach var="user"  items="${listUser}" varStatus="myIndex">
+                <c:forEach var="cabinetUser"  items="${cabinetUserList}" varStatus="myIndex">
                     <tr>
 
-                        <td >${user.surname} &nbsp ${user.name} </td>
+                        <td >${cabinetUser.user.surname} &nbsp ${cabinetUser.user.name} </td>
 
                         <c:if test="${number== 1}">
                             <td rowspan="${listUser.size()}" onClick="location = '<c:url value="/Event/#"/>'" > ${eventClientLinkList.size()} </td>
@@ -64,7 +64,7 @@
                         <td > </td>
 
                         <c:if test="${number== 1}">
-                            <td rowspan="${listUser.size()}" onClick="location = '<c:url value="/Event/eventAppoint"/>'" >${unassignedEventClientLinkList.size()}  </td>
+                            <td rowspan="${listUser.size()}" onClick="location = '<c:url value="/Event/eventAppoint?eventId=${event.eventId}"/>'" >${unassignedEventClientLinkList.size()}  </td>
                         </c:if>
                         <td>  </td>
                         <td>  </td>

@@ -229,7 +229,7 @@ public class EventService extends PrimService {
 
     }
 
-    public List<Client> clientList(Long eventId, Long cabinetId) {
+    public List<Client> getClientList(Long eventId, Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         Event event = eventDao.find(eventId);
         List<Client> clList = clientDao.getClientByEvent(pk, event);
