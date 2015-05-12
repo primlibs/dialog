@@ -275,10 +275,9 @@ public class EventService extends PrimService {
             }
         }
     }
-/*
+
     //распределить всех клиентов по юзерам
-    public void eventAppointAll(Long eventId, Long cabinetId) {
-        int i;
+    public  LinkedHashMap<Long,Integer> eventAppointAll(Long eventId, Long cabinetId) { 
         int clientNotAssigned = getClientListNotAssigned(eventId, cabinetId).size();
         int user = listRoleUserActiveCabinetUser(cabinetId).size();
         List<CabinetUser> cabinetUserList = listRoleUserActiveCabinetUser(cabinetId);
@@ -288,14 +287,17 @@ public class EventService extends PrimService {
 
         LinkedHashMap<Long, Integer> residueMap = new LinkedHashMap<>();
 
-        while (endClientUser < 0;i--){
-             for (CabinetUser cabinetUser : cabinetUserList) {
-                Long userId = cabinetUser.getUser().getUserId();
-
-                residueMap.put(userId, i);
+        for (CabinetUser cabinetUser : cabinetUserList) {
+            Long userId = cabinetUser.getUser().getUserId();
+            int eventPoint=clientOneUser;
+            if(endClientUser>0){
+                eventPoint+=1;
+                endClientUser--;
             }
-
+            residueMap.put(userId, eventPoint);
         }
+        return residueMap;
+
     }
-*/
+
 }

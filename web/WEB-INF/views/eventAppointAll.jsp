@@ -30,17 +30,20 @@
             <form  action="<c:url value="/Event/eventAppointSaveAll" />" method="post">
                 <table class="table table-bordered table-hover">
 
+                    
+                    <c:if test="${eventAllAppoint!=null && !eventAllAppoint.isEmpty()}">
+                        <h1>;ouhiv;owrijfvweop;ifj'p;edvnco;wij</h1>
+                    </c:if>
                     <c:forEach var="cabinetUser"  items="${cabinetUserList}" varStatus="myIndex">
                         <tr>
 
                             <td >${cabinetUser.user.surname} &nbsp ${cabinetUser.user.name} </td>
-                            <td> <input type="text"  name="usersCustomers"  value="${param['edrhsrtjrj']}" placeholder="Количество заданий"> </td>
+                            <td> <input type="text"  name="usersCustomers"  value="${eventAllAppoint.get(cabinetUser.getUser().getUserId())}" placeholder="Количество заданий"> </td>
                             
                         </tr>
                     </c:forEach>
                 </table>
                 <input type="hidden" name="eventId" value=${param['eventId']}>
-
                 <input class="btn btn-primary" type="submit" value="Отправить">
 
 

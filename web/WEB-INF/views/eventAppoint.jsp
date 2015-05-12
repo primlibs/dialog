@@ -22,7 +22,7 @@
             <div class="btn-group" role="group" >
                 <a href="<c:url value="/Event/eventTask?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Перейти на Евент</a>
                 <c:if test="${clientList!=null && !clientList.isEmpty()}">
-                    <a href="<c:url value="/Event/#"/>" class="btn btn-primary" role="button">Назначить всем</a>
+                    <a href="<c:url value="/Event/eventShowAllAppoint?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Назначить всем</a>
                 </c:if>
             </div>
 
