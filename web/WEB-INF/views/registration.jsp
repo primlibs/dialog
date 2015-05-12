@@ -17,8 +17,6 @@
     </head>
     <body class="container" >
 
-      
-
     <center><h2>Регистрация</h2></center> 
     <%@include file="/WEB-INF/jsp/error.jsp" %> 
 
@@ -28,20 +26,20 @@
         <div class="form-group">
             <label class="control-label col-xs-3" for="lastName">Название компании:</label>
             <div class="col-xs-9">
-                <input type="text" class="form-control ntSaveForms" name="company" id="lastName" placeholder="Введите наименование компании">
+                <input type="text" class="form-control ntSaveForms" name="company" id="lastName" placeholder="Введите наименование компании" value="${param['company']}">
             </div>
         </div>
 
         <div class="form-group">
             <label class="control-label col-xs-3"  for="inputEmail">Email:</label>
             <div class="col-xs-9">
-                <input type="email" class="form-control ntSaveForms" name="emailCompany"  id="inputEmail" placeholder="Email">
+                <input type="email" class="form-control ntSaveForms" name="emailCompany"  id="inputEmail" placeholder="Email" value="${param['emailCompany']}">
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-xs-3" for="phoneNumber">Телефон:</label>
             <div class="col-xs-9">
-                <input type="tel" class="form-control ntSaveForms" name="phone" id="phoneNumber" placeholder="Введите номер телефона">
+                <input type="tel" class="form-control ntSaveForms" name="phone" id="phoneNumber" placeholder="Введите номер телефона" value="${param['phone']}">
             </div>
         </div>
         <h3>   Личные данные:</h3>
@@ -50,37 +48,37 @@
         <div class="form-group">
             <label class="control-label col-xs-3" for="lastName">Фамилия:</label>
             <div class="col-xs-9">
-                <input type="text" class="form-control ntSaveForms" name="surname" id="lastName" placeholder="Введите фамилию">
+                <input type="text" class="form-control ntSaveForms" name="surname" id="lastName" placeholder="Введите фамилию" value="${param['surname']}">
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-xs-3" for="firstName">Имя:</label>
             <div class="col-xs-9">
-                <input type="text" class="form-control ntSaveForms" name="name" id="firstName" placeholder="Введите имя">
+                <input type="text" class="form-control ntSaveForms" name="name" id="firstName" placeholder="Введите имя" value="${param['firstName']}">
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-xs-3" for="firstName">Отчество:</label>
             <div class="col-xs-9">
-                <input type="text" class="form-control ntSaveForms" name="patronymic" id="firstName" placeholder="Введите отчество">
+                <input type="text" class="form-control ntSaveForms" name="patronymic" id="firstName" placeholder="Введите отчество" value="${param['patronymic']}">
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-xs-3"  for="inputEmail">Email:</label>
             <div class="col-xs-9">
-                <input type="email" class="form-control ntSaveForms" name="email" id="inputEmail" placeholder="Email">
+                <input type="email" class="form-control ntSaveForms" name="email" id="inputEmail" placeholder="Email" value="${param['email']}">
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-xs-3" for="inputPassword">Пароль:</label>
             <div class="col-xs-9">
-                <input type="password" class="form-control" name="password" id="inputPassword" placeholder="Введите пароль">
+                <input type="password" class="form-control" name="password" id="inputPassword" placeholder="Введите пароль" value="${param['password']}">
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-xs-3" for="confirmPassword">Подтвердите пароль:</label>
             <div class="col-xs-9">
-                <input type="password" class="form-control" name="confirmPassword"  id="confirmPassword" placeholder="Введите пароль ещё раз">
+                <input type="password" class="form-control" name="confirmPassword"  id="confirmPassword" placeholder="Введите пароль ещё раз" value="${param['confirmPassword']}">
             </div>
         </div>
 
