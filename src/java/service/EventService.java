@@ -12,12 +12,14 @@ import dao.GroupDao;
 import dao.ModuleDao;
 import dao.PersonalCabinetDao;
 import dao.StrategyDao;
+import dao.UserDao;
 import entities.CabinetUser;
 import entities.Client;
 import entities.Event;
 import entities.EventClientLink;
 import entities.PersonalCabinet;
 import entities.Strategy;
+import entities.User;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -51,6 +53,9 @@ public class EventService extends PrimService {
 
     @Autowired
     private PersonalCabinetDao personalCabinetDao;
+
+    @Autowired
+    private UserDao userDao;
 
     @Autowired
     private GroupDao groupDao;
@@ -235,5 +240,24 @@ public class EventService extends PrimService {
         List<Client> clList = clientDao.getClientByEvent(pk, event);
         return clList;
 
+    }
+
+    public void eventAppointSave(String[] arrayClientIdUserId, Long cabinetId, Long eventId) {
+        PersonalCabinet pk = personalCabinetDao.find(cabinetId);
+        Event event = eventDao.find(eventId);
+
+        for (int i = 0; i < arrayClientIdUserId.length; i++) {
+            String clientIdUserId = arrayClientIdUserId[i];
+            String[] dfg = clientIdUserId.split("_");
+            Long clientId = Long.valueOf(dfg[0]);
+            Long userId = Long.valueOf(dfg[1]);
+            Client client = clientDao.find(clientId);
+            User user = userDao.find(userId);
+            EventClientLink link = eventClientLinkDao.getEventClientLink(client, pk, event);
+            link.setUser(user);
+            if (validate(link)) {
+                eventClientLinkDao.save(link);
+            }
+        }
     }
 }
