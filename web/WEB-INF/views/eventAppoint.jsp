@@ -54,6 +54,7 @@
                             <td>${client.comment} </td>  
                             <td>
                                 <select name="arrayClientIdUserId">
+                                    <option value=""> &nbsp  </option>
                                     <c:forEach var="cabinetUser" items="${cabinetUserList}" varStatus="myIndex">
 
                                         <option value="${client.clientId}_${cabinetUser.user.userId}">${cabinetUser.user.surname} &nbsp ${cabinetUser.user.name} </option>

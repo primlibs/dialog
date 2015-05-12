@@ -26,29 +26,37 @@ public class ClientDao extends Dao<Client> {
         return Client.class;
     }
 
-    public Client getClientByUniqueIdInLk(String uid,Long cabinetId){
-        
+    public Client getClientByUniqueIdInLk(String uid, Long cabinetId) {
+
         String hql = "from Client as cu where cu.uniqueId= :uniqueId and cu.cabinet.personalCabinetId= :cabinet ";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("uniqueId", uid);
         query.setParameter("cabinet", cabinetId);
-        List<Client> clist=query.list();
-        if(clist.isEmpty()){
+        List<Client> clist = query.list();
+        if (clist.isEmpty()) {
             return null;
-        }else{
+        } else {
             return clist.get(0);
         }
     }
-     public List<Client> getClientByEvent( PersonalCabinet pk, Event event) {
-               //   String hql = "from EventClientLink as ecl where ecl.event.eventId= :event and ecl.cabinet.personalCabinetId= :cabinet and ecl.client.clientId= :client";
+
+    public List<Client> getClientByEvent(PersonalCabinet pk, Event event) {
+        //   String hql = "from EventClientLink as ecl where ecl.event.eventId= :event and ecl.cabinet.personalCabinetId= :cabinet and ecl.client.clientId= :client";
         String hql = "select ecl.client from EventClientLink as ecl where ecl.event= :event and ecl.cabinet= :cabinet";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("event", event);
         query.setParameter("cabinet", pk);
-        
-         List<Client> clist = query.list();
-       
-            return clist;
-    
+        List<Client> clist = query.list();
+        return clist;
+    }
+
+    public List<Client> getClientByEventNotAssigned(PersonalCabinet pk, Event event) {
+        //   String hql = "from EventClientLink as ecl where ecl.event.eventId= :event and ecl.cabinet.personalCabinetId= :cabinet and ecl.client.clientId= :client";
+        String hql = "select ecl.client from EventClientLink as ecl where ecl.event= :event and ecl.cabinet= :cabinet and ecl.user is null";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("event", event);
+        query.setParameter("cabinet", pk);
+        List<Client> clist = query.list();
+        return clist;
     }
 }

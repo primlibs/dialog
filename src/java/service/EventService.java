@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -227,17 +228,27 @@ public class EventService extends PrimService {
         return eventClientLinkList;
     }
 
-// получить лист НЕ назначиных клиентов
+// получить лист ссылок НЕ назначиных клиентов
     public List<EventClientLink> getUnassignedEventClientLink(Long eventId, Long cabinetId) {
         List<EventClientLink> eventClientLinkList = eventClientLinkDao.getUnassignedEventClientLink(eventId, cabinetId);
         return eventClientLinkList;
 
     }
 
+// получить ист клиентов
     public List<Client> getClientList(Long eventId, Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         Event event = eventDao.find(eventId);
         List<Client> clList = clientDao.getClientByEvent(pk, event);
+        return clList;
+
+    }
+
+// получить лист клиентов не назначеных
+    public List<Client> getClientListNotAssigned(Long eventId, Long cabinetId) {
+        PersonalCabinet pk = personalCabinetDao.find(cabinetId);
+        Event event = eventDao.find(eventId);
+        List<Client> clList = clientDao.getClientByEventNotAssigned(pk, event);
         return clList;
 
     }
@@ -247,17 +258,44 @@ public class EventService extends PrimService {
         Event event = eventDao.find(eventId);
 
         for (int i = 0; i < arrayClientIdUserId.length; i++) {
-            String clientIdUserId = arrayClientIdUserId[i];
-            String[] dfg = clientIdUserId.split("_");
-            Long clientId = Long.valueOf(dfg[0]);
-            Long userId = Long.valueOf(dfg[1]);
-            Client client = clientDao.find(clientId);
-            User user = userDao.find(userId);
-            EventClientLink link = eventClientLinkDao.getEventClientLink(client, pk, event);
-            link.setUser(user);
-            if (validate(link)) {
-                eventClientLinkDao.save(link);
+            //   String clientIdUserId = arrayClientIdUserId[i];
+            //  String[] dfg = clientIdUserId.split("_");
+            String str = arrayClientIdUserId[i];
+            if (str != null && !str.isEmpty()) {
+                String[] clientIdUserId = str.split("_");
+                Long clientId = Long.valueOf(clientIdUserId[0]);
+                Long userId = Long.valueOf(clientIdUserId[1]);
+                Client client = clientDao.find(clientId);
+                User user = userDao.find(userId);
+                EventClientLink link = eventClientLinkDao.getEventClientLink(client, pk, event);
+                link.setUser(user);
+                if (validate(link)) {
+                    eventClientLinkDao.save(link);
+                }
             }
         }
     }
+/*
+    //распределить всех клиентов по юзерам
+    public void eventAppointAll(Long eventId, Long cabinetId) {
+        int i;
+        int clientNotAssigned = getClientListNotAssigned(eventId, cabinetId).size();
+        int user = listRoleUserActiveCabinetUser(cabinetId).size();
+        List<CabinetUser> cabinetUserList = listRoleUserActiveCabinetUser(cabinetId);
+
+        int clientOneUser = clientNotAssigned / user; //деление
+        int endClientUser = clientNotAssigned % user; // остаток
+
+        LinkedHashMap<Long, Integer> residueMap = new LinkedHashMap<>();
+
+        while (endClientUser < 0;i--){
+             for (CabinetUser cabinetUser : cabinetUserList) {
+                Long userId = cabinetUser.getUser().getUserId();
+
+                residueMap.put(userId, i);
+            }
+
+        }
+    }
+*/
 }
