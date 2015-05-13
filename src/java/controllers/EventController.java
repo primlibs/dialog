@@ -127,7 +127,7 @@ public class EventController extends WebController {
         ras.addAttribute("eventId", eventId);
         ras.addFlashAttribute("errors", eventService.getError());
         ras.addFlashAttribute("event", eventService.getEvent(eventId));
-        return "eventAppoint";
+        return "eventClient";
     }
 
     @RequestMapping("/eventClient")
@@ -192,6 +192,8 @@ public class EventController extends WebController {
             HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        
+        eventService.eventAppointSaveAll(eventId, cabinetId, userIdArray, clientNumArray);
 
         model.put("cabinetUserList", eventService.listRoleUserActiveCabinetUser(cabinetId));
         model.put("event", eventService.getEvent(eventId));

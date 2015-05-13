@@ -17,9 +17,8 @@
             <ul class="dropdown-menu">
                 <li><a href="<c:url value="/User/userList"/>">Пользователи</a></li>
                 <li><a href="<c:url value="/Client/clientList"/>">Клиенты</a></li>
-                <li><a href="<c:url value="/Event/eventList"/>">Кампании(event)</a></li>
-                <li><a href="#">Клиент</a></li>
-                <li><a href="#">Отчет по компании</a></li>
+                <li><a href="<c:url value="/Event/eventList"/>">Кампания(Event)</a></li>
+                <li><a href="#">Отчет по кампании(Event'у)</a></li>
                 <li><a href="#">Отчет по операторам</a></li>
                 <li><a href="<c:url value="/Strategy/show"/>">Стратегии</a></li>
             </ul>                    

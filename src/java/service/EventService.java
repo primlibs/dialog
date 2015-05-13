@@ -327,10 +327,9 @@ public class EventService extends PrimService {
             Integer i2 = Integer.valueOf(df);
             summClient += i2;
         }
-        if (summClient > clientNotAssignedSize) {
+        if (summClient <= clientNotAssignedSize) {
             for (Long userId : appointMap.keySet()) {
                 Integer clientCn = appointMap.get(userId);
-                //   User user = userDao.find(userId);
                 User user = userDao.getUserBelongsPk(pk, userId);
                 if (user != null) {
                     int gaga = 0;
@@ -346,11 +345,11 @@ public class EventService extends PrimService {
                         }
                     }
                 } else {
-                    addError("Ошибка! Юзер не принадлежит к личному кабинету");
+                    addError("Ошибка! Пользователь не принадлежит к личному кабинету");
                 }
             }
         } else {
-            addError("Количество клиентов не соответствует существующим: " + clientNotAssignedSize);
+            addError("Количество клиентов "+summClient+" больше не назначенным: " + clientNotAssignedSize);
         }
     }
 }

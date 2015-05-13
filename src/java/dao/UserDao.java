@@ -42,7 +42,7 @@ public class UserDao extends Dao<User> {
    //Принадлежит Юзер к ЛК?
        public User getUserBelongsPk(PersonalCabinet pk, Long userId) {
         //   String hql = "from EventClientLink as ecl where ecl.event.eventId= :event and ecl.cabinet.personalCabinetId= :cabinet and ecl.client.clientId= :client";
-        String hql = "select ecl.User from CabinetUser as ecl where ecl.user.userId= :userId and ecl.cabinet= :cabinet";
+        String hql = "select ecl.user from CabinetUser as ecl where ecl.user.userId= :userId and ecl.cabinet= :cabinet";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("userId", userId);
         query.setParameter("cabinet", pk);

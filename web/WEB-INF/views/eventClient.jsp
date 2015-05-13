@@ -20,8 +20,28 @@
             <input type="hidden" name="eventId" value=${param['eventId']}>
             <div class="btn-group" role="group" >
                 <a href="<c:url value="/Event/eventTask?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Евент</a>
-                <a href="<c:url value="/Event/eventAppoint?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Назначить </a>   
+                <a href="<c:url value="/Event/eventShowAllAppoint?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Назначить всем</a>
             </div>
+            <form enctype="multipart/form-data" action="<c:url value="/Event/#" />" method="post">
+                <div class="btn-group bootstrap-select">
+                    <select class="selectpicker" data-style="btn-primary" title='Не выбрано...'>
+                        <option value="">Не назначено </option>
+                        <option value="">Назначено </option>
+                        <c:forEach var="cabinetUser"  items="${cabinetUserList}" varStatus="myIndex">
+                            <option value="${cabinetUser.user.userId}">${cabinetUser.user.surname} &nbsp ${cabinetUser.user.name}</option>
+                        </c:forEach>
+                    </select>
+
+                    <select class="selectpicker" data-style="btn-primary" title='Не выбрано...'>
+                        <option value="">Не обработано </option>
+                        <option value="">Успешно </option>
+                        <option value="">Не успешно </option>
+                        <option value="">Обработано </option>
+                    </select>
+                    <input type="hidden" name="eventId" value=${param['eventId']}>
+                    <input type="submit" name="submit"  class="btn btn-primary" value="Выбрать">
+                </div>
+            </form>
             <table class="table table-bordered table-hover">
                 <tr>
                     <td>${myIndex.index}номер по порядку</td>
@@ -32,8 +52,8 @@
                     <td>Телефон секретаря</td>
                     <td>Телефон лица принимающего решение</td>
                     <td>Адрес</td>
-                    <td>Комментарии</td>
-
+                    <td>Пользователь</td>
+                    <td>Статус</td>
                 </tr>
                 <c:forEach var="client" items="${clientList}" varStatus="myIndex">
 
@@ -46,8 +66,8 @@
                         <td>${client.phoneSecretary} </td>  
                         <td>${client.phoneLpr} </td>  
                         <td >${client.address} </td>
-                        <td>${client.comment} </td>  
-
+                         <td> </td>
+                    <td> </td>
                     </tr>
                 </c:forEach>
             </table>
