@@ -6,10 +6,9 @@
 package dao;
 
 import dao.parent.Dao;
+import entities.PersonalCabinet;
 import entities.User;
 import org.hibernate.Query;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -39,4 +38,15 @@ public class UserDao extends Dao<User> {
        
        return (User) query.uniqueResult();
    }
+   
+   //Принадлежит Юзер к ЛК?
+       public User getUserBelongsPk(PersonalCabinet pk, Long userId) {
+        //   String hql = "from EventClientLink as ecl where ecl.event.eventId= :event and ecl.cabinet.personalCabinetId= :cabinet and ecl.client.clientId= :client";
+        String hql = "select ecl.User from CabinetUser as ecl where ecl.user.userId= :userId and ecl.cabinet= :cabinet";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("userId", userId);
+        query.setParameter("cabinet", pk);
+      
+    return (User) query.uniqueResult();
+    }
 }

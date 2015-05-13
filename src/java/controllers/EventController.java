@@ -174,7 +174,7 @@ public class EventController extends WebController {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
         model.put("eventAllAppoint", eventService.eventAppointAll(eventId, cabinetId));
-        
+
         model.put("event", eventService.getEvent(eventId));
         model.put("cabinetUserList", eventService.listRoleUserActiveCabinetUser(cabinetId));
         ras.addAttribute("eventId", eventId);
@@ -186,17 +186,22 @@ public class EventController extends WebController {
     @RequestMapping("/eventAppointSaveAll")
     public String saveAllAppointEvent(Map<String, Object> model,
             @RequestParam(value = "eventId") Long eventId,
+            @RequestParam(value = "clientNum") String[] clientNumArray,
+            @RequestParam(value = "userId") Long[] userIdArray,
             RedirectAttributes ras,
             HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
-        
         model.put("cabinetUserList", eventService.listRoleUserActiveCabinetUser(cabinetId));
         model.put("event", eventService.getEvent(eventId));
         ras.addAttribute("eventId", eventId);
         ras.addFlashAttribute("errors", eventService.getError());
         ras.addFlashAttribute("event", eventService.getEvent(eventId));
-        return "redirect:/Event/eventTask";
+
+        if (eventService.getError().isEmpty()) {
+            return "redirect:/Event/eventTask";
+        }
+        return "redirect:/Event/eventShowAllAppoint";
     }
 }

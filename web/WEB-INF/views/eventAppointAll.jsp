@@ -31,7 +31,10 @@
                         <c:if test="${eventAllAppoint.get(cabinetUser.getUser().getUserId())!=null && eventAllAppoint.get(cabinetUser.getUser().getUserId())!=0}">
                             <tr>
                                 <td >${cabinetUser.user.surname} &nbsp ${cabinetUser.user.name} </td>
-                                <td> <input type="text"  name="usersCustomers"  value="${eventAllAppoint.get(cabinetUser.getUser().getUserId())}" placeholder="Количество заданий"> </td>
+                                <td> 
+                                    <input type="text"  name="clientNum"  value="${eventAllAppoint.get(cabinetUser.getUser().getUserId())}" placeholder="Количество заданий">
+                                  <input type="hidden" name="userId" value=${cabinetUser.user.userId}>
+                                </td>
                             </tr>
 
                         </c:if>

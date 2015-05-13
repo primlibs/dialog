@@ -277,7 +277,7 @@ public class EventService extends PrimService {
     }
 
     //распределить всех клиентов по юзерам
-    public  LinkedHashMap<Long,Integer> eventAppointAll(Long eventId, Long cabinetId) { 
+    public LinkedHashMap<Long, Integer> eventAppointAll(Long eventId, Long cabinetId) {
         int clientNotAssigned = getClientListNotAssigned(eventId, cabinetId).size();
         int user = listRoleUserActiveCabinetUser(cabinetId).size();
         List<CabinetUser> cabinetUserList = listRoleUserActiveCabinetUser(cabinetId);
@@ -289,9 +289,9 @@ public class EventService extends PrimService {
 
         for (CabinetUser cabinetUser : cabinetUserList) {
             Long userId = cabinetUser.getUser().getUserId();
-            int eventPoint=clientOneUser;
-            if(endClientUser>0){
-                eventPoint+=1;
+            int eventPoint = clientOneUser;
+            if (endClientUser > 0) {
+                eventPoint += 1;
                 endClientUser--;
             }
             residueMap.put(userId, eventPoint);
@@ -300,4 +300,57 @@ public class EventService extends PrimService {
 
     }
 
+//сохранение распределения
+    public void eventAppointSaveAll(Long eventId, Long cabinetId, Long[] userIdArray, String[] clientNumArray) {
+        LinkedHashMap<Long, Integer> appointMap = new LinkedHashMap<Long, Integer>();
+        List<EventClientLink> linkLs = getUnassignedEventClientLink(eventId, cabinetId);
+        PersonalCabinet pk = personalCabinetDao.find(cabinetId);
+        int clientNotAssignedSize = getClientListNotAssigned(eventId, cabinetId).size();
+        int clientCount = 0;
+        int summClient = 0;
+
+        for (int i = 0; i < userIdArray.length; i++) {
+            if (clientNumArray.length >= i) {
+                int count = StringAdapter.toInteger(clientNumArray[i]);
+                clientCount += count;
+                appointMap.put(userIdArray[i], count);
+            } else {
+                appointMap.put(userIdArray[i], 0);
+            }
+        }
+
+        ///получить количество нераспределенных сравить с количеством подангых - если поданных больше - ошибка
+        //в цикле для каждогоо элемента appointMap распределить на пользователя пока 
+        //остаются заявки вывести объект который сообщит сколько на кого было распределено
+        for (int i = 0; i < clientNumArray.length; i++) {
+            String df = clientNumArray[i];
+            Integer i2 = Integer.valueOf(df);
+            summClient += i2;
+        }
+        if (summClient > clientNotAssignedSize) {
+            for (Long userId : appointMap.keySet()) {
+                Integer clientCn = appointMap.get(userId);
+                //   User user = userDao.find(userId);
+                User user = userDao.getUserBelongsPk(pk, userId);
+                if (user != null) {
+                    int gaga = 0;
+                    for (EventClientLink ecl : linkLs) {
+                        if (gaga < clientCn) {
+                            ecl.setUser(user);
+                            if (validate(ecl)) {
+                                eventClientLinkDao.save(ecl);
+                            }
+                            gaga += 1;
+                        } else {
+                            break;
+                        }
+                    }
+                } else {
+                    addError("Ошибка! Юзер не принадлежит к личному кабинету");
+                }
+            }
+        } else {
+            addError("Количество клиентов не соответствует существующим: " + clientNotAssignedSize);
+        }
+    }
 }
