@@ -25,6 +25,7 @@
             <form enctype="multipart/form-data" action="<c:url value="/Event/#" />" method="post">
                 <div class="btn-group bootstrap-select">
                     <select class="selectpicker" data-style="btn-primary" title='Не выбрано...'>
+                         <option value="">Не выбрано </option>
                         <option value="">Не назначено </option>
                         <option value="">Назначено </option>
                         <c:forEach var="cabinetUser"  items="${cabinetUserList}" varStatus="myIndex">
@@ -33,6 +34,7 @@
                     </select>
 
                     <select class="selectpicker" data-style="btn-primary" title='Не выбрано...'>
+                        <option value="">Не выбрано </option>
                         <option value="">Не обработано </option>
                         <option value="">Успешно </option>
                         <option value="">Не успешно </option>
