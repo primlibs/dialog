@@ -18,9 +18,10 @@
         <div class="row">
             <h4>  Евент:  ${event.name} &nbsp Стратегия: ${event.strategy.strategyName} </h4>
             <input type="hidden" name="eventId" value=${param['eventId']}>
-
-            <a href="<c:url value="/Event/eventTask?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Перейти на Евент</a>
-
+            <div class="btn-group" role="group" >
+                <a href="<c:url value="/Event/eventTask?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Евент</a>
+                <a href="<c:url value="/Event/eventAppoint?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Назначить </a>   
+            </div>
             <table class="table table-bordered table-hover">
                 <tr>
                     <td>${myIndex.index}номер по порядку</td>

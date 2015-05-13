@@ -1,9 +1,9 @@
 <%-- 
     Document   : eventAppointAll
     Created on : 12.05.2015, 14:30:44
-    Author     : Юрий
+    Author     : Юрий 
 --%>
-
+<%--        <c:if test="${eventAllAppoint!=null && !eventAllAppoint.isEmpty()}">    --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -18,35 +18,28 @@
         <div class="row">
             <h4>  Евент:  ${event.name} &nbsp Стратегия: ${event.strategy.strategyName} </h4>
             <input type="hidden" name="eventId" value=${param['eventId']}>
-            <%--
             <div class="btn-group" role="group" >
-                <a href="<c:url value="/Event/eventTask?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Перейти на Евент</a>
-                <c:if test="${clientList!=null && !clientList.isEmpty()}">
-                    <a href="<c:url value="/Event/#"/>" class="btn btn-primary" role="button">Назначить всем</a>
-                </c:if>
+                <a href="<c:url value="/Event/eventTask?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Евент</a>
+                  <a href="<c:url value="/Event/eventAppoint?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Назначить </a>   
+                   <a href="<c:url value="/Event/eventClient?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Клиенты </a>  
             </div>
-            --%>
 
             <form  action="<c:url value="/Event/eventAppointSaveAll" />" method="post">
                 <table class="table table-bordered table-hover">
 
-                    
-                    <c:if test="${eventAllAppoint!=null && !eventAllAppoint.isEmpty()}">
-                        <h1>;ouhiv;owrijfvweop;ifj'p;edvnco;wij</h1>
-                    </c:if>
                     <c:forEach var="cabinetUser"  items="${cabinetUserList}" varStatus="myIndex">
-                        <tr>
+                        <c:if test="${eventAllAppoint.get(cabinetUser.getUser().getUserId())!=null && eventAllAppoint.get(cabinetUser.getUser().getUserId())!=0}">
+                            <tr>
+                                <td >${cabinetUser.user.surname} &nbsp ${cabinetUser.user.name} </td>
+                                <td> <input type="text"  name="usersCustomers"  value="${eventAllAppoint.get(cabinetUser.getUser().getUserId())}" placeholder="Количество заданий"> </td>
+                            </tr>
 
-                            <td >${cabinetUser.user.surname} &nbsp ${cabinetUser.user.name} </td>
-                            <td> <input type="text"  name="usersCustomers"  value="${eventAllAppoint.get(cabinetUser.getUser().getUserId())}" placeholder="Количество заданий"> </td>
-                            
-                        </tr>
+                        </c:if>
                     </c:forEach>
+
                 </table>
                 <input type="hidden" name="eventId" value=${param['eventId']}>
                 <input class="btn btn-primary" type="submit" value="Отправить">
-
-
             </form>
         </div>
     </body>

@@ -191,6 +191,7 @@ public class EventController extends WebController {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
+        
         model.put("cabinetUserList", eventService.listRoleUserActiveCabinetUser(cabinetId));
         model.put("event", eventService.getEvent(eventId));
         ras.addAttribute("eventId", eventId);

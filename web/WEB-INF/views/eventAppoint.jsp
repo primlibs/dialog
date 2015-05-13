@@ -20,10 +20,11 @@
             <input type="hidden" name="eventId" value=${param['eventId']}>
 
             <div class="btn-group" role="group" >
-                <a href="<c:url value="/Event/eventTask?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Перейти на Евент</a>
+                <a href="<c:url value="/Event/eventTask?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Евент</a>
                 <c:if test="${clientList!=null && !clientList.isEmpty()}">
                     <a href="<c:url value="/Event/eventShowAllAppoint?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Назначить всем</a>
                 </c:if>
+                    <a href="<c:url value="/Event/eventClient?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Клиенты </a>   
             </div>
 
             <form  action="<c:url value="/Event/eventAppointSave" />" method="post">
