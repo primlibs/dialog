@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -327,29 +328,42 @@ public class EventService extends PrimService {
             Integer i2 = Integer.valueOf(df);
             summClient += i2;
         }
+        Long eclId=Long.valueOf(0);
         if (summClient <= clientNotAssignedSize) {
             for (Long userId : appointMap.keySet()) {
                 Integer clientCn = appointMap.get(userId);
                 User user = userDao.getUserBelongsPk(pk, userId);
                 if (user != null) {
                     int gaga = 0;
-                    for (EventClientLink ecl : linkLs) {
-                        if (gaga < clientCn) {
+                    for (EventClientLink ecl : linkLs) {           
+                        if (gaga < clientCn&&eclId<ecl.getEventClientLinkId()) {
                             ecl.setUser(user);
                             if (validate(ecl)) {
                                 eventClientLinkDao.save(ecl);
+                                eclId=ecl.getEventClientLinkId();
                             }
                             gaga += 1;
-                        } else {
-                            break;
-                        }
+                        } 
                     }
                 } else {
                     addError("Ошибка! Пользователь не принадлежит к личному кабинету");
                 }
             }
         } else {
-            addError("Количество клиентов "+summClient+" больше не назначенным: " + clientNotAssignedSize);
+            addError("Количество клиентов " + summClient + " больше не назначенным: " + clientNotAssignedSize);
         }
     }
+
+   
+    public HashMap<Long, String> userAssignedClient(Long eventId, Long cabinetId) {
+        HashMap<Long, String> userAssignedClient = new HashMap<Long, String>();
+        PersonalCabinet pk = personalCabinetDao.find(cabinetId);
+        Event event = eventDao.find(eventId);
+        for (Object[] ecl : eventClientLinkDao.getUserAssignedClient(eventId, cabinetId)) {
+           userAssignedClient.put(StringAdapter.toLong(ecl[1]),StringAdapter.getString(ecl[0]));
+        }
+        return userAssignedClient;
+
+    }
+   
 }

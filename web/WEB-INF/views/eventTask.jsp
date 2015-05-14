@@ -26,7 +26,7 @@
             <form enctype="multipart/form-data" action="<c:url value="/Event/setXls" />" method="post">
                 <div style="position:relative;">
                     <a class='btn btn-primary' href='javascript:;'>
-                          Загрузить файл...
+                        Загрузить файл...
                         <input type="file" style='position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;' name="fileXls" size="40"  onchange='$("#upload-file-info").html($(this).val());'>
                     </a>
                     &nbsp;
@@ -51,28 +51,27 @@
                     <td>Не успешно </td>
                     <td>Всего</td>
                 </tr>
-                <c:set var="number" value="1" />
-                <c:forEach var="cabinetUser"  items="${cabinetUserList}" varStatus="myIndex">
-                    <tr>
+                <c:set var="number" value="1" />                
+                    <c:forEach var="cabinetUser"  items="${cabinetUserList}" varStatus="myIndex">
+                        <tr>
+                            <td >${cabinetUser.user.surname} &nbsp ${cabinetUser.user.name} </td>
 
-                        <td >${cabinetUser.user.surname} &nbsp ${cabinetUser.user.name} </td>
+                            <c:if test="${number== 1}">
+                                <td rowspan="${cabinetUserList.size()}" onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}"/>'" > ${eventClientLinkList.size()} </td>
+                            </c:if>
 
-                        <c:if test="${number== 1}">
-                            <td rowspan="${cabinetUserList.size()}" onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}"/>'" > ${eventClientLinkList.size()} </td>
-                        </c:if>
+                            <td > ${userAssignedClient.get(cabinetUser.getUser().getUserId())} </td>
 
-                        <td > </td>
-
-                        <c:if test="${number== 1}">
-                            <td rowspan="${cabinetUserList.size()}" onClick="location = '<c:url value="/Event/eventAppoint?eventId=${event.eventId}"/>'" >${unassignedEventClientLinkList.size()}  </td>
-                        </c:if>
-                        <td>  </td>
-                        <td>  </td>
-                        <td> </td>
-                    </tr>
-
-                    <c:set var="number" value="${number+1}" />
-                </c:forEach>
+                            <c:if test="${number== 1}">
+                                <td rowspan="${cabinetUserList.size()}" onClick="location = '<c:url value="/Event/eventAppoint?eventId=${event.eventId}"/>'" >${unassignedEventClientLinkList.size()}  </td>
+                            </c:if>
+                            <td>  </td>
+                            <td>  </td>
+                            <td> </td>
+                        </tr>
+                        <c:set var="number" value="${number+1}" />
+                    </c:forEach>
+                
                 <tr>
                     <td > Итого:</td>
                     <td >${eventClientLinkList.size()}  </td>

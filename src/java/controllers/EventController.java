@@ -75,6 +75,7 @@ public class EventController extends WebController {
 
         model.put("errors", eventService.getError());
         model.put("cabinetUserList", eventService.listRoleUserActiveCabinetUser(cabinetId));
+        model.put("userAssignedClient", eventService.userAssignedClient(eventId, cabinetId));
         model.put("eventClientLinkList", eventService.getEventClientLinkList(eventId, cabinetId));
         model.put("unassignedEventClientLinkList", eventService.getUnassignedEventClientLink(eventId, cabinetId));
         model.put("event", eventService.getEvent(eventId));
@@ -192,7 +193,7 @@ public class EventController extends WebController {
             HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        
+
         eventService.eventAppointSaveAll(eventId, cabinetId, userIdArray, clientNumArray);
 
         model.put("cabinetUserList", eventService.listRoleUserActiveCabinetUser(cabinetId));

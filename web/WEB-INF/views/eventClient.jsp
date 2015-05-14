@@ -22,12 +22,12 @@
                 <a href="<c:url value="/Event/eventTask?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Евент</a>
                 <a href="<c:url value="/Event/eventShowAllAppoint?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Назначить всем</a>
             </div>
-            <form enctype="multipart/form-data" action="<c:url value="/Event/#" />" method="post">
+            <form enctype="multipart/form-data" class="form-inline btn-group" action="<c:url value="/Event/#" />" method="post">
                 <div class="btn-group bootstrap-select">
                     <select class="selectpicker" data-style="btn-primary" title='Не выбрано...'>
-                         <option value="">Не выбрано </option>
-                        <option value="">Не назначено </option>
-                        <option value="">Назначено </option>
+                         <option value="0">Не выбрано </option>
+                        <option value="-1">Не назначено </option>
+                        <option value="-2">Назначено </option>
                         <c:forEach var="cabinetUser"  items="${cabinetUserList}" varStatus="myIndex">
                             <option value="${cabinetUser.user.userId}">${cabinetUser.user.surname} &nbsp ${cabinetUser.user.name}</option>
                         </c:forEach>
