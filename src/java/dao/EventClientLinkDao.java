@@ -34,12 +34,11 @@ public class EventClientLinkDao extends Dao<EventClientLink> {
         query.setParameter("cabinet", cabinetId);
         List<EventClientLink> ecl = query.list();
         return ecl;
-
     }
 
     // получить лист не назначеных ссылок ECL  
     public List<EventClientLink> getUnassignedEventClientLink(Long eventId, Long cabinetId) {
-        String hql = "from EventClientLink as ecl where ecl.event.eventId= :eventId and ecl.user is null and ecl.cabinet.personalCabinetId= :cabinet order by ecl.eventClientLinkId order by ecl.eventClientLinkId";
+        String hql = "from EventClientLink as ecl where ecl.event.eventId= :eventId and ecl.user is null and ecl.cabinet.personalCabinetId= :cabinet order by ecl.eventClientLinkId";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("eventId", eventId);
         query.setParameter("cabinet", cabinetId);
@@ -201,6 +200,17 @@ public class EventClientLinkDao extends Dao<EventClientLink> {
         query.setParameter("eventId", eventId);
         query.setParameter("cabinet", cabinetId);
         query.setParameter("userId", userId);
+        List<EventClientLink> ecl = query.list();
+        return ecl;
+    }
+    
+      //Ссылка ECL по eventId , по userId
+    public List<EventClientLink> getUserIdByEventClientLinkList(Long eventId, Long cabinetId,Long userId) {
+        String hql = "from EventClientLink as ecl where ecl.event.eventId= :eventId and ecl.cabinet.personalCabinetId= :cabinet and ecl.user.userId= :userId order by ecl.eventClientLinkId";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("eventId", eventId);
+        query.setParameter("cabinet", cabinetId);
+          query.setParameter("userId", userId);
         List<EventClientLink> ecl = query.list();
         return ecl;
     }

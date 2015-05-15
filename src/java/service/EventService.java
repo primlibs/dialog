@@ -367,8 +367,8 @@ public class EventService extends PrimService {
 
     public List<EventClientLink> getEventFilter(Long eventId, Long cabinetId, Integer assigned, Integer processed) {
         int i = assigned;
-    Long userId = (long)(i);
-      
+        Long userId = (long) (i);
+
         if (assigned == 0 && processed == 0) {
             List<EventClientLink> eventClientLinkList = eventClientLinkDao.getEventClientLinkListByEventId(eventId, cabinetId);//лист ссылок по евенту и личному кабинету
             return eventClientLinkList;
@@ -411,6 +411,10 @@ public class EventService extends PrimService {
         }
         if (assigned == 0 && processed == -4) {
             List<EventClientLink> eventClientLinkList = eventClientLinkDao.getEventClientLinkListProcessed(eventId, cabinetId);//лист ссылок ОБРАБОТАННЫХ по евенту и личному кабинету
+            return eventClientLinkList;
+        }
+        if (assigned > 0 && processed == 0) {
+            List<EventClientLink> eventClientLinkList = eventClientLinkDao.getUserIdByEventClientLinkList(eventId, cabinetId, userId);//лист ссылок по евенту и личному кабинету
             return eventClientLinkList;
         }
         if (assigned > 0 && processed == -1) {

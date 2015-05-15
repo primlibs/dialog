@@ -54,7 +54,7 @@
         <div class="form-group">
             <label class="control-label col-xs-3" for="firstName">Имя:</label>
             <div class="col-xs-9">
-                <input type="text" class="form-control ntSaveForms" name="name" id="firstName" placeholder="Введите имя" value="${param['firstName']}">
+                <input type="text" class="form-control ntSaveForms" name="name" id="firstName" placeholder="Введите имя" value="${param['name']}">
             </div>
         </div>
         <div class="form-group">
