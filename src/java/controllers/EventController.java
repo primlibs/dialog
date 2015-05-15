@@ -7,6 +7,9 @@ package controllers;
 
 import static controllers.LkController.CABINET_ID_SESSION_NAME;
 import controllers.parent.WebController;
+import entities.CabinetUser;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -112,43 +115,8 @@ public class EventController extends WebController {
             ras.addFlashAttribute("message", "Клиенты успешно добавлены");
         }
         ras.addFlashAttribute("event", eventService.getEvent(eventId));
-        // model.put("listUser", eventService.listRoleUserActiveCabinetUser(cabinetId));
         return "redirect:/Event/eventTask";
-    }
-
-    @RequestMapping("/eventAppoint")
-    public String appointEvent(Map<String, Object> model,
-            @RequestParam(value = "eventId") Long eventId,
-            RedirectAttributes ras,
-            HttpServletRequest request) throws Exception {
-        lk.dataByUserAndCompany(request, model);
-        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-
-        model.put("eventClientLink", eventService.getUnassignedEventClientLink(eventId, cabinetId));
-        model.put("event", eventService.getEvent(eventId));
-        model.put("cabinetUserList", eventService.listRoleUserActiveCabinetUser(cabinetId));
-        ras.addAttribute("eventId", eventId);
-        ras.addFlashAttribute("errors", eventService.getError());
-        ras.addFlashAttribute("event", eventService.getEvent(eventId));
-        return "eventClient";
-    }
-
-    @RequestMapping("/eventClient")
-    public String eventClient(Map<String, Object> model,
-            @RequestParam(value = "eventId") Long eventId,
-            RedirectAttributes ras,
-            HttpServletRequest request) throws Exception {
-        lk.dataByUserAndCompany(request, model);
-        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-
-        model.put("eventClientLink", eventService.getEventClientLinkList(eventId, cabinetId));
-        model.put("event", eventService.getEvent(eventId));
-        model.put("cabinetUserList", eventService.listRoleUserActiveCabinetUser(cabinetId));
-        ras.addAttribute("eventId", eventId);
-        ras.addFlashAttribute("errors", eventService.getError());
-        ras.addFlashAttribute("event", eventService.getEvent(eventId));
-        return "eventClient";
-    }
+    }   
 
     @RequestMapping("/eventAppointSave")
     public String saveAppointEvent(Map<String, Object> model,
@@ -210,11 +178,11 @@ public class EventController extends WebController {
         return "redirect:/Event/eventShowAllAppoint";
     }
 
-    @RequestMapping("/eventShowFilter")
-    public String eventShowFilter(Map<String, Object> model,
+    @RequestMapping("/eventClient")
+    public String eventClient(Map<String, Object> model,
             @RequestParam(value = "eventId") Long eventId,
-            @RequestParam(value = "assigned") Integer assigned,
-            @RequestParam(value = "processed") Integer processed,
+            @RequestParam(value = "assigned",required = false) Integer assigned,
+            @RequestParam(value = "processed",required = false) Integer processed,
             RedirectAttributes ras,
             HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
@@ -223,7 +191,30 @@ public class EventController extends WebController {
         model.put("eventClientLink", eventService.getEventFilter(eventId, cabinetId, assigned, processed));
         model.put("event", eventService.getEvent(eventId));
         model.put("cabinetUserList", eventService.listRoleUserActiveCabinetUser(cabinetId));
+        model.put("assignedMap",getAssignedMap(eventService.listRoleUserActiveCabinetUser(cabinetId)));
+        model.put("proceededMap",getProceededMap());
         ras.addAttribute("eventId", eventId);
+        ras.addFlashAttribute("errors", eventService.getError());
         return "eventClient";
     }
+    
+    private LinkedHashMap<Long,String> getAssignedMap(List<CabinetUser> lcu){
+        LinkedHashMap<Long,String>  result=new LinkedHashMap();
+        result.put(Long.valueOf(0), "Не выбрано");
+        result.put(Long.valueOf(-1), "Не назначено");
+        result.put(Long.valueOf(-2), "Назначено");
+        for(CabinetUser cu:lcu){
+            result.put(cu.getId(),cu.getUser().getSurname()+" "+cu.getUser().getName());
+        }
+        return result;
+    }
+    
+    private LinkedHashMap<Long,String> getProceededMap(){
+        LinkedHashMap<Long,String>  result=new LinkedHashMap();
+        result.put(Long.valueOf(0), "Не выбрано");
+        result.put(Long.valueOf(-1), "Не назначено");
+        result.put(Long.valueOf(-2), "Назначено");
+        return result;
+    }
+    
 }

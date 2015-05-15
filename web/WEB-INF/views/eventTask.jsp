@@ -54,16 +54,16 @@
                 <c:set var="number" value="1" />                
                     <c:forEach var="cabinetUser"  items="${cabinetUserList}" varStatus="myIndex">
                         <tr>
-                            <td >${cabinetUser.user.surname} &nbsp ${cabinetUser.user.name} </td>
+                            <td >${cabinetUser.user.surname} ${cabinetUser.user.name} </td>
 
                             <c:if test="${number== 1}">
                                 <td rowspan="${cabinetUserList.size()}" onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}"/>'" > ${eventClientLinkList.size()} </td>
                             </c:if>
 
-                            <td > ${userAssignedClient.get(cabinetUser.getUser().getUserId())} </td>
+                            <td onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&assigned=${cabinetUser.getUser().getUserId()}"/>'"> ${userAssignedClient.get(cabinetUser.getUser().getUserId())} </td>
 
                             <c:if test="${number== 1}">
-                                <td rowspan="${cabinetUserList.size()}" onClick="location = '<c:url value="/Event/eventAppoint?eventId=${event.eventId}"/>'" >${unassignedEventClientLinkList.size()}  </td>
+                                <td rowspan="${cabinetUserList.size()}" onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}"/>'" >${unassignedEventClientLinkList.size()}  </td>
                             </c:if>
                             <td>  </td>
                             <td>  </td>
@@ -75,12 +75,13 @@
                 <tr>
                     <td > Итого:</td>
                     <td >${eventClientLinkList.size()}  </td>
-                    <td >  </td>
-                    <td >  ${unassignedEventClientLinkList.size()}  </td>
+                    <td onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&assigned=-2"/>'">  </td>
+                    <td onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&assigned=-1"/>'">  ${unassignedEventClientLinkList.size()}  </td>
 
-                    <td>  </td>
-                    <td>  </td>
-                    <td> </td>
+                    <td onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&processed=-2"/>'">  </td>
+                    <td onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&processed=-3"/>'">  </td>
+                    <td onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&processed=-4"/>'"> </td>
+                    
                 </tr>
             </table>
     </body>

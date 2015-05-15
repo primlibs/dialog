@@ -366,9 +366,16 @@ public class EventService extends PrimService {
     }
 
     public List<EventClientLink> getEventFilter(Long eventId, Long cabinetId, Integer assigned, Integer processed) {
+        if(assigned==null){
+            assigned=0;         
+        }
+        if(processed==null){
+            processed=0;         
+        }
+        
         int i = assigned;
         Long userId = (long) (i);
-
+        
         if (assigned == 0 && processed == 0) {
             List<EventClientLink> eventClientLinkList = eventClientLinkDao.getEventClientLinkListByEventId(eventId, cabinetId);//лист ссылок по евенту и личному кабинету
             return eventClientLinkList;

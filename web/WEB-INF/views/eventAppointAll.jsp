@@ -41,10 +41,8 @@
                     </c:forEach>
 
                 </table>
-                <c:if test="${eventAllAppoint.get(cabinetUser.getUser().getUserId())!=null && eventAllAppoint.get(cabinetUser.getUser().getUserId())!=0}">
-                    <input type="hidden" name="eventId" value=${param['eventId']}>
-                    <input class="btn btn-primary" type="submit" value="Отправить">
-                </c:if>
+                <input type="hidden" name="eventId" value=${param['eventId']}>
+                <input class="btn btn-primary" type="submit" value="Отправить">
             </form>
         </div>
     </body>

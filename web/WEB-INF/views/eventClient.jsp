@@ -22,18 +22,22 @@
                 <a href="<c:url value="/Event/eventTask?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Евент</a>
                 <a href="<c:url value="/Event/eventShowAllAppoint?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Назначить всем</a>
             </div>
-            <form enctype="multipart/form-data" class="form-inline btn-group" action="<c:url value="/Event/eventShowFilter" />" method="post">
-                <div class="btn-group bootstrap-select">
-                    <select class="form-control" name="assigned" data-style="btn-primary" title='Не выбрано...' value="${param['assigned']}">
-                        <option value="0">Не выбрано </option>
-                        <option value="-1">Не назначено </option>
-                        <option value="-2">Назначено </option>
-                        <c:forEach var="cabinetUser"  items="${cabinetUserList}" varStatus="myIndex">
-                            <option value="${cabinetUser.user.userId}">${cabinetUser.user.surname} &nbsp ${cabinetUser.user.name}</option>
+            <form enctype="multipart/form-data" class="form-inline btn-group" action="<c:url value="/Event/eventClient" />" method="post">
+                <div class="bootstrap-select">
+                    <select class="form-control" name="assigned" data-style="btn-primary">
+                        <c:forEach var="assignedUser"  items="${assignedMap}">
+                            <c:choose>
+                                <c:when test="${assignedUser.key eq param.assigned}">
+                                    <option value="${assignedUser.key}" selected>${assignedUser.value}</option>
+                                </c:when>
+                                <c:otherwise>
+                                    <option value="${assignedUser.key}" >${assignedUser.value}</option>
+                                </c:otherwise>
+                            </c:choose>
                         </c:forEach>
                     </select>
 
-                    <select class="form-control" name="processed" data-style="btn-primary" title='Не выбрано...' value="${param['processed']}">
+                    <select class="form-control" name="processed" data-style="btn-primary" title='Не выбрано...'>
                         <option value="0">Не выбрано </option>
                         <option value="-1">Не обработано </option>
                         <option value="-2">Успешно </option>
@@ -68,7 +72,7 @@
                         <td>${eventClient.client.phoneSecretary} </td>  
                         <td>${eventClient.client.phoneLpr} </td>  
                         <td>${eventClient.client.address} </td>
-                        <td> ${eventClient.user.surname} ${cabinetUser.user.name}  </td>
+                        <td> ${eventClient.user.surname}  ${eventClient.user.name}  </td>
                         <td>${eventClient.status}   </td>
                     </tr>
                 </c:forEach>
