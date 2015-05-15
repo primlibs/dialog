@@ -20,8 +20,8 @@
             <input type="hidden" name="eventId" value=${param['eventId']}>
             <div class="btn-group" role="group" >
                 <a href="<c:url value="/Event/eventTask?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Евент</a>
-                  <a href="<c:url value="/Event/eventAppoint?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Назначить </a>   
-                   <a href="<c:url value="/Event/eventClient?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Клиенты </a>  
+
+                <a href="<c:url value="/Event/eventClient?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Клиенты </a>  
             </div>
 
             <form  action="<c:url value="/Event/eventAppointSaveAll" />" method="post">
@@ -33,7 +33,7 @@
                                 <td >${cabinetUser.user.surname} &nbsp ${cabinetUser.user.name} </td>
                                 <td> 
                                     <input type="text"  name="clientNum"  value="${eventAllAppoint.get(cabinetUser.getUser().getUserId())}" placeholder="Количество заданий">
-                                  <input type="hidden" name="userId" value=${cabinetUser.user.userId}>
+                                    <input type="hidden" name="userId" value=${cabinetUser.user.userId}>
                                 </td>
                             </tr>
 
@@ -41,8 +41,10 @@
                     </c:forEach>
 
                 </table>
-                <input type="hidden" name="eventId" value=${param['eventId']}>
-                <input class="btn btn-primary" type="submit" value="Отправить">
+                <c:if test="${eventAllAppoint.get(cabinetUser.getUser().getUserId())!=null && eventAllAppoint.get(cabinetUser.getUser().getUserId())!=0}">
+                    <input type="hidden" name="eventId" value=${param['eventId']}>
+                    <input class="btn btn-primary" type="submit" value="Отправить">
+                </c:if>
             </form>
         </div>
     </body>

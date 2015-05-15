@@ -328,22 +328,22 @@ public class EventService extends PrimService {
             Integer i2 = Integer.valueOf(df);
             summClient += i2;
         }
-        Long eclId=Long.valueOf(0);
+        Long eclId = Long.valueOf(0);
         if (summClient <= clientNotAssignedSize) {
             for (Long userId : appointMap.keySet()) {
                 Integer clientCn = appointMap.get(userId);
                 User user = userDao.getUserBelongsPk(pk, userId);
                 if (user != null) {
                     int gaga = 0;
-                    for (EventClientLink ecl : linkLs) {           
-                        if (gaga < clientCn&&eclId<ecl.getEventClientLinkId()) {
+                    for (EventClientLink ecl : linkLs) {
+                        if (gaga < clientCn && eclId < ecl.getEventClientLinkId()) {
                             ecl.setUser(user);
                             if (validate(ecl)) {
                                 eventClientLinkDao.save(ecl);
-                                eclId=ecl.getEventClientLinkId();
+                                eclId = ecl.getEventClientLinkId();
                             }
                             gaga += 1;
-                        } 
+                        }
                     }
                 } else {
                     addError("Ошибка! Пользователь не принадлежит к личному кабинету");
@@ -354,16 +354,26 @@ public class EventService extends PrimService {
         }
     }
 
-   
     public HashMap<Long, String> userAssignedClient(Long eventId, Long cabinetId) {
         HashMap<Long, String> userAssignedClient = new HashMap<Long, String>();
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         Event event = eventDao.find(eventId);
         for (Object[] ecl : eventClientLinkDao.getUserAssignedClient(eventId, cabinetId)) {
-           userAssignedClient.put(StringAdapter.toLong(ecl[1]),StringAdapter.getString(ecl[0]));
+            userAssignedClient.put(StringAdapter.toLong(ecl[1]), StringAdapter.getString(ecl[0]));
         }
         return userAssignedClient;
 
     }
-   
+
+    public List<EventClientLink> getEventFilter(Long eventId, Long cabinetId,Integer assigned,Integer processed) {
+        if(assigned==0){
+     List<EventClientLink> eventClientLinkList = eventClientLinkDao.getEventClientLinkListByEventId(eventId, cabinetId);//лист ссылок по евенту и личному кабинету
+       return eventClientLinkList;
+        }
+        
+        
+        return null;
+     
+     
+    }
 }

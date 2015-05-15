@@ -42,7 +42,8 @@ public class ClientDao extends Dao<Client> {
 
     public List<Client> getClientByEvent(PersonalCabinet pk, Event event) {
         //   String hql = "from EventClientLink as ecl where ecl.event.eventId= :event and ecl.cabinet.personalCabinetId= :cabinet and ecl.client.clientId= :client";
-        String hql = "select ecl.client from EventClientLink as ecl where ecl.event= :event and ecl.cabinet= :cabinet";
+      // String hql = "select ecl.client  from EventClientLink as ecl where ecl.event= :event and ecl.cabinet= :cabinet";
+          String hql = "select ecl.client  from EventClientLink as ecl where ecl.event= :event and ecl.cabinet= :cabinet";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("event", event);
         query.setParameter("cabinet", pk);

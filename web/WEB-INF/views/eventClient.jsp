@@ -24,8 +24,8 @@
             </div>
             <form enctype="multipart/form-data" class="form-inline btn-group" action="<c:url value="/Event/#" />" method="post">
                 <div class="btn-group bootstrap-select">
-                    <select class="selectpicker" data-style="btn-primary" title='Не выбрано...'>
-                         <option value="0">Не выбрано </option>
+                    <select class="form-control" name="assigned" data-style="btn-primary" title='Не выбрано...'>
+                        <option value="0">Не выбрано </option>
                         <option value="-1">Не назначено </option>
                         <option value="-2">Назначено </option>
                         <c:forEach var="cabinetUser"  items="${cabinetUserList}" varStatus="myIndex">
@@ -33,12 +33,12 @@
                         </c:forEach>
                     </select>
 
-                    <select class="selectpicker" data-style="btn-primary" title='Не выбрано...'>
-                        <option value="">Не выбрано </option>
-                        <option value="">Не обработано </option>
-                        <option value="">Успешно </option>
-                        <option value="">Не успешно </option>
-                        <option value="">Обработано </option>
+                    <select class="form-control" name="processed" data-style="btn-primary" title='Не выбрано...'>
+                        <option value="0">Не выбрано </option>
+                        <option value="-1">Не обработано </option>
+                        <option value="-2">Успешно </option>
+                        <option value="-3">Не успешно </option>
+                        <option value="-4">Обработано </option>
                     </select>
                     <input type="hidden" name="eventId" value=${param['eventId']}>
                     <input type="submit" name="submit"  class="btn btn-primary" value="Выбрать">
@@ -57,19 +57,19 @@
                     <td>Пользователь</td>
                     <td>Статус</td>
                 </tr>
-                <c:forEach var="client" items="${clientList}" varStatus="myIndex">
+                <c:forEach var="eventClient" items="${eventClientLink}" varStatus="myIndex">
 
                     <tr>
                         <td>${myIndex.count}</td>
-                        <td>${client.uniqueId}</td> 
-                        <td>${client.nameCompany}</td>
-                        <td>${client.nameSecretary}</td>  
-                        <td>${client.nameLpr} </td>  
-                        <td>${client.phoneSecretary} </td>  
-                        <td>${client.phoneLpr} </td>  
-                        <td >${client.address} </td>
-                         <td> </td>
-                    <td> </td>
+                        <td>${eventClient.client.uniqueId}</td> 
+                        <td>${eventClient.client.nameCompany}</td>
+                        <td>${eventClient.client.nameSecretary}</td>  
+                        <td>${eventClient.client.nameLpr} </td>  
+                        <td>${eventClient.client.phoneSecretary} </td>  
+                        <td>${eventClient.client.phoneLpr} </td>  
+                        <td>${eventClient.client.address} </td>
+                        <td> ${eventClient.user.surname} &nbsp ${cabinetUser.user.name}  </td>
+                        <td>${eventClient.status}   </td>
                     </tr>
                 </c:forEach>
             </table>

@@ -47,7 +47,8 @@ public class EventController extends WebController {
     public String eventAdd(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "strategyId", required = false) Long strategyId
+            @RequestParam(value = "strategyId", required = false) Long strategyId,
+            RedirectAttributes ras
     ) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
@@ -55,7 +56,8 @@ public class EventController extends WebController {
         if (strategyId != null) {
             eventService.eventAdd(name, strategyId, cabinetId);
             if (eventService.getError().isEmpty()) {
-                model.put("message", "Евент " + name + " успешно создан");
+                ras.addFlashAttribute("message", "Евент " + name + " успешно создан");
+                return "redirect:/Event/eventList";
             }
         }
         model.put("numericName", eventService.numericName(cabinetId));
@@ -122,7 +124,7 @@ public class EventController extends WebController {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
-        model.put("clientList", eventService.getClientListNotAssigned(eventId, cabinetId));
+        model.put("eventClientLink", eventService.getUnassignedEventClientLink(eventId, cabinetId));
         model.put("event", eventService.getEvent(eventId));
         model.put("cabinetUserList", eventService.listRoleUserActiveCabinetUser(cabinetId));
         ras.addAttribute("eventId", eventId);
@@ -139,7 +141,7 @@ public class EventController extends WebController {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
-        model.put("clientList", eventService.getClientList(eventId, cabinetId));
+        model.put("eventClientLink", eventService.getEventClientLinkList(eventId, cabinetId));
         model.put("event", eventService.getEvent(eventId));
         model.put("cabinetUserList", eventService.listRoleUserActiveCabinetUser(cabinetId));
         ras.addAttribute("eventId", eventId);
@@ -206,5 +208,22 @@ public class EventController extends WebController {
             return "redirect:/Event/eventTask";
         }
         return "redirect:/Event/eventShowAllAppoint";
+    }
+
+    @RequestMapping("/eventShowFilter")
+    public String eventShowFilter(Map<String, Object> model,
+            @RequestParam(value = "eventId") Long eventId,
+            @RequestParam(value = "assigned") Integer assigned,
+            @RequestParam(value = "processed") Integer processed,
+            RedirectAttributes ras,
+            HttpServletRequest request) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        
+        model.put("eventClientLink", eventService.getEventFilter(eventId, cabinetId, assigned, processed));
+        model.put("event", eventService.getEvent(eventId));
+        model.put("cabinetUserList", eventService.listRoleUserActiveCabinetUser(cabinetId));
+        ras.addAttribute("eventId", eventId);
+        return "eventClient";
     }
 }
