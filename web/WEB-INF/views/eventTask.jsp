@@ -44,7 +44,7 @@
                     <td rowspan="2" >Клиенты </td>
                     <td rowspan="2">Назначено </td>
                     <td rowspan="2">Не назначено </td>
-                    <td colspan="3" >обработано</td>
+                    <td colspan="3">Обработано</td>
                     <td rowspan="2">Не обработано </td>
                 </tr>
                 <tr>
@@ -53,7 +53,7 @@
                     <td>Всего</td>
                 </tr>
                 <c:set var="number" value="1" />                
-                <c:forEach var="cabinetUser"  items="${cabinetUserList}" varStatus="myIndex">
+                <c:forEach var="cabinetUser"  items="${cabinetUserList}" >
                     <tr>
                         <td >${cabinetUser.user.surname} ${cabinetUser.user.name} </td>
                         <c:if test="${number== 1}">
@@ -63,9 +63,12 @@
                         <c:if test="${number== 1}">
                             <td rowspan="${cabinetUserList.size()}" onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}"/>'" >${unassignedEventClientLinkList.size()}  </td>
                         </c:if>
+                        <td> </td>
                         <td onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-2"/>'">  </td>
                         <td onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-3"/>'">  </td>
-                        <td rowspan="${cabinetUserList.size()}" onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-1"/>'" > </td>
+                        <c:if test="${number== 1}">
+                            <td rowspan="${cabinetUserList.size()}" onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-1"/>'" > </td>
+                        </c:if>
                     </tr>
                     <c:set var="number" value="${number+1}" />
                 </c:forEach>
