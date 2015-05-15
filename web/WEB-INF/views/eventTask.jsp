@@ -56,20 +56,16 @@
                 <c:forEach var="cabinetUser"  items="${cabinetUserList}" varStatus="myIndex">
                     <tr>
                         <td >${cabinetUser.user.surname} ${cabinetUser.user.name} </td>
-
                         <c:if test="${number== 1}">
                             <td rowspan="${cabinetUserList.size()}" onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}"/>'" > ${eventClientLinkList.size()} </td>
                         </c:if>
-
                         <td onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&assigned=${cabinetUser.getUser().getUserId()}"/>'"> ${userAssignedClient.get(cabinetUser.getUser().getUserId())} </td>
-
                         <c:if test="${number== 1}">
                             <td rowspan="${cabinetUserList.size()}" onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}"/>'" >${unassignedEventClientLinkList.size()}  </td>
                         </c:if>
                         <td onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-2"/>'">  </td>
                         <td onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-3"/>'">  </td>
-                        <td > </td>
-                         <td rowspan="${cabinetUserList.size()}" onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-1"/>'" > </td>
+                        <td rowspan="${cabinetUserList.size()}" onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-1"/>'" > </td>
                     </tr>
                     <c:set var="number" value="${number+1}" />
                 </c:forEach>
