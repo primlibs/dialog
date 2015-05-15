@@ -365,15 +365,72 @@ public class EventService extends PrimService {
 
     }
 
-    public List<EventClientLink> getEventFilter(Long eventId, Long cabinetId,Integer assigned,Integer processed) {
-        if(assigned==0){
-     List<EventClientLink> eventClientLinkList = eventClientLinkDao.getEventClientLinkListByEventId(eventId, cabinetId);//лист ссылок по евенту и личному кабинету
-       return eventClientLinkList;
+    public List<EventClientLink> getEventFilter(Long eventId, Long cabinetId, Integer assigned, Integer processed) {
+        int i = assigned;
+    Long userId = (long)(i);
+      
+        if (assigned == 0 && processed == 0) {
+            List<EventClientLink> eventClientLinkList = eventClientLinkDao.getEventClientLinkListByEventId(eventId, cabinetId);//лист ссылок по евенту и личному кабинету
+            return eventClientLinkList;
         }
-        
-        
+        if (assigned == -1) {
+            List<EventClientLink> eventClientLinkList = eventClientLinkDao.getUnassignedEventClientLink(eventId, cabinetId);//лист  ссылок Не НАЗНАЧЕННЫХ по евенту и личному кабинету
+            return eventClientLinkList;
+        }
+        if (assigned == -2 && processed == 0) {
+            List<EventClientLink> eventClientLinkList = eventClientLinkDao.getAssignedEventClientLink(eventId, cabinetId);//лист  ссылок  НАЗНАЧЕННЫХ по евенту и личному кабинету
+            return eventClientLinkList;
+        }
+        if (assigned == -2 && processed == -1) {
+            List<EventClientLink> eventClientLinkList = eventClientLinkDao.getAssignedEventClientLinkNotProcessed(eventId, cabinetId);//лист ссылок НАЗНАЧЕННЫХ, НЕ ОБРАБОТАННЫХ по евенту и личному кабинету
+            return eventClientLinkList;
+        }
+        if (assigned == -2 && processed == -2) {
+            List<EventClientLink> eventClientLinkList = eventClientLinkDao.getAssignedEventClientLinkSuccess(eventId, cabinetId);//лист ссылок НАЗНАЧЕННЫХ, УСПЕШНО ОБРАБОТАННЫХ по евенту и личному кабинету
+            return eventClientLinkList;
+        }
+        if (assigned == -2 && processed == -3) {
+            List<EventClientLink> eventClientLinkList = eventClientLinkDao.getAssignedEventClientLinkNotSuccess(eventId, cabinetId);//лист ссылок НАЗНАЧЕННЫХ, НЕ УСПЕШНО ОБРАБОТАННЫХ по евенту и личному кабинету
+            return eventClientLinkList;
+        }
+        if (assigned == -2 && processed == -4) {
+            List<EventClientLink> eventClientLinkList = eventClientLinkDao.getAssignedEventClientLinkProcessed(eventId, cabinetId);//лист ссылок НАЗНАЧЕННЫХ, ОБРАБОТАННЫХ по евенту и личному кабинету
+            return eventClientLinkList;
+        }
+        if (assigned == 0 && processed == -1) {
+            List<EventClientLink> eventClientLinkList = eventClientLinkDao.getEventClientLinkListNotProcessed(eventId, cabinetId);//лист ссылок НЕ ОБРАБОТАННЫХ по евенту и личному кабинету
+            return eventClientLinkList;
+        }
+        if (assigned == 0 && processed == -2) {
+            List<EventClientLink> eventClientLinkList = eventClientLinkDao.getEventClientLinkLisSuccess(eventId, cabinetId);//лист ссылок УСПЕШНО ОБРАБОТАННЫХ по евенту и личному кабинету
+            return eventClientLinkList;
+        }
+        if (assigned == 0 && processed == -3) {
+            List<EventClientLink> eventClientLinkList = eventClientLinkDao.getEventClientLinkLisNotSuccess(eventId, cabinetId);//лист ссылок НЕ УСПЕШНО ОБРАБОТАННЫХ по евенту и личному кабинету
+            return eventClientLinkList;
+        }
+        if (assigned == 0 && processed == -4) {
+            List<EventClientLink> eventClientLinkList = eventClientLinkDao.getEventClientLinkListProcessed(eventId, cabinetId);//лист ссылок ОБРАБОТАННЫХ по евенту и личному кабинету
+            return eventClientLinkList;
+        }
+        if (assigned > 0 && processed == -1) {
+            List<EventClientLink> eventClientLinkList = eventClientLinkDao.getUserIdByEventClientLinkListNotProcessed(eventId, cabinetId, userId);//лист ссылок по userId, НЕ ОБРАБОТАННЫХ по евенту и личному кабинету
+            return eventClientLinkList;
+        }
+        if (assigned > 0 && processed == -2) {
+            List<EventClientLink> eventClientLinkList = eventClientLinkDao.getUserIdByEventClientLinkLisSuccess(eventId, cabinetId, userId);//лист ссылок по userId, УСПЕШНО ОБРАБОТАННЫХ по евенту и личному кабинету
+            return eventClientLinkList;
+        }
+        if (assigned > 0 && processed == -3) {
+            List<EventClientLink> eventClientLinkList = eventClientLinkDao.getUserIdByEventClientLinkLisNotSuccess(eventId, cabinetId, userId);//лист ссылок по userId, НЕ УСПЕШНО ОБРАБОТАННЫХ по евенту и личному кабинету
+            return eventClientLinkList;
+        }
+        if (assigned > 0 && processed == -4) {
+            List<EventClientLink> eventClientLinkList = eventClientLinkDao.getUserIdByEventClientLinkListProcessed(eventId, cabinetId, userId);//лист ссылок по userId, ОБРАБОТАННЫХ по евенту и личному кабинету
+            return eventClientLinkList;
+        }
+
         return null;
-     
-     
+
     }
 }

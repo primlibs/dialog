@@ -22,7 +22,7 @@
                 <a href="<c:url value="/Event/eventTask?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Евент</a>
                 <a href="<c:url value="/Event/eventShowAllAppoint?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Назначить всем</a>
             </div>
-            <form enctype="multipart/form-data" class="form-inline btn-group" action="<c:url value="/Event/#" />" method="post">
+            <form enctype="multipart/form-data" class="form-inline btn-group" action="<c:url value="/Event/eventShowFilter" />" method="post">
                 <div class="btn-group bootstrap-select">
                     <select class="form-control" name="assigned" data-style="btn-primary" title='Не выбрано...'>
                         <option value="0">Не выбрано </option>
