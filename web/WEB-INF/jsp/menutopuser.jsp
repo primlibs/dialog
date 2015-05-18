@@ -9,17 +9,12 @@
 <!DOCTYPE html>
 
 
-   
-     <div class="navbar">
-        <ul class="nav navbar-nav">
-            <li><a href="<c:url value="/index"/>" class="dropdown-toggle">Главная</a></li>
-            
-           
-            <li><a href="#">Эвент</a></li>
-            <li><a href="#">Компании</a></li>  
-        </ul> 
-        
-             <%@include file="/WEB-INF/jsp/menuright.jsp" %>
-    </div>   
+
+<div class="navbar">
+    <ul class="nav navbar-nav">
+               <li><a href="#">Кампании</a></li>  
+    </ul> 
+    <%@include file="/WEB-INF/jsp/menuright.jsp" %>
+</div>   
 
 
