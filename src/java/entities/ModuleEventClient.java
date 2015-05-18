@@ -55,8 +55,8 @@ public class ModuleEventClient extends PrimEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     private Module module;
 
-    @Column(name = "sing")
-    private String sing;
+    @Column(name = "sign")
+    private String sign;
 
     @Override
     public Long getId() {
