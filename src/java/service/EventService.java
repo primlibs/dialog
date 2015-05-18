@@ -363,20 +363,19 @@ public class EventService extends PrimService {
             userAssignedClient.put(StringAdapter.toLong(ecl[1]), StringAdapter.getString(ecl[0]));
         }
         return userAssignedClient;
-
     }
 
     public List<EventClientLink> getEventFilter(Long eventId, Long cabinetId, Integer assigned, Integer processed) {
-        if(assigned==null){
-            assigned=0;         
+        if (assigned == null) {
+            assigned = 0;
         }
-        if(processed==null){
-            processed=0;         
+        if (processed == null) {
+            processed = 0;
         }
-        
+
         int i = assigned;
         Long userId = (long) (i);
-        
+
         if (assigned == 0 && processed == 0) {
             List<EventClientLink> eventClientLinkList = eventClientLinkDao.getEventClientLinkListByEventId(eventId, cabinetId);//лист ссылок по евенту и личному кабинету
             return eventClientLinkList;
@@ -444,5 +443,41 @@ public class EventService extends PrimService {
 
         return null;
 
+    }
+
+    //клиенты назначение юзерам не обработанные
+    public HashMap<Long, String> userAssignedClientNotProcessed(Long eventId, Long cabinetId) {
+        HashMap<Long, String> userAssignedClientNotProcessed = new HashMap<Long, String>();
+        for (Object[] ecl : eventClientLinkDao.getUserAssignedClientNotProcessed(eventId, cabinetId)) {
+            userAssignedClientNotProcessed.put(StringAdapter.toLong(ecl[1]), StringAdapter.getString(ecl[0]));
+        }
+        return userAssignedClientNotProcessed;
+    }
+
+    //клиенты назначение юзерам обработанные
+    public HashMap<Long, String> userAssignedClientProcessed(Long eventId, Long cabinetId) {
+        HashMap<Long, String> userAssignedClientProcessed = new HashMap<Long, String>();
+        for (Object[] ecl : eventClientLinkDao.getUserAssignedClientProcessed(eventId, cabinetId)) {
+            userAssignedClientProcessed.put(StringAdapter.toLong(ecl[1]), StringAdapter.getString(ecl[0]));
+        }
+        return userAssignedClientProcessed;
+    }
+
+    //клиенты назначение юзерам обработанные Успешно
+    public HashMap<Long, String> userAssignedClientProcessedSuccess(Long eventId, Long cabinetId) {
+        HashMap<Long, String> userAssignedClientProcessedSuccess = new HashMap<Long, String>();
+        for (Object[] ecl : eventClientLinkDao.getUserAssignedClientProcessedSuccess(eventId, cabinetId)) {
+            userAssignedClientProcessedSuccess.put(StringAdapter.toLong(ecl[1]), StringAdapter.getString(ecl[0]));
+        }
+        return userAssignedClientProcessedSuccess;
+    }
+
+    //клиенты назначение юзерам обработанные НЕ успешно
+    public HashMap<Long, String> userAssignedClientProcessedFails(Long eventId, Long cabinetId) {
+        HashMap<Long, String> userAssignedClientProcessedFails = new HashMap<Long, String>();
+        for (Object[] ecl : eventClientLinkDao.getUserAssignedClientProcessedFails(eventId, cabinetId)) {
+            userAssignedClientProcessedFails.put(StringAdapter.toLong(ecl[1]), StringAdapter.getString(ecl[0]));
+        }
+        return userAssignedClientProcessedFails;
     }
 }
