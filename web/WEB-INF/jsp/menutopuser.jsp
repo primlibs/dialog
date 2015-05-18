@@ -12,7 +12,7 @@
 
 <div class="navbar">
     <ul class="nav navbar-nav">
-               <li><a href="#">Кампании</a></li>  
+               <li><a href="<c:url value="/Event/campaign"/>">Кампании</a></li>  
     </ul> 
     <%@include file="/WEB-INF/jsp/menuright.jsp" %>
 </div>   
