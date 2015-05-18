@@ -8,6 +8,7 @@ package controllers;
 import static controllers.LkController.CABINET_ID_SESSION_NAME;
 import controllers.parent.WebController;
 import entities.CabinetUser;
+import entities.User;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.EventService;
+import support.AuthManager;
 
 /**
  *
@@ -34,6 +36,9 @@ public class EventController extends WebController {
 
     @Autowired
     private EventService eventService;
+
+    @Autowired
+    private AuthManager authManager;
 
     @RequestMapping("/eventList")
     public String showEventListPage(Map<String, Object> model, HttpServletRequest request) throws Exception {
@@ -221,6 +226,28 @@ public class EventController extends WebController {
         result.put(Long.valueOf(-1), "Не назначено");
         result.put(Long.valueOf(-2), "Назначено");
         return result;
+    }
+
+    @RequestMapping("/event")
+    public String eventPage(Map<String, Object> model,
+            @RequestParam(value = "eventId") Long eventId,
+            HttpServletRequest request) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+
+        return "event";
+    }
+
+    @RequestMapping("/campaign")
+    public String campaignPage(Map<String, Object> model,
+            @RequestParam(value = "eventId") Long eventId,
+            HttpServletRequest request) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        User user = authManager.getCurrentUser();
+        
+        
+        return "campaign";
     }
 
 }
