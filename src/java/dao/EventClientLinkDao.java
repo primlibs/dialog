@@ -142,7 +142,7 @@ public class EventClientLinkDao extends Dao<EventClientLink> {
     
           // получить лист назначенных ссылок ECL , не успешно обработанных
     public List<EventClientLink> getAssignedEventClientLinkNotSuccess(Long eventId, Long cabinetId) {
-        String hql = "from EventClientLink as ecl where ecl.event.eventId= :eventId and ecl.user is not null and ecl.cabinet.personalCabinetId= :cabinet and ecl.status=fails order by ecl.eventClientLinkId";
+        String hql = "from EventClientLink as ecl where ecl.event.eventId= :eventId and ecl.user is not null and ecl.cabinet.personalCabinetId= :cabinet and ecl.status='fails' order by ecl.eventClientLinkId";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("eventId", eventId);
         query.setParameter("cabinet", cabinetId);
@@ -152,7 +152,7 @@ public class EventClientLinkDao extends Dao<EventClientLink> {
     
             // получить лист назначенных ссылок ECL , успешно обработанных
     public List<EventClientLink> getAssignedEventClientLinkSuccess(Long eventId, Long cabinetId) {
-        String hql = "from EventClientLink as ecl where ecl.event.eventId= :eventId and ecl.user is not null and ecl.cabinet.personalCabinetId= :cabinet and ecl.status=success order by ecl.eventClientLinkId";
+        String hql = "from EventClientLink as ecl where ecl.event.eventId=:eventId and ecl.user is not null and ecl.cabinet.personalCabinetId=:cabinet and ecl.status='success' order by ecl.eventClientLinkId";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("eventId", eventId);
         query.setParameter("cabinet", cabinetId);

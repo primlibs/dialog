@@ -63,9 +63,9 @@
                         <c:if test="${number== 1}">
                             <td rowspan="${cabinetUserList.size()}" onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}"/>'" >${unassignedEventClientLinkList.size()}  </td>
                         </c:if>
-                        <td> </td>
-                        <td onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-2"/>'">  </td>
-                        <td onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-3"/>'">  </td>
+                        <td onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-2"/>'"> </td>
+                        <td onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-3"/>'" >  </td>
+                        <td >  </td>
                         <c:if test="${number== 1}">
                             <td rowspan="${cabinetUserList.size()}" onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-1"/>'" > </td>
                         </c:if>

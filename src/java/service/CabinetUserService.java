@@ -5,19 +5,18 @@
  */
 package service;
 
-import controllers.LkController;
 import dao.CabinetUserDao;
 import dao.PersonalCabinetDao;
 import entities.CabinetUser;
 import entities.PersonalCabinet;
 import entities.User;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
-import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import service.parent.PrimService;
 import support.AuthManager;
 

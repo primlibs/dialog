@@ -12,7 +12,7 @@ import entities.Group;
 import entities.Module;
 import entities.PersonalCabinet;
 import java.util.Date;
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
