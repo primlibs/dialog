@@ -16,12 +16,12 @@
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
         <div class="row">
-            <h4>  Евент:  ${event.name} &nbsp Стратегия: ${event.strategy.strategyName} </h4>
-            <input type="hidden" name="eventId" value=${param['eventId']}>
+            <h4>  Кампания:  ${campaign.name} &nbsp Стратегия: ${campaign.strategy.strategyName} </h4>
+            <input type="hidden" name="campaignId" value=${param['campaignId']}>
             <div class="btn-group" role="group" >
-                <a href="<c:url value="/Event/eventTask?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Евент</a>
+                <a href="<c:url value="/Event/eventTask?campaignId=${param['campaignId']}"/>" class="btn btn-primary" role="button">Евент</a>
 
-                <a href="<c:url value="/Event/eventClient?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Клиенты </a>  
+                <a href="<c:url value="/Event/eventClient?campaignId=${param['campaignId']}"/>" class="btn btn-primary" role="button">Клиенты </a>  
             </div>
 
             <form  action="<c:url value="/Event/eventAppointSaveAll" />" method="post">
@@ -41,7 +41,7 @@
                     </c:forEach>
 
                 </table>
-                <input type="hidden" name="eventId" value=${param['eventId']}>
+                <input type="hidden" name="campaignId" value=${param['campaignId']}>
                 <input class="btn btn-primary" type="submit" value="Отправить">
             </form>
         </div>

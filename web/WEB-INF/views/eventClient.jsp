@@ -16,11 +16,11 @@
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
         <div class="row">
-            <h4>  Евент:  ${event.name} &nbsp Стратегия: ${event.strategy.strategyName} </h4>
-            <input type="hidden" name="eventId" value=${param['eventId']}>
+            <h4>  Кампания: ${campaign.name} &nbsp Стратегия: ${campaign.strategy.strategyName} </h4>
+            <input type="hidden" name="campaignId" value=${param['campaignId']}>
             <div class="btn-group" role="group" >
-                <a href="<c:url value="/Event/eventTask?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Евент</a>
-                <a href="<c:url value="/Event/eventShowAllAppoint?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Назначить всем</a>
+                <a href="<c:url value="/Event/eventTask?campaignId=${param['campaignId']}"/>" class="btn btn-primary" role="button">Евент</a>
+                <a href="<c:url value="/Event/eventShowAllAppoint?campaignId=${param['campaignId']}"/>" class="btn btn-primary" role="button">Назначить всем</a>
             </div>
             <form enctype="multipart/form-data" class="form-inline btn-group" action="<c:url value="/Event/eventClient" />" method="post">
                 <div class="bootstrap-select">
@@ -44,7 +44,7 @@
                         <option value="-3">Не успешно </option>
                         <option value="-4">Обработано </option>
                     </select>
-                    <input type="hidden" name="eventId" value=${param['eventId']}>
+                    <input type="hidden" name="campaignId" value=${param['campaignId']}>
                     <input type="submit" name="submit"  class="btn btn-primary" value="Выбрать">
                 </div>
             </form>
@@ -61,19 +61,19 @@
                     <td>Пользователь</td>
                     <td>Статус</td>
                 </tr>
-                <c:forEach var="eventClient" items="${eventClientLink}" varStatus="myIndex">
+                <c:forEach var="event" items="${events}" varStatus="myIndex">
 
                     <tr>
                         <td>${myIndex.count}</td>
-                        <td>${eventClient.client.uniqueId}</td> 
-                        <td>${eventClient.client.nameCompany}</td>
-                        <td>${eventClient.client.nameSecretary}</td>  
-                        <td>${eventClient.client.nameLpr} </td>  
-                        <td>${eventClient.client.phoneSecretary} </td>  
-                        <td>${eventClient.client.phoneLpr} </td>  
-                        <td>${eventClient.client.address} </td>
-                        <td> ${eventClient.user.surname}  ${eventClient.user.name}  </td>
-                        <td>${eventClient.status}   </td>
+                        <td>${event.client.uniqueId}</td> 
+                        <td>${event.client.nameCompany}</td>
+                        <td>${event.client.nameSecretary}</td>  
+                        <td>${event.client.nameLpr} </td>  
+                        <td>${event.client.phoneSecretary} </td>  
+                        <td>${event.client.phoneLpr} </td>  
+                        <td>${event.client.address} </td>
+                        <td> ${event.user.surname}  ${event.user.name}  </td>
+                        <td>${event.status}   </td>
                     </tr>
                 </c:forEach>
             </table>

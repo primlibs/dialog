@@ -6,8 +6,8 @@
 package service;
 
 import dao.ClientDao;
-import dao.EventClientLinkDao;
 import dao.EventDao;
+import dao.CampaignDao;
 import dao.GroupDao;
 import dao.ModuleDao;
 import dao.PersonalCabinetDao;
@@ -67,13 +67,13 @@ public class EventService extends PrimService {
     private ModuleDao moduleDao;
 
     @Autowired
-    private EventDao eventDao;
+    private CampaignDao campaignDao;
 
     @Autowired
     private ClientDao clientDao;
 
     @Autowired
-    private EventClientLinkDao eventClientLinkDao;
+    private EventDao eventDao;
 
     @Autowired
     private ClientService clientService;
@@ -104,31 +104,31 @@ public class EventService extends PrimService {
         return new ArrayList();
     }
 
-    public List<Campaign> eventList(Long cabinetId) {
+    public List<Campaign> getCampaignList(Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         if (pk != null) {
             return pk.getEventList();
         } else {
-            addError("Евент не найден по id " + cabinetId);
+            addError("Компания не найдена по id " + cabinetId);
         }
         return new ArrayList();
     }
 
-    public void eventAdd(String name, Long strategyId, Long cabinetId) {
+    public void createCampaign(String name, Long strategyId, Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         Strategy strategy = strategyDao.find(strategyId);
         Date dt = new Date();
         if (pk != null) {
             if (strategyId != null) {
                 if (name != null) {
-                    Campaign event = new Campaign();
-                    event.setCabinet(pk);
-                    event.setName(name);
-                    event.setStrategy(strategy);
-                    event.setCreationDate(dt);
-                    event.setStatus(Campaign.ACTIVE);
-                    if (validate(event)) {
-                        eventDao.save(event);
+                    Campaign campaign = new Campaign();
+                    campaign.setCabinet(pk);
+                    campaign.setName(name);
+                    campaign.setStrategy(strategy);
+                    campaign.setCreationDate(dt);
+                    campaign.setStatus(Campaign.ACTIVE);
+                    if (validate(campaign)) {
+                        campaignDao.save(campaign);
                     }
                 } else {
                     addError("поле название эвента не может быть пустым");
@@ -166,11 +166,11 @@ public class EventService extends PrimService {
         return workbook;
     }
 
-    public void readXls(MultipartFile fileXls, Long cabinetId, Long eventId, Boolean update) throws Exception {
+    public void readXls(MultipartFile fileXls, Long cabinetId, Long campaignId, Boolean update) throws Exception {
         Boolean newClient = false;
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         List<Client> pkList = pk.getClientList();
-        Campaign event = eventDao.find(eventId);
+        Campaign campaign = campaignDao.find(campaignId);
         InputStream fis = fileXls.getInputStream();
         HSSFWorkbook inputWorkbook = new HSSFWorkbook(fis);
         int sheetCount = inputWorkbook.getNumberOfSheets();
@@ -201,14 +201,14 @@ public class EventService extends PrimService {
                     }
 
                     if (getError().isEmpty()) {
-                        Event ecl = eventClientLinkDao.getEventClientLink(cl, pk, event);
+                        Event ecl = eventDao.getEvent(cl, pk, campaign);
                         if (ecl == null) {
-                            Event eventLinkClient = new Event();
-                            eventLinkClient.setCabinet(pk);
-                            eventLinkClient.setClient(cl);
-                            eventLinkClient.setEvent(event);
-                            if (validate(eventLinkClient)) {
-                                eventClientLinkDao.save(eventLinkClient);
+                            Event event = new Event();
+                            event.setCabinet(pk);
+                            event.setClient(cl);
+                            event.setEvent(campaign);
+                            if (validate(event)) {
+                                eventDao.save(event);
                             }
 
                         }
@@ -219,45 +219,45 @@ public class EventService extends PrimService {
 
     }
 
-    public Campaign getEvent(Long eventId) {
-        Campaign event = eventDao.find(eventId);
+    public Campaign getCampaign(Long campaignId) {
+        Campaign camp = campaignDao.find(campaignId);
         // event.getName();
-        return event;
+        return camp;
     }
 
-    public List<Event> getEventClientLinkList(Long eventId, Long cabinetId) {
-        List<Event> eventClientLinkList = eventClientLinkDao.getEventClientLinkListByEventId(eventId, cabinetId);
-        return eventClientLinkList;
+    public List<Event> getEventList(Long campaignId, Long cabinetId) {
+        List<Event> events = eventDao.getEventListByCampaignId(campaignId, cabinetId);
+        return events;
     }
 
 // получить лист ссылок НЕ назначиных клиентов
-    public List<Event> getUnassignedEventClientLink(Long eventId, Long cabinetId) {
-        List<Event> eventClientLinkList = eventClientLinkDao.getUnassignedEventClientLink(eventId, cabinetId);
-        return eventClientLinkList;
+    public List<Event> getUnassignedEvent(Long campaignId, Long cabinetId) {
+        List<Event> events = eventDao.getUnassignedEvent(campaignId, cabinetId);
+        return events;
 
     }
 
 // получить ист клиентов
-    public List<Client> getClientList(Long eventId, Long cabinetId) {
+    public List<Client> getClientList(Long campaignId, Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
-        Campaign event = eventDao.find(eventId);
-        List<Client> clList = clientDao.getClientByEvent(pk, event);
+        Campaign campaign = campaignDao.find(campaignId);
+        List<Client> clList = clientDao.getClientsByCampaign(pk, campaign);
         return clList;
 
     }
 
 // получить лист клиентов не назначеных
-    public List<Client> getClientListNotAssigned(Long eventId, Long cabinetId) {
+    public List<Client> getNotAssignedClients(Long campaignId, Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
-        Campaign event = eventDao.find(eventId);
-        List<Client> clList = clientDao.getClientByEventNotAssigned(pk, event);
+        Campaign campaign = campaignDao.find(campaignId);
+        List<Client> clList = clientDao.getNotAssignedClientsByCampaign(pk.getId(), campaign.getId());
         return clList;
 
     }
 
-    public void eventAppointSave(String[] arrayClientIdUserId, Long cabinetId, Long eventId) {
+    public void eventAppointSave(String[] arrayClientIdUserId, Long cabinetId, Long campaignId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
-        Campaign event = eventDao.find(eventId);
+        Campaign campaign = campaignDao.find(campaignId);
 
         for (int i = 0; i < arrayClientIdUserId.length; i++) {
             //   String clientIdUserId = arrayClientIdUserId[i];
@@ -269,10 +269,10 @@ public class EventService extends PrimService {
                 Long userId = Long.valueOf(clientIdUserId[1]);
                 Client client = clientDao.find(clientId);
                 User user = userDao.find(userId);
-                Event link = eventClientLinkDao.getEventClientLink(client, pk, event);
-                link.setUser(user);
-                if (validate(link)) {
-                    eventClientLinkDao.save(link);
+                Event event = eventDao.getEvent(client, pk, campaign);
+                event.setUser(user);
+                if (validate(event)) {
+                    eventDao.save(event);
                 }
             }
         }
@@ -280,7 +280,7 @@ public class EventService extends PrimService {
 
     //распределить всех клиентов по юзерам
     public LinkedHashMap<Long, Integer> eventAppointAll(Long eventId, Long cabinetId) {
-        int clientNotAssigned = getClientListNotAssigned(eventId, cabinetId).size();
+        int clientNotAssigned = getNotAssignedClients(eventId, cabinetId).size();
         int user = listRoleUserActiveCabinetUser(cabinetId).size();
         List<CabinetUser> cabinetUserList = listRoleUserActiveCabinetUser(cabinetId);
 
@@ -305,9 +305,9 @@ public class EventService extends PrimService {
 //сохранение распределения
     public void eventAppointSaveAll(Long eventId, Long cabinetId, Long[] userIdArray, String[] clientNumArray) {
         LinkedHashMap<Long, Integer> appointMap = new LinkedHashMap<Long, Integer>();
-        List<Event> linkLs = getUnassignedEventClientLink(eventId, cabinetId);
+        List<Event> events = getUnassignedEvent(eventId, cabinetId);
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
-        int clientNotAssignedSize = getClientListNotAssigned(eventId, cabinetId).size();
+        int clientNotAssignedSize = getNotAssignedClients(eventId, cabinetId).size();
         int clientCount = 0;
         int summClient = 0;
 
@@ -336,11 +336,11 @@ public class EventService extends PrimService {
                 User user = userDao.getUserBelongsPk(pk, userId);
                 if (user != null) {
                     int gaga = 0;
-                    for (Event ecl : linkLs) {
+                    for (Event ecl : events) {
                         if (gaga < clientCn && eclId < ecl.getEventId()) {
                             ecl.setUser(user);
                             if (validate(ecl)) {
-                                eventClientLinkDao.save(ecl);
+                                eventDao.save(ecl);
                                 eclId = ecl.getEventId();
                             }
                             gaga += 1;
@@ -355,17 +355,17 @@ public class EventService extends PrimService {
         }
     }
 
-    public HashMap<Long, String> userAssignedClient(Long eventId, Long cabinetId) {
-        HashMap<Long, String> userAssignedClient = new HashMap<Long, String>();
+    public HashMap<Long, String> userAssignedClient(Long campaignId, Long cabinetId) {
+        HashMap<Long, String> userAssignedClient = new HashMap();
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
-        Campaign event = eventDao.find(eventId);
-        for (Object[] ecl : eventClientLinkDao.getUserAssignedClient(eventId, cabinetId)) {
+        Campaign camp = campaignDao.find(campaignId);
+        for (Object[] ecl : eventDao.getUserAssignedClient(campaignId, cabinetId)) {
             userAssignedClient.put(StringAdapter.toLong(ecl[1]), StringAdapter.getString(ecl[0]));
         }
         return userAssignedClient;
     }
 
-    public List<Event> getEventFilter(Long eventId, Long cabinetId, Integer assigned, Integer processed) {
+    public List<Event> getEventFilter(Long campaignId, Long cabinetId, Integer assigned, Integer processed) {
         if (assigned == null) {
             assigned = 0;
         }
@@ -377,68 +377,68 @@ public class EventService extends PrimService {
         Long userId = (long) (i);
 
         if (assigned == 0 && processed == 0) {
-            List<Event> eventClientLinkList = eventClientLinkDao.getEventClientLinkListByEventId(eventId, cabinetId);//лист ссылок по евенту и личному кабинету
-            return eventClientLinkList;
+            List<Event> events = eventDao.getEventListByCampaignId(campaignId, cabinetId);//лист ссылок по евенту и личному кабинету
+            return events;
         }
         if (assigned == -1) {
-            List<Event> eventClientLinkList = eventClientLinkDao.getUnassignedEventClientLink(eventId, cabinetId);//лист  ссылок Не НАЗНАЧЕННЫХ по евенту и личному кабинету
-            return eventClientLinkList;
+            List<Event> events = eventDao.getUnassignedEvent(campaignId, cabinetId);//лист  ссылок Не НАЗНАЧЕННЫХ по евенту и личному кабинету
+            return events;
         }
         if (assigned == -2 && processed == 0) {
-            List<Event> eventClientLinkList = eventClientLinkDao.getAssignedEventClientLink(eventId, cabinetId);//лист  ссылок  НАЗНАЧЕННЫХ по евенту и личному кабинету
-            return eventClientLinkList;
+            List<Event> events = eventDao.getAssignedEvent(campaignId, cabinetId);//лист  ссылок  НАЗНАЧЕННЫХ по евенту и личному кабинету
+            return events;
         }
         if (assigned == -2 && processed == -1) {
-            List<Event> eventClientLinkList = eventClientLinkDao.getAssignedEventClientLinkNotProcessed(eventId, cabinetId);//лист ссылок НАЗНАЧЕННЫХ, НЕ ОБРАБОТАННЫХ по евенту и личному кабинету
-            return eventClientLinkList;
+            List<Event> events = eventDao.getAssignedEventNotProcessed(campaignId, cabinetId);//лист ссылок НАЗНАЧЕННЫХ, НЕ ОБРАБОТАННЫХ по евенту и личному кабинету
+            return events;
         }
         if (assigned == -2 && processed == -2) {
-            List<Event> eventClientLinkList = eventClientLinkDao.getAssignedEventClientLinkSuccess(eventId, cabinetId);//лист ссылок НАЗНАЧЕННЫХ, УСПЕШНО ОБРАБОТАННЫХ по евенту и личному кабинету
-            return eventClientLinkList;
+            List<Event> events = eventDao.getAssignedEventSuccess(campaignId, cabinetId);//лист ссылок НАЗНАЧЕННЫХ, УСПЕШНО ОБРАБОТАННЫХ по евенту и личному кабинету
+            return events;
         }
         if (assigned == -2 && processed == -3) {
-            List<Event> eventClientLinkList = eventClientLinkDao.getAssignedEventClientLinkNotSuccess(eventId, cabinetId);//лист ссылок НАЗНАЧЕННЫХ, НЕ УСПЕШНО ОБРАБОТАННЫХ по евенту и личному кабинету
-            return eventClientLinkList;
+            List<Event> events = eventDao.getAssignedEventNotSuccess(campaignId, cabinetId);//лист ссылок НАЗНАЧЕННЫХ, НЕ УСПЕШНО ОБРАБОТАННЫХ по евенту и личному кабинету
+            return events;
         }
         if (assigned == -2 && processed == -4) {
-            List<Event> eventClientLinkList = eventClientLinkDao.getAssignedEventClientLinkProcessed(eventId, cabinetId);//лист ссылок НАЗНАЧЕННЫХ, ОБРАБОТАННЫХ по евенту и личному кабинету
-            return eventClientLinkList;
+            List<Event> events = eventDao.getAssignedEventProcessed(campaignId, cabinetId);//лист ссылок НАЗНАЧЕННЫХ, ОБРАБОТАННЫХ по евенту и личному кабинету
+            return events;
         }
         if (assigned == 0 && processed == -1) {
-            List<Event> eventClientLinkList = eventClientLinkDao.getEventClientLinkListNotProcessed(eventId, cabinetId);//лист ссылок НЕ ОБРАБОТАННЫХ по евенту и личному кабинету
-            return eventClientLinkList;
+            List<Event> events = eventDao.getEventListNotProcessed(campaignId, cabinetId);//лист ссылок НЕ ОБРАБОТАННЫХ по евенту и личному кабинету
+            return events;
         }
         if (assigned == 0 && processed == -2) {
-            List<Event> eventClientLinkList = eventClientLinkDao.getEventClientLinkLisSuccess(eventId, cabinetId);//лист ссылок УСПЕШНО ОБРАБОТАННЫХ по евенту и личному кабинету
-            return eventClientLinkList;
+            List<Event> events = eventDao.getEventLisSuccess(campaignId, cabinetId);//лист ссылок УСПЕШНО ОБРАБОТАННЫХ по евенту и личному кабинету
+            return events;
         }
         if (assigned == 0 && processed == -3) {
-            List<Event> eventClientLinkList = eventClientLinkDao.getEventClientLinkLisNotSuccess(eventId, cabinetId);//лист ссылок НЕ УСПЕШНО ОБРАБОТАННЫХ по евенту и личному кабинету
-            return eventClientLinkList;
+            List<Event> events = eventDao.getEventLisNotSuccess(campaignId, cabinetId);//лист ссылок НЕ УСПЕШНО ОБРАБОТАННЫХ по евенту и личному кабинету
+            return events;
         }
         if (assigned == 0 && processed == -4) {
-            List<Event> eventClientLinkList = eventClientLinkDao.getEventClientLinkListProcessed(eventId, cabinetId);//лист ссылок ОБРАБОТАННЫХ по евенту и личному кабинету
-            return eventClientLinkList;
+            List<Event> events = eventDao.getEventListProcessed(campaignId, cabinetId);//лист ссылок ОБРАБОТАННЫХ по евенту и личному кабинету
+            return events;
         }
         if (assigned > 0 && processed == 0) {
-            List<Event> eventClientLinkList = eventClientLinkDao.getUserIdByEventClientLinkList(eventId, cabinetId, userId);//лист ссылок по евенту и личному кабинету
-            return eventClientLinkList;
+            List<Event> events = eventDao.getEventsByUserId(campaignId, cabinetId, userId);//лист ссылок по евенту и личному кабинету
+            return events;
         }
         if (assigned > 0 && processed == -1) {
-            List<Event> eventClientLinkList = eventClientLinkDao.getUserIdByEventClientLinkListNotProcessed(eventId, cabinetId, userId);//лист ссылок по userId, НЕ ОБРАБОТАННЫХ по евенту и личному кабинету
-            return eventClientLinkList;
+            List<Event> events = eventDao.getNotProcessedEventsByUserIdAndCampaignId(campaignId, cabinetId, userId);//лист ссылок по userId, НЕ ОБРАБОТАННЫХ по евенту и личному кабинету
+            return events;
         }
         if (assigned > 0 && processed == -2) {
-            List<Event> eventClientLinkList = eventClientLinkDao.getUserIdByEventClientLinkLisSuccess(eventId, cabinetId, userId);//лист ссылок по userId, УСПЕШНО ОБРАБОТАННЫХ по евенту и личному кабинету
-            return eventClientLinkList;
+            List<Event> events = eventDao.getSuccessEventsByUserId(campaignId, cabinetId, userId);//лист ссылок по userId, УСПЕШНО ОБРАБОТАННЫХ по евенту и личному кабинету
+            return events;
         }
         if (assigned > 0 && processed == -3) {
-            List<Event> eventClientLinkList = eventClientLinkDao.getUserIdByEventClientLinkLisNotSuccess(eventId, cabinetId, userId);//лист ссылок по userId, НЕ УСПЕШНО ОБРАБОТАННЫХ по евенту и личному кабинету
-            return eventClientLinkList;
+            List<Event> events = eventDao.getFailedEventsByUserId(campaignId, cabinetId, userId);//лист ссылок по userId, НЕ УСПЕШНО ОБРАБОТАННЫХ по евенту и личному кабинету
+            return events;
         }
         if (assigned > 0 && processed == -4) {
-            List<Event> eventClientLinkList = eventClientLinkDao.getUserIdByEventClientLinkListProcessed(eventId, cabinetId, userId);//лист ссылок по userId, ОБРАБОТАННЫХ по евенту и личному кабинету
-            return eventClientLinkList;
+            List<Event> events = eventDao.getProcessedEventsByUserId(campaignId, cabinetId, userId);//лист ссылок по userId, ОБРАБОТАННЫХ по евенту и личному кабинету
+            return events;
         }
 
         return null;
@@ -446,43 +446,43 @@ public class EventService extends PrimService {
     }
 
     //клиенты назначение юзерам не обработанные
-    public HashMap<Long, String> userAssignedClientNotProcessed(Long eventId, Long cabinetId) {
-        HashMap<Long, String> userAssignedClientNotProcessed = new HashMap<Long, String>();
-        for (Object[] ecl : eventClientLinkDao.getUserAssignedClientNotProcessed(eventId, cabinetId)) {
+    public HashMap<Long, String> userAssignedClientNotProcessed(Long campaignId, Long cabinetId) {
+        HashMap<Long, String> userAssignedClientNotProcessed = new HashMap();
+        for (Object[] ecl : eventDao.getAssignedNotProcessedClientsByUserId(campaignId, cabinetId)) {
             userAssignedClientNotProcessed.put(StringAdapter.toLong(ecl[1]), StringAdapter.getString(ecl[0]));
         }
         return userAssignedClientNotProcessed;
     }
 
     //клиенты назначение юзерам обработанные
-    public HashMap<Long, String> userAssignedClientProcessed(Long eventId, Long cabinetId) {
-        HashMap<Long, String> userAssignedClientProcessed = new HashMap<Long, String>();
-        for (Object[] ecl : eventClientLinkDao.getUserAssignedClientProcessed(eventId, cabinetId)) {
+    public HashMap<Long, String> userAssignedClientProcessed(Long campaignId, Long cabinetId) {
+        HashMap<Long, String> userAssignedClientProcessed = new HashMap();
+        for (Object[] ecl : eventDao.getAssignedProcessedClientsByUserId(campaignId, cabinetId)) {
             userAssignedClientProcessed.put(StringAdapter.toLong(ecl[1]), StringAdapter.getString(ecl[0]));
         }
         return userAssignedClientProcessed;
     }
 
     //клиенты назначение юзерам обработанные Успешно
-    public HashMap<Long, String> userAssignedClientProcessedSuccess(Long eventId, Long cabinetId) {
-        HashMap<Long, String> userAssignedClientProcessedSuccess = new HashMap<Long, String>();
-        for (Object[] ecl : eventClientLinkDao.getUserAssignedClientProcessedSuccess(eventId, cabinetId)) {
+    public HashMap<Long, String> userAssignedClientProcessedSuccess(Long campaignId, Long cabinetId) {
+        HashMap<Long, String> userAssignedClientProcessedSuccess = new HashMap();
+        for (Object[] ecl : eventDao.getAssignedProcessedSuccessClientsByUserId(campaignId, cabinetId)) {
             userAssignedClientProcessedSuccess.put(StringAdapter.toLong(ecl[1]), StringAdapter.getString(ecl[0]));
         }
         return userAssignedClientProcessedSuccess;
     }
 
     //клиенты назначение юзерам обработанные НЕ успешно
-    public HashMap<Long, String> userAssignedClientProcessedFails(Long eventId, Long cabinetId) {
-        HashMap<Long, String> userAssignedClientProcessedFails = new HashMap<Long, String>();
-        for (Object[] ecl : eventClientLinkDao.getUserAssignedClientProcessedFails(eventId, cabinetId)) {
+    public HashMap<Long, String> userAssignedClientProcessedFails(Long campaignId, Long cabinetId) {
+        HashMap<Long, String> userAssignedClientProcessedFails = new HashMap();
+        for (Object[] ecl : eventDao.getAssignedProcessedFailedClientsByUserId(campaignId, cabinetId)) {
             userAssignedClientProcessedFails.put(StringAdapter.toLong(ecl[1]), StringAdapter.getString(ecl[0]));
         }
         return userAssignedClientProcessedFails;
     }
 
     public List<Event> userShowPageEventClientList(Long cabinetId, Long userId) {
-        List<Event> ecl = eventClientLinkDao.getECLListByUserId(cabinetId, userId);
+        List<Event> ecl = eventDao.getEeventsByCabinetAndUserId(cabinetId, userId);
         return ecl;
     }
 }
