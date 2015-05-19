@@ -196,12 +196,12 @@ public class PersonalCabinet extends PrimEntity {
         this.clientList = clientList;
     }
 
-    public List<Event> getEventClientLinkList() {
+    public List<Event> getEvents() {
         return events;
     }
 
-    public void setEventClientLinkList(List<Event> eventClientLinkList) {
-        this.events = eventClientLinkList;
+    public void setEvents(List<Event> events) {
+        this.events = events;
     }
 
 }

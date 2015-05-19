@@ -72,20 +72,20 @@ public class EventDao extends Dao<Event> {
 
     // получить лист назначенных ссылок ECL 
     public List<Event> getAssignedEvent(Long campaignId, Long cabinetId) {
-        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.user is not null and ev.cabinet.personalCabinetId= :cabinet order by ev.eventId";
+        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.user is not null and ev.cabinet.personalCabinetId= :cabinetId order by ev.eventId";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
-        query.setParameter("cabinet", cabinetId);
+        query.setParameter("cabinetId", cabinetId);
         List<Event> ev = query.list();
         return ev;
     }
 
     //лист Ссылкок ECL по campaignId НЕ ОБРАБОТАНЫХ
     public List<Event> getEventListNotProcessed(Long campaignId, Long cabinetId) {
-        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.cabinet.personalCabinetId= :cabinet and ev.status is null order by ev.eventId";
+        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.cabinet.personalCabinetId= :cabinetId and ev.status is null order by ev.eventId";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
-        query.setParameter("cabinet", cabinetId);
+        query.setParameter("cabinetId", cabinetId);
         List<Event> ev = query.list();
         return ev;
     }
@@ -217,10 +217,10 @@ public class EventDao extends Dao<Event> {
 
     //клиенты назначение юзерам не обработанные
     public List<Object[]> getAssignedNotProcessedClientsByUserId(Long campaignId, Long cabinetId) {
-        String hql = "select count(ev.client.clientId) , ev.user.userId  from Event ev where ev.campaign.campaignId= :event and ev.cabinet.personalCabinetId= :cabinet and ev.user is not null and ev.status is null group by user.userId";
+        String hql = "select count(ev.client.clientId) , ev.user.userId  from Event ev where ev.campaign.campaignId= :campaignId and ev.cabinet.personalCabinetId= :cabinetId and ev.user is not null and ev.status is null group by user.userId";
         Query query = getCurrentSession().createQuery(hql);
-        query.setParameter("event", campaignId);
-        query.setParameter("cabinet", cabinetId);
+        query.setParameter("campaignId", campaignId);
+        query.setParameter("cabinetId", cabinetId);
         List<Object[]> clist = query.list();
         return clist;
     }
