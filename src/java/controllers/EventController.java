@@ -46,7 +46,7 @@ public class EventController extends WebController {
 
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
-        model.put("eventList", eventService.campaignList(cabinetId));
+        model.put("eventList", eventService.getCampaignList(cabinetId));
         model.put("errors", eventService.getError());
         return "eventList";
     }
@@ -62,7 +62,7 @@ public class EventController extends WebController {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
         if (strategyId != null) {
-            eventService.eventAdd(name, strategyId, cabinetId);
+            eventService.createCampaign(name, strategyId, cabinetId);
             if (eventService.getError().isEmpty()) {
                 ras.addFlashAttribute("message", "Евент " + name + " успешно создан");
                 return "redirect:/Event/eventList";

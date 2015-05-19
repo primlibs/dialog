@@ -40,22 +40,22 @@ public class ClientDao extends Dao<Client> {
         }
     }
 
-    public List<Client> getClientByEvent(PersonalCabinet pk, Campaign event) {
-        //   String hql = "from EventClientLink as ecl where ecl.event.eventId= :event and ecl.cabinet.personalCabinetId= :cabinet and ecl.client.clientId= :client";
-      // String hql = "select ecl.client  from EventClientLink as ecl where ecl.event= :event and ecl.cabinet= :cabinet";
-          String hql = "select ecl.client  from EventClientLink as ecl where ecl.event= :event and ecl.cabinet= :cabinet";
+    public List<Client> getClientsByCampaign(PersonalCabinet pk, Campaign campaign) {
+        //   String hql = "from EventClientLink as ev where ev.event.eventId= :event and ev.cabinet.personalCabinetId= :cabinet and ev.client.clientId= :client";
+      // String hql = "select ev.client  from EventClientLink as ev where ev.event= :event and ev.cabinet= :cabinet";
+          String hql = "select ev.client  from Event as ev where ev.campaign= :campaign and ev.cabinet= :cabinet";
         Query query = getCurrentSession().createQuery(hql);
-        query.setParameter("event", event);
+        query.setParameter("campaign", campaign);
         query.setParameter("cabinet", pk);
         List<Client> clist = query.list();
         return clist;
     }
 
-    public List<Client> getClientByEventNotAssigned(PersonalCabinet pk, Campaign event) {
-        //   String hql = "from EventClientLink as ecl where ecl.event.eventId= :event and ecl.cabinet.personalCabinetId= :cabinet and ecl.client.clientId= :client";
-        String hql = "select ecl.client from EventClientLink as ecl where ecl.event= :event and ecl.cabinet= :cabinet and ecl.user is null";
+    public List<Client> getNotAssignedClientsByCampaign(PersonalCabinet pk, Campaign campaign) {
+        //   String hql = "from EventClientLink as ev where ev.event.eventId= :event and ev.cabinet.personalCabinetId= :cabinet and ev.client.clientId= :client";
+        String hql = "select ev.client from Event as ev where ev.campaign= :campaign and ev.cabinet= :cabinet and ev.user is null";
         Query query = getCurrentSession().createQuery(hql);
-        query.setParameter("event", event);
+        query.setParameter("campaign", campaign);
         query.setParameter("cabinet", pk);
         List<Client> clist = query.list();
         return clist;
