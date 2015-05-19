@@ -37,7 +37,7 @@ public class Event extends PrimEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     private PersonalCabinet cabinet;
 
-    @JoinColumn(name = "event_id")
+    @JoinColumn(name = "campaign_id")
     @ManyToOne(fetch = FetchType.EAGER)
     private Campaign event;
 
