@@ -30,8 +30,6 @@
                     <tr>
                         <td>${myIndex.count}</td>
 
-                        <td>${eventLi.campaign.name}</td>
-                        <td>${eventLi.campaign.strategy.strategyName}</td>
 
                         <td>${ev.campaign.name}</td>
                         <td>${ev.campaign.strategy.strategyName}</td>

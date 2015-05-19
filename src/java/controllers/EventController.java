@@ -246,11 +246,7 @@ public class EventController extends WebController {
         User user = authManager.getCurrentUser();
         Long userId = user.getUserId();
 
-
-        model.put("eventList", eventService.userShowPageEventClientList(cabinetId, userId));
-
         model.put("events", eventService.userShowPageEventClientList(cabinetId, userId));
-
 
         return "campaign";
     }
