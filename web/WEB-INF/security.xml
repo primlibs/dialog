@@ -26,6 +26,9 @@
         <intercept-url pattern="/Lk/lk" access="hasAnyRole('user', 'admin')" />  
         <intercept-url pattern="/Lk/selectLk" access="hasAnyRole('user', 'admin')" />
         
+        <intercept-url pattern="/Event/event" access="hasAnyRole('user', 'admin')" />
+        <intercept-url pattern="/Event/campaign" access="hasAnyRole('user', 'admin')" />
+        
         <intercept-url pattern="/**" access="hasRole('admin')" />
         
         <logout logout-url="/logout" logout-success-url="/" invalidate-session="true"/>
