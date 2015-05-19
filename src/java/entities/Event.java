@@ -56,7 +56,7 @@ public class Event extends PrimEntity {
     private String comment;
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "eventClientLink")
+    @OneToMany(mappedBy = "event")
     private List<ModuleEventClient> moduleEventClientList;
 
     @Override

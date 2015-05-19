@@ -31,9 +31,9 @@ public class ModuleEventClient extends PrimEntity {
     @Column(name = "module_event_client_id")
     private Long moduleEventClientId;
 
-    @JoinColumn(name = "event_client_link_id")
+    @JoinColumn(name = "event_id")
     @ManyToOne(fetch = FetchType.EAGER)
-    private Event eventClientLink;
+    private Event event;
 
     @Column(name = "insert_date")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -71,12 +71,12 @@ public class ModuleEventClient extends PrimEntity {
         this.moduleEventClientId = moduleEventClientId;
     }
 
-    public Event getEventClientLink() {
-        return eventClientLink;
+    public Event getEvent() {
+        return event;
     }
 
-    public void setEventClientLink(Event eventClientLink) {
-        this.eventClientLink = eventClientLink;
+    public void setEvent(Event event) {
+        this.event = event;
     }
 
     public Date getInsertDate() {
