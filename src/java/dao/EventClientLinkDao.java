@@ -254,4 +254,14 @@ public class EventClientLinkDao extends Dao<EventClientLink> {
         List<Object[]> clist = query.list();
         return clist;
     }
+
+    //Оператору: список ссылок по kичному кабинету и userId
+    public List<EventClientLink> getECLListByUserId(Long cabinetId, Long userId) {
+        String hql = "from EventClientLink as ecl where ecl.cabinet.personalCabinetId= :cabinet and ecl.user.userId= :userId order by ecl.eventClientLinkId";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("cabinet", cabinetId);
+        query.setParameter("userId", userId);
+        List<EventClientLink> ecl = query.list();
+        return ecl;
+    }
 }

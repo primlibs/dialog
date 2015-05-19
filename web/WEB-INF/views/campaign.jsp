@@ -18,8 +18,24 @@
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
         <div class="row ">
-            
-            
+            <table class="table table-bordered table-hover">
+
+                <tr>
+                    <td>${myIndex.index}#</td>
+                    <td>#Event</td>
+                    <td>#Стратегия</td>
+                </tr>
+                <c:forEach var="eventClient" items="${eventClientList}" varStatus="myIndex">
+
+                    <tr>
+                        <td>${myIndex.count}</td>
+                        <td>${eventClient.event.name}</td>
+                        <td>${eventClient.strategy.strategyName}</td>
+                    </tr>
+                </c:forEach>
+            </table>
+
+
         </div>
     </body>
 </html>

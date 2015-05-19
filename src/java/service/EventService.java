@@ -480,4 +480,9 @@ public class EventService extends PrimService {
         }
         return userAssignedClientProcessedFails;
     }
+
+    public List<EventClientLink> userShowPageEventClientList(Long cabinetId, Long userId) {
+        List<EventClientLink> ecl = eventClientLinkDao.getECLListByUserId(cabinetId, userId);
+        return ecl;
+    }
 }

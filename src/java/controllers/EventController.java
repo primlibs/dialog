@@ -245,8 +245,10 @@ public class EventController extends WebController {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         User user = authManager.getCurrentUser();
-        
-        
+        Long userId = user.getUserId();
+
+        model.put("eventClientList", eventService.userShowPageEventClientList(cabinetId, userId));
+
         return "campaign";
     }
 
