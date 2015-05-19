@@ -38,10 +38,10 @@ public class EventDao extends Dao<Event> {
 
     // получить лист не назначеных ссылок ECL  
     public List<Event> getUnassignedEvent(Long campaignId, Long cabinetId) {
-        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.user is null and ev.cabinet.personalCabinetId= :cabinet order by ev.eventId";
+        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.user is null and ev.cabinet.personalCabinetId= :cabinetId order by ev.eventId";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
-        query.setParameter("cabinet", cabinetId);
+        query.setParameter("cabinetId", cabinetId);
         List<Event> ev = query.list();
         return ev;
     }
