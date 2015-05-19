@@ -39,7 +39,7 @@ public class Event extends PrimEntity {
 
     @JoinColumn(name = "campaign_id")
     @ManyToOne(fetch = FetchType.EAGER)
-    private Campaign event;
+    private Campaign campaign;
 
     @JoinColumn(name = "client_id")
     @ManyToOne(fetch = FetchType.EAGER)
@@ -73,11 +73,11 @@ public class Event extends PrimEntity {
     }
 
     public Campaign getEvent() {
-        return event;
+        return campaign;
     }
 
     public void setEvent(Campaign event) {
-        this.event = event;
+        this.campaign = event;
     }
 
     public Client getClient() {

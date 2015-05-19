@@ -65,7 +65,7 @@ public class Campaign extends PrimEntity {
     private Long status;
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "campaign")
     private List<Event> eventClientList;
 
     @Override
