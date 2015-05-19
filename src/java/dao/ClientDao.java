@@ -7,8 +7,8 @@ package dao;
 
 import dao.parent.Dao;
 import entities.Client;
+import entities.Campaign;
 import entities.Event;
-import entities.EventClientLink;
 import entities.PersonalCabinet;
 import java.util.List;
 import org.hibernate.Query;
@@ -40,7 +40,7 @@ public class ClientDao extends Dao<Client> {
         }
     }
 
-    public List<Client> getClientByEvent(PersonalCabinet pk, Event event) {
+    public List<Client> getClientByEvent(PersonalCabinet pk, Campaign event) {
         //   String hql = "from EventClientLink as ecl where ecl.event.eventId= :event and ecl.cabinet.personalCabinetId= :cabinet and ecl.client.clientId= :client";
       // String hql = "select ecl.client  from EventClientLink as ecl where ecl.event= :event and ecl.cabinet= :cabinet";
           String hql = "select ecl.client  from EventClientLink as ecl where ecl.event= :event and ecl.cabinet= :cabinet";
@@ -51,7 +51,7 @@ public class ClientDao extends Dao<Client> {
         return clist;
     }
 
-    public List<Client> getClientByEventNotAssigned(PersonalCabinet pk, Event event) {
+    public List<Client> getClientByEventNotAssigned(PersonalCabinet pk, Campaign event) {
         //   String hql = "from EventClientLink as ecl where ecl.event.eventId= :event and ecl.cabinet.personalCabinetId= :cabinet and ecl.client.clientId= :client";
         String hql = "select ecl.client from EventClientLink as ecl where ecl.event= :event and ecl.cabinet= :cabinet and ecl.user is null";
         Query query = getCurrentSession().createQuery(hql);

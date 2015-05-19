@@ -6,7 +6,6 @@
 package entities;
 
 import entities.parent.PrimEntity;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,11 +17,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -31,9 +27,6 @@ import org.hibernate.validator.constraints.NotBlank;
 @Entity
 @Table(name = "event")
 public class Event extends PrimEntity {
-
-    static public Long ACTIVE = Long.valueOf(0);
-    static public Long CLOSE = Long.valueOf(1);
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,41 +37,31 @@ public class Event extends PrimEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     private PersonalCabinet cabinet;
 
-    @JoinColumn(name = "strategy_id")
+    @JoinColumn(name = "event_id")
     @ManyToOne(fetch = FetchType.EAGER)
-    private Strategy strategy;
+    private Campaign event;
 
-    @Column(name = "creation_date")
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date creationDate;
+    @JoinColumn(name = "client_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Client client;
 
-    @Column(name = "end_date")
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date endDate;
-
-    @Column(name = "name")
-    @NotBlank(message = "поле Название эвента не может быть пустым")
-    private String name;
+    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private User user;
 
     @Column(name = "status")
-    @NotNull(message = "поле статус не может быть пустым")
-    private Long status;
+    private String status;
+
+    @Column(name = "comment")
+    private String comment;
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "event")
-    private List<EventClientLink> eventClientList;
+    @OneToMany(mappedBy = "eventClientLink")
+    private List<ModuleEventClient> moduleEventClientList;
 
     @Override
     public Long getId() {
         return eventId;
-    }
-
-    public Long getEventId() {
-        return eventId;
-    }
-
-    public void setEventId(Long eventId) {
-        this.eventId = eventId;
     }
 
     public PersonalCabinet getCabinet() {
@@ -89,52 +72,62 @@ public class Event extends PrimEntity {
         this.cabinet = cabinet;
     }
 
-    public Strategy getStrategy() {
-        return strategy;
+    public Campaign getEvent() {
+        return event;
     }
 
-    public void setStrategy(Strategy strategy) {
-        this.strategy = strategy;
+    public void setEvent(Campaign event) {
+        this.event = event;
     }
 
-    public Date getCreationDate() {
-        return creationDate;
+    public Client getClient() {
+        return client;
     }
 
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public User getUser() {
+        return user;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Long getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Long status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public List<EventClientLink> getEventClientList() {
-        return eventClientList;
+    public String getComment() {
+        return comment;
     }
 
-    public void setEventClientList(List<EventClientLink> eventClientList) {
-        this.eventClientList = eventClientList;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
+
+    public List<ModuleEventClient> getModuleEventClientList() {
+        return moduleEventClientList;
+    }
+
+    public void setModuleEventClientList(List<ModuleEventClient> moduleEventClientList) {
+        this.moduleEventClientList = moduleEventClientList;
+    }
+
+    public Long getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(Long eventId) {
+        this.eventId = eventId;
+    }
+    
+    
 
 }

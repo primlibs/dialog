@@ -6,7 +6,7 @@
 package dao;
 
 import dao.parent.Dao;
-import entities.Event;
+import entities.Campaign;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,11 +14,11 @@ import org.springframework.stereotype.Repository;
  * @author Юрий
  */
 @Repository
-public class EventDao extends Dao<Event> {
+public class EventDao extends Dao<Campaign> {
 
     @Override
     public Class getSupportedClass() {
-       return Event.class;
+       return Campaign.class;
     }
     
 }

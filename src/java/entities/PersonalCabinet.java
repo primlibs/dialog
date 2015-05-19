@@ -68,7 +68,7 @@ public class PersonalCabinet extends PrimEntity {
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "cabinet")
-    private List<Event> eventList;
+    private List<Campaign> eventList;
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "cabinet")
@@ -80,7 +80,7 @@ public class PersonalCabinet extends PrimEntity {
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "cabinet")
-    private List<EventClientLink> eventClientLinkList;
+    private List<Event> eventClientLinkList;
 
     public List<Strategy> getStrategyList() {
         return strategyList;
@@ -172,11 +172,11 @@ public class PersonalCabinet extends PrimEntity {
         this.cabinetUserList = cabinetUserList;
     }
 
-    public List<Event> getEventList() {
+    public List<Campaign> getEventList() {
         return eventList;
     }
 
-    public void setEventList(List<Event> eventList) {
+    public void setEventList(List<Campaign> eventList) {
         this.eventList = eventList;
     }
 
@@ -196,11 +196,11 @@ public class PersonalCabinet extends PrimEntity {
         this.clientList = clientList;
     }
 
-    public List<EventClientLink> getEventClientLinkList() {
+    public List<Event> getEventClientLinkList() {
         return eventClientLinkList;
     }
 
-    public void setEventClientLinkList(List<EventClientLink> eventClientLinkList) {
+    public void setEventClientLinkList(List<Event> eventClientLinkList) {
         this.eventClientLinkList = eventClientLinkList;
     }
 
