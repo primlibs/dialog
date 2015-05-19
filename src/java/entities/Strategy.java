@@ -56,7 +56,7 @@ public class Strategy extends PrimEntity {
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "strategy")
-    private List<Campaign> eventList;
+    private List<Campaign> campaigns;
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "strategy")
@@ -120,11 +120,11 @@ public class Strategy extends PrimEntity {
     }
 
     public List<Campaign> getEventList() {
-        return eventList;
+        return campaigns;
     }
 
     public void setEventList(List<Campaign> eventList) {
-        this.eventList = eventList;
+        this.campaigns = eventList;
     }
 
     public List<ModuleEventClient> getModuleEventClientList() {

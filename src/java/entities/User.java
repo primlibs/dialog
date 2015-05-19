@@ -75,7 +75,7 @@ public class User extends PrimEntity {
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "user")
-    private List<Event> eventClientList;
+    private List<Event> events;
 
     public List<CabinetUser> getCabinetUser() {
         return cabinetUser;
@@ -155,11 +155,11 @@ public class User extends PrimEntity {
     }
 
     public List<Event> getEventClientList() {
-        return eventClientList;
+        return events;
     }
 
     public void setEventClientList(List<Event> eventClientList) {
-        this.eventClientList = eventClientList;
+        this.events = eventClientList;
     }
 
 }

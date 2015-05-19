@@ -60,7 +60,7 @@ public class Client extends PrimEntity {
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "client")
-    private List<Event> eventClientList;
+    private List<Event> events;
 
     @Column(name = "unique_id")
     private String uniqueId;
@@ -142,12 +142,12 @@ public class Client extends PrimEntity {
         this.comment = comment;
     }
 
-    public List<Event> getEventClientList() {
-        return eventClientList;
+    public List<Event> getEvents() {
+        return events;
     }
 
-    public void setEventClientList(List<Event> eventClientList) {
-        this.eventClientList = eventClientList;
+    public void setEvents(List<Event> events) {
+        this.events = events;
     }
 
     public String getUniqueId() {
