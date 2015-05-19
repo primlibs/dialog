@@ -120,7 +120,7 @@ public class EventController extends WebController {
             update = true;
         }
         eventService.readXls(fileXls, cabinetId, campaignId, update);
-        ras.addAttribute("eventId", campaignId);
+        ras.addAttribute("campaignId", campaignId);
         ras.addFlashAttribute("errors", eventService.getError());
         if (eventService.getError().isEmpty()) {
             ras.addFlashAttribute("message", "Клиенты успешно добавлены");
@@ -223,8 +223,10 @@ public class EventController extends WebController {
     private LinkedHashMap<Long, String> getProceededMap() {
         LinkedHashMap<Long, String> result = new LinkedHashMap();
         result.put(Long.valueOf(0), "Не выбрано");
-        result.put(Long.valueOf(-1), "Не назначено");
-        result.put(Long.valueOf(-2), "Назначено");
+        result.put(Long.valueOf(-1), "Не обработано");
+        result.put(Long.valueOf(-2), "Успешно");
+        result.put(Long.valueOf(-3), "Не Успешно");
+        result.put(Long.valueOf(-4), "Обработано");
         return result;
     }
 
