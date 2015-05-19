@@ -230,7 +230,7 @@ public class EventController extends WebController {
 
     @RequestMapping("/event")
     public String eventPage(Map<String, Object> model,
-            @RequestParam(value = "eventId") Long eventId,
+            @RequestParam(value = "eventId", required = false) Long eventId,
             HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
@@ -240,7 +240,6 @@ public class EventController extends WebController {
 
     @RequestMapping("/campaign")
     public String campaignPage(Map<String, Object> model,
-            @RequestParam(value = "eventId") Long eventId,
             HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
