@@ -16,7 +16,7 @@
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
         <div class="row">
-            <h4>  Евент:  ${event.name} &nbsp Стратегия: ${event.strategy.strategyName} </h4>
+            <h4>  Кампания:  ${campaign.name} &nbsp Стратегия: ${campaign.strategy.strategyName} </h4>
             <input type="hidden" name="eventId" value=${param['eventId']}>
             <div class="btn-group" role="group" >
                 <a href="<c:url value="/Event/eventTask?eventId=${param['eventId']}"/>" class="btn btn-primary" role="button">Евент</a>

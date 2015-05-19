@@ -18,7 +18,7 @@
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
         <div class="row ">
-            <h4>  Евент:  ${event.name} &nbsp Стратегия: ${event.strategy.strategyName} </h4>
+            <h4>  Евент:  ${campaign.name} &nbsp Стратегия: ${campaign.strategy.strategyName} </h4>
 
             <a href="<c:url value="/Event/getShapeExcel"/>" class="btn btn-large btn-primary" role="button">Получить форму excel</a>
 
@@ -33,7 +33,7 @@
                     <span class='label label-info' id="upload-file-info"></span>
                 </div>
                 Обновлять клиентов: <input  type="checkbox" name="checkbox" value="agree"> 
-                <input type="hidden" name="eventId" value=${param['eventId']}>
+                <input type="hidden" name="campaignId" value=${param['campaignId']}>
                 <input class="btn btn-primary" type="submit" value="Отправить">
             </form>
 
@@ -57,16 +57,16 @@
                     <tr>
                         <td >${cabinetUser.user.surname} ${cabinetUser.user.name} </td>
                         <c:if test="${number== 1}">
-                            <td rowspan="${cabinetUserList.size()}" onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}"/>'" > ${eventClientLinkList.size()} </td>
+                            <td rowspan="${cabinetUserList.size()}" onClick="location = '<c:url value="/Event/eventClient?campaignId=${event.campaignId}"/>'" > ${eventClientLinkList.size()} </td>
                         </c:if>
-                        <td onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&assigned=${cabinetUser.getUser().getUserId()}"/>'"> ${userAssignedClient.get(cabinetUser.getUser().getUserId())} </td>
+                        <td onClick="location = '<c:url value="/Event/eventClient?campaignId=${event.campaignId}&assigned=${cabinetUser.getUser().getUserId()}"/>'"> ${userAssignedClient.get(cabinetUser.getUser().getUserId())} </td>
                         <c:if test="${number== 1}">
-                            <td rowspan="${cabinetUserList.size()}" onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&assigned=-1"/>'" >${unassignedEventClientLinkList.size()}  </td>
+                            <td rowspan="${cabinetUserList.size()}" onClick="location = '<c:url value="/Event/eventClient?campaignId=${event.campaignId}&assigned=-1"/>'" >${unassignedEventClientLinkList.size()}  </td>
                         </c:if>
-                        <td onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-2"/>'"> ${userAssignedClientProcessedSuccess.get(cabinetUser.getUser().getUserId())} </td>
-                        <td onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-3"/>'" > ${userAssignedClientProcessedFails.get(cabinetUser.getUser().getUserId())} </td>
-                        <td onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-4"/>'"> ${userAssignedClientProcessed.get(cabinetUser.getUser().getUserId())} </td>
-                        <td  onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-1"/>'" > ${userAssignedClientNotProcessed.get(cabinetUser.getUser().getUserId())} </td>
+                        <td onClick="location = '<c:url value="/Event/eventClient?campaignId=${event.campaignId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-2"/>'"> ${userAssignedClientProcessedSuccess.get(cabinetUser.getUser().getUserId())} </td>
+                        <td onClick="location = '<c:url value="/Event/eventClient?campaignId=${event.campaignId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-3"/>'" > ${userAssignedClientProcessedFails.get(cabinetUser.getUser().getUserId())} </td>
+                        <td onClick="location = '<c:url value="/Event/eventClient?campaignId=${event.campaignId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-4"/>'"> ${userAssignedClientProcessed.get(cabinetUser.getUser().getUserId())} </td>
+                        <td  onClick="location = '<c:url value="/Event/eventClient?campaignId=${event.campaignId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-1"/>'" > ${userAssignedClientNotProcessed.get(cabinetUser.getUser().getUserId())} </td>
 
                     </tr>
                     <c:set var="number" value="${number+1}" />
@@ -75,13 +75,13 @@
                 <tr>
                     <td > Итого:</td>
                     <td >${eventClientLinkList.size()}  </td>
-                    <td onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&assigned=-2"/>'">  </td>
-                    <td onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&assigned=-1"/>'">  ${unassignedEventClientLinkList.size()}  </td>
+                    <td onClick="location = '<c:url value="/Event/eventClient?campaignId=${event.campaignId}&assigned=-2"/>'">  </td>
+                    <td onClick="location = '<c:url value="/Event/eventClient?campaignId=${event.campaignId}&assigned=-1"/>'">  ${unassignedEventClientLinkList.size()}  </td>
 
-                    <td onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&processed=-2"/>'">  </td>
-                    <td onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&processed=-3"/>'">  </td>
-                    <td onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&processed=-4"/>'"> </td>
-                    <td onClick="location = '<c:url value="/Event/eventClient?eventId=${event.eventId}&processed=-1"/>'"> </td>
+                    <td onClick="location = '<c:url value="/Event/eventClient?campaignId=${event.campaignId}&processed=-2"/>'">  </td>
+                    <td onClick="location = '<c:url value="/Event/eventClient?campaignId=${event.campaignId}&processed=-3"/>'">  </td>
+                    <td onClick="location = '<c:url value="/Event/eventClient?campaignId=${event.campaignId}&processed=-4"/>'"> </td>
+                    <td onClick="location = '<c:url value="/Event/eventClient?campaignId=${event.campaignId}&processed=-1"/>'"> </td>
                 </tr>
             </table>
     </body>

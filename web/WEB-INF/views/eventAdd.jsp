@@ -19,7 +19,7 @@
         <div class="row">
             <form class="form-horizontal" action="<c:url value="/Event/eventAdd" />" method="post">
                 <div class="form-group">
-                    <label class="control-label col-xs-3" for="firstName">Название эвента:</label>
+                    <label class="control-label col-xs-3" for="firstName">Название кампании:</label>
                     <div class="col-xs-9">
                         <input type="text" class="form-control" name="name" id="firstName" value="${numericName}" placeholder="Название эвента">
                     </div>

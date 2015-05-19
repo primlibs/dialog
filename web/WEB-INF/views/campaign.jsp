@@ -25,12 +25,12 @@
                     <td>#Event</td>
                     <td>#Стратегия</td>
                 </tr>
-                <c:forEach var="eventClient" items="${eventClientList}" varStatus="myIndex">
+                <c:forEach var="ev" items="${events}" varStatus="myIndex">
 
                     <tr>
                         <td>${myIndex.count}</td>
-                        <td>${eventClient.event.name}</td>
-                        <td>${eventClient.strategy.strategyName}</td>
+                        <td>${ev.campaign.name}</td>
+                        <td>${ev.campaign.strategy.strategyName}</td>
                     </tr>
                 </c:forEach>
             </table>

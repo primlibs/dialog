@@ -365,7 +365,7 @@ public class EventService extends PrimService {
         return userAssignedClient;
     }
 
-    public List<Event> getEventFilter(Long eventId, Long cabinetId, Integer assigned, Integer processed) {
+    public List<Event> getEventFilter(Long campaignId, Long cabinetId, Integer assigned, Integer processed) {
         if (assigned == null) {
             assigned = 0;
         }
@@ -377,67 +377,67 @@ public class EventService extends PrimService {
         Long userId = (long) (i);
 
         if (assigned == 0 && processed == 0) {
-            List<Event> events = eventDao.getEventListByCampaignId(eventId, cabinetId);//лист ссылок по евенту и личному кабинету
+            List<Event> events = eventDao.getEventListByCampaignId(campaignId, cabinetId);//лист ссылок по евенту и личному кабинету
             return events;
         }
         if (assigned == -1) {
-            List<Event> events = eventDao.getUnassignedEvent(eventId, cabinetId);//лист  ссылок Не НАЗНАЧЕННЫХ по евенту и личному кабинету
+            List<Event> events = eventDao.getUnassignedEvent(campaignId, cabinetId);//лист  ссылок Не НАЗНАЧЕННЫХ по евенту и личному кабинету
             return events;
         }
         if (assigned == -2 && processed == 0) {
-            List<Event> events = eventDao.getAssignedEvent(eventId, cabinetId);//лист  ссылок  НАЗНАЧЕННЫХ по евенту и личному кабинету
+            List<Event> events = eventDao.getAssignedEvent(campaignId, cabinetId);//лист  ссылок  НАЗНАЧЕННЫХ по евенту и личному кабинету
             return events;
         }
         if (assigned == -2 && processed == -1) {
-            List<Event> events = eventDao.getAssignedEventNotProcessed(eventId, cabinetId);//лист ссылок НАЗНАЧЕННЫХ, НЕ ОБРАБОТАННЫХ по евенту и личному кабинету
+            List<Event> events = eventDao.getAssignedEventNotProcessed(campaignId, cabinetId);//лист ссылок НАЗНАЧЕННЫХ, НЕ ОБРАБОТАННЫХ по евенту и личному кабинету
             return events;
         }
         if (assigned == -2 && processed == -2) {
-            List<Event> events = eventDao.getAssignedEventSuccess(eventId, cabinetId);//лист ссылок НАЗНАЧЕННЫХ, УСПЕШНО ОБРАБОТАННЫХ по евенту и личному кабинету
+            List<Event> events = eventDao.getAssignedEventSuccess(campaignId, cabinetId);//лист ссылок НАЗНАЧЕННЫХ, УСПЕШНО ОБРАБОТАННЫХ по евенту и личному кабинету
             return events;
         }
         if (assigned == -2 && processed == -3) {
-            List<Event> events = eventDao.getAssignedEventNotSuccess(eventId, cabinetId);//лист ссылок НАЗНАЧЕННЫХ, НЕ УСПЕШНО ОБРАБОТАННЫХ по евенту и личному кабинету
+            List<Event> events = eventDao.getAssignedEventNotSuccess(campaignId, cabinetId);//лист ссылок НАЗНАЧЕННЫХ, НЕ УСПЕШНО ОБРАБОТАННЫХ по евенту и личному кабинету
             return events;
         }
         if (assigned == -2 && processed == -4) {
-            List<Event> events = eventDao.getAssignedEventProcessed(eventId, cabinetId);//лист ссылок НАЗНАЧЕННЫХ, ОБРАБОТАННЫХ по евенту и личному кабинету
+            List<Event> events = eventDao.getAssignedEventProcessed(campaignId, cabinetId);//лист ссылок НАЗНАЧЕННЫХ, ОБРАБОТАННЫХ по евенту и личному кабинету
             return events;
         }
         if (assigned == 0 && processed == -1) {
-            List<Event> events = eventDao.getEventListNotProcessed(eventId, cabinetId);//лист ссылок НЕ ОБРАБОТАННЫХ по евенту и личному кабинету
+            List<Event> events = eventDao.getEventListNotProcessed(campaignId, cabinetId);//лист ссылок НЕ ОБРАБОТАННЫХ по евенту и личному кабинету
             return events;
         }
         if (assigned == 0 && processed == -2) {
-            List<Event> events = eventDao.getEventLisSuccess(eventId, cabinetId);//лист ссылок УСПЕШНО ОБРАБОТАННЫХ по евенту и личному кабинету
+            List<Event> events = eventDao.getEventLisSuccess(campaignId, cabinetId);//лист ссылок УСПЕШНО ОБРАБОТАННЫХ по евенту и личному кабинету
             return events;
         }
         if (assigned == 0 && processed == -3) {
-            List<Event> events = eventDao.getEventLisNotSuccess(eventId, cabinetId);//лист ссылок НЕ УСПЕШНО ОБРАБОТАННЫХ по евенту и личному кабинету
+            List<Event> events = eventDao.getEventLisNotSuccess(campaignId, cabinetId);//лист ссылок НЕ УСПЕШНО ОБРАБОТАННЫХ по евенту и личному кабинету
             return events;
         }
         if (assigned == 0 && processed == -4) {
-            List<Event> events = eventDao.getEventListProcessed(eventId, cabinetId);//лист ссылок ОБРАБОТАННЫХ по евенту и личному кабинету
+            List<Event> events = eventDao.getEventListProcessed(campaignId, cabinetId);//лист ссылок ОБРАБОТАННЫХ по евенту и личному кабинету
             return events;
         }
         if (assigned > 0 && processed == 0) {
-            List<Event> events = eventDao.getEventsByUserId(eventId, cabinetId, userId);//лист ссылок по евенту и личному кабинету
+            List<Event> events = eventDao.getEventsByUserId(campaignId, cabinetId, userId);//лист ссылок по евенту и личному кабинету
             return events;
         }
         if (assigned > 0 && processed == -1) {
-            List<Event> events = eventDao.getNotProcessedEventsByUserIdAndCampaignId(eventId, cabinetId, userId);//лист ссылок по userId, НЕ ОБРАБОТАННЫХ по евенту и личному кабинету
+            List<Event> events = eventDao.getNotProcessedEventsByUserIdAndCampaignId(campaignId, cabinetId, userId);//лист ссылок по userId, НЕ ОБРАБОТАННЫХ по евенту и личному кабинету
             return events;
         }
         if (assigned > 0 && processed == -2) {
-            List<Event> events = eventDao.getSuccessEventsByUserId(eventId, cabinetId, userId);//лист ссылок по userId, УСПЕШНО ОБРАБОТАННЫХ по евенту и личному кабинету
+            List<Event> events = eventDao.getSuccessEventsByUserId(campaignId, cabinetId, userId);//лист ссылок по userId, УСПЕШНО ОБРАБОТАННЫХ по евенту и личному кабинету
             return events;
         }
         if (assigned > 0 && processed == -3) {
-            List<Event> events = eventDao.getFailedEventsByUserId(eventId, cabinetId, userId);//лист ссылок по userId, НЕ УСПЕШНО ОБРАБОТАННЫХ по евенту и личному кабинету
+            List<Event> events = eventDao.getFailedEventsByUserId(campaignId, cabinetId, userId);//лист ссылок по userId, НЕ УСПЕШНО ОБРАБОТАННЫХ по евенту и личному кабинету
             return events;
         }
         if (assigned > 0 && processed == -4) {
-            List<Event> events = eventDao.getProcessedEventsByUserId(eventId, cabinetId, userId);//лист ссылок по userId, ОБРАБОТАННЫХ по евенту и личному кабинету
+            List<Event> events = eventDao.getProcessedEventsByUserId(campaignId, cabinetId, userId);//лист ссылок по userId, ОБРАБОТАННЫХ по евенту и личному кабинету
             return events;
         }
 
@@ -482,7 +482,7 @@ public class EventService extends PrimService {
     }
 
     public List<Event> userShowPageEventClientList(Long cabinetId, Long userId) {
-        List<Event> ev = eventDao.getEeventsByCabinetAndUserId(cabinetId, userId);
-        return ev;
+        List<Event> ecl = eventDao.getEeventsByCabinetAndUserId(cabinetId, userId);
+        return ecl;
     }
 }
