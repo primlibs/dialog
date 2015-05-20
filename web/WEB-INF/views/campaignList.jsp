@@ -36,7 +36,6 @@
                         <td onClick="location = '<c:url value="/Event/eventTask?campaignId=${campaign.campaignId}"/>'" >${campaign.strategy.strategyName}</td>
                         <td>${campaign.creationDate}</td>
                         <td>${campaign.endDate}</td>
-                        <td>${campaign.endDate}</td>
                         <c:if test="${campaign.status== 1}">
                             <td>Закрыто</td>
                         </c:if>
