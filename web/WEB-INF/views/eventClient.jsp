@@ -38,11 +38,16 @@
                     </select>
 
                     <select class="form-control" name="processed" data-style="btn-primary" title='Не выбрано...'>
-                        <option value="0">Не выбрано </option>
-                        <option value="-1">Не обработано </option>
-                        <option value="-2">Успешно </option>
-                        <option value="-3">Не успешно </option>
-                        <option value="-4">Обработано </option>
+                        <c:forEach var="processedEvent"  items="${proceededMap}">
+                            <c:choose>
+                                <c:when test="${processedEvent.key eq param.processed}">
+                                    <option value="${processedEvent.key}" selected>${processedEvent.value}</option>
+                                </c:when>
+                                <c:otherwise>
+                                    <option value="${processedEvent.key}" >${processedEvent.value}</option>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
                     </select>
                     <input type="hidden" name="campaignId" value=${param['campaignId']}>
                     <input type="submit" name="submit"  class="btn btn-primary" value="Выбрать">

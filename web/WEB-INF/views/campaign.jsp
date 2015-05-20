@@ -19,21 +19,14 @@
 
         <div class="row ">
             <table class="table table-bordered table-hover">
-
                 <tr>
-                    <td>${myIndex.index}#</td>
                     <td>#Event</td>
                     <td>#Стратегия</td>
                 </tr>
                 <c:forEach var="ev" items="${events}" varStatus="myIndex">
-
                     <tr>
-                        <td>${myIndex.count}</td>
-
-
-                        <td>${ev.campaign.name}</td>
-                        <td>${ev.campaign.strategy.strategyName}</td>
-
+                        <td onClick="location = '<c:url value="/Event/event?campaignId=${ev.campaign.campaignId}"/>'">${ev.campaign.name}</td>
+                        <td onClick="location = '<c:url value="/Event/event?campaignId=${ev.campaign.campaignId}"/>'">${ev.campaign.strategy.strategyName}</td>
                     </tr>
                 </c:forEach>
             </table>
