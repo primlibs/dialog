@@ -12,7 +12,7 @@
         <title> </title>
         <%@include file="/WEB-INF/jsp/css_js.jsp" %>
     </head>
-    <body class="container" >
+    <body class="container" data-spy="scroll">
 
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
