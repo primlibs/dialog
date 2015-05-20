@@ -254,7 +254,6 @@ public class EventService extends PrimService {
 
     }
 
- 
     public void eventAppointSave(String[] arrayClientIdUserId, Long cabinetId, Long campaignId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         Campaign campaign = campaignDao.find(campaignId);
@@ -481,8 +480,11 @@ public class EventService extends PrimService {
         return userAssignedClientProcessedFails;
     }
 
-    public List<Event> userShowPageEventClientList(Long cabinetId, Long userId) {
-        List<Event> ecl = eventDao.getEeventsByCabinetAndUserId(cabinetId, userId);
-        return ecl;
+    public HashMap<Campaign, String> userShowPageEventClientList(Long cabinetId, Long userId) {
+        HashMap<Campaign, String> result = new HashMap();
+        for (Object[] ecl : eventDao.getCampaidnByCabinetAndUserId(cabinetId, userId)) {
+            result.put((Campaign) ecl[0], StringAdapter.getString(ecl[1]));
+        }
+        return result;
     }
 }

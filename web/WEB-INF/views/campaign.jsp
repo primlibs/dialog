@@ -23,10 +23,10 @@
                     <td>#Event</td>
                     <td>#Стратегия</td>
                 </tr>
-                <c:forEach var="ev" items="${events}" varStatus="myIndex">
+                <c:forEach var="camp" items="${campaign}" varStatus="myIndex">
                     <tr>
-                        <td onClick="location = '<c:url value="/Event/event?campaignId=${ev.campaign.campaignId}"/>'">${ev.campaign.name}</td>
-                        <td onClick="location = '<c:url value="/Event/event?campaignId=${ev.campaign.campaignId}"/>'">${ev.campaign.strategy.strategyName}</td>
+                        <td onClick="location = '<c:url value="/Event/event?campaignId=${camp.campaignId}"/>'">${camp.name}</td>
+                        <td onClick="location = '<c:url value="/Event/event?campaignId=${camp.campaignId}"/>'">${camp.strategy.strategyName}</td>
                     </tr>
                 </c:forEach>
             </table>

@@ -256,12 +256,13 @@ public class EventDao extends Dao<Event> {
     }
 
     //Оператору: список ссылок по kичному кабинету и userId
-    public List<Event> getEeventsByCabinetAndUserId(Long cabinetId, Long userId) {
-        String hql = "from Event as ev where ev.cabinet.personalCabinetId= :cabinet and ev.user.userId= :userId order by ev.eventId";
+    public List<Object[]> getCampaidnByCabinetAndUserId(Long cabinetId, Long userId) {
+        String hql = "select ev.campaign,count(ev.eventId) from Event as ev where ev.cabinet.personalCabinetId= :cabinetId and ev.user.userId= :userId group by ev.campaign";
         Query query = getCurrentSession().createQuery(hql);
-        query.setParameter("cabinet", cabinetId);
+        query.setParameter("cabinetId", cabinetId);
         query.setParameter("userId", userId);
-        List<Event> ev = query.list();
-        return ev;
+        //List<Event> ev = query.list();
+        List<Object[]> clist = query.list();
+        return clist;
     }
 }
