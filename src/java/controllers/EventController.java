@@ -40,19 +40,19 @@ public class EventController extends WebController {
     @Autowired
     private AuthManager authManager;
 
-    @RequestMapping("/eventList")
-    public String showEventListPage(Map<String, Object> model, HttpServletRequest request) throws Exception {
+    @RequestMapping("/campaignList")
+    public String showCampaigns(Map<String, Object> model, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
 
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
         model.put("campaigns", eventService.getCampaignList(cabinetId));
         model.put("errors", eventService.getError());
-        return "eventList";
+        return "campaignList";
     }
 
-    @RequestMapping("/eventAdd")
-    public String eventAdd(Map<String, Object> model,
+    @RequestMapping("/createCampaign")
+    public String createCampaign(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "strategyId", required = false) Long strategyId,
@@ -65,13 +65,13 @@ public class EventController extends WebController {
             eventService.createCampaign(name, strategyId, cabinetId);
             if (eventService.getError().isEmpty()) {
                 ras.addFlashAttribute("message", "Евент " + name + " успешно создан");
-                return "redirect:/Event/eventList";
+                return "redirect:/Event/campaignList";
             }
         }
         model.put("numericName", eventService.numericName(cabinetId));
         model.put("strategytList", eventService.strategytList(cabinetId));
         model.put("errors", eventService.getError());
-        return "eventAdd";
+        return "createCampaign";
     }
 
     @RequestMapping("/eventTask")
