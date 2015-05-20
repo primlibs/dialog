@@ -356,10 +356,8 @@ public class EventService extends PrimService {
 
     public HashMap<Long, String> userAssignedClient(Long campaignId, Long cabinetId) {
         HashMap<Long, String> userAssignedClient = new HashMap();
-        PersonalCabinet pk = personalCabinetDao.find(cabinetId);
-        Campaign camp = campaignDao.find(campaignId);
         for (Object[] ecl : eventDao.getUserAssignedClient(campaignId, cabinetId)) {
-            userAssignedClient.put(StringAdapter.toLong(ecl[1]), StringAdapter.getString(ecl[0]));
+            userAssignedClient.put(StringAdapter.toLong(ecl[1]), getStringNumber(ecl[0]));
         }
         return userAssignedClient;
     }
