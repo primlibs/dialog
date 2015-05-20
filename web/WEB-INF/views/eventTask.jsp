@@ -61,7 +61,7 @@
                             <td rowspan="${cabinetUserList.size()}" onClick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}"/>'" > ${eventList.size()} </td>
                         </c:if>
                         <td onClick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=${cabinetUser.getUser().getUserId()}"/>'"> ${userAssignedClient.get(cabinetUser.getUser().getUserId())} </td>
-                        <c:set var="assignedEventsCount" value="${number+userAssignedClient.get(cabinetUser.getUser().getUserId())}" />
+                        <c:set var="assignedEventsCount" value="${assignedEventsCount+userAssignedClient.get(cabinetUser.getUser().getUserId())}" />
                         <c:if test="${number== 1}">
                             <td rowspan="${cabinetUserList.size()}" onClick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=-1"/>'" >${unassignedEventList.size()}  </td>
                         </c:if>
