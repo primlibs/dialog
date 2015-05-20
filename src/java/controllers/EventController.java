@@ -40,15 +40,15 @@ public class EventController extends WebController {
     @Autowired
     private AuthManager authManager;
 
-    @RequestMapping("/eventList")
-    public String showEventListPage(Map<String, Object> model, HttpServletRequest request) throws Exception {
+    @RequestMapping("/campaignList")
+    public String showCampaigns(Map<String, Object> model, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
 
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
         model.put("campaigns", eventService.getCampaignList(cabinetId));
         model.put("errors", eventService.getError());
-        return "eventList";
+        return "campaignList";
     }
 
     @RequestMapping("/eventAdd")
@@ -65,7 +65,7 @@ public class EventController extends WebController {
             eventService.createCampaign(name, strategyId, cabinetId);
             if (eventService.getError().isEmpty()) {
                 ras.addFlashAttribute("message", "Евент " + name + " успешно создан");
-                return "redirect:/Event/eventList";
+                return "redirect:/Event/campaignList";
             }
         }
         model.put("numericName", eventService.numericName(cabinetId));
