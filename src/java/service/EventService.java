@@ -28,7 +28,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -255,6 +254,7 @@ public class EventService extends PrimService {
 
     }
 
+ 
     public void eventAppointSave(String[] arrayClientIdUserId, Long cabinetId, Long campaignId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         Campaign campaign = campaignDao.find(campaignId);
