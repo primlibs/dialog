@@ -6,6 +6,7 @@
 package entities;
 
 import entities.parent.PrimEntity;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -54,6 +56,20 @@ public class Event extends PrimEntity {
 
     @Column(name = "comment")
     private String comment;
+    
+    @Column(name = "final_comment")
+    private String finalComment;
+    
+    @Column(name = "success_date")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date successDate;
+    
+    @Column(name = "postponed_date")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date postponedDate;
+    
+    @Column(name = "fail_reason")
+    private String failReason;
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "event")
@@ -126,6 +142,46 @@ public class Event extends PrimEntity {
 
     public void setEventId(Long eventId) {
         this.eventId = eventId;
+    }
+
+    public Campaign getCampaign() {
+        return campaign;
+    }
+
+    public void setCampaign(Campaign campaign) {
+        this.campaign = campaign;
+    }
+
+    public String getFinalComment() {
+        return finalComment;
+    }
+
+    public void setFinalComment(String finalComment) {
+        this.finalComment = finalComment;
+    }
+
+    public Date getSuccessDate() {
+        return successDate;
+    }
+
+    public void setSuccessDate(Date successDate) {
+        this.successDate = successDate;
+    }
+
+    public Date getPostponedDate() {
+        return postponedDate;
+    }
+
+    public void setPostponedDate(Date postponedDate) {
+        this.postponedDate = postponedDate;
+    }
+
+    public String getFailReason() {
+        return failReason;
+    }
+
+    public void setFailReason(String failReason) {
+        this.failReason = failReason;
     }
     
     
