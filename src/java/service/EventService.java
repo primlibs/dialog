@@ -482,7 +482,7 @@ public class EventService extends PrimService {
 
     public HashMap<Campaign, String> userShowPageEventClientList(Long cabinetId, Long userId) {
         HashMap<Campaign, String> result = new HashMap();
-        for (Object[] ecl : eventDao.getCampaidnByCabinetAndUserId(cabinetId, userId)) {
+        for (Object[] ecl : eventDao.getCampaignByCabinetAndUserId(cabinetId, userId)) {
             result.put((Campaign) ecl[0], StringAdapter.getString(ecl[1]));
         }
         return result;
@@ -490,7 +490,7 @@ public class EventService extends PrimService {
     
     private String getStringNumber(Object ob){
         String count = "0";
-        if(ob!=null){
+        if(ob!=null&&!ob.equals("")&&!ob.equals("null")){
             count=StringAdapter.getString(ob);
         }
         return count;
