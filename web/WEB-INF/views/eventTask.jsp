@@ -52,7 +52,8 @@
                     <td>Не успешно </td>
                     <td>Всего</td>
                 </tr>
-                <c:set var="number" value="1" />                
+                <c:set var="number" value="1" />
+                <c:set var="assignedEventsCount" value="0" />
                 <c:forEach var="cabinetUser"  items="${cabinetUserList}" >
                     <tr>
                         <td >${cabinetUser.user.surname} ${cabinetUser.user.name} </td>
@@ -60,6 +61,7 @@
                             <td rowspan="${cabinetUserList.size()}" onClick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}"/>'" > ${eventList.size()} </td>
                         </c:if>
                         <td onClick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=${cabinetUser.getUser().getUserId()}"/>'"> ${userAssignedClient.get(cabinetUser.getUser().getUserId())} </td>
+                        <c:set var="assignedEventsCount" value="${number+userAssignedClient.get(cabinetUser.getUser().getUserId())}" />
                         <c:if test="${number== 1}">
                             <td rowspan="${cabinetUserList.size()}" onClick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=-1"/>'" >${unassignedEventList.size()}  </td>
                         </c:if>
@@ -75,7 +77,7 @@
                 <tr>
                     <td > Итого:</td>
                     <td >${eventList.size()}  </td>
-                    <td onClick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=-2"/>'">  </td>
+                    <td onClick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=-2"/>'">  ${assignedEventsCount} </td>
                     <td onClick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=-1"/>'">  ${unassignedEventList.size()}  </td>
 
                     <td onClick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&processed=-2"/>'">  </td>
