@@ -448,7 +448,7 @@ public class EventService extends PrimService {
     public HashMap<Long, String> userAssignedClientNotProcessed(Long campaignId, Long cabinetId) {
         HashMap<Long, String> userAssignedClientNotProcessed = new HashMap();
         for (Object[] ecl : eventDao.getAssignedNotProcessedClientsByUserId(campaignId, cabinetId)) {
-            userAssignedClientNotProcessed.put(StringAdapter.toLong(ecl[1]), StringAdapter.getString(ecl[0]));
+            userAssignedClientNotProcessed.put(StringAdapter.toLong(ecl[1]), getStringNumber(ecl[0]));
         }
         return userAssignedClientNotProcessed;
     }
@@ -457,7 +457,7 @@ public class EventService extends PrimService {
     public HashMap<Long, String> userAssignedClientProcessed(Long campaignId, Long cabinetId) {
         HashMap<Long, String> userAssignedClientProcessed = new HashMap();
         for (Object[] ecl : eventDao.getAssignedProcessedClientsByUserId(campaignId, cabinetId)) {
-            userAssignedClientProcessed.put(StringAdapter.toLong(ecl[1]), StringAdapter.getString(ecl[0]));
+            userAssignedClientProcessed.put(StringAdapter.toLong(ecl[1]), getStringNumber(ecl[0]));
         }
         return userAssignedClientProcessed;
     }
@@ -466,7 +466,7 @@ public class EventService extends PrimService {
     public HashMap<Long, String> userAssignedClientProcessedSuccess(Long campaignId, Long cabinetId) {
         HashMap<Long, String> userAssignedClientProcessedSuccess = new HashMap();
         for (Object[] ecl : eventDao.getAssignedProcessedSuccessClientsByUserId(campaignId, cabinetId)) {
-            userAssignedClientProcessedSuccess.put(StringAdapter.toLong(ecl[1]), StringAdapter.getString(ecl[0]));
+            userAssignedClientProcessedSuccess.put(StringAdapter.toLong(ecl[1]), getStringNumber(ecl[0]));
         }
         return userAssignedClientProcessedSuccess;
     }
@@ -475,7 +475,7 @@ public class EventService extends PrimService {
     public HashMap<Long, String> userAssignedClientProcessedFails(Long campaignId, Long cabinetId) {
         HashMap<Long, String> userAssignedClientProcessedFails = new HashMap();
         for (Object[] ecl : eventDao.getAssignedProcessedFailedClientsByUserId(campaignId, cabinetId)) {
-            userAssignedClientProcessedFails.put(StringAdapter.toLong(ecl[1]), StringAdapter.getString(ecl[0]));
+            userAssignedClientProcessedFails.put(StringAdapter.toLong(ecl[1]), getStringNumber(ecl[0]));
         }
         return userAssignedClientProcessedFails;
     }
@@ -487,4 +487,13 @@ public class EventService extends PrimService {
         }
         return result;
     }
+    
+    private String getStringNumber(Object ob){
+        String count = "0";
+        if(ob!=null){
+            count=StringAdapter.getString(ob);
+        }
+        return count;
+    }
+    
 }
