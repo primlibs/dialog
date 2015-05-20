@@ -1,5 +1,5 @@
 <%-- 
-    Document   : eventAdd
+    Document   : createCampaign
     Created on : 29.04.2015, 15:39:22
     Author     : Юрий
 --%>
@@ -17,7 +17,7 @@
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
         <div class="row">
-            <form class="form-horizontal" action="<c:url value="/Event/eventAdd" />" method="post">
+            <form class="form-horizontal" action="<c:url value="/Event/createCampaign" />" method="post">
                 <div class="form-group">
                     <label class="control-label col-xs-3" for="firstName">Название кампании:</label>
                     <div class="col-xs-9">

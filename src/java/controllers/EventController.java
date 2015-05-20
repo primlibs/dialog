@@ -51,8 +51,8 @@ public class EventController extends WebController {
         return "campaignList";
     }
 
-    @RequestMapping("/eventAdd")
-    public String eventAdd(Map<String, Object> model,
+    @RequestMapping("/createCampaign")
+    public String createCampaign(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "strategyId", required = false) Long strategyId,
@@ -71,7 +71,7 @@ public class EventController extends WebController {
         model.put("numericName", eventService.numericName(cabinetId));
         model.put("strategytList", eventService.strategytList(cabinetId));
         model.put("errors", eventService.getError());
-        return "eventAdd";
+        return "createCampaign";
     }
 
     @RequestMapping("/eventTask")
