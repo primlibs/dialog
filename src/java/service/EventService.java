@@ -17,6 +17,7 @@ import entities.CabinetUser;
 import entities.Client;
 import entities.Campaign;
 import entities.Event;
+import entities.Group;
 import entities.PersonalCabinet;
 import entities.Strategy;
 import entities.User;
@@ -502,4 +503,5 @@ public class EventService extends PrimService {
         return userMap;
     }
     
+  
 }

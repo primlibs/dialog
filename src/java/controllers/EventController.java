@@ -233,9 +233,11 @@ public class EventController extends WebController {
     @RequestMapping("/event")
     public String eventPage(Map<String, Object> model,
             @RequestParam(value = "campaignId", required = false) Long campaignId,
+            @RequestParam(value = "strategyId", required = false) Long strategyId,
             HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        
 
         model.put("campaign", eventService.getCampaign(campaignId));
         return "event";

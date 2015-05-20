@@ -6,7 +6,10 @@
 package dao;
 
 import dao.parent.Dao;
+import entities.Event;
 import entities.Group;
+import java.util.List;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -21,4 +24,5 @@ public class GroupDao extends Dao<Group>{
        return Group.class;
     }
     
+   
 }

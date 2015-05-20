@@ -12,24 +12,43 @@
         <title> </title>
         <%@include file="/WEB-INF/jsp/css_js.jsp" %>
     </head>
-    <body class="container" >
+    <body class="container" data-spy="scroll">
 
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
         <div class="row ">
-             <h4>  Евент:  ${campaign.name} &nbsp Стратегия: ${campaign.strategy.strategyName} </h4>
+            <h4>  Евент:  ${campaign.name} &nbsp Стратегия: ${campaign.strategy.strategyName} </h4>
+            <input type="hidden" name="campaignId" value=${param.campaignId}>
+            <input type="hidden" name="strategyId" value=${campaign.strategy.strategyId}>
+
             <a href="<c:url value="/Event/campaign"/>" class="btn btn-large btn-primary" role="button">Выбрать кампанию...</a>
 
-            <table class="table table-bordered table-hover">
-                <tr>
-                    <td colspan="2">Клиент, Адрес, Секретарь, ЛПР, Телефон секретаря, Телефон ЛПР, Комментарий </td>
-                </tr>
-                <tr>
-                    <td>Модуль ответа(название - ссылка) </td>
-                    <td>Группа 1</td>
-                </tr>
-            </table>
+            <div class="row">
+                <div class="col-md-9">
+                    Клиент, Адрес, Секретарь, ЛПР, Телефон секретаря, Телефон ЛПР, Комментарий
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            Модуль ответа(название - ссылка) 
+                        </div>
+                        <div class="col-md-4" style="height: 100vh">
+                            <c:forEach var="groupL"  items="${campaign.strategy.groupList}" >
+                                <p> <h4>  ${groupL.groupName} { </h4>
+                                <c:forEach var="moduleL"  items="${groupL.moduleList}" >
+                                    <p> <a href="<c:url value="/Event/#?groupId=${groupL.groupId}&moduleId=${moduleL.moduleId}"/>">${moduleL.moduleName}</a>
+                                    </c:forEach>
+                                <h4> } </h4>
+                            </c:forEach>
+                                <div style="margin-bottom: 5">
+                            <p>    <a href="<c:url value="/Event/#"/>" class="btn btn-large btn-warning" role="button">Слив звонка</a>
+                            <p>    <a href="<c:url value="/Event/#"/>" class="btn btn-large btn-success" role="button">Положительный результат</a>
+                            <p>    <a href="<c:url value="/Event/#"/>" class="btn btn-large btn-primary" role="button">следующий клиент</a>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
 </html>
