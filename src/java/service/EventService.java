@@ -503,10 +503,5 @@ public class EventService extends PrimService {
         return userMap;
     }
     
-    //получить лист групп по стратегии
-    public List<Group> groupListByStrategyId(Long strategyId, Long cabinetId){
-       List<Group> result = groupDao.getGroupListByStrategyId(strategyId, cabinetId);
-        return result;
-        
-    }
+  
 }

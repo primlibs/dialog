@@ -238,7 +238,7 @@ public class EventController extends WebController {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         
-         model.put("groupList",eventService.groupListByStrategyId(strategyId, cabinetId));
+
         model.put("campaign", eventService.getCampaign(campaignId));
         return "event";
     }

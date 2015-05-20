@@ -24,13 +24,5 @@ public class GroupDao extends Dao<Group>{
        return Group.class;
     }
     
-     //лист групп по персональному кабинету и strategyId
-    public List<Group> getGroupListByStrategyId(Long strategyId, Long cabinetId) {
-        String hql = "from Group gr where gr.strategy.strategyId= :strategyId and gr.cabinet.personalCabinetId= :cabinetId";
-        Query query = getCurrentSession().createQuery(hql);
-        query.setParameter("strategyId", strategyId);
-        query.setParameter("cabinetId", cabinetId);
-        List<Group> ev = query.list();
-        return ev;
-    }
+   
 }

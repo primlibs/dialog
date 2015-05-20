@@ -29,20 +29,22 @@
                     Клиент, Адрес, Секретарь, ЛПР, Телефон секретаря, Телефон ЛПР, Комментарий
 
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-8">
                             Модуль ответа(название - ссылка) 
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4" style="height: 100vh">
                             <c:forEach var="groupL"  items="${campaign.strategy.groupList}" >
-                                <p>   <a href="<c:url value="/Event/#?groupId=${groupL.groupId}"/>">${groupL.groupName}</a>
-                                    <c:forEach var="moduleL"  items="${groupL.moduleList}" >
+                                <p> <h4>  ${groupL.groupName} { </h4>
+                                <c:forEach var="moduleL"  items="${groupL.moduleList}" >
                                     <p> <a href="<c:url value="/Event/#?groupId=${groupL.groupId}&moduleId=${moduleL.moduleId}"/>">${moduleL.moduleName}</a>
-
                                     </c:forEach>
-                                </c:forEach>
+                                <h4> } </h4>
+                            </c:forEach>
+                                <div style="margin-bottom: 5">
                             <p>    <a href="<c:url value="/Event/#"/>" class="btn btn-large btn-warning" role="button">Слив звонка</a>
                             <p>    <a href="<c:url value="/Event/#"/>" class="btn btn-large btn-success" role="button">Положительный результат</a>
                             <p>    <a href="<c:url value="/Event/#"/>" class="btn btn-large btn-primary" role="button">следующий клиент</a>
+                                </div>
                         </div>
                     </div>
                 </div>
