@@ -47,41 +47,42 @@
                                     <option value="${processedEvent.key}" >${processedEvent.value}</option>
                                 </c:otherwise>
                             </c:choose>
-                        </select>
-                        <input type="hidden" name="campaignId" value=${param['campaignId']}>
-                        <input type="submit" name="submit"  class="btn btn-primary" value="Выбрать">
-                    </div>
-                </form>
-                <table class="table table-bordered table-hover">
+                        </c:forEach>
+                    </select>
+                    <input type="hidden" name="campaignId" value=${param['campaignId']}>
+                    <input type="submit" name="submit"  class="btn btn-primary" value="Выбрать">
+                </div>
+            </form>
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <td>${myIndex.index}номер по порядку</td>
+                    <td>Уникальный номер</td>
+                    <td>Название компании</td>
+                    <td>Имя серетаря</td>
+                    <td>Имя лица принимающего решение</td>
+                    <td>Телефон секретаря</td>
+                    <td>Телефон лица принимающего решение</td>
+                    <td>Адрес</td>
+                    <td>Пользователь</td>
+                    <td>Статус</td>
+                </tr>
+                <c:forEach var="event" items="${events}" varStatus="myIndex">
+
                     <tr>
-                        <td>${myIndex.index}номер по порядку</td>
-                        <td>Уникальный номер</td>
-                        <td>Название компании</td>
-                        <td>Имя серетаря</td>
-                        <td>Имя лица принимающего решение</td>
-                        <td>Телефон секретаря</td>
-                        <td>Телефон лица принимающего решение</td>
-                        <td>Адрес</td>
-                        <td>Пользователь</td>
-                        <td>Статус</td>
+                        <td>${myIndex.count}</td>
+                        <td>${event.client.uniqueId}</td> 
+                        <td>${event.client.nameCompany}</td>
+                        <td>${event.client.nameSecretary}</td>  
+                        <td>${event.client.nameLpr} </td>  
+                        <td>${event.client.phoneSecretary} </td>  
+                        <td>${event.client.phoneLpr} </td>  
+                        <td>${event.client.address} </td>
+                        <td> ${event.user.surname}  ${event.user.name}  </td>
+                        <td>${event.status}   </td>
                     </tr>
-                    <c:forEach var="event" items="${events}" varStatus="myIndex">
+                </c:forEach>
+            </table>
 
-                        <tr>
-                            <td>${myIndex.count}</td>
-                            <td>${event.client.uniqueId}</td> 
-                            <td>${event.client.nameCompany}</td>
-                            <td>${event.client.nameSecretary}</td>  
-                            <td>${event.client.nameLpr} </td>  
-                            <td>${event.client.phoneSecretary} </td>  
-                            <td>${event.client.phoneLpr} </td>  
-                            <td>${event.client.address} </td>
-                            <td> ${event.user.surname}  ${event.user.name}  </td>
-                            <td>${event.status}   </td>
-                        </tr>
-                    </c:forEach>
-                </table>
-
-            </div>
-        </body>
-    </html>
+        </div>
+    </body>
+</html>
