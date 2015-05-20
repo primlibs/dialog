@@ -74,8 +74,8 @@ public class EventController extends WebController {
         return "createCampaign";
     }
 
-    @RequestMapping("/eventTask")
-    public String showEventTaskPage(Map<String, Object> model,
+    @RequestMapping("/campaignSpecification")
+    public String showCampaignSpecification(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "campaignId"//, required = false
             ) Long campaignId) throws Exception {
@@ -95,7 +95,7 @@ public class EventController extends WebController {
         model.put("eventList", eventService.getEventList(campaignId, cabinetId));
         model.put("unassignedEventList", eventService.getUnassignedEvent(campaignId, cabinetId));
         model.put("campaign", eventService.getCampaign(campaignId));
-        return "eventTask";
+        return "campaignSpecification";
     }
 
     @RequestMapping("/getShapeExcel")
@@ -126,7 +126,7 @@ public class EventController extends WebController {
             ras.addFlashAttribute("message", "Клиенты успешно добавлены");
         }
         ras.addFlashAttribute("campaign", eventService.getCampaign(campaignId));
-        return "redirect:/Event/eventTask";
+        return "redirect:/Event/campaignSpecification";
     }
 
     @RequestMapping("/eventAppointSave")
@@ -144,7 +144,7 @@ public class EventController extends WebController {
         ras.addAttribute("campaignId", campaignId);
         ras.addFlashAttribute("errors", eventService.getError());
         ras.addFlashAttribute("campaign", eventService.getCampaign(campaignId));
-        return "redirect:/Event/eventTask";
+        return "redirect:/Event/campaignSpecification";
     }
 
     @RequestMapping("/eventShowAllAppoint")
@@ -184,7 +184,7 @@ public class EventController extends WebController {
         ras.addFlashAttribute("campaign", eventService.getCampaign(campaignId));
 
         if (eventService.getError().isEmpty()) {
-            return "redirect:/Event/eventTask";
+            return "redirect:/Event/campaignSpecification";
         }
         return "redirect:/Event/eventShowAllAppoint";
     }

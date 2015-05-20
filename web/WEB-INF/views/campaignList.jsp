@@ -32,8 +32,8 @@
                 <c:forEach var="campaign" items="${campaigns}" varStatus="myIndex">
 
                     <tr>
-                        <td onClick="location = '<c:url value="/Event/eventTask?campaignId=${campaign.campaignId}"/>'" >${campaign.name}</td>
-                        <td onClick="location = '<c:url value="/Event/eventTask?campaignId=${campaign.campaignId}"/>'" >${campaign.strategy.strategyName}</td>
+                        <td onClick="location = '<c:url value="/Event/campaignSpecification?campaignId=${campaign.campaignId}"/>'" >${campaign.name}</td>
+                        <td onClick="location = '<c:url value="/Event/campaignSpecification?campaignId=${campaign.campaignId}"/>'" >${campaign.strategy.strategyName}</td>
                         <td>${campaign.creationDate}</td>
                         <td>${campaign.endDate}</td>
                         <c:if test="${campaign.status== 1}">
