@@ -52,8 +52,9 @@ public class StrategyController extends WebController {
             }
 
         }
-
-        model.put("errors", strategyService.getError());
+        if(!strategyService.getError().isEmpty()){
+            model.put("errors", strategyService.getError());
+        }
         model.put("StrategyList", strategyService.activeStrategyList(cabinetId));
         return "strategyList";
     }
@@ -71,7 +72,9 @@ public class StrategyController extends WebController {
 
         model.put("module", moduleService.showModule(moduleId));
         model.put("moduleId", moduleId);
-        model.put("errors", strategyService.getError());
+        if(!strategyService.getError().isEmpty()){
+            model.put("errors", strategyService.getError());
+        }
         //model.put("GroupList", strategyService.getGroupList(strategyId));
         //model.put("strategyId", strategyId);
         //model.put("strategyName", strategyService.findStrategy(strategyId).getStrategyName());
@@ -82,10 +85,8 @@ public class StrategyController extends WebController {
     @RequestMapping("/renameStrategy")
     public String renameStrategy(Map<String, Object> model,HttpServletRequest request,@RequestParam(value = "strategyId") Long strategyId,
             @RequestParam(value = "name") String name,RedirectAttributes ras){
-        strategyService.reanameStrategy(strategyId, name);
-        if (!strategyService.getError().isEmpty()) {
+            strategyService.reanameStrategy(strategyId, name);
             ras.addFlashAttribute("errors", strategyService.getError());
-        }
         return "redirect:/Strategy/show";
     }
 

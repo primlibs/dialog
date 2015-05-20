@@ -66,8 +66,8 @@ public class StrategyService extends PrimService {
             if (validate(strategy)) {
                 strategyDao.save(strategy);
             }
-        } else {
-            addError("Cтратегия с таким названием уже существует");
+        }else{
+            addError("Cтратегия с названием "+strategyName+" уже существует");
         }
     }
 //метод не используется
@@ -219,7 +219,7 @@ public class StrategyService extends PrimService {
             str.setStrategyName(name);
             updateStrategy(str);
         }else{
-            addError("Cтратегия с таким названием уже существует");
+            addError("Cтратегия с названием "+name+" уже существует");
         }
     }
     
