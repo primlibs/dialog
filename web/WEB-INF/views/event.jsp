@@ -19,17 +19,22 @@
 
         <div class="row ">
              <h4>  Евент:  ${campaign.name} &nbsp Стратегия: ${campaign.strategy.strategyName} </h4>
+               <input type="hidden" name="campaignId" value=${param.campaignId}>
+               
             <a href="<c:url value="/Event/campaign"/>" class="btn btn-large btn-primary" role="button">Выбрать кампанию...</a>
 
-            <table class="table table-bordered table-hover">
-                <tr>
-                    <td colspan="2">Клиент, Адрес, Секретарь, ЛПР, Телефон секретаря, Телефон ЛПР, Комментарий </td>
-                </tr>
-                <tr>
-                    <td>Модуль ответа(название - ссылка) </td>
-                    <td>Группа 1</td>
-                </tr>
-            </table>
+            Клиент, Адрес, Секретарь, ЛПР, Телефон секретаря, Телефон ЛПР, Комментарий
+            
+             <div class="col-md-6"> 
+                 Модуль ответа(название - ссылка) 
+                 
+             </div>
+            
+             <div class="col-md-6"> 
+                  
+                 Группа 1
+             </div>
+            
         </div>
     </body>
 </html>
