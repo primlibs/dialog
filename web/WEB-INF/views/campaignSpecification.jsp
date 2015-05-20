@@ -1,5 +1,5 @@
 <%-- 
-    Document   : eventTask
+    Document   : campaignSpecification
     Created on : 30.04.2015, 13:15:22
     Author     : Юрий
 --%>

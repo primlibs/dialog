@@ -19,7 +19,7 @@
             <h4>  Кампания:  ${campaign.name} &nbsp Стратегия: ${campaign.strategy.strategyName} </h4>
             <input type="hidden" name="campaignId" value=${param['campaignId']}>
             <div class="btn-group" role="group" >
-                <a href="<c:url value="/Event/eventTask?campaignId=${param['campaignId']}"/>" class="btn btn-primary" role="button">Евент</a>
+                <a href="<c:url value="/Event/campaignSpecification?campaignId=${param['campaignId']}"/>" class="btn btn-primary" role="button">Евент</a>
 
                 <a href="<c:url value="/Event/eventClient?campaignId=${param['campaignId']}"/>" class="btn btn-primary" role="button">Клиенты </a>  
             </div>
