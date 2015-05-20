@@ -33,10 +33,10 @@
                             Модуль ответа(название - ссылка) 
                         </div>
                         <div class="col-md-6">
-                            <c:forEach var="groupL"  items="${groupList}" >
+                            <c:forEach var="groupL"  items="${campaign.strategy.groupList}" >
                                 <p>   <a href="<c:url value="/Event/#?groupId=${groupL.groupId}"/>">${groupL.groupName}</a>
                                     <c:forEach var="moduleL"  items="${groupL.moduleList}" >
-                                    <p> <a href="<c:url value="/Event/#?groupId=${moduleL.groupId}&moduleId=${moduleL.moduleId}"/>">${moduleL.moduleName}</a>
+                                    <p> <a href="<c:url value="/Event/#?groupId=${groupL.groupId}&moduleId=${moduleL.moduleId}"/>">${moduleL.moduleName}</a>
 
                                     </c:forEach>
                                 </c:forEach>
