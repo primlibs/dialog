@@ -17,6 +17,7 @@ import entities.CabinetUser;
 import entities.Client;
 import entities.Campaign;
 import entities.Event;
+import entities.Group;
 import entities.PersonalCabinet;
 import entities.Strategy;
 import entities.User;
@@ -486,5 +487,12 @@ public class EventService extends PrimService {
             result.put((Campaign) ecl[0], StringAdapter.getString(ecl[1]));
         }
         return result;
+    }
+    
+    //получить лист групп по стратегии
+    public List<Group> groupListByStrategyId(Long strategyId, Long cabinetId){
+       List<Group> result = groupDao.getGroupListByStrategyId(strategyId, cabinetId);
+        return result;
+        
     }
 }
