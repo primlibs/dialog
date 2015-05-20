@@ -85,6 +85,16 @@ public class PersonalCabinet extends PrimEntity {
     public List<Strategy> getStrategyList() {
         return strategyList;
     }
+    
+    public List<Strategy> getActiveStrategyList() {
+        List<Strategy> res = new ArrayList();
+        for(Strategy str:strategyList){
+            if(str.getDeleteDate()==null){
+                res.add(str);
+            }
+        }
+        return res;
+    }
 
     public void setStrategyList(List<Strategy> strategyList) {
         this.strategyList = strategyList;

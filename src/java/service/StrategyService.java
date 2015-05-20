@@ -129,6 +129,7 @@ public class StrategyService extends PrimService {
         for (Group group : stg.getActiveGroupList()) {
             if(group.getGroupName().equalsIgnoreCase(groupName)){
                 exists = true;
+                break;
             }
         }
 
@@ -207,9 +208,10 @@ public class StrategyService extends PrimService {
         Strategy str = strategyDao.find(strategyId);
         
         Boolean exists = false;
-        for (Group group : str.getActiveGroupList()) {
-            if(group.getGroupName().equalsIgnoreCase(name)){
+        for (Strategy strat : str.getCabinet().getActiveStrategyList()) {
+            if(strat.getStrategyName().equalsIgnoreCase(name)){
                 exists = true;
+                break;
             }
         }
         
