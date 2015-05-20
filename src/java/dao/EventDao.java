@@ -62,7 +62,7 @@ public class EventDao extends Dao<Event> {
     }
 
     public List<Object[]> getUserAssignedClient(Long campaignId, Long cabinetId) {
-        String hql = "select count(ev.client.clientId) , ev.user.userId  from Event ev where ev.campaign.campaignId= :campaignId and ev.cabinet.personalCabinetId= :cabinet and ev.user is not null group by user.userId";
+        String hql = "select count(ev.eventId) , ev.user.userId  from Event ev where ev.campaign.campaignId= :campaignId and ev.cabinet.personalCabinetId= :cabinet and ev.user is not null group by ev.user.userId";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
         query.setParameter("cabinet", cabinetId);
