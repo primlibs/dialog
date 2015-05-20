@@ -20,7 +20,7 @@
 
 
         <div class="form-group" size="16">  
-            <a href="<c:url value="/Strategy/show"/>" class="btn btn-large btn-primary" role="button">Список стратегий</a> &nbsp &nbsp  ${strategyName} 
+            <a href="<c:url value="/Strategy/show"/>" class="btn btn-large btn-primary" role="button">Список стратегий</a> &nbsp &nbsp  ${strategy.strategyName} 
         </div>
         <div class="row">
             <div class="col-md-6"> 
@@ -33,7 +33,7 @@
                 <form action="<c:url value="/Strategy/addBodyModule" />"  method="post"> 
                     <textarea name="bodyText"> ${module.bodyText}   </textarea>
                     <input type="hidden" name="moduleId" value=${module.moduleId}>
-                    <input type="hidden" name="strategyId" value=${strategyId}>
+                    <input type="hidden" name="strategyId" value=${strategy.strategyId}>
                     <button type="submit" name="submit" class="btn btn-default"> Обновить </button>
                 </form>
 
@@ -44,7 +44,7 @@
                 <div class=" input-append pull-right btn-group">
 
                     <form action="<c:url value="/Strategy/addGroup" />"  method="post"> 
-                        <input type="hidden" name="strategyId" value=${strategyId}>
+                        <input type="hidden" name="strategyId" value=${strategy.strategyId}>
                         <input class="span5" id="appendedInputButton" name="groupName" style="width: 376px " size="16" type="text">
                         <button type="submit" name="submit" class="btn btn-default"> <img src="/CallCentr/img/add.png" height="20px"></button>
                     </form>
@@ -54,7 +54,7 @@
 
                 <br>
                 <table class="table table-bordered table-hover">
-                    <c:forEach var="group" items="${GroupList}" varStatus="myIndex">
+                    <c:forEach var="group" items="${strategy.getActiveGroupList()}" varStatus="myIndex">
                         <tr>
                             <%--  <td>${myIndex.count}</td>   --%>
 

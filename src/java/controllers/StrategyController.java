@@ -7,6 +7,7 @@ package controllers;
 
 import static controllers.LkController.CABINET_ID_SESSION_NAME;
 import controllers.parent.WebController;
+import entities.Strategy;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,15 +66,27 @@ public class StrategyController extends WebController {
             @RequestParam(value = "strategyId") Long strategyId) throws Exception {
 
         lk.dataByUserAndCompany(request, model);
-        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        //Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        Strategy strategy = strategyService.findStrategy(strategyId);
 
         model.put("module", moduleService.showModule(moduleId));
         model.put("moduleId", moduleId);
         model.put("errors", strategyService.getError());
-        model.put("GroupList", strategyService.groupList(strategyId));
-        model.put("strategyId", strategyId);
-        model.put("strategyName", strategyService.findStrategy(strategyId).getStrategyName());
+        //model.put("GroupList", strategyService.getGroupList(strategyId));
+        //model.put("strategyId", strategyId);
+        //model.put("strategyName", strategyService.findStrategy(strategyId).getStrategyName());
+        model.put("strategy",strategy);
         return "strategy";
+    }
+    
+    @RequestMapping("/renameStrategy")
+    public String renameStrategy(Map<String, Object> model,HttpServletRequest request,@RequestParam(value = "strategyId") Long strategyId,
+            @RequestParam(value = "name") String name,RedirectAttributes ras){
+        strategyService.reanameStrategy(strategyId, name);
+        if (!strategyService.getError().isEmpty()) {
+            ras.addFlashAttribute("errors", strategyService.getError());
+        }
+        return "redirect:/Strategy/show";
     }
 
     @RequestMapping("/addGroup")
