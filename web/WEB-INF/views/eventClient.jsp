@@ -38,46 +38,50 @@
                     </select>
 
                     <select class="form-control" name="processed" data-style="btn-primary" title='Не выбрано...'>
-                        <option value="0">Не выбрано </option>
-                        <option value="-1">Не обработано </option>
-                        <option value="-2">Успешно </option>
-                        <option value="-3">Не успешно </option>
-                        <option value="-4">Обработано </option>
-                    </select>
-                    <input type="hidden" name="campaignId" value=${param['campaignId']}>
-                    <input type="submit" name="submit"  class="btn btn-primary" value="Выбрать">
-                </div>
-            </form>
-            <table class="table table-bordered table-hover">
-                <tr>
-                    <td>${myIndex.index}номер по порядку</td>
-                    <td>Уникальный номер</td>
-                    <td>Название компании</td>
-                    <td>Имя серетаря</td>
-                    <td>Имя лица принимающего решение</td>
-                    <td>Телефон секретаря</td>
-                    <td>Телефон лица принимающего решение</td>
-                    <td>Адрес</td>
-                    <td>Пользователь</td>
-                    <td>Статус</td>
-                </tr>
-                <c:forEach var="event" items="${events}" varStatus="myIndex">
-
+                        <c:forEach var="processedEvent"  items="${proceededMap}">
+                            <c:choose>
+                                <c:when test="${processedEvent.key eq param.processed}">
+                                    <option value="${processedEvent.key}" selected>${processedEvent.value}</option>
+                                </c:when>
+                                <c:otherwise>
+                                    <option value="${processedEvent.key}" >${processedEvent.value}</option>
+                                </c:otherwise>
+                            </c:choose>
+                        </select>
+                        <input type="hidden" name="campaignId" value=${param['campaignId']}>
+                        <input type="submit" name="submit"  class="btn btn-primary" value="Выбрать">
+                    </div>
+                </form>
+                <table class="table table-bordered table-hover">
                     <tr>
-                        <td>${myIndex.count}</td>
-                        <td>${event.client.uniqueId}</td> 
-                        <td>${event.client.nameCompany}</td>
-                        <td>${event.client.nameSecretary}</td>  
-                        <td>${event.client.nameLpr} </td>  
-                        <td>${event.client.phoneSecretary} </td>  
-                        <td>${event.client.phoneLpr} </td>  
-                        <td>${event.client.address} </td>
-                        <td> ${event.user.surname}  ${event.user.name}  </td>
-                        <td>${event.status}   </td>
+                        <td>${myIndex.index}номер по порядку</td>
+                        <td>Уникальный номер</td>
+                        <td>Название компании</td>
+                        <td>Имя серетаря</td>
+                        <td>Имя лица принимающего решение</td>
+                        <td>Телефон секретаря</td>
+                        <td>Телефон лица принимающего решение</td>
+                        <td>Адрес</td>
+                        <td>Пользователь</td>
+                        <td>Статус</td>
                     </tr>
-                </c:forEach>
-            </table>
+                    <c:forEach var="event" items="${events}" varStatus="myIndex">
 
-        </div>
-    </body>
-</html>
+                        <tr>
+                            <td>${myIndex.count}</td>
+                            <td>${event.client.uniqueId}</td> 
+                            <td>${event.client.nameCompany}</td>
+                            <td>${event.client.nameSecretary}</td>  
+                            <td>${event.client.nameLpr} </td>  
+                            <td>${event.client.phoneSecretary} </td>  
+                            <td>${event.client.phoneLpr} </td>  
+                            <td>${event.client.address} </td>
+                            <td> ${event.user.surname}  ${event.user.name}  </td>
+                            <td>${event.status}   </td>
+                        </tr>
+                    </c:forEach>
+                </table>
+
+            </div>
+        </body>
+    </html>
