@@ -21,10 +21,22 @@
                 <tr>
                     <th> Уникальный ИД </th>
                     <th> Наименование </th>
+                    <th> Адрес </th>
+                    <th> Контактное лицо </th>
+                    <th> Телефон К.Л. </th>
+                    <th> Лицо принимающее решения </th>
+                    <th> Телефон Л.П.Р. </th>
+                    <th> Комментарий </th>
                 </tr>
                 <c:forEach var="client"  items="${clients}" >
                     <tr><td>${client.uniqueId}</td>
-                        <td>${client.nameCompany}</td></tr>
+                        <td>${client.nameCompany}</td>
+                    <td>${client.address}</td>
+                    <td>${client.nameSecretary}</td>
+                    <td>${client.phoneSecretary}</td>
+                    <td>${client.nameLpr}</td>
+                    <td>${client.phoneLpr}</td>
+                    <td>${client.comment}</td></tr>
                 </c:forEach>
             </table>
         </div>
