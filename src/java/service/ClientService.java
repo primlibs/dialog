@@ -32,4 +32,8 @@ public class ClientService extends PrimService {
         return clientDao.getCabinetClients(pkId);
     }
     
+    public Client getClient(Long clientId){
+        return clientDao.find(clientId);
+    }
+    
 }

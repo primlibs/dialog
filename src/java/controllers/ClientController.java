@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import service.ClientService;
 
 /**
@@ -30,12 +31,27 @@ public class ClientController extends WebController {
     private ClientService clientService;
 
     @RequestMapping("/clientList")
-    public String showEventListPage(Map<String, Object> model, HttpServletRequest request) throws Exception {
+    public String showClientList(Map<String, Object> model, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
      
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         
         model.put("clients",clientService.getCabinetClients(cabinetId));
+        List<String> clientErrors = clientService.getError();
+        if(model.get("errors")!=null){
+            clientErrors.addAll((List<String>)model.get("errors"));
+        }
+        model.put("errors",clientErrors);
+        return "clientList";
+    }
+    
+    @RequestMapping("/oneClient")
+    public String showOneClient(Map<String, Object> model,@RequestParam(value = "clientId") Long clientId, HttpServletRequest request) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+     
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        
+        model.put("client",clientService.getClient(clientId));
         List<String> clientErrors = clientService.getError();
         if(model.get("errors")!=null){
             clientErrors.addAll((List<String>)model.get("errors"));
