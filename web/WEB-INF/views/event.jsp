@@ -43,7 +43,7 @@
                                 <h5> } </h5>
                             </c:forEach>
                             <div >
-                                <p>    <a href="<c:url value="/Event/#"/>" class="btn btn-large btn-warning" role="button">Слив звонка</a>
+                                <p>    <a href="<c:url value="/Event/#"/>" class="btn btn-large btn-danger" role="button">Слив звонка</a>
                                 <p>    <a href="<c:url value="/Event/#"/>" class="btn btn-large btn-success" role="button">Положительный результат</a>
                                 <p>    <a href="<c:url value="/Event/event?campaignId=${param.campaignId}&strategyId=${campaign.strategy.strategyId}"/>" class="btn btn-large btn-primary" role="button">следующий клиент</a>
                             </div>
