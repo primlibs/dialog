@@ -250,7 +250,8 @@ public class EventController extends WebController {
         model.put("eventClient", eventService.getEvenByUserByCampaign(campaignId, cabinetId, userId));
         model.put("campaign", eventService.getCampaign(campaignId));
         model.put("errors", eventService.getError());
-        model.put("аctiveGroupList", groupService.getActiveGroupList(strategyId));
+        // model.put("аctiveGroupList", groupService.getActiveGroupList(strategyId));
+        model.put("аctiveMap", groupService.getActiveMap(strategyId));
         ras.addFlashAttribute("campaignId", campaignId);
         ras.addFlashAttribute("strategyId", strategyId);
         ras.addFlashAttribute("userId", userId);

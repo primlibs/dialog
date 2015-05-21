@@ -13,7 +13,9 @@ import entities.Module;
 import entities.Strategy;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -65,17 +67,30 @@ public class GroupService extends PrimService {
         groupDao.update(group);
     }
 
-
     public List<Group> getActiveGroupList(Long strategyId) {
         Strategy st = strategyDao.find(strategyId);
         List<Group> activeGroupList = new ArrayList();
         for (Group group : st.getGroupList()) {
             if (group.getDeleteDate() == null) {
-             //   group.setModuleList(getActiveModuleList(group.getGroupId()));
                 activeGroupList.add(group);
             }
         }
         return activeGroupList;
+    }
+
+    public Map<Group, List<Module>> getActiveMap(Long strategyId) {
+        Map<Group, List<Module>> result = new HashMap();
+        Strategy st = strategyDao.find(strategyId);
+        //    List<Group> activeGroupList = new ArrayList();
+        for (Group group : st.getGroupList()) {
+
+            if (group.getDeleteDate() == null) {
+                Long groupId = group.getGroupId();
+                Group g = groupDao.find(groupId);
+                result.put(g, getActiveModuleList(groupId));
+            }
+        }
+        return result;
     }
 
     public List<Module> getActiveModuleList(Long groupId) {
