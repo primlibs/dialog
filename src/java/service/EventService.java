@@ -510,8 +510,12 @@ public class EventService extends PrimService {
     }
     
     public Long getStrategyId(Long campaignId){
-    Campaign cam = campaignDao.find(campaignId);
-    Long strategyId = cam.getStrategy().getStrategyId();
-        return strategyId;
+        Campaign cam = campaignDao.find(campaignId);
+        if(cam==null){
+            addError("Кампания с ИД="+campaignId+" не найдена");
+            return null;
+        }else{
+            return cam.getStrategy().getStrategyId();
+        }
     }
 }
