@@ -66,8 +66,8 @@ public class StrategyService extends PrimService {
             if (validate(strategy)) {
                 strategyDao.save(strategy);
             }
-        } else {
-            addError("такая стратегия существует");
+        }else{
+            addError("Cтратегия с названием "+strategyName+" уже существует");
         }
     }
 //метод не используется
@@ -99,15 +99,15 @@ public class StrategyService extends PrimService {
         return new ArrayList();
     }
 
-    public List<Group> groupList(Long strategyId) {
+    /*public List<Group> getGroupList(Long strategyId) {
         Strategy stg = strategyDao.find(strategyId);
         if (stg != null) {
             return stg.getActiveGroupList();
         } else {
-            addError("Стратегия не найден по ид " + strategyId);
+            addError("Стратегия не найдена по ид " + strategyId);
         }
         return new ArrayList();
-    }
+    }*/
 
     public List<Module> moduleList(Long groupId) {
         Group gr = groupDao.find(groupId);
@@ -124,14 +124,16 @@ public class StrategyService extends PrimService {
             Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         Strategy stg = strategyDao.find(strategyId);
-        List<Group> groupList = groupList(strategyId);
-        List<String> nameList = new ArrayList<>();
-
-        for (Group group : groupList) {
-            nameList.add(group.getGroupName());
+        
+        Boolean exists = false;
+        for (Group group : stg.getActiveGroupList()) {
+            if(group.getGroupName().equalsIgnoreCase(groupName)){
+                exists = true;
+                break;
+            }
         }
 
-        if (!nameList.contains(groupName) & groupName != null) {
+        if (!exists) {
             Group gr = new Group();
             gr.setCabinet(pk);
             gr.setStrategy(stg);
@@ -200,6 +202,31 @@ public class StrategyService extends PrimService {
             addError("Стратегия не найдена по: " + strategyId);
         }
 
+    }
+    
+    public void reanameStrategy(Long strategyId,String name){
+        Strategy str = strategyDao.find(strategyId);
+        
+        Boolean exists = false;
+        for (Strategy strat : str.getCabinet().getActiveStrategyList()) {
+            if(strat.getStrategyName().equalsIgnoreCase(name)){
+                exists = true;
+                break;
+            }
+        }
+        
+        if (!exists) {
+            str.setStrategyName(name);
+            updateStrategy(str);
+        }else{
+            addError("Cтратегия с названием "+name+" уже существует");
+        }
+    }
+    
+    private void updateStrategy(Strategy strategy){
+        if(validate(strategy)){
+            strategyDao.update(strategy);
+        }
     }
 
 }

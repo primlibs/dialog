@@ -110,7 +110,7 @@ public class Strategy extends PrimEntity {
 
     public List<Group> getActiveGroupList() {
 
-        List<Group> activeGroupList = new ArrayList<>();
+        List<Group> activeGroupList = new ArrayList();
         for (Group group : groupList) {
             if (group.getDeleteDate() == null) {
                 activeGroupList.add(group);
