@@ -23,8 +23,8 @@
                     <th> Наименование </th>
                 </tr>
                 <c:forEach var="client"  items="${clients}" >
-                    <tr>${client.uniqueId}</tr>
-                    <tr>${client.nameCompany}</tr>
+                    <tr><td>${client.uniqueId}</td>
+                        <td>${client.nameCompany}</td></tr>
                 </c:forEach>
             </table>
         </div>
