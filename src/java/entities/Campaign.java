@@ -57,7 +57,7 @@ public class Campaign extends PrimEntity {
     private Date endDate;
 
     @Column(name = "name")
-    @NotBlank(message = "поле Название эвента не может быть пустым")
+    @NotBlank(message = "Название кампании не может быть пустым")
     private String name;
 
     @Column(name = "status")

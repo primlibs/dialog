@@ -8,6 +8,7 @@ package service;
 
 import dao.ClientDao;
 import entities.Client;
+import entities.Event;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -36,4 +37,11 @@ public class ClientService extends PrimService {
         return clientDao.find(clientId);
     }
     
+    public List<Event> getFinishedEventsByClient(Long clientId){
+        return clientDao.getFinishedEventsByClient(clientId);
+    }
+    
+    public List<Event> getUnfinishedEventsByClient(Long clientId){
+        return clientDao.getUnfinishedEventsByClient(clientId);
+    }
 }
