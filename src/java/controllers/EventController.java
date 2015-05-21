@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.EventService;
+import service.GroupService;
 import support.AuthManager;
 
 /**
@@ -36,6 +37,9 @@ public class EventController extends WebController {
 
     @Autowired
     private EventService eventService;
+
+    @Autowired
+    private GroupService groupService;
 
     @Autowired
     private AuthManager authManager;
@@ -240,10 +244,11 @@ public class EventController extends WebController {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         User user = authManager.getCurrentUser();
         Long userId = user.getUserId();
+
         model.put("eventClient", eventService.getEvenByUserByCampaign(campaignId, cabinetId, userId));
         model.put("campaign", eventService.getCampaign(campaignId));
         model.put("errors", eventService.getError());
-
+        model.put("аctiveGroupList", groupService.getActiveGroupList(strategyId));
         ras.addFlashAttribute("campaignId", campaignId);
         ras.addFlashAttribute("strategyId", strategyId);
         ras.addFlashAttribute("userId", userId);

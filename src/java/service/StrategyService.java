@@ -81,7 +81,7 @@ public class StrategyService extends PrimService {
         return new ArrayList();
     }
 
-    public List<Strategy> activeStrategyList(Long cabinetId) {
+    public List<Strategy> getActiveStrategyList(Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         if (pk != null) {
           List<Strategy> listStrategy =   pk.getStrategyList();
