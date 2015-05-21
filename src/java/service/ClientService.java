@@ -6,10 +6,15 @@
 package service;
 
 
+import dao.ClientDao;
+import entities.Client;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import service.parent.PrimService;
 
 /**
  *
@@ -18,6 +23,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class ClientService {
+public class ClientService extends PrimService {
+    
+    @Autowired
+    private ClientDao clientDao;
+    
+    public List<Client> getCabinetClients(Long pkId){
+        return clientDao.getCabinetClients(pkId);
+    }
     
 }

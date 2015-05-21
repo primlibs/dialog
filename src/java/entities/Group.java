@@ -54,7 +54,7 @@ public class Group extends PrimEntity {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date deleteDate;
 
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @LazyCollection(LazyCollectionOption.TRUE)
     @OneToMany(mappedBy = "groups", orphanRemoval = true)
     private List<Module> moduleList;
 

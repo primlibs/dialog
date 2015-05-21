@@ -94,5 +94,6 @@
                     <td onClick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&processed=-1"/>'"> ${assignedNotProcessedEventsCount} </td>
                 </tr>
             </table>
+        </div>
     </body>
 </html>
