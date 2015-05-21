@@ -293,6 +293,7 @@ public class EventController extends WebController {
         Long strategyId = eventService.getStrategyId(campaignId);
 
         
+        
         model.put("campaign", eventService.getCampaign(campaignId));
         model.put("errors", eventService.getError());
         model.put("event", eventService.getEventById(eventId));

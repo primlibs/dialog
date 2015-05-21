@@ -40,13 +40,13 @@
                             <c:forEach var="аctiveM"  items="${аctiveMap}" >
                                 <p> <h5>  ${аctiveM.key.groupName} { </h5>
                                 <c:forEach var="moduleL"  items="${аctiveM.value}" >
-                                    <p> <a href="<c:url value="/Event/eventProcessing?groupId=${аctiveM.key.groupId}&moduleId=${moduleL.moduleId}&eventId=${event.eventId}"/>">${moduleL.moduleName}</a>
+                                    <p> <a href="<c:url value="/Event/eventProcessing?campaignId=${param.campaignId}&groupId=${аctiveM.key.groupId}&moduleId=${moduleL.moduleId}&eventId=${event.eventId}"/>">${moduleL.moduleName}</a>
                                     </c:forEach>
                                 <h5> } </h5>
                             </c:forEach>
                             <div >
                                 <p>    <a href="<c:url value="/Event/#"/>" class="btn btn-large btn-danger" role="button">Слив звонка</a>
-                                <p>    <a href="<c:url value="/Event/#"/>" class="btn btn-large btn-success" role="button">Положительный результат</a>
+                                <p>    <a href="<c:url value="/Event/#?eventId=${event.eventId}"/>" class="btn btn-large btn-success" role="button">Положительный результат</a>
                                 <p>    <a href="<c:url value="/Event/event?campaignId=${param.campaignId}&strategyId=${campaign.strategy.strategyId}"/>" class="btn btn-large btn-primary" role="button">следующий клиент</a>
                             </div>
                         </div>
