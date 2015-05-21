@@ -40,7 +40,7 @@
                             <c:forEach var="аctiveM"  items="${аctiveMap}" >
                                 <p> <h5>  ${аctiveM.key.groupName} { </h5>
                                 <c:forEach var="moduleL"  items="${аctiveM.value}" >
-                                    <p> <a href="<c:url value="/Event/#?groupId=${аctiveM.key.groupId}&moduleId=${moduleL.moduleId}&eventId=${event.eventId}"/>">${moduleL.moduleName}</a>
+                                    <p> <a href="<c:url value="/Event/eventProcessing?groupId=${аctiveM.key.groupId}&moduleId=${moduleL.moduleId}&eventId=${event.eventId}"/>">${moduleL.moduleName}</a>
                                     </c:forEach>
                                 <h5> } </h5>
                             </c:forEach>

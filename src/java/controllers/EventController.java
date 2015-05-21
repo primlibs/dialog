@@ -278,4 +278,25 @@ public class EventController extends WebController {
         return "campaign";
     }
 
+    @RequestMapping("/eventProcessing")
+    public String eventProcessing(Map<String, Object> model,
+            @RequestParam(value = "campaignId") Long campaignId,
+            @RequestParam(value = "groupId") Long groupId,
+            @RequestParam(value = "moduleId") Long moduleId,
+            @RequestParam(value = "eventId") Long eventId,
+            HttpServletRequest request,
+            RedirectAttributes ras) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        User user = authManager.getCurrentUser();
+        Long userId = user.getUserId();
+        Long strategyId = eventService.getStrategyId(campaignId);
+
+        
+        model.put("campaign", eventService.getCampaign(campaignId));
+        model.put("errors", eventService.getError());
+        model.put("event", eventService.getEventById(eventId));
+        model.put("аctiveMap", groupService.getActiveMap(strategyId));
+        return "event";
+    }
 }
