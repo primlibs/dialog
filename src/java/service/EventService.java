@@ -523,4 +523,9 @@ public class EventService extends PrimService {
             return cam.getStrategy().getStrategyId();
         }
     }
+
+    public Event getEventById(Long eventId) {
+        Event event = eventDao.find(eventId);
+        return event;
+    }
 }

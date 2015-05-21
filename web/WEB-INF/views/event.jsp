@@ -26,8 +26,10 @@
 
             <div class="row">
                 <div class="col-md-9">
-                Клиент: Адрес: ${eventClient.client.address}, Секретарь: ${eventClient.client.nameSecretary}, ЛПР: ${eventClient.client.nameLpr}, 
-                  Телефон секретаря: ${eventClient.client.phoneSecretary}, Телефон ЛПР: ${eventClient.client.phoneLpr}, Комментарий: ${eventClient.client.comment}
+                       <input type="hidden" name="eventId" value=${param.eventId}>
+                       <input type="hidden" name="eventId" value=${event.eventId}>
+                Клиент: Адрес: ${event.client.address}, Секретарь: ${event.client.nameSecretary}, ЛПР: ${event.client.nameLpr}, 
+                  Телефон секретаря: ${event.client.phoneSecretary}, Телефон ЛПР: ${event.client.phoneLpr}, Комментарий: ${event.client.comment}
                     
 
                     <div class="row">
@@ -38,7 +40,7 @@
                             <c:forEach var="аctiveM"  items="${аctiveMap}" >
                                 <p> <h5>  ${аctiveM.key.groupName} { </h5>
                                 <c:forEach var="moduleL"  items="${аctiveM.value}" >
-                                    <p> <a href="<c:url value="/Event/#?groupId=${аctiveM.key.groupId}&moduleId=${moduleL.moduleId}"/>">${moduleL.moduleName}</a>
+                                    <p> <a href="<c:url value="/Event/#?groupId=${аctiveM.key.groupId}&moduleId=${moduleL.moduleId}&eventId=${event.eventId}"/>">${moduleL.moduleName}</a>
                                     </c:forEach>
                                 <h5> } </h5>
                             </c:forEach>
