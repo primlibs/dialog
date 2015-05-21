@@ -71,7 +71,7 @@ public class GroupService extends PrimService {
         List<Group> activeGroupList = new ArrayList();
         for (Group group : st.getGroupList()) {
             if (group.getDeleteDate() == null) {
-                group.setModuleList(getActiveModuleList(group.getGroupId()));
+             //   group.setModuleList(getActiveModuleList(group.getGroupId()));
                 activeGroupList.add(group);
             }
         }

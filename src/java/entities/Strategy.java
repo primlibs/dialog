@@ -62,6 +62,10 @@ public class Strategy extends PrimEntity {
     @OneToMany(mappedBy = "strategy")
     private List<ModuleEventClient> moduleEventClientList;
 
+    @LazyCollection(LazyCollectionOption.TRUE)
+    @OneToMany(mappedBy = "strategy")
+    private List<DirectoryDrain> directoryDrainList;
+
     @Override
     public Long getId() {
         return strategyId;
@@ -133,6 +137,22 @@ public class Strategy extends PrimEntity {
 
     public void setModuleEventClientList(List<ModuleEventClient> moduleEventClientList) {
         this.moduleEventClientList = moduleEventClientList;
+    }
+
+    public List<Campaign> getCampaigns() {
+        return campaigns;
+    }
+
+    public void setCampaigns(List<Campaign> campaigns) {
+        this.campaigns = campaigns;
+    }
+
+    public List<DirectoryDrain> getDirectoryDrainList() {
+        return directoryDrainList;
+    }
+
+    public void setDirectoryDrainList(List<DirectoryDrain> directoryDrainList) {
+        this.directoryDrainList = directoryDrainList;
     }
 
 }
