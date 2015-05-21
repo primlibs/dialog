@@ -275,7 +275,7 @@ public class EventDao extends Dao<Event> {
         query.setParameter("campaignId", campaignId);
         query.setParameter("cabinet", cabinetId);
         query.setParameter("userId", userId);
-         query.setParameter("date", dt);
+        // query.setParameter("date", dt);
         List<Event> ev = query.list();
         return ev;
     }

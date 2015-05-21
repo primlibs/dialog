@@ -39,11 +39,11 @@ public class CabinetUser extends PrimEntity {
     private String user_role;
 
     @JoinColumn(name = "user_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     @JoinColumn(name = "personal_cabinet_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private PersonalCabinet cabinet;
 
     @Column(name = "delete_date")

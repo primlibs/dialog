@@ -508,6 +508,5 @@ public class EventService extends PrimService {
         List<Event> events = eventDao.getEventListByUserByCampaign(campaignId, cabinetId, userId);
         Event ev = events.get(0);
         return ev;
-
     }
 }
