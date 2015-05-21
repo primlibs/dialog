@@ -35,10 +35,10 @@
                             Модуль ответа(название - ссылка) 
                         </div>
                         <div class="col-md-4"  data-spy="scroll" style="height: 100vh ; line-height: 0.3em;">
-                            <c:forEach var="groupL"  items="${аctiveGroupList}" >
-                                <p> <h5>  ${groupL.groupName} { </h5>
-                                <c:forEach var="moduleL"  items="${groupL.moduleList}" >
-                                    <p> <a href="<c:url value="/Event/#?groupId=${groupL.groupId}&moduleId=${moduleL.moduleId}"/>">${moduleL.moduleName}</a>
+                            <c:forEach var="аctiveM"  items="${аctiveMap}" >
+                                <p> <h5>  ${аctiveM.key.groupName} { </h5>
+                                <c:forEach var="moduleL"  items="${аctiveM.value}" >
+                                    <p> <a href="<c:url value="/Event/#?groupId=${аctiveM.key.groupId}&moduleId=${moduleL.moduleId}"/>">${moduleL.moduleName}</a>
                                     </c:forEach>
                                 <h5> } </h5>
                             </c:forEach>
