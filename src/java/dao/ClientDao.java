@@ -60,4 +60,13 @@ public class ClientDao extends Dao<Client> {
         List<Client> clist = query.list();
         return clist;
     }
+    
+    public List<Client> getCabinetClients(Long pkId){
+        String hql = "from Client c where c.cabinet.personalCabinetId=:pkId";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("pkId", pkId);
+        List<Client> clist = query.list();
+        return clist;
+    }
+    
 }

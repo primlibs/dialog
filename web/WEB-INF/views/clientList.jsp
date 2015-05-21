@@ -15,5 +15,19 @@
     <body class="container" >
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
+        
+        <div class="row "><h3>Клиенты</h3>
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <th> Уникальный ИД </th>
+                    <th> Наименование </th>
+                </tr>
+                <c:forEach var="client"  items="${clients}" >
+                    <tr>${client.uniqueId}</tr>
+                    <tr>${client.nameCompany}</tr>
+                </c:forEach>
+            </table>
+        </div>
+        
     </body>
 </html>
