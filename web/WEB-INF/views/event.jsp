@@ -21,12 +21,16 @@
             <h4>  Евент:  ${campaign.name} &nbsp Стратегия: ${campaign.strategy.strategyName} </h4>
             <input type="hidden" name="campaignId" value=${param.campaignId}>
             <input type="hidden" name="strategyId" value=${campaign.strategy.strategyId}>
+             <input type="hidden" name="userId" value=${paraqm.userId}>
+              <input type="hidden" name="cabinetId" value=${param.cabinetId}>
 
             <a href="<c:url value="/Event/campaign"/>" class="btn btn-large btn-primary" role="button">Выбрать кампанию...</a>
 
             <div class="row">
                 <div class="col-md-9">
-                    Клиент, Адрес, Секретарь, ЛПР, Телефон секретаря, Телефон ЛПР, Комментарий
+                Клиент: Адрес: ${eventClient.client.address}, Секретарь: ${eventClient.client.nameSecretary}, ЛПР: ${eventClient.client.nameLpr}, 
+                  Телефон секретаря: ${eventClient.client.phoneSecretary}, Телефон ЛПР: ${eventClient.client.phoneLpr}, Комментарий: ${eventClient.client.comment}
+                    
 
                     <div class="row">
                         <div class="col-md-8">
@@ -43,7 +47,7 @@
                             <div >
                                 <p>    <a href="<c:url value="/Event/#"/>" class="btn btn-large btn-warning" role="button">Слив звонка</a>
                                 <p>    <a href="<c:url value="/Event/#"/>" class="btn btn-large btn-success" role="button">Положительный результат</a>
-                                <p>    <a href="<c:url value="/Event/#"/>" class="btn btn-large btn-primary" role="button">следующий клиент</a>
+                                <p>    <a href="<c:url value="/Event/event"/>" class="btn btn-large btn-primary" role="button">следующий клиент</a>
                             </div>
                         </div>
                     </div>

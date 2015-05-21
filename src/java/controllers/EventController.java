@@ -234,25 +234,33 @@ public class EventController extends WebController {
     public String eventPage(Map<String, Object> model,
             @RequestParam(value = "campaignId", required = false) Long campaignId,
             @RequestParam(value = "strategyId", required = false) Long strategyId,
-            HttpServletRequest request) throws Exception {
+            HttpServletRequest request,
+            RedirectAttributes ras) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        
-
+        User user = authManager.getCurrentUser();
+        Long userId = user.getUserId();
+        model.put("eventClient", eventService.getEvenByUserByCampaign(campaignId, cabinetId, userId));
         model.put("campaign", eventService.getCampaign(campaignId));
+        model.put("errors", eventService.getError());
+
+        ras.addFlashAttribute("campaignId", campaignId);
+        ras.addFlashAttribute("strategyId", strategyId);
+        ras.addFlashAttribute("userId", userId);
+        ras.addFlashAttribute("cabinetId", cabinetId);
         return "event";
     }
 
     @RequestMapping("/campaign")
     public String campaignPage(Map<String, Object> model,
-            HttpServletRequest request) throws Exception {
+            HttpServletRequest request,
+            RedirectAttributes ras) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         User user = authManager.getCurrentUser();
         Long userId = user.getUserId();
 
         model.put("campaign", eventService.userShowPageEventClientList(cabinetId, userId));
-
         return "campaign";
     }
 

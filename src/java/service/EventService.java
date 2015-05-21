@@ -419,7 +419,7 @@ public class EventService extends PrimService {
             return events;
         }
         if (assigned > 0 && processed == 0) {
-            List<Event> events = eventDao.getEventsByUserId(campaignId, cabinetId, userId);//лист ссылок по евенту и личному кабинету
+            List<Event> events = eventDao.getEventsByUserId(campaignId, cabinetId, userId);//лист ссылок  по userId, по евенту и личному кабинету
             return events;
         }
         if (assigned > 0 && processed == -1) {
@@ -486,22 +486,28 @@ public class EventService extends PrimService {
         }
         return result;
     }
-    
-    private String getStringNumber(Object ob){
+
+    private String getStringNumber(Object ob) {
         String count = "0";
-        if(ob!=null&&!ob.equals("")&&!ob.equals("null")){
-            count=StringAdapter.getString(ob);
+        if (ob != null && !ob.equals("") && !ob.equals("null")) {
+            count = StringAdapter.getString(ob);
         }
         return count;
     }
-    
-    private HashMap<Long,String> getUserMap(Long cabinetId){
-        HashMap<Long,String> userMap = new HashMap();
-        for(CabinetUser user:listRoleUserActiveCabinetUser(cabinetId)){
-            userMap.put(user.getId(),"0");
+
+    private HashMap<Long, String> getUserMap(Long cabinetId) {
+        HashMap<Long, String> userMap = new HashMap();
+        for (CabinetUser user : listRoleUserActiveCabinetUser(cabinetId)) {
+            userMap.put(user.getId(), "0");
         }
         return userMap;
     }
-    
-  
+
+    //лист Ссылкок event по campaignId НЕ ОБРАБОТАНЫХ по userId
+    public Event getEvenByUserByCampaign(Long campaignId, Long cabinetId, Long userId) {
+        List<Event> events = eventDao.getEventListByUserByCampaign(campaignId, cabinetId, userId);
+        Event ev = events.get(0);
+        return ev;
+
+    }
 }

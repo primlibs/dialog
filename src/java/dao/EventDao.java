@@ -10,6 +10,7 @@ import entities.Client;
 import entities.Campaign;
 import entities.Event;
 import entities.PersonalCabinet;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
@@ -264,5 +265,18 @@ public class EventDao extends Dao<Event> {
         //List<Event> ev = query.list();
         List<Object[]> clist = query.list();
         return clist;
+    }
+    
+     // ДОПИСАТЬ ЗАПРОС лист Ссылкок event по campaignId НЕ ОБРАБОТАНЫХ по userId
+    public List<Event> getEventListByUserByCampaign(Long campaignId, Long cabinetId, Long userId) {
+        Date dt = new Date();
+        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.cabinet.personalCabinetId= :cabinet and ev.user.userId= :userId and ev.status is null order by ev.postponedDate";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("campaignId", campaignId);
+        query.setParameter("cabinet", cabinetId);
+        query.setParameter("userId", userId);
+         query.setParameter("date", dt);
+        List<Event> ev = query.list();
+        return ev;
     }
 }
