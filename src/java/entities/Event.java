@@ -67,9 +67,6 @@ public class Event extends PrimEntity {
     @Column(name = "postponed_date")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date postponedDate;
-    
-    @Column(name = "fail_reason")
-    private String failReason;
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "event")
@@ -174,14 +171,6 @@ public class Event extends PrimEntity {
 
     public void setPostponedDate(Date postponedDate) {
         this.postponedDate = postponedDate;
-    }
-
-    public String getFailReason() {
-        return failReason;
-    }
-
-    public void setFailReason(String failReason) {
-        this.failReason = failReason;
     }
     
     
