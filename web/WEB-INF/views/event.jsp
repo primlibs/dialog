@@ -18,9 +18,7 @@
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
         <div class="row ">
-            <h4>  Евент:  ${campaign.name} &nbsp Стратегия: ${campaign.strategy.strategyName} </h4>
-            <input type="hidden" name="campaignId" value=${param.campaignId}>
-            <input type="hidden" name="strategyId" value=${campaign.strategy.strategyId}>
+          
              <input type="hidden" name="userId" value=${paraqm.userId}>
               <input type="hidden" name="cabinetId" value=${param.cabinetId}>
 

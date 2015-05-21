@@ -26,12 +26,13 @@
                 </tr>
                 <c:forEach var="camp" items="${campaign}" varStatus="myIndex">
                     <tr>
-                        <td onClick="location = '<c:url value="/Event/event?campaignId=${camp.key.getCampaignId()}"/>'"> ${camp.key.getName()}</td>
-                        <td onClick="location = '<c:url value="/Event/event?campaignId=${camp.key.getCampaignId()}"/>'"> ${camp.key.getStrategy().getStrategyName()} </td>
-                        <td onClick="location = '<c:url value="/Event/event?campaignId=${camp.key.getCampaignId()}"/>'"> ${camp.value}  </td>
+                        <td onClick="location = '<c:url value="/Event/event?campaignId=${camp.key.getCampaignId()}&strategyId="/>'"> ${camp.key.getName()}</td>
+                        <td onClick="location = '<c:url value="/Event/event?campaignId=${camp.key.getCampaignId()}&strategyId="/>'"> ${camp.key.getStrategy().getStrategyName()} </td>
+                        <td onClick="location = '<c:url value="/Event/event?campaignId=${camp.key.getCampaignId()}&strategyId="/>'"> ${camp.value}  </td>
                     </tr>
                 </c:forEach>
             </table>
+
 
 
         </div>

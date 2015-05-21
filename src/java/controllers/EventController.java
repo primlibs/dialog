@@ -7,7 +7,9 @@ package controllers;
 
 import static controllers.LkController.CABINET_ID_SESSION_NAME;
 import controllers.parent.WebController;
+import dao.CampaignDao;
 import entities.CabinetUser;
+import entities.Campaign;
 import entities.User;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -237,14 +239,14 @@ public class EventController extends WebController {
     @RequestMapping("/event")
     public String eventPage(Map<String, Object> model,
             @RequestParam(value = "campaignId", required = false) Long campaignId,
-            @RequestParam(value = "strategyId", required = false) Long strategyId,
+            //  @RequestParam(value = "strategyId", required = false) Long strategyId,
             HttpServletRequest request,
             RedirectAttributes ras) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         User user = authManager.getCurrentUser();
         Long userId = user.getUserId();
-
+        Long strategyId = eventService.getStrategyId(campaignId);
         model.put("eventClient", eventService.getEvenByUserByCampaign(campaignId, cabinetId, userId));
         model.put("campaign", eventService.getCampaign(campaignId));
         model.put("errors", eventService.getError());

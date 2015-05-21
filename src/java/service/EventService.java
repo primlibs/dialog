@@ -17,7 +17,6 @@ import entities.CabinetUser;
 import entities.Client;
 import entities.Campaign;
 import entities.Event;
-import entities.Group;
 import entities.PersonalCabinet;
 import entities.Strategy;
 import entities.User;
@@ -221,7 +220,7 @@ public class EventService extends PrimService {
 
     public Campaign getCampaign(Long campaignId) {
         Campaign camp = campaignDao.find(campaignId);
-        // event.getName();
+        
         return camp;
     }
 
@@ -508,5 +507,11 @@ public class EventService extends PrimService {
         List<Event> events = eventDao.getEventListByUserByCampaign(campaignId, cabinetId, userId);
         Event ev = events.get(0);
         return ev;
+    }
+    
+    public Long getStrategyId(Long campaignId){
+    Campaign cam = campaignDao.find(campaignId);
+    Long strategyId = cam.getStrategy().getStrategyId();
+        return strategyId;
     }
 }
