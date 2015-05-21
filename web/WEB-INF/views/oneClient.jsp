@@ -16,18 +16,16 @@
             <h4>Контактное лицо: ${client.nameSecretary}, телефон: ${client.phoneSecretary}</h4>
             <h4>Принимает решения: ${client.nameLpr}, телефон: ${client.phoneLpr}</h4>
             <h4>Адрес: ${client.address}</h4>
-            <h4>Инфо ${client.comment}</h4>
+            <h4>Инфо: ${client.comment}</h4>
             
-            <h4>Запланированные контакты</h4>
+            <h3>Запланированные контакты</h3>
             <c:if test="${empty unfinishedEvents}">
                 Нет запланированных контактов
             </c:if>
             <c:if test="${not empty unfinishedEvents}">
-                <ul>
                 <c:forEach var="event"  items="${unfinishedEvents}" >
-                    <li>${event.campaign.name}</li>
+                    ${event.campaign.name}
                 </c:forEach>
-                </ul>
             </c:if>
             <h3>История диалогов</h3>
             <c:if test="${empty finishedEvents}">
@@ -35,7 +33,7 @@
             </c:if>
                 <c:if test="${not empty finishedEvents}">
                 <c:forEach var="event"  items="${finishedEvents}" >
-                    <li>${event.campaign.name}</li>
+                    ${event.campaign.name}
                 </c:forEach>
             </c:if>
         </div>
