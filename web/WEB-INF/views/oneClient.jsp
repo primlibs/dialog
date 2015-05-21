@@ -10,8 +10,9 @@
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
         
-        <div class="row "><h3>${client.nameCompany}</h3>
-            <h3>ИД:${client.uniqueId}</h3>
+        <div class="row ">
+            <h3>ИД: ${client.uniqueId}</h3>
+            <h3>Компания: ${client.nameCompany}</h3>
             
         </div>
             </body>

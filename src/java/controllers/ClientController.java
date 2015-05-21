@@ -57,7 +57,7 @@ public class ClientController extends WebController {
             clientErrors.addAll((List<String>)model.get("errors"));
         }
         model.put("errors",clientErrors);
-        return "clientList";
+        return "oneClient";
     }
 
 }
