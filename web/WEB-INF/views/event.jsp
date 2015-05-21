@@ -12,7 +12,7 @@
         <title> </title>
         <%@include file="/WEB-INF/jsp/css_js.jsp" %>
     </head>
-    <body class="container" data-spy="scroll">
+    <body class="container">
 
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
@@ -32,7 +32,7 @@
                         <div class="col-md-8">
                             Модуль ответа(название - ссылка) 
                         </div>
-                        <div class="col-md-4" style="height: 100vh">
+                        <div class="col-md-4"  data-spy="scroll" style="height: 100vh ; line-height: 0.5em;">
                             <c:forEach var="groupL"  items="${campaign.strategy.groupList}" >
                                 <p> <h4>  ${groupL.groupName} { </h4>
                                 <c:forEach var="moduleL"  items="${groupL.moduleList}" >
@@ -40,11 +40,11 @@
                                     </c:forEach>
                                 <h4> } </h4>
                             </c:forEach>
-                                <div style="margin-bottom: 5">
-                            <p>    <a href="<c:url value="/Event/#"/>" class="btn btn-large btn-warning" role="button">Слив звонка</a>
-                            <p>    <a href="<c:url value="/Event/#"/>" class="btn btn-large btn-success" role="button">Положительный результат</a>
-                            <p>    <a href="<c:url value="/Event/#"/>" class="btn btn-large btn-primary" role="button">следующий клиент</a>
-                                </div>
+                            <div >
+                                <p>    <a href="<c:url value="/Event/#"/>" class="btn btn-large btn-warning" role="button">Слив звонка</a>
+                                <p>    <a href="<c:url value="/Event/#"/>" class="btn btn-large btn-success" role="button">Положительный результат</a>
+                                <p>    <a href="<c:url value="/Event/#"/>" class="btn btn-large btn-primary" role="button">следующий клиент</a>
+                            </div>
                         </div>
                     </div>
                 </div>
