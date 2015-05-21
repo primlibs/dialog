@@ -52,6 +52,9 @@ public class ClientController extends WebController {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         
         model.put("client",clientService.getClient(clientId));
+        model.put("unfinishedEvents",clientService.getUnfinishedEventsByClient(clientId));
+        model.put("finishedEvents",clientService.getFinishedEventsByClient(clientId));
+        
         List<String> clientErrors = clientService.getError();
         if(model.get("errors")!=null){
             clientErrors.addAll((List<String>)model.get("errors"));
