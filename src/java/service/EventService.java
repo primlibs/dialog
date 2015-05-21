@@ -220,7 +220,7 @@ public class EventService extends PrimService {
 
     public Campaign getCampaign(Long campaignId) {
         Campaign camp = campaignDao.find(campaignId);
-        
+
         return camp;
     }
 
@@ -505,17 +505,27 @@ public class EventService extends PrimService {
     //лист Ссылкок event по campaignId НЕ ОБРАБОТАНЫХ по userId
     public Event getEvenByUserByCampaign(Long campaignId, Long cabinetId, Long userId) {
         List<Event> events = eventDao.getEventListByUserByCampaign(campaignId, cabinetId, userId);
-        Event ev = events.get(0);
+        java.util.Random rng = new java.util.Random();
+        Event ev = events.get(rng.nextInt(events.size()));
+        if (ev.getPostponedDate() != null) {
+            return ev;
+        }
+        ev = events.get(rng.nextInt(events.size()));
         return ev;
     }
-    
-    public Long getStrategyId(Long campaignId){
+
+    public Long getStrategyId(Long campaignId) {
         Campaign cam = campaignDao.find(campaignId);
-        if(cam==null){
-            addError("Кампания с ИД="+campaignId+" не найдена");
+        if (cam == null) {
+            addError("Кампания с ИД=" + campaignId + " не найдена");
             return null;
-        }else{
+        } else {
             return cam.getStrategy().getStrategyId();
         }
+    }
+
+    public Event getEventById(Long eventId) {
+        Event event = eventDao.find(eventId);
+        return event;
     }
 }

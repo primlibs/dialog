@@ -238,8 +238,8 @@ public class EventController extends WebController {
 
     @RequestMapping("/event")
     public String eventPage(Map<String, Object> model,
-            @RequestParam(value = "campaignId", required = false) Long campaignId,
-            //  @RequestParam(value = "strategyId", required = false) Long strategyId,
+            @RequestParam(value = "campaignId") Long campaignId,
+            @RequestParam(value = "eventId", required = false) Long eventId,
             HttpServletRequest request,
             RedirectAttributes ras) throws Exception {
         lk.dataByUserAndCompany(request, model);
@@ -247,11 +247,17 @@ public class EventController extends WebController {
         User user = authManager.getCurrentUser();
         Long userId = user.getUserId();
         Long strategyId = eventService.getStrategyId(campaignId);
-        model.put("eventClient", eventService.getEvenByUserByCampaign(campaignId, cabinetId, userId));
+
+        if (eventId == null) {
+            model.put("event", eventService.getEvenByUserByCampaign(campaignId, cabinetId, userId));
+        } else {
+            model.put("event", eventService.getEventById(eventId));
+        }
         model.put("campaign", eventService.getCampaign(campaignId));
         model.put("errors", eventService.getError());
         // model.put("аctiveGroupList", groupService.getActiveGroupList(strategyId));
         model.put("аctiveMap", groupService.getActiveMap(strategyId));
+        ras.addFlashAttribute("eventId", eventId);
         ras.addFlashAttribute("campaignId", campaignId);
         ras.addFlashAttribute("strategyId", strategyId);
         ras.addFlashAttribute("userId", userId);
@@ -272,4 +278,25 @@ public class EventController extends WebController {
         return "campaign";
     }
 
+    @RequestMapping("/eventProcessing")
+    public String eventProcessing(Map<String, Object> model,
+            @RequestParam(value = "campaignId") Long campaignId,
+            @RequestParam(value = "groupId") Long groupId,
+            @RequestParam(value = "moduleId") Long moduleId,
+            @RequestParam(value = "eventId") Long eventId,
+            HttpServletRequest request,
+            RedirectAttributes ras) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        User user = authManager.getCurrentUser();
+        Long userId = user.getUserId();
+        Long strategyId = eventService.getStrategyId(campaignId);
+
+        
+        model.put("campaign", eventService.getCampaign(campaignId));
+        model.put("errors", eventService.getError());
+        model.put("event", eventService.getEventById(eventId));
+        model.put("аctiveMap", groupService.getActiveMap(strategyId));
+        return "event";
+    }
 }

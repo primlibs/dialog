@@ -67,6 +67,7 @@ public class GroupService extends PrimService {
         groupDao.update(group);
     }
 
+     // получить лист активных(не отмеченных как удаленные) групп
     public List<Group> getActiveGroupList(Long strategyId) {
         Strategy st = strategyDao.find(strategyId);
         List<Group> activeGroupList = new ArrayList();
@@ -93,6 +94,7 @@ public class GroupService extends PrimService {
         return result;
     }
 
+    // получить лист активных(не отмеченных как удаленные) модулей
     public List<Module> getActiveModuleList(Long groupId) {
         Group g = groupDao.find(groupId);
         List<Module> activeModeleList = new ArrayList<>();
