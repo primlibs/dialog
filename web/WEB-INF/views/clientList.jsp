@@ -29,7 +29,7 @@
                     <th> Комментарий </th>
                 </tr>
                 <c:forEach var="client"  items="${clients}" >
-                    <tr><td>${client.uniqueId}</td>
+                    <tr style="cursor: pointer;"><td>${client.uniqueId}</td>
                         <td>${client.nameCompany}</td>
                     <td>${client.address}</td>
                     <td>${client.nameSecretary}</td>
