@@ -18,23 +18,26 @@
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
         <div class="row ">
-          
-             <input type="hidden" name="userId" value=${paraqm.userId}>
-              <input type="hidden" name="cabinetId" value=${param.cabinetId}>
+
+            <input type="hidden" name="userId" value=${paraqm.userId}>
+            <input type="hidden" name="cabinetId" value=${param.cabinetId}>
 
             <a href="<c:url value="/Event/campaign"/>" class="btn btn-large btn-primary" role="button">Выбрать кампанию...</a>
 
             <div class="row">
                 <div class="col-md-9">
-                       <input type="hidden" name="eventId" value=${param.eventId}>
-                       <input type="hidden" name="eventId" value=${event.eventId}>
-                Клиент: Адрес: ${event.client.address}, Секретарь: ${event.client.nameSecretary}, ЛПР: ${event.client.nameLpr}, 
-                  Телефон секретаря: ${event.client.phoneSecretary}, Телефон ЛПР: ${event.client.phoneLpr}, Комментарий: ${event.client.comment}
-                    
+                    <input type="hidden" name="eventId" value=${param.eventId}>
+                    <input type="hidden" name="eventId" value=${event.eventId}>
+                    Клиент: Адрес: ${event.client.address}, Секретарь: ${event.client.nameSecretary}, ЛПР: ${event.client.nameLpr}, 
+                    Телефон секретаря: ${event.client.phoneSecretary}, Телефон ЛПР: ${event.client.phoneLpr}, Комментарий: ${event.client.comment}
+
 
                     <div class="row">
                         <div class="col-md-8">
-                            Модуль ответа(название - ссылка) 
+                            ${module.moduleName}
+                            <br>
+                            <br>
+                             ${module.bodyText}
                         </div>
                         <div class="col-md-4"  data-spy="scroll" style="height: 100vh ; line-height: 0.3em;">
                             <c:forEach var="аctiveM"  items="${аctiveMap}" >

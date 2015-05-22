@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.EventService;
 import service.GroupService;
+import service.ModuleService;
 import support.AuthManager;
 
 /**
@@ -42,6 +43,9 @@ public class EventController extends WebController {
 
     @Autowired
     private GroupService groupService;
+
+    @Autowired
+    private ModuleService moduleService;
 
     @Autowired
     private AuthManager authManager;
@@ -292,7 +296,7 @@ public class EventController extends WebController {
         Long userId = user.getUserId();
         Long strategyId = eventService.getStrategyId(campaignId);
 
-        
+        model.put("module", moduleService.showModule(moduleId, cabinetId));
         
         model.put("campaign", eventService.getCampaign(campaignId));
         model.put("errors", eventService.getError());

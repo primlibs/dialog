@@ -27,16 +27,16 @@ import service.parent.PrimService;
 @Transactional
 @Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class ModuleService extends PrimService {
-
+    
     @Autowired
     private ModuleDao moduleDao;
-
+    
     @Autowired
     private PersonalCabinetDao personalCabinetDao;
-
+    
     @Autowired
     private GroupDao groupDao;
-
+    
     public void deletModule(Long moduleId) {
         Module modul = moduleDao.find(moduleId);
         if (moduleId != null) {
@@ -46,21 +46,11 @@ public class ModuleService extends PrimService {
         } else {
             addError("Модуль не найден по: " + moduleId);
         }
-
+        
     }
-
+    
     public Module showModule(Long moduleId) {
-        /*
-         Module modul = moduleDao.find(moduleId);
-         if (moduleId != null) {
-         String name =  modul.getModuleName();
-         return name;
-         } else {
-         addError("Модуль не найден по: " + moduleId);
-         return "Модуль не найден по: "+ moduleId ;
-         }
-         */
-
+           
         if (moduleId != null) {
             Module modul = moduleDao.find(moduleId);
             return modul;
@@ -69,22 +59,33 @@ public class ModuleService extends PrimService {
             return null;
         }
     }
-
+    
     public void addBodyText(Long moduleId,
             String bodyText) {
-
+        
         Module module = moduleDao.find(moduleId);
-
+        
         if (moduleId != null) {
             module.setBodyText(bodyText);
-             if (validate(module)) {
+            if (validate(module)) {
                 moduleDao.update(module);
             }
-                    
+            
         } else {
             addError("Ошибка модуль не найден по id " + moduleId);
         }
-
+        
     }
 
+    // вывести модуль в окно оператора
+    public Module showModule(Long moduleId, Long cabinetId) {
+        if (moduleId != null) {
+            Module mo = moduleDao.getShowModule(moduleId, cabinetId);
+            return mo;
+        } else {            
+            addError("Модуль не найден по " + moduleId);
+        }
+        return null;
+    }
+    
 }
