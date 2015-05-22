@@ -20,11 +20,12 @@
             
             <div class="container"> 
                 <form action="<c:url value="/Client/clientList" />">
-                    <input type="text" class="form-control" name="uid" id="uidInput" placeholder="Уникальный ИД">
-                    <input type="text" class="form-control" name="adress" id="adressInput" placeholder="Адрес">
-                    <input type="text" class="form-control" name="nameCompany" id="nameCompanyInput" placeholder="Компания">
-                    <input type="text" class="form-control" name="name" id="nameInput" placeholder="Контактное лицо">
-                    <input type="text" class="form-control" name="phone" id="phoneInput" placeholder="Телефон">
+                    <input type="text" class="form-control" name="uid" id="uidInput" placeholder="Уникальный ИД" size="100">
+                    <input type="text" class="form-control" name="adress" id="adressInput" placeholder="Адрес" size="100">
+                    <input type="text" class="form-control" name="nameCompany" id="nameCompanyInput" placeholder="Компания" size="100">
+                    <input type="text" class="form-control" name="name" id="nameInput" placeholder="Контактное лицо" size="100">
+                    <input type="text" class="form-control" name="phone" id="phoneInput" placeholder="Телефон" size="100">
+                    <input type="submit" name="submit"  class="btn btn-primary" value="Поиск">
                 </form>
             </div>
             
