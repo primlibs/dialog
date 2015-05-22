@@ -18,23 +18,45 @@
             <h4>Адрес: ${client.address}</h4>
             <h4>Инфо: ${client.comment}</h4>
             
-            <h3>Запланированные контакты</h3>
+            <h3>Запланированные контакты в рамках кампаний</h3>
             <c:if test="${empty unfinishedEvents}">
                 Нет запланированных контактов
             </c:if>
             <c:if test="${not empty unfinishedEvents}">
+                <table class="table table-bordered table-hover">
+                    <tr><td>Кампания</td><td>Оператор</td><td>Инфо</td></tr>
                 <c:forEach var="event"  items="${unfinishedEvents}" >
-                    ${event.campaign.name}
+                    <tr><td>${event.campaign.name}</td>
+                        <c:if test="${not empty event.user}">
+                        <td>${event.user.surname}</td>
+                        </c:if>
+                        <c:if test="${empty event.user}">
+                        <td>Не назначен</td>
+                        </c:if>
+                        <td>${event.comment}</td>
+                        </tr>
                 </c:forEach>
+                </table>
             </c:if>
             <h3>История диалогов</h3>
             <c:if test="${empty finishedEvents}">
-                Нет диалогов
+                Диалогов пока не было
             </c:if>
                 <c:if test="${not empty finishedEvents}">
+                    <table class="table table-bordered table-hover">
+                    <tr><td>Кампания</td><td>Оператор</td><td>Инфо</td></tr>
                 <c:forEach var="event"  items="${finishedEvents}" >
-                    ${event.campaign.name}
+                    <tr><td>${event.campaign.name}</td>
+                        <c:if test="${not empty event.user}">
+                        <td>${event.user.surname}</td>
+                        </c:if>
+                        <c:if test="${empty event.user}">
+                        <td>Не назначен</td>
+                        </c:if>
+                        <td>${event.comment}</td>
+                        </tr>
                 </c:forEach>
+                    </table>
             </c:if>
         </div>
             </body>
