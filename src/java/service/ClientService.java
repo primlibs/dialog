@@ -44,4 +44,9 @@ public class ClientService extends PrimService {
     public List<Event> getUnfinishedEventsByClient(Long clientId){
         return clientDao.getUnfinishedEventsByClient(clientId);
     }
+    
+    public List<Client> getClientsBySearchRequest(Long pkId,String uid,String adress,String nameCompany,String name,Long phone){
+        return clientDao.getClientsBySearchRequest(pkId,uid, adress, nameCompany, name, phone);
+    }
+    
 }

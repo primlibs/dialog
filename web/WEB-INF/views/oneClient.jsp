@@ -12,7 +12,7 @@
         
         <div class="row ">
             <h3>Наименование: ${client.nameCompany}</h3>
-            <h3>ИД: ${client.uniqueId}</h3>
+            <h4>ИД: ${client.uniqueId}</h4>
             <h4>Контактное лицо: ${client.nameSecretary}, телефон: ${client.phoneSecretary}</h4>
             <h4>Принимает решения: ${client.nameLpr}, телефон: ${client.phoneLpr}</h4>
             <h4>Адрес: ${client.address}</h4>
