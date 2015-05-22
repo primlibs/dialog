@@ -28,7 +28,7 @@
                 <c:forEach var="event"  items="${unfinishedEvents}" >
                     <c:set var="assigned" value="-1" />
                     <c:if test="${ not empty event.user.userId}">
-                        <c:set var="assigned" value="${event.userId}" />
+                        <c:set var="assigned" value="${event.user.userId}" />
                     </c:if>
                     <tr style="cursor: pointer;" onClick="location = '<c:url value="/Event/eventClient?campaignId=${event.campaign.campaignId}&assigned=${assigned}"/>'">
                         <td>${event.campaign.name}</td>
