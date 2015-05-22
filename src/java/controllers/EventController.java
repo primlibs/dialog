@@ -299,8 +299,9 @@ public class EventController extends WebController {
         Long userId = user.getUserId();
         Long strategyId = eventService.getStrategyId(campaignId);
 
-        model.put("module", moduleService.showModule(moduleId, cabinetId));
         
+        model.put("module", moduleService.showModule(moduleId, cabinetId));
+        model.put("strategy", strategyService.getStrategy(strategyId));
         model.put("campaign", eventService.getCampaign(campaignId));
         model.put("errors", eventService.getError());
         model.put("event", eventService.getEventById(eventId));

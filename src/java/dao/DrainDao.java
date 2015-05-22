@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
  * @author Юрий
  */
 @Repository
-public class DirectoryDrainDao extends Dao<Module>{
+public class DrainDao extends Dao<Drain>{
 
     @Override
     public Class getSupportedClass() {
