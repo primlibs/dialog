@@ -19,12 +19,13 @@
         <div class="row "><h3>Клиенты</h3>
             
             <div class="container"> 
-                <form action="<c:url value="/Client/clientList" />">
+                <form  class="form-inline" action="<c:url value="/Client/clientList" />">
                     <input type="text" class="form-control" name="uid" id="uidInput" placeholder="Уникальный ИД">
                     <input type="text" class="form-control" name="adress" id="adressInput" placeholder="Адрес">
                     <input type="text" class="form-control" name="nameCompany" id="nameCompanyInput" placeholder="Компания">
                     <input type="text" class="form-control" name="name" id="nameInput" placeholder="Контактное лицо">
                     <input type="text" class="form-control" name="phone" id="phoneInput" placeholder="Телефон">
+                    <input type="submit" name="submit"  class="btn btn-primary" value="Поиск">
                 </form>
             </div>
             
