@@ -22,6 +22,7 @@
                 <li><a href="<c:url value="/Strategy/show"/>">Стратегии</a></li>
             </ul>                    
         </li>
+        <li><a href="<c:url value="/Event/campaign"/>">Кампании</a></li>  
     </ul> 
     <%@include file="/WEB-INF/jsp/menuright.jsp" %>
 </div>  

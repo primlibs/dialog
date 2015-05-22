@@ -11,7 +11,7 @@
 
 <ul class="nav navbar-nav  pull-right" style="margin-bottom: 0px">
 
-    <li style="top: 15px;"> ${nameCompany }  &nbsp </li>    
+    <li style="top: 15px;"> Организация: ${nameCompany }  &nbsp </li>    
 
 
     <li class="dropdown"><a href="#" data-toggle="dropdown"  class="dropdown-toggle" > ${nameUser } <span class="caret"></span></a>
