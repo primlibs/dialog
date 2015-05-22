@@ -26,7 +26,8 @@
                 <table class="table table-bordered table-hover">
                     <tr><td>Кампания</td><td>Оператор</td><td>Инфо</td></tr>
                 <c:forEach var="event"  items="${unfinishedEvents}" >
-                    <tr><td>${event.campaign.name}</td>
+                    <tr style="cursor: pointer;" onClick="location = '<c:url value="/Event/eventClient?campaignId=${event.campaign.campaignId}&assigned=${event.userId}"/>'">
+                        <td>${event.campaign.name}</td>
                         <c:if test="${not empty event.user}">
                         <td>${event.user.surname}</td>
                         </c:if>
@@ -46,7 +47,7 @@
                     <table class="table table-bordered table-hover">
                     <tr><td>Кампания</td><td>Оператор</td><td>Инфо</td></tr>
                 <c:forEach var="event"  items="${finishedEvents}" >
-                    <tr><td>${event.campaign.name}</td>
+                    <tr style="cursor: pointer;"><td>${event.campaign.name}</td>
                         <c:if test="${not empty event.user}">
                         <td>${event.user.surname}</td>
                         </c:if>
