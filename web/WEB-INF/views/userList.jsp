@@ -18,8 +18,8 @@
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
         <div class="form-group">
-            <a href="<c:url value="/User/userList"/>" class="btn btn-large" role="button">Список пользователей</a>
-            <a href="<c:url value="/User/userAdd"/>" class="btn btn-large" role="button">Добавить пользователя</a>
+            <a href="<c:url value="/User/userList"/>" class="btn btn-primary" role="button">Список пользователей</a>
+            <a href="<c:url value="/User/userAdd"/>" class="btn btn-primary" role="button">Добавить пользователя</a>
         </div> 
 
         <table class="table table-bordered table-hover">
