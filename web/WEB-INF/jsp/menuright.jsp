@@ -9,7 +9,7 @@
 
 
 
-<ul class="nav navbar-nav  pull-right">
+<ul class="nav navbar-nav  pull-right" style="margin-bottom: 0px">
 
     <li style="top: 15px;"> ${nameCompany }  &nbsp </li>    
 
