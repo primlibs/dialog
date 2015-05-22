@@ -10,7 +10,7 @@
 
 
 
-<div class="navbar">
+<div class="navbar" style="margin-bottom: 0px">
     <ul class="nav navbar-nav">
         <li class="dropdown"><a href="#" data-toggle="dropdown"  class="dropdown-toggle" >Меню <span class="caret"></span></a>
             <ul class="dropdown-menu">
