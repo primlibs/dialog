@@ -12,16 +12,17 @@
 
 <div class="navbar" style="margin-bottom: 0px">
     <ul class="nav navbar-nav">
-        <li><a href="<c:url value="/Event/campaignList"/>">Кампания(Event)</a></li>
+        <li><a href="<c:url value="/Event/campaignList"/>">Кампания</a></li>
         <li><a href="#">Отчет по операторам</a></li>
         <li><a href="<c:url value="/Client/clientList"/>">Клиенты</a></li>
+        <li><a href="<c:url value="/Event/campaign"/>">Мои звонки</a></li>  
         <li class="dropdown"><a href="#" data-toggle="dropdown"  class="dropdown-toggle" >Настройки <span class="caret"></span></a>
             <ul class="dropdown-menu">
                 <li><a href="<c:url value="/User/userList"/>">Пользователи</a></li>
                 <li><a href="<c:url value="/Strategy/show"/>">Стратегии</a></li>
             </ul>                    
         </li>
-        <li><a href="<c:url value="/Event/campaign"/>">Кампании</a></li>  
+        
     </ul> 
     <%@include file="/WEB-INF/jsp/menuright.jsp" %>
 </div>  
