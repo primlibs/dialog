@@ -10,15 +10,23 @@
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
         
-        <div class="row">
-            <h3>Наименование: ${client.nameCompany}</h3>
-            <h4>ИД: ${client.uniqueId}</h4>
-            <h4>Контактное лицо: ${client.nameSecretary}, телефон: ${client.phoneSecretary}</h4>
-            <h4>Принимает решения: ${client.nameLpr}, телефон: ${client.phoneLpr}</h4>
-            <h4>Адрес: ${client.address}</h4>
-            <h4>Инфо: ${client.comment}</h4>
+        <div class="row" style="width: 50%;">
             
-            <h3>Запланированные контакты в рамках кампаний</h3>
+            <table>
+                <tr><td>Наименование:</td><td>${client.nameCompany}</td></tr>
+                <tr><td>Уникальный ИД:</td><td>${client.nameSecretary}</td></tr>
+                <tr><td>Контактное лицо:</td><td>${client.nameLpr}</td></tr>
+                <tr><td>Телефон:</td><td>${client.phoneSecretary}</td></tr>
+                <tr><td>Принимает решения:</td><td>${client.nameCompany}</td></tr>
+                <tr><td>Телефон:</td><td>${client.phoneLpr}</td></tr>
+                <tr><td>Адрес:</td><td>${client.address}</td></tr>
+                <tr><td>Инфо:</td><td>${client.comment}</td></tr>
+                
+                
+            </table>
+            
+                <div>
+            <h3>Контакты в рамках кампаний</h3>
             <c:if test="${empty unfinishedEvents && empty finishedEvents}">
                 Нет контактов
             </c:if>
@@ -55,6 +63,7 @@
                 </c:forEach>
                 </table>
             </c:if>
+                </div>
             
         </div>
             </body>
