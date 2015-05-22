@@ -91,16 +91,16 @@ public class ClientDao extends Dao<Client> {
     public List<Client> getClientsBySearchRequest(Long pkId,String uid,String adress,String nameCompany,String name,Long phone){
             HashMap<String,Object> paramMap = new HashMap();
             paramMap.put("pkId",pkId);
-            String hql = "from Client where Client.cabinet.personalCabinetId=:pkId";
+            String hql = "from Client с where с.cabinet.personalCabinetId=:pkId";
             //Boolean conditionBefore = false;
             if(uid!=null&&!uid.equals("")){
-                hql+=" and Client.uniqueId=:uid";
+                hql+=" and с.uniqueId=:uid";
                 paramMap.put("uid",uid);
                 //conditionBefore=true;
             }
             if(adress!=null&&!adress.equals("")){
                 //if(conditionBefore){
-                    hql+=" and Client.address=:address";
+                    hql+=" and с.address=:address";
                 /*}else{
                     hql+=" where Client.address=:address";
                 }*/
@@ -109,7 +109,7 @@ public class ClientDao extends Dao<Client> {
             }
             if(nameCompany!=null&&!nameCompany.equals("")){
                 //if(conditionBefore){
-                    hql+=" and Client.nameCompany=:nameCompany";
+                    hql+=" and с.nameCompany=:nameCompany";
                 /*}else{
                     hql+=" where Client.nameCompany=:nameCompany";
                 }*/
@@ -118,7 +118,7 @@ public class ClientDao extends Dao<Client> {
             }
             if(name!=null&&!name.equals("")){
                 //if(conditionBefore){
-                    hql+=" and (Client.nameSecretary=:name or Client.nameLpr=:name)";
+                    hql+=" and (с.nameSecretary=:name or с.nameLpr=:name)";
                 /*}else{
                     hql+=" where (Client.nameSecretary=:name or Client.nameLpr=:name)";
                 }*/
@@ -127,7 +127,7 @@ public class ClientDao extends Dao<Client> {
             }
             if(phone!=null){
                 //if(conditionBefore){
-                    hql+=" and (Client.phoneSecretary=:phone or Client.phoneLpr=:phone)";
+                    hql+=" and (с.phoneSecretary=:phone or с.phoneLpr=:phone)";
                 /*}else{
                     hql+=" where (Client.phoneSecretary=:phone or Client.phoneLpr=:phone)";
                 }*/
