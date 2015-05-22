@@ -26,7 +26,11 @@
                 <table class="table table-bordered table-hover">
                     <tr><td>Кампания</td><td>Оператор</td><td>Инфо</td></tr>
                 <c:forEach var="event"  items="${unfinishedEvents}" >
-                    <tr style="cursor: pointer;" onClick="location = '<c:url value="/Event/eventClient?campaignId=${event.campaign.campaignId}&assigned=${event.userId}"/>'">
+                    <c:set var="assigned" value="-1" />
+                    <c:if test="${ not empty event.userId}">
+                        <c:set var="assigned" value="${event.userId}" />
+                    </c:if>
+                    <tr style="cursor: pointer;" onClick="location = '<c:url value="/Event/eventClient?campaignId=${event.campaign.campaignId}&assigned=${assigned}"/>'">
                         <td>${event.campaign.name}</td>
                         <c:if test="${not empty event.user}">
                         <td>${event.user.surname}</td>
