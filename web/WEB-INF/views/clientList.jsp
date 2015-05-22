@@ -18,7 +18,7 @@
         
         <div class="row "><h3>Клиенты</h3>
             
-            <div> 
+            <div style="margin-bottom: 10px;"> 
                 <form role="form" class="form-inline" action="<c:url value="/Client/clientList" />">
                     <input type="text" class="form-control" name="uid" id="uidInput" placeholder="Уникальный ИД">
                     <input type="text" class="form-control" name="nameCompany" id="nameCompanyInput" placeholder="Компания">
