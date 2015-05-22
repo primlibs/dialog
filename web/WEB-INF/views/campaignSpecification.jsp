@@ -23,7 +23,7 @@
             <a href="<c:url value="/Event/getShapeExcel"/>" class="btn btn-large btn-primary" role="button">Получить форму excel</a>
 
 
-            <form enctype="multipart/form-data" action="<c:url value="/Event/setXls" />" method="post">
+            <form enctype="multipart/form-data" class="form-inline" action="<c:url value="/Event/setXls" />" method="post">
                 <div style="position:relative;">
                     <a class='btn btn-primary' href='javascript:;'>
                         Загрузить файл...
