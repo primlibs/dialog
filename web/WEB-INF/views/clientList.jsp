@@ -24,7 +24,7 @@
                     <input type="text" class="form-control" name="nameCompany" id="nameCompanyInput" placeholder="Компания">
                     <input type="text" class="form-control" name="adress" id="adressInput" placeholder="Адрес">
                     <input type="text" class="form-control" name="name" id="nameInput" placeholder="Контактное лицо">
-                    <input type="text" style="width:150px;" class="form-control" name="phone" id="phoneInput" placeholder="Телефон">
+                    <input type="text" class="form-control" name="phone" id="phoneInput" placeholder="Телефон">
                     <input type="submit" name="submit"  class="btn btn-primary" value="Поиск">
                 </form>
             </div>
