@@ -24,14 +24,14 @@
 
 
             <div class="row">
-                <div class="col-md-9">
+                <div class="col-md-12">
                     <input type="hidden" name="eventId" value=${param.eventId}>
                     <input type="hidden" name="eventId" value=${event.eventId}>
-                    <table>
+                    <table class="table table-bordered table-hover">
                         <tr>
                             <td>Адрес: </td>
-                            <td> Секретарь: </td>
-                            <td> ЛПР:</td>
+                            <td>Секретарь: </td>
+                            <td>ЛПР:</td>
                             <td>Телефон секретаря:  </td>
                             <td>Телефон ЛПР: </td>
                             <td>Комментарий: </td>
@@ -39,7 +39,7 @@
                         <tr>
                             <td>${event.client.address} </td>
                             <td>${event.client.nameSecretary} </td>
-                            <td> ${event.client.nameLpr}</td>
+                            <td>${event.client.nameLpr}</td>
                             <td>${event.client.phoneSecretary} </td>
                             <td>${event.client.phoneLpr} </td>
                             <td>${event.client.comment} </td>
