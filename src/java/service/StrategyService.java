@@ -5,10 +5,12 @@
  */
 package service;
 
+import dao.DrainDao;
 import dao.GroupDao;
 import dao.ModuleDao;
 import dao.PersonalCabinetDao;
 import dao.StrategyDao;
+import entities.Drain;
 import entities.Group;
 import entities.Module;
 import entities.PersonalCabinet;
@@ -45,6 +47,9 @@ public class StrategyService extends PrimService {
     private ModuleDao moduleDao;
 
     @Autowired
+    private DrainDao drainDao;
+
+    @Autowired
     private GroupService groupService;
 
     public void saveStrategy(String strategyName, Long cabinetId) {
@@ -65,13 +70,31 @@ public class StrategyService extends PrimService {
             strategy.setCabinet(pk);
             if (validate(strategy)) {
                 strategyDao.save(strategy);
+            } else {
+                addError("Стратегия не сохранилась");
+            }
+            if (getError().isEmpty()) {
+                ArrayList<String> drainList = new ArrayList<>();
+                drainList.add(0, "Выслано коммерческое предложение");
+                drainList.add(1, "Нет денег");
+                drainList.add(2, "Не интересно");
+                for (String str :drainList ) {
+                    Drain drain = new Drain();
+                    drain.setStrategy(strategy);
+                    drain.setDirectoryName(str);
+                    if (validate(drain)) {
+                        drainDao.save(drain);
+                    }else{
+                        addError("Список сливов не сохранился");
+                    }
+                }
             }
         } else {
             addError("Cтратегия с названием " + strategyName + " уже существует");
         }
     }
-//метод не используется
 
+//метод не используется
     public List<Strategy> strategyList(Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         if (pk != null) {
@@ -232,5 +255,5 @@ public class StrategyService extends PrimService {
     public Strategy getStrategy(Long strategyId) {
         Strategy str = strategyDao.find(strategyId);
         return str;
-            }
+    }
 }

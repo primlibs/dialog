@@ -35,9 +35,34 @@ public class Drain extends PrimEntity {
     private Long directoryDrainId;
 
     @Column(name = "name")
-    private String directoryname;
+    private String directoryName;
 
     @JoinColumn(name = "strategy_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Strategy strategy;
+
+    public Long getDirectoryDrainId() {
+        return directoryDrainId;
+    }
+
+    public void setDirectoryDrainId(Long directoryDrainId) {
+        this.directoryDrainId = directoryDrainId;
+    }
+
+    public String getDirectoryName() {
+        return directoryName;
+    }
+
+    public void setDirectoryName(String directoryName) {
+        this.directoryName = directoryName;
+    }
+
+    public Strategy getStrategy() {
+        return strategy;
+    }
+
+    public void setStrategy(Strategy strategy) {
+        this.strategy = strategy;
+    }
+
 }
