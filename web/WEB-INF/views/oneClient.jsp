@@ -10,7 +10,7 @@
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
         
-        <div class="row ">
+        <div class="row">
             <h3>Наименование: ${client.nameCompany}</h3>
             <h4>ИД: ${client.uniqueId}</h4>
             <h4>Контактное лицо: ${client.nameSecretary}, телефон: ${client.phoneSecretary}</h4>
@@ -19,8 +19,8 @@
             <h4>Инфо: ${client.comment}</h4>
             
             <h3>Запланированные контакты в рамках кампаний</h3>
-            <c:if test="${empty unfinishedEvents}">
-                Нет запланированных контактов
+            <c:if test="${empty unfinishedEvents && empty finishedEvents}">
+                Нет контактов
             </c:if>
             <c:if test="${not empty unfinishedEvents}">
                 <table class="table table-bordered table-hover">
@@ -41,16 +41,8 @@
                         <td>${event.comment}</td>
                         </tr>
                 </c:forEach>
-                </table>
-            </c:if>
-            <h3>История диалогов</h3>
-            <c:if test="${empty finishedEvents}">
-                Диалогов пока не было
-            </c:if>
-                <c:if test="${not empty finishedEvents}">
-                    <table class="table table-bordered table-hover">
-                    <tr><td>Кампания</td><td>Оператор</td><td>Инфо</td></tr>
-                <c:forEach var="event"  items="${finishedEvents}" >
+                        
+                        <c:forEach var="event"  items="${finishedEvents}" >
                     <tr style="cursor: pointer;"><td>${event.campaign.name}</td>
                         <c:if test="${not empty event.user}">
                         <td>${event.user.surname}</td>
@@ -61,8 +53,9 @@
                         <td>${event.comment}</td>
                         </tr>
                 </c:forEach>
-                    </table>
+                </table>
             </c:if>
+            
         </div>
             </body>
 </html>
