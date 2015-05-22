@@ -22,7 +22,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "directory_drain")
-public class DirectoryDrain extends PrimEntity {
+public class Drain extends PrimEntity {
 
     @Override
     public Long getId() {

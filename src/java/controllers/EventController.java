@@ -7,9 +7,7 @@ package controllers;
 
 import static controllers.LkController.CABINET_ID_SESSION_NAME;
 import controllers.parent.WebController;
-import dao.CampaignDao;
 import entities.CabinetUser;
-import entities.Campaign;
 import entities.User;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -25,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.EventService;
 import service.GroupService;
 import service.ModuleService;
+import service.StrategyService;
 import support.AuthManager;
 
 /**
@@ -49,6 +48,9 @@ public class EventController extends WebController {
 
     @Autowired
     private AuthManager authManager;
+    
+    @Autowired
+    private StrategyService strategyService;
 
     @RequestMapping("/campaignList")
     public String showCampaigns(Map<String, Object> model, HttpServletRequest request) throws Exception {
@@ -256,10 +258,11 @@ public class EventController extends WebController {
             model.put("event", eventService.getEvenByUserByCampaign(campaignId, cabinetId, userId));
         } else {
             model.put("event", eventService.getEventById(eventId));
+            
         }
         model.put("campaign", eventService.getCampaign(campaignId));
         model.put("errors", eventService.getError());
-        // model.put("аctiveGroupList", groupService.getActiveGroupList(strategyId));
+         model.put("strategy", strategyService.getStrategy(strategyId));
         model.put("аctiveMap", groupService.getActiveMap(strategyId));
         ras.addFlashAttribute("eventId", eventId);
         ras.addFlashAttribute("campaignId", campaignId);

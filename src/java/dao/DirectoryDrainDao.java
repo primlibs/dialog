@@ -6,7 +6,7 @@
 package dao;
 
 import dao.parent.Dao;
-import entities.DirectoryDrain;
+import entities.Drain;
 import entities.Module;
 import org.springframework.stereotype.Repository;
 
@@ -19,7 +19,7 @@ public class DirectoryDrainDao extends Dao<Module>{
 
     @Override
     public Class getSupportedClass() {
-        return DirectoryDrain.class;
+        return Drain.class;
     }
     
 }
