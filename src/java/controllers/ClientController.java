@@ -31,12 +31,15 @@ public class ClientController extends WebController {
     private ClientService clientService;
 
     @RequestMapping("/clientList")
-    public String showClientList(Map<String, Object> model, HttpServletRequest request) throws Exception {
+    public String showClientList(Map<String, Object> model, HttpServletRequest request,@RequestParam(value = "uid", required = false) String uid,
+            @RequestParam(value = "adress", required = false) String adress,@RequestParam(value = "nameCompany", required = false) String nameCompany,
+            @RequestParam(value = "name", required = false) String name,@RequestParam(value = "phone", required = false) Long phone) throws Exception {
         lk.dataByUserAndCompany(request, model);
      
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         
-        model.put("clients",clientService.getCabinetClients(cabinetId));
+        model.put("clients",clientService.getClientsBySearchRequest(cabinetId,uid, adress, nameCompany, name, phone));
+        
         List<String> clientErrors = clientService.getError();
         if(model.get("errors")!=null){
             clientErrors.addAll((List<String>)model.get("errors"));

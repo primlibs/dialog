@@ -10,7 +10,10 @@ import entities.Client;
 import entities.Campaign;
 import entities.Event;
 import entities.PersonalCabinet;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
@@ -83,6 +86,59 @@ public class ClientDao extends Dao<Client> {
         query.setParameter("clientId", clientId);
         List<Event> elist = query.list();
         return elist;
+    }
+    
+    public List<Client> getClientsBySearchRequest(Long pkId,String uid,String adress,String nameCompany,String name,Long phone){
+            HashMap<String,Object> paramMap = new HashMap();
+            paramMap.put("pkId",pkId);
+            String hql = "from Client where Client.cabinet.personalCabinetId=:pkId";
+            //Boolean conditionBefore = false;
+            if(uid!=null&&!uid.equals("")){
+                hql+=" and Client.uniqueId=:uid";
+                paramMap.put("uid",uid);
+                //conditionBefore=true;
+            }
+            if(adress!=null&&!adress.equals("")){
+                //if(conditionBefore){
+                    hql+=" and Client.address=:address";
+                /*}else{
+                    hql+=" where Client.address=:address";
+                }*/
+                paramMap.put("adress",adress);
+                //conditionBefore=true;
+            }
+            if(nameCompany!=null&&!nameCompany.equals("")){
+                //if(conditionBefore){
+                    hql+=" and Client.nameCompany=:nameCompany";
+                /*}else{
+                    hql+=" where Client.nameCompany=:nameCompany";
+                }*/
+                paramMap.put("nameCompany",nameCompany);
+                //conditionBefore=true;
+            }
+            if(name!=null&&!name.equals("")){
+                //if(conditionBefore){
+                    hql+=" and (Client.nameSecretary=:name or Client.nameLpr=:name)";
+                /*}else{
+                    hql+=" where (Client.nameSecretary=:name or Client.nameLpr=:name)";
+                }*/
+                paramMap.put("name",name);
+                //conditionBefore=true;
+            }
+            if(phone!=null){
+                //if(conditionBefore){
+                    hql+=" and (Client.phoneSecretary=:phone or Client.phoneLpr=:phone)";
+                /*}else{
+                    hql+=" where (Client.phoneSecretary=:phone or Client.phoneLpr=:phone)";
+                }*/
+                paramMap.put("phone",phone);
+                //conditionBefore=true;
+            }
+            Query query = getCurrentSession().createQuery(hql);
+            for(Map.Entry<String,Object> entry:paramMap.entrySet()){
+                query.setParameter(entry.getKey(), entry.getValue());
+            }
+        return query.list();
     }
     
 }
