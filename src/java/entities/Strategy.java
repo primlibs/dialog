@@ -64,7 +64,7 @@ public class Strategy extends PrimEntity {
 
     @LazyCollection(LazyCollectionOption.TRUE)
     @OneToMany(mappedBy = "strategy")
-    private List<DirectoryDrain> directoryDrainList;
+    private List<Drain> directoryDrainList;
 
     @Override
     public Long getId() {
@@ -147,11 +147,11 @@ public class Strategy extends PrimEntity {
         this.campaigns = campaigns;
     }
 
-    public List<DirectoryDrain> getDirectoryDrainList() {
+    public List<Drain> getDirectoryDrainList() {
         return directoryDrainList;
     }
 
-    public void setDirectoryDrainList(List<DirectoryDrain> directoryDrainList) {
+    public void setDirectoryDrainList(List<Drain> directoryDrainList) {
         this.directoryDrainList = directoryDrainList;
     }
 

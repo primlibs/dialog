@@ -66,11 +66,12 @@ public class StrategyService extends PrimService {
             if (validate(strategy)) {
                 strategyDao.save(strategy);
             }
-        }else{
-            addError("Cтратегия с названием "+strategyName+" уже существует");
+        } else {
+            addError("Cтратегия с названием " + strategyName + " уже существует");
         }
     }
 //метод не используется
+
     public List<Strategy> strategyList(Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         if (pk != null) {
@@ -84,13 +85,13 @@ public class StrategyService extends PrimService {
     public List<Strategy> getActiveStrategyList(Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         if (pk != null) {
-          List<Strategy> listStrategy =   pk.getStrategyList();
-          List<Strategy> activeStrategyList = new ArrayList<>();
-             for(Strategy strategy : listStrategy){
-                 if(strategy.getDeleteDate()== null){
-                     activeStrategyList.add(strategy);
-                 }
-             }
+            List<Strategy> listStrategy = pk.getStrategyList();
+            List<Strategy> activeStrategyList = new ArrayList<>();
+            for (Strategy strategy : listStrategy) {
+                if (strategy.getDeleteDate() == null) {
+                    activeStrategyList.add(strategy);
+                }
+            }
             return activeStrategyList;
 
         } else {
@@ -100,15 +101,14 @@ public class StrategyService extends PrimService {
     }
 
     /*public List<Group> getGroupList(Long strategyId) {
-        Strategy stg = strategyDao.find(strategyId);
-        if (stg != null) {
-            return stg.getActiveGroupList();
-        } else {
-            addError("Стратегия не найдена по ид " + strategyId);
-        }
-        return new ArrayList();
-    }*/
-
+     Strategy stg = strategyDao.find(strategyId);
+     if (stg != null) {
+     return stg.getActiveGroupList();
+     } else {
+     addError("Стратегия не найдена по ид " + strategyId);
+     }
+     return new ArrayList();
+     }*/
     public List<Module> moduleList(Long groupId) {
         Group gr = groupDao.find(groupId);
         if (gr != null) {
@@ -124,10 +124,10 @@ public class StrategyService extends PrimService {
             Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         Strategy stg = strategyDao.find(strategyId);
-        
+
         Boolean exists = false;
         for (Group group : stg.getActiveGroupList()) {
-            if(group.getGroupName().equalsIgnoreCase(groupName)){
+            if (group.getGroupName().equalsIgnoreCase(groupName)) {
                 exists = true;
                 break;
             }
@@ -203,30 +203,34 @@ public class StrategyService extends PrimService {
         }
 
     }
-    
-    public void reanameStrategy(Long strategyId,String name){
+
+    public void reanameStrategy(Long strategyId, String name) {
         Strategy str = strategyDao.find(strategyId);
-        
+
         Boolean exists = false;
         for (Strategy strat : str.getCabinet().getActiveStrategyList()) {
-            if(strat.getStrategyName().equalsIgnoreCase(name)){
+            if (strat.getStrategyName().equalsIgnoreCase(name)) {
                 exists = true;
                 break;
             }
         }
-        
+
         if (!exists) {
             str.setStrategyName(name);
             updateStrategy(str);
-        }else{
-            addError("Cтратегия с названием "+name+" уже существует");
+        } else {
+            addError("Cтратегия с названием " + name + " уже существует");
         }
     }
-    
-    private void updateStrategy(Strategy strategy){
-        if(validate(strategy)){
+
+    private void updateStrategy(Strategy strategy) {
+        if (validate(strategy)) {
             strategyDao.update(strategy);
         }
     }
 
+    public Strategy getStrategy(Long strategyId) {
+        Strategy str = strategyDao.find(strategyId);
+        return str;
+            }
 }
