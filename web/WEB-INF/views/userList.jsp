@@ -25,12 +25,12 @@
         <table class="table table-bordered table-hover">
 
             <tr>
-                <td>${myIndex.index}#</td>
-                <td>#имя</td>
-                <td>#Фамилия</td>
-                <td>#роль</td>
-                <td>#изменить</td>
-                <td>#удалить</td>
+                <td>${myIndex.index}</td>
+                <td>имя</td>
+                <td>Фамилия</td>
+                <td>роль</td>
+                <td>изменить</td>
+                <td>удалить</td>
             </tr>
             <c:forEach var="cabinetUser" items="${cabinetUserList}" varStatus="myIndex">
 
