@@ -8,6 +8,7 @@ package service;
 import dao.ClientDao;
 import dao.EventDao;
 import dao.CampaignDao;
+import dao.DrainDao;
 import dao.GroupDao;
 import dao.ModuleDao;
 import dao.PersonalCabinetDao;
@@ -16,6 +17,7 @@ import dao.UserDao;
 import entities.CabinetUser;
 import entities.Client;
 import entities.Campaign;
+import entities.Drain;
 import entities.Event;
 import entities.PersonalCabinet;
 import entities.Strategy;
@@ -67,6 +69,9 @@ public class EventService extends PrimService {
 
     @Autowired
     private CampaignDao campaignDao;
+
+    @Autowired
+    private DrainDao drainDao;
 
     @Autowired
     private ClientDao clientDao;
@@ -527,5 +532,11 @@ public class EventService extends PrimService {
     public Event getEventById(Long eventId) {
         Event event = eventDao.find(eventId);
         return event;
+    }
+
+    public List<Drain> getDrainList(Long strategyId){
+        Strategy str = strategyDao.find(strategyId);
+        List<Drain> drainList = str.getDrainList();
+        return drainList;
     }
 }

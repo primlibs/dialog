@@ -26,35 +26,35 @@ public class Drain extends PrimEntity {
 
     @Override
     public Long getId() {
-        return directoryDrainId;
+        return drainId;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "directory_drain_id")
-    private Long directoryDrainId;
+    private Long drainId;
 
     @Column(name = "name")
-    private String directoryName;
+    private String name;
 
     @JoinColumn(name = "strategy_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Strategy strategy;
 
-    public Long getDirectoryDrainId() {
-        return directoryDrainId;
+    public Long getDrainId() {
+        return drainId;
     }
 
-    public void setDirectoryDrainId(Long directoryDrainId) {
-        this.directoryDrainId = directoryDrainId;
+    public void setDrainId(Long drainId) {
+        this.drainId = drainId;
     }
 
-    public String getDirectoryName() {
-        return directoryName;
+    public String getName() {
+        return name;
     }
 
-    public void setDirectoryName(String directoryName) {
-        this.directoryName = directoryName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Strategy getStrategy() {
@@ -64,5 +64,4 @@ public class Drain extends PrimEntity {
     public void setStrategy(Strategy strategy) {
         this.strategy = strategy;
     }
-
 }
