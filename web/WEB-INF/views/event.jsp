@@ -67,7 +67,7 @@
                             </c:forEach>
                         </div>
                         <div class="col-md-2"  >
-                            <div>
+                            <div class="carousel-search hidden-sm">
                                 <div class="btn-group"> <a class="btn btn-danger dropdown-toggle btn-select" data-toggle="dropdown" href="#">Справочник сливов <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <c:forEach var="drain"  items="${drainList}" >
