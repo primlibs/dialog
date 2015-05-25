@@ -50,13 +50,14 @@
                     </table>
 
                     <div class="row">
-                        <div id="moduleShow"></div>
+                        <div style="float:left;" id="moduleShow"></div>
                         <!--<div class="col-md-6">
                             ${module.moduleName}
                             <br>
                             <br>
                             ${module.bodyText}
                         </div>-->
+                            <div style="float:right;">
                         <div class="col-md-4"  data-spy="scroll" style="height: 100vh ; line-height: 1em;">
                             <c:forEach var="entry"  items="${аctiveMap}" >
                                 <ul> ${entry.key.groupName} 
@@ -68,17 +69,7 @@
                                 </ul>
                             </c:forEach>
                         </div>
-                        <div hidden="1" id="moduleBufer">
-                            <c:forEach var="entry"  items="${аctiveMap}" >
-                                <c:forEach var="module"  items="${entry.value}" >
-                                <div id=${module.moduleId} class="hiddenModule">
-                                    ${module.moduleName}
-                                    <br><br>
-                                    ${module.bodyText}
-                                </div>
-                                </c:forEach>
-                            </c:forEach>
-                        </div>
+                        
                         <div class="col-md-2"  >
                             <div class="carousel-search hidden-sm">
                                 <div class="btn-group"> <a class="btn btn-danger dropdown-toggle btn-select" data-toggle="dropdown" href="#">Справочник сливов <span class="caret"></span></a>
@@ -92,6 +83,18 @@
                                 <p>    <a href="<c:url value="/Event/#?eventId=${event.eventId}"/>" class="btn btn-large btn-success" role="button">Положительный результат</a>
                                 <p>    <a href="<c:url value="/Event/event?campaignId=${param.campaignId}&strategyId=${campaign.strategy.strategyId}"/>" class="btn btn-large btn-primary" role="button">следующий клиент</a>
                             </div>
+                        </div>
+                            </div>
+                        <div hidden="1" id="moduleBufer">
+                            <c:forEach var="entry"  items="${аctiveMap}" >
+                                <c:forEach var="module"  items="${entry.value}" >
+                                <div id=${module.moduleId} class="hiddenModule">
+                                    ${module.moduleName}
+                                    <br><br>
+                                    ${module.bodyText}
+                                </div>
+                                </c:forEach>
+                            </c:forEach>
                         </div>
                     </div>
                 </div>
