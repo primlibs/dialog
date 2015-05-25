@@ -94,7 +94,6 @@ public class StrategyService extends PrimService {
         }
     }
 
-//метод не используется
     public List<Strategy> strategyList(Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         if (pk != null) {
