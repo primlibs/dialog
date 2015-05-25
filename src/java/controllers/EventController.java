@@ -285,7 +285,7 @@ public class EventController extends WebController {
         return "campaign";
     }
 
-    @RequestMapping("/eventProcessing")
+    /*@RequestMapping("/eventProcessing")
     public String eventProcessing(Map<String, Object> model,
             @RequestParam(value = "campaignId") Long campaignId,
             @RequestParam(value = "groupId") Long groupId,
@@ -307,5 +307,5 @@ public class EventController extends WebController {
         model.put("event", eventService.getEventById(eventId));
         model.put("аctiveMap", groupService.getActiveMap(strategyId));
         return "event";
-    }
+    }*/
 }

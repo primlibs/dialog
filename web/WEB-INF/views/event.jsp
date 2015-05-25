@@ -11,6 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title> </title>
         <%@include file="/WEB-INF/jsp/css_js.jsp" %>
+        <script src="<c:url value="/js/myJsOnViews/event.js" />"></script>
     </head>
     <body class="container">
 
@@ -49,25 +50,32 @@
                     </table>
 
                     <div class="row">
-                        <div class="col-md-6">
+                        <div id="moduleShow"></div>
+                        <!--<div class="col-md-6">
                             ${module.moduleName}
                             <br>
                             <br>
                             ${module.bodyText}
-                        </div>
+                        </div>-->
                         <div class="col-md-4"  data-spy="scroll" style="height: 100vh ; line-height: 1em;">
                             <c:forEach var="entry"  items="${аctiveMap}" >
                                 <ul> ${entry.key.groupName} 
                                     <c:forEach var="module"  items="${entry.value}" >
-                                        <li> 
-                                            <a href="<c:url value="/Event/eventProcessing?campaignId=${param.campaignId}&groupId=${entry.key.groupId}&moduleId=${module.moduleId}&eventId=${event.eventId}"/>">${module.moduleName}</a>
-                                        </li>
+                                        <li style="cursor: pointer;" onclick="return showModule(${module.moduleId})"> <ins>
+                                            ${module.moduleName}<!--<a href="<c:url value="/Event/eventProcessing?campaignId=${param.campaignId}&groupId=${entry.key.groupId}&moduleId=${module.moduleId}&eventId=${event.eventId}"/>">${module.moduleName}</a>-->
+                                            </ins></li>
                                     </c:forEach>
                                 </ul>
                             </c:forEach>
                         </div>
                         <div hidden="1" id="moduleBufer">
-                            qwe
+                            <c:forEach var="entry"  items="${аctiveMap}" >
+                                <div id=${entry.value.moduleId} class="hiddenModule">
+                                    ${entry.value.moduleName}
+                                    <br><br>
+                                    ${entry.value.bodyText}
+                                </div>
+                            </c:forEach>
                         </div>
                         <div class="col-md-2"  >
                             <div class="carousel-search hidden-sm">
