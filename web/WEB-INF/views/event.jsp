@@ -70,11 +70,13 @@
                         </div>
                         <div hidden="1" id="moduleBufer">
                             <c:forEach var="entry"  items="${аctiveMap}" >
-                                <div id=${entry.value.moduleId} class="hiddenModule">
-                                    ${entry.value.moduleName}
+                                <c:forEach var="module"  items="${entry.value}" >
+                                <div id=${module.moduleId} class="hiddenModule">
+                                    ${module.moduleName}
                                     <br><br>
-                                    ${entry.value.bodyText}
+                                    ${module.bodyText}
                                 </div>
+                                </c:forEach>
                             </c:forEach>
                         </div>
                         <div class="col-md-2"  >
