@@ -56,15 +56,18 @@
                             ${module.bodyText}
                         </div>
                         <div class="col-md-4"  data-spy="scroll" style="height: 100vh ; line-height: 1em;">
-                            <c:forEach var="аctiveM"  items="${аctiveMap}" >
-                                <ul> ${аctiveM.key.groupName} 
-                                    <c:forEach var="moduleL"  items="${аctiveM.value}" >
+                            <c:forEach var="entry"  items="${аctiveMap}" >
+                                <ul> ${entry.key.groupName} 
+                                    <c:forEach var="module"  items="${entry.value}" >
                                         <li> 
-                                            <a href="<c:url value="/Event/eventProcessing?campaignId=${param.campaignId}&groupId=${аctiveM.key.groupId}&moduleId=${moduleL.moduleId}&eventId=${event.eventId}"/>">${moduleL.moduleName}</a>
+                                            <a href="<c:url value="/Event/eventProcessing?campaignId=${param.campaignId}&groupId=${entry.key.groupId}&moduleId=${module.moduleId}&eventId=${event.eventId}"/>">${module.moduleName}</a>
                                         </li>
                                     </c:forEach>
                                 </ul>
                             </c:forEach>
+                        </div>
+                        <div hidden="1" id="moduleBufer">
+                            qwe
                         </div>
                         <div class="col-md-2"  >
                             <div class="carousel-search hidden-sm">
