@@ -11,9 +11,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title> </title>
         <%@include file="/WEB-INF/jsp/css_js.jsp" %>
-        <script src="<c:url value="/js/myJsOnViews/event.js" />"></script>
     </head>
     <body class="container">
+        <script src="<c:url value="/js/myJsOnViews/event.js" />"></script>
 
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
