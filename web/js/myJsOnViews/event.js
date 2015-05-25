@@ -5,6 +5,7 @@ $(function(){
     });
     
     function showModule(moduleId){
-        $('#moduleShow').html($('#'+moduleId+'.hiddenModule').clone());
+        var div = $('#'+moduleId+'.hiddenModule').clone();
+        $('#moduleShow').html(div);
     }
 });
