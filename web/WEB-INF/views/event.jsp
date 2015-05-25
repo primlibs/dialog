@@ -13,6 +13,7 @@
         <%@include file="/WEB-INF/jsp/css_js.jsp" %>
     </head>
     <body class="container">
+        <script src="<c:url value="/js/myJsOnViews/event.js" />"></script>
 
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
@@ -49,23 +50,26 @@
                     </table>
 
                     <div class="row">
-                        <div class="col-md-6">
+                        <div style="float:left;" id="moduleShow"></div>
+                        <!--<div class="col-md-6">
                             ${module.moduleName}
                             <br>
                             <br>
                             ${module.bodyText}
-                        </div>
+                        </div>-->
+                            <div style="float:right;">
                         <div class="col-md-4"  data-spy="scroll" style="height: 100vh ; line-height: 1em;">
-                            <c:forEach var="аctiveM"  items="${аctiveMap}" >
-                                <ul> ${аctiveM.key.groupName} 
-                                    <c:forEach var="moduleL"  items="${аctiveM.value}" >
-                                        <li> 
-                                            <a href="<c:url value="/Event/eventProcessing?campaignId=${param.campaignId}&groupId=${аctiveM.key.groupId}&moduleId=${moduleL.moduleId}&eventId=${event.eventId}"/>">${moduleL.moduleName}</a>
-                                        </li>
+                            <c:forEach var="entry"  items="${аctiveMap}" >
+                                <ul> ${entry.key.groupName} 
+                                    <c:forEach var="module"  items="${entry.value}" >
+                                        <li style="cursor: pointer;" class="showableModule" id="${module.moduleId}"> <ins>
+                                            ${module.moduleName}<!--<a href="<c:url value="/Event/eventProcessing?campaignId=${param.campaignId}&groupId=${entry.key.groupId}&moduleId=${module.moduleId}&eventId=${event.eventId}"/>">${module.moduleName}</a>-->
+                                            </ins></li>
                                     </c:forEach>
                                 </ul>
                             </c:forEach>
                         </div>
+                        
                         <div class="col-md-2"  >
                             <div class="carousel-search hidden-sm">
                                 <div class="btn-group"> <a class="btn btn-danger dropdown-toggle btn-select" data-toggle="dropdown" href="#">Справочник сливов <span class="caret"></span></a>
@@ -102,6 +106,18 @@
                                 <p>    <a href="<c:url value="/Event/#?eventId=${event.eventId}"/>" class="btn btn-large btn-success" role="button">Положительный результат</a>
                                 <p>    <a href="<c:url value="/Event/event?campaignId=${param.campaignId}&strategyId=${campaign.strategy.strategyId}"/>" class="btn btn-large btn-primary" role="button">следующий клиент</a>
                             </div>
+                        </div>
+                            </div>
+                        <div hidden="1" id="moduleBufer">
+                            <c:forEach var="entry"  items="${аctiveMap}" >
+                                <c:forEach var="module"  items="${entry.value}" >
+                                <div id=${module.moduleId} class="hiddenModule">
+                                    ${module.moduleName}
+                                    <br><br>
+                                    ${module.bodyText}
+                                </div>
+                                </c:forEach>
+                            </c:forEach>
                         </div>
                     </div>
                 </div>

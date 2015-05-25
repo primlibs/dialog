@@ -246,8 +246,8 @@ public class EventController extends WebController {
     public String eventPage(Map<String, Object> model,
             @RequestParam(value = "campaignId") Long campaignId,
             @RequestParam(value = "eventId", required = false) Long eventId,
-            HttpServletRequest request,
-            RedirectAttributes ras) throws Exception {
+            HttpServletRequest request/*,
+            RedirectAttributes ras*/) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         User user = authManager.getCurrentUser();
@@ -258,18 +258,17 @@ public class EventController extends WebController {
             model.put("event", eventService.getEvenByUserByCampaign(campaignId, cabinetId, userId));
         } else {
             model.put("event", eventService.getEventById(eventId));
-
         }
         model.put("drainList", eventService.getDrainList(strategyId));
         model.put("campaign", eventService.getCampaign(campaignId));
         model.put("errors", eventService.getError());
         model.put("strategy", strategyService.getStrategy(strategyId));
         model.put("аctiveMap", groupService.getActiveMap(strategyId));
-        ras.addFlashAttribute("eventId", eventId);
+        /*ras.addFlashAttribute("eventId", eventId);
         ras.addFlashAttribute("campaignId", campaignId);
         ras.addFlashAttribute("strategyId", strategyId);
         ras.addFlashAttribute("userId", userId);
-        ras.addFlashAttribute("cabinetId", cabinetId);
+        ras.addFlashAttribute("cabinetId", cabinetId);*/
         return "event";
     }
 
@@ -286,7 +285,7 @@ public class EventController extends WebController {
         return "campaign";
     }
 
-    @RequestMapping("/eventProcessing")
+    /*@RequestMapping("/eventProcessing")
     public String eventProcessing(Map<String, Object> model,
             @RequestParam(value = "campaignId") Long campaignId,
             @RequestParam(value = "groupId") Long groupId,
@@ -308,5 +307,5 @@ public class EventController extends WebController {
         model.put("event", eventService.getEventById(eventId));
         model.put("аctiveMap", groupService.getActiveMap(strategyId));
         return "event";
-    }
+    }*/
 }
