@@ -21,21 +21,21 @@
             <h4>  Евент:  ${campaign.name} &nbsp Стратегия: ${campaign.strategy.strategyName} </h4>
 
             <form class="form-inline" enctype="multipart/form-data" action="<c:url value="/Event/setXls" />" method="post">
-            <a href="<c:url value="/Event/getShapeExcel"/>" class="btn btn-large btn-primary" role="button">Получить форму excel</a>
-
-                <div class="form-group">
+                <div class="form-group"> 
+                    <a href="<c:url value="/Event/getShapeExcel"/>" class="btn btn-large btn-primary" role="button">Получить форму excel</a>
                     <a class='btn btn-primary' href='javascript:;'>
                         Загрузить файл...
                         <input type="file" style='position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;' name="fileXls" size="40"  onchange='$("#upload-file-info").html($(this).val());'>
                     </a>
                     &nbsp;
                     <span class='label label-info' id="upload-file-info"></span>
+
+                    Обновлять клиентов: <input  type="checkbox" name="checkbox" value="agree"> 
+                    <input type="hidden" name="campaignId" value=${param.campaignId}>
+                    <input class="btn btn-primary" type="submit" value="Отправить">
                 </div>
-                Обновлять клиентов: <input  type="checkbox" name="checkbox" value="agree"> 
-                <input type="hidden" name="campaignId" value=${param.campaignId}>
-                <input class="btn btn-primary" type="submit" value="Отправить">
             </form>
-    
+
             <table class="table table-bordered table-hover">
 
                 <tr>
