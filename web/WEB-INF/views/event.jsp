@@ -61,7 +61,7 @@
                             <c:forEach var="entry"  items="${аctiveMap}" >
                                 <ul> ${entry.key.groupName} 
                                     <c:forEach var="module"  items="${entry.value}" >
-                                        <li style="cursor: pointer;" onclick="return showModule(${module.moduleId})"> <ins>
+                                        <li style="cursor: pointer;" class="showableModule" id="${module.moduleId}"> <ins>
                                             ${module.moduleName}<!--<a href="<c:url value="/Event/eventProcessing?campaignId=${param.campaignId}&groupId=${entry.key.groupId}&moduleId=${module.moduleId}&eventId=${event.eventId}"/>">${module.moduleName}</a>-->
                                             </ins></li>
                                     </c:forEach>
