@@ -75,6 +75,29 @@
                                             </c:forEach>
                                     </ul>
                                 </div>
+                                <div class="bs-example bs-example-padded-bottom">
+                                    <button aria-describedby="popover512901" data-original-title="Popover title" type="button" class="btn btn-danger bs-docs-popover" data-toggle="popover" title="" data-content="And here's some amazing content. It's very engaging. Right?">Список сливов</button>
+                                    <div style="top: 26px; left: 232px; display: block;" id="popover512901" class="popover fade left in" role="tooltip">
+                                        <div style="top: 50%;" class="arrow"> </div>
+                                        <h3 class="popover-title">Справочник сливов</h3>
+                                        <div class="popover-content">
+                                            <form  action="<c:url value="/Event/#" />" method="post">
+                                                <select name="drainId">
+                                                    <c:forEach var="drain" items="${drainList}" varStatus="myIndex">
+                                                        <option value="${drain.drainId}">${drain.name}</option>
+                                                    </c:forEach>
+                                                </select>
+                                                <input type="text" name="comment" placeholder="Введите коментарий" width="200px" height="50px">
+                                                <input type="hidden" name="campaignId" value=${param.campaignId}>
+                                                <input type="hidden" name="userId" value=${paraqm.userId}>
+                                                <input type="hidden" name="eventId" value=${param.eventId}>
+                                                <input type="hidden" name="eventId" value=${event.eventId}>
+                                                <input class="btn btn-primary" type="submit" value="Отправить">
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
 
                                 <p>    <a href="<c:url value="/Event/#?eventId=${event.eventId}"/>" class="btn btn-large btn-success" role="button">Положительный результат</a>
                                 <p>    <a href="<c:url value="/Event/event?campaignId=${param.campaignId}&strategyId=${campaign.strategy.strategyId}"/>" class="btn btn-large btn-primary" role="button">следующий клиент</a>
