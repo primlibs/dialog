@@ -29,14 +29,16 @@
                     <input type="hidden" name="eventId" value=${event.eventId}>
                     <table class="table table-bordered table-hover">
                         <tr>
-                            <td>Адрес: </td>
-                            <td>Секретарь: </td>
-                            <td>ЛПР:</td>
-                            <td>Телефон секретаря:  </td>
-                            <td>Телефон ЛПР: </td>
-                            <td>Комментарий: </td>
+                            <th>Компания: </th>
+                            <th>Адрес: </th>
+                            <th>Секретарь: </th>
+                            <th>ЛПР:</th>
+                            <th>Телефон секретаря:  </th>
+                            <th>Телефон ЛПР: </th>
+                            <th>Комментарий: </th>
                         </tr>
                         <tr>
+                            <td>${event.client.nameCompany} </td>
                             <td>${event.client.address} </td>
                             <td>${event.client.nameSecretary} </td>
                             <td>${event.client.nameLpr}</td>

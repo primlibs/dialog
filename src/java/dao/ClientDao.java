@@ -104,7 +104,7 @@ public class ClientDao extends Dao<Client> {
                 /*}else{
                     hql+=" where Client.address=:address";
                 }*/
-                paramMap.put("adress",adress);
+                paramMap.put("address",adress);
                 //conditionBefore=true;
             }
             if(nameCompany!=null&&!nameCompany.equals("")){

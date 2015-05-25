@@ -13,14 +13,14 @@
         <div class="row" style="width: 50%;">
             
             <table>
-                <tr><td>Наименование:</td><td>${client.nameCompany}</td></tr>
-                <tr><td>Уникальный ИД:</td><td>${client.nameSecretary}</td></tr>
-                <tr><td>Контактное лицо:</td><td>${client.nameLpr}</td></tr>
-                <tr><td>Телефон:</td><td>${client.phoneSecretary}</td></tr>
-                <tr><td>Принимает решения:</td><td>${client.nameCompany}</td></tr>
-                <tr><td>Телефон:</td><td>${client.phoneLpr}</td></tr>
-                <tr><td>Адрес:</td><td>${client.address}</td></tr>
-                <tr><td>Инфо:</td><td>${client.comment}</td></tr>
+                <tr><td>Наименование: </td><td>${client.nameCompany}</td></tr>
+                <tr><td>Уникальный ИД: </td><td>${client.nameSecretary}</td></tr>
+                <tr><td>Контактное лицо: </td><td>${client.nameLpr}</td></tr>
+                <tr><td>Телефон: </td><td>${client.phoneSecretary}</td></tr>
+                <tr><td>Принимает решения: </td><td>${client.nameCompany}</td></tr>
+                <tr><td>Телефон: </td><td>${client.phoneLpr}</td></tr>
+                <tr><td>Адрес: </td><td>${client.address}</td></tr>
+                <tr><td>Инфо: </td><td>${client.comment}</td></tr>
                 
                 
             </table>
