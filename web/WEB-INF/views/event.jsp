@@ -72,11 +72,14 @@
 
                             <div class="col-md-2"  >
                                 <div class="bs-example bs-example-padded-bottom ">
-                                    <button aria-describedby="popover512901" data-original-title="Popover title" type="button" class="btn btn-danger bs-docs-popover" data-toggle="popover" title="" data-content="And here's some amazing content. It's very engaging. Right?">Список сливов</button>
-                                    <div style=" display: block; z-index:3; " id="popover512901" class="popover fade left in" role="tooltip">
-                                      
+                                    <button aria-describedby="popover512901" title="" data-original-title="" type="button" class="btn btn-danger" data-container="body" data-toggle="popover" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+                                        Список сливов
+                                    </button>
+                                    <div style=" display: block; z-index:1050; " id="popover512901" class="popover fade left in" role="tooltip">
+
+
                                         <h3 class="popover-title">Справочник сливов</h3>
-                                        <div class="popover-content">
+                                        <div class="popover-content hidden">
                                             <form  action="<c:url value="/Event/#" />" method="post">
                                                 <select name="drainId">
                                                     <c:forEach var="drain" items="${drainList}" varStatus="myIndex">
