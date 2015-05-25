@@ -48,7 +48,7 @@ public class EventController extends WebController {
 
     @Autowired
     private AuthManager authManager;
-    
+
     @Autowired
     private StrategyService strategyService;
 
@@ -259,6 +259,7 @@ public class EventController extends WebController {
         } else {
             model.put("event", eventService.getEventById(eventId));
         }
+        model.put("drainList", eventService.getDrainList(strategyId));
         model.put("campaign", eventService.getCampaign(campaignId));
         model.put("errors", eventService.getError());
         model.put("strategy", strategyService.getStrategy(strategyId));
@@ -298,7 +299,7 @@ public class EventController extends WebController {
         Long userId = user.getUserId();
         Long strategyId = eventService.getStrategyId(campaignId);
 
-        
+        model.put("drainList", eventService.getDrainList(strategyId));
         model.put("module", moduleService.showModule(moduleId, cabinetId));
         model.put("strategy", strategyService.getStrategy(strategyId));
         model.put("campaign", eventService.getCampaign(campaignId));

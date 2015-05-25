@@ -18,7 +18,7 @@
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
         <div class="row ">
-       <h4>   Стратегия: ${strategy.strategyName}</h4>
+            <h4>   Стратегия: ${strategy.strategyName}</h4>
             <input type="hidden" name="userId" value=${paraqm.userId}>
             <input type="hidden" name="cabinetId" value=${param.cabinetId}>
 
@@ -67,9 +67,18 @@
                             </c:forEach>
                         </div>
                         <div class="col-md-2"  >
-                            <p>    <a href="<c:url value="/Event/#"/>" class="btn btn-large btn-danger" role="button">Слив звонка</a>
-                            <p>    <a href="<c:url value="/Event/#?eventId=${event.eventId}"/>" class="btn btn-large btn-success" role="button">Положительный результат</a>
-                            <p>    <a href="<c:url value="/Event/event?campaignId=${param.campaignId}&strategyId=${campaign.strategy.strategyId}"/>" class="btn btn-large btn-primary" role="button">следующий клиент</a>
+                            <div class="carousel-search hidden-sm">
+                                <div class="btn-group"> <a class="btn btn-danger dropdown-toggle btn-select" data-toggle="dropdown" href="#">Справочник сливов <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <c:forEach var="drain"  items="${drainList}" >
+                                            <li><a href="<c:url value="/Event/#?drainId=${drain.drainId}&campaignId=${param.campaignId}&eventId=${event.eventId}"/>">${drain.name}</a></li>
+                                            </c:forEach>
+                                    </ul>
+                                </div>
+
+                                <p>    <a href="<c:url value="/Event/#?eventId=${event.eventId}"/>" class="btn btn-large btn-success" role="button">Положительный результат</a>
+                                <p>    <a href="<c:url value="/Event/event?campaignId=${param.campaignId}&strategyId=${campaign.strategy.strategyId}"/>" class="btn btn-large btn-primary" role="button">следующий клиент</a>
+                            </div>
                         </div>
                     </div>
                 </div>

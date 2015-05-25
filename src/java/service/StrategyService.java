@@ -81,7 +81,7 @@ public class StrategyService extends PrimService {
                 for (String str :drainList ) {
                     Drain drain = new Drain();
                     drain.setStrategy(strategy);
-                    drain.setDirectoryName(str);
+                    drain.setName(str);
                     if (validate(drain)) {
                         drainDao.save(drain);
                     }else{
@@ -94,7 +94,6 @@ public class StrategyService extends PrimService {
         }
     }
 
-//метод не используется
     public List<Strategy> strategyList(Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         if (pk != null) {
