@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import service.DrainService;
 import service.ModuleService;
 import service.StrategyService;
 
@@ -35,6 +36,9 @@ public class StrategyController extends WebController {
     @Autowired
     private ModuleService moduleService;
 
+    @Autowired
+    private DrainService drainService;
+
     @RequestMapping("/show")
     public String showStrategyListPage(Map<String, Object> model,
             HttpServletRequest request,
@@ -52,7 +56,7 @@ public class StrategyController extends WebController {
             }
 
         }
-        if(!strategyService.getError().isEmpty()){
+        if (!strategyService.getError().isEmpty()) {
             model.put("errors", strategyService.getError());
         }
         model.put("StrategyList", strategyService.getActiveStrategyList(cabinetId));
@@ -72,21 +76,21 @@ public class StrategyController extends WebController {
 
         model.put("module", moduleService.showModule(moduleId));
         model.put("moduleId", moduleId);
-        if(!strategyService.getError().isEmpty()){
+        if (!strategyService.getError().isEmpty()) {
             model.put("errors", strategyService.getError());
         }
         //model.put("GroupList", strategyService.getGroupList(strategyId));
         //model.put("strategyId", strategyId);
         //model.put("strategyName", strategyService.findStrategy(strategyId).getStrategyName());
-        model.put("strategy",strategy);
+        model.put("strategy", strategy);
         return "strategy";
     }
-    
+
     @RequestMapping("/renameStrategy")
-    public String renameStrategy(Map<String, Object> model,HttpServletRequest request,@RequestParam(value = "strategyId") Long strategyId,
-            @RequestParam(value = "name") String name,RedirectAttributes ras){
-            strategyService.reanameStrategy(strategyId, name);
-            ras.addFlashAttribute("errors", strategyService.getError());
+    public String renameStrategy(Map<String, Object> model, HttpServletRequest request, @RequestParam(value = "strategyId") Long strategyId,
+            @RequestParam(value = "name") String name, RedirectAttributes ras) {
+        strategyService.reanameStrategy(strategyId, name);
+        ras.addFlashAttribute("errors", strategyService.getError());
         return "redirect:/Strategy/show";
     }
 
@@ -159,18 +163,38 @@ public class StrategyController extends WebController {
             @RequestParam(value = "strategyId") Long strategyId,
             @RequestParam(value = "bodyText") String bodyText,
             RedirectAttributes ras) {
-       
-        if(moduleId!=null){
-               moduleService.addBodyText(moduleId, bodyText);
-        }else{
-            ras.addFlashAttribute("errors","Выберите модуль");
+
+        if (moduleId != null) {
+            moduleService.addBodyText(moduleId, bodyText);
+        } else {
+            ras.addFlashAttribute("errors", "Выберите модуль");
         }
-     
 
         ras.addFlashAttribute("module", moduleService.showModule(moduleId));
         ras.addAttribute("strategyId", strategyId);
         ras.addAttribute("moduleId", moduleId);
         ras.addFlashAttribute("errors", moduleService.getError());
         return "redirect:/Strategy/strategy";
+    }
+
+    @RequestMapping("/drainEditor")
+    public String drainEditor(Map<String, Object> model,
+            HttpServletRequest request,
+            //  @RequestParam(value = "moduleName", required = false) String moduleName,
+            //  @RequestParam(value = "moduleId", required = false) Long moduleId,
+            @RequestParam(value = "strategyId") Long strategyId) throws Exception {
+
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        Strategy strategy = strategyService.findStrategy(strategyId);
+
+        model.put("drainActiveList",drainService.getDrainActiveListByStrategy(strategy));
+        model.put("errors", drainService.getError());
+
+        //model.put("GroupList", strategyService.getGroupList(strategyId));
+     model.put("strategyId", strategyId);
+        //model.put("strategyName", strategyService.findStrategy(strategyId).getStrategyName());
+        // model.put("strategy",strategy);
+        return "drain";
     }
 }

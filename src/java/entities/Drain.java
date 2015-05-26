@@ -6,6 +6,7 @@
 package entities;
 
 import entities.parent.PrimEntity;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -41,6 +43,10 @@ public class Drain extends PrimEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Strategy strategy;
 
+    @Column(name = "date_delete")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date dateDelete;
+
     public Long getDrainId() {
         return drainId;
     }
@@ -64,4 +70,13 @@ public class Drain extends PrimEntity {
     public void setStrategy(Strategy strategy) {
         this.strategy = strategy;
     }
+
+    public Date getDateDelete() {
+        return dateDelete;
+    }
+
+    public void setDateDelete(Date dateDelete) {
+        this.dateDelete = dateDelete;
+    }
+    
 }

@@ -7,7 +7,9 @@ package dao;
 
 import dao.parent.Dao;
 import entities.Drain;
-import entities.Module;
+import entities.Strategy;
+import java.util.List;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -22,4 +24,13 @@ public class DrainDao extends Dao<Drain>{
         return Drain.class;
     }
     
+     public List<Drain> getDrainListActive (Strategy strategy) {
+        //   String hql = "from Event as ev where ev.event.campaignId= :event and ev.cabinet.personalCabinetId= :cabinet and ev.client.clientId= :client";
+        String hql = "from Drain as dr where dr.strategy= :strategy and dr.dateDelete is null";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("strategy", strategy);
+                List<Drain> clist = query.list();
+                 return clist;
+      
+    }
 }
