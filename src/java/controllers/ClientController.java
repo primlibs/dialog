@@ -76,7 +76,7 @@ public class ClientController extends WebController {
         
         //clientService
         
-        String json = "";
+        String json = cabinetId.toString();
         return json;
     }
 
