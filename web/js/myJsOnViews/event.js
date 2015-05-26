@@ -18,7 +18,7 @@ $(function(){
     function writeHistory(moduleId){
         var dateObj = new Date();
         $.ajax({
-            url:"/writeModuleInHistory?date="+dateObj+"&moduleId="+moduleId,
+            url:"/writeModuleInHistory?date="+dateObj.valueOf()+"&moduleId="+moduleId,
             dataType : "json",
             type: "POST",
             cache: false,

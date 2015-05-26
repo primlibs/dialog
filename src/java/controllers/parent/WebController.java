@@ -25,12 +25,6 @@ public class WebController {
 
     protected Logger log = Logger.getLogger(this.getClass());
 
-    
-
-   
-
-  
-
     @Autowired
     protected AuthManager authManager;
     
