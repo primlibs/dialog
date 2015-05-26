@@ -53,7 +53,7 @@ $(function(){
                 var newVal = $('#input').val();
                 var target = $(event.target);
                 var cientId = $('#moduleBufer').data('clientId');
-                alert(event.type+"-"+event.currentTarget);
+                //alert(event.type+"-"+event.currentTarget);
                 if (target.attr('name') !== paramType) {
                     $.ajax({
                         url:"CallCentr/Client/updateClientFromUser?clientId="+cientId+"&param="+paramType+"&newVal="+newVal,
