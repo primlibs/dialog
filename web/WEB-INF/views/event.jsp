@@ -80,7 +80,7 @@
                                             </div>
                                             <div class="modal-body">
                                                 <form  action="<c:url value="/Event/#" />" method="post">
-                                                    <input type="text" name="comment" placeholder="Введите коментарий" width="200px" height="50px">
+                                                  <p>   <input type="text" name="comment" placeholder="Введите коментарий" width="200px" height="50px">
 
                                                     <p>     <select name="drainId">
                                                             <c:forEach var="drain" items="${drainList}" varStatus="myIndex">
