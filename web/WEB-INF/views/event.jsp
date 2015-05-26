@@ -73,7 +73,7 @@
                                             </div>
                                             <div class="modal-body">
                                                 <form  action="<c:url value="/Event/#" />" method="post">
-                                                  <p>   <input type="text" name="comment" placeholder="Введите коментарий" style="width: 200px; height: 80px">
+                                                  <p>   <input type="text" name="comment" placeholder="Введите коментарий" style="width: 400px; height: 150px">
 
                                                     <p>     <select name="drainId">
                                                             <c:forEach var="drain" items="${drainList}" varStatus="myIndex">
@@ -105,7 +105,7 @@
 
 
 
-                                                    <input type="text" name="comment" placeholder="Введите коментарий" style="width: 200px; height: 80px" >
+                                                    <input type="text" name="comment" placeholder="Введите коментарий" style="width: 400px; height: 150px" >
                                                     <input type="hidden" name="campaignId" value=${param.campaignId}>
                                                     <input type="hidden" name="userId" value=${paraqm.userId}>
                                                     <input type="hidden" name="eventId" value=${param.eventId}>
