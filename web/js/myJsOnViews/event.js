@@ -19,10 +19,11 @@ $(function(){
         var input = "<input type=text id='" + cientId + "' class='inp' name='" + paramType + "' value='" + value + "'/>";
         
         changebleElem.html(input);
+        
         $(document).ready(function(e) {
-            $(document).on('click', function(event) {
-                var target = $(event.target);
+            $(document).click(function(event) {
                 var newVal = $('.inp').val();
+                var target = $(event.target);
                 if (target.attr('name') !== $('.inp').attr('name')) {
                     $.ajax({
                         url:"CallCentr/Client/updateClientFromUser?clientId="+cientId+"&param="+paramType+"&newVal="+newVal,
