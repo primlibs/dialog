@@ -74,7 +74,7 @@
                                             <div class="modal-body">
                                                 <form  action="<c:url value="/Event/#" />" method="post">
 
-                                                    <p><textarea rows="10" cols="150" name="comment"> </textarea>
+                                                    <p><textarea rows="6" cols="78" name="comment"> </textarea>
 
                                                     <p>     <select name="drainId">
                                                             <c:forEach var="drain" items="${drainList}" varStatus="myIndex">
@@ -105,7 +105,7 @@
                                                 <form  action="<c:url value="/Event/#" />" method="post">
 
 
-                                                    <p><textarea rows="10" cols="150" name="comment"> </textarea>
+                                                    <p><textarea rows="6" cols="78" name="comment"> </textarea>
                                                         <input type="hidden" name="campaignId" value=${param.campaignId}>
                                                         <input type="hidden" name="userId" value=${paraqm.userId}>
                                                         <input type="hidden" name="eventId" value=${param.eventId}>
