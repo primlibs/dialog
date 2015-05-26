@@ -14,17 +14,18 @@ $(function(){
     $('.changebleParam').dblclick(function(){
         var changebleElem = $(this);
         var paramType = $(this).attr('id');
-        var cientId = $('#moduleBufer').data('clientId');
+        
         var value = $(this).text();
-        var input = "<input type=text id='" + cientId + "' class='inp' name='" + paramType + "' value='" + value + "'/>";
+        var input = "<input type=text id='input' class='inp' name='" + paramType + "' value='" + value + "'/>";
         
         changebleElem.html(input);
         
-        $(document).ready(function(e) {
+        //$(document).ready(function(e) {
             $(document).click(function(event) {
-                var newVal = $('.inp').val();
+                var newVal = $('#input').val();
                 var target = $(event.target);
-                if (target.attr('name') !== $('.inp').attr('name')) {
+                var cientId = $('#moduleBufer').data('clientId');
+                if (target.attr('id') !== $('#input').attr('id')) {
                     $.ajax({
                         url:"CallCentr/Client/updateClientFromUser?clientId="+cientId+"&param="+paramType+"&newVal="+newVal,
                         dataType : "json",
@@ -34,13 +35,13 @@ $(function(){
                             alert(json)
                         },
                         error: function(json){
-                            alert('fail '+json);
+                            alert('fail '+paramType);
                             changebleElem.html(value);
                         }
                     });
                 }
             });
-        });
+        //});
     });
     
 });
