@@ -11,20 +11,24 @@ $(function(){
         $('#moduleShow').html(div);
     }
     
+    
+    
     $('.changebleParam').dblclick(function(){
         var changebleElem = $(this);
         var paramType = $(this).attr('id');
-        var cientId = $('#moduleBufer').data('clientId');
+        
         var value = $(this).text();
-        var input = "<input type=text id='" + cientId + "' class='inp' name='" + paramType + "' value='" + value + "'/>";
+        var input = "<input type=text id='input' class='inp' name='" + paramType + "' value='" + value + "'/>";
         
         changebleElem.html(input);
         
-        $(document).ready(function(e) {
-            $(document).click(function(event) {
-                var newVal = $('.inp').val();
+        //$(document).ready(function(e) {
+            /*$(document).addEventListener(function(event) {
+                var newVal = $('#input').val();
                 var target = $(event.target);
-                if (target.attr('name') !== $('.inp').attr('name')) {
+                var cientId = $('#moduleBufer').data('clientId');
+                alert(event.type+"-"+event.currentTarget);
+                if (target.attr('name') !== paramType) {
                     $.ajax({
                         url:"CallCentr/Client/updateClientFromUser?clientId="+cientId+"&param="+paramType+"&newVal="+newVal,
                         dataType : "json",
@@ -34,13 +38,42 @@ $(function(){
                             alert(json)
                         },
                         error: function(json){
-                            alert('fail '+json);
+                            alert('fail '+paramType);
                             changebleElem.html(value);
                         }
                     });
                 }
-            });
-        });
+                
+
+            });*/
+        
+        document.addEventListener('click',changeParam);
+            
+            function changeParam(event){
+                var newVal = $('#input').val();
+                var target = $(event.target);
+                var cientId = $('#moduleBufer').data('clientId');
+                //alert(event.type+"-"+event.currentTarget);
+                if (target.attr('name') !== paramType) {
+                    $.ajax({
+                        url:"CallCentr/Client/updateClientFromUser?clientId="+cientId+"&param="+paramType+"&newVal="+newVal,
+                        dataType : "json",
+                        cache: false,
+                        success: function(json){
+                            changebleElem.html(newVal);
+                            alert(json)
+                        },
+                        error: function(json){
+                            alert('fail '+paramType);
+                            changebleElem.html(value);
+                        }
+                    });
+                    document.removeEventListener('click',arguments.callee);
+                }
+            }
+            
+            return false;
+        //});
     });
     
 });
