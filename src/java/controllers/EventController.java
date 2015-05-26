@@ -28,6 +28,7 @@ import service.GroupService;
 import service.ModuleService;
 import service.StrategyService;
 import support.AuthManager;
+import support.StringAdapter;
 
 /**
  *
@@ -299,20 +300,19 @@ public class EventController extends WebController {
      
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         
-        //clientService
-        
-        String json = cabinetId.toString();
-        return json;
+        boolean performed = clientService.updateClientField(param, clientId, newVal);
+        return StringAdapter.getString(performed);
     }
     
     @RequestMapping("writeModuleInHistory")
     @ResponseBody
-    public boolean writeModuleInHistory(Map<String, Object> model,@RequestParam(value = "moduleId") Long moduleId,@RequestParam(value = "eventId") Long eventId,@RequestParam(value = "date") Date date, HttpServletRequest request) throws Exception{
+    public String writeModuleInHistory(Map<String, Object> model,@RequestParam(value = "moduleId") Long moduleId,@RequestParam(value = "eventId") Long eventId,@RequestParam(value = "date") Long datelong, HttpServletRequest request) throws Exception{
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         User user = authManager.getCurrentUser();
+        Date date = new Date(datelong);
         boolean performed = eventService.writeModuleInHistory(date, user.getId(), cabinetId, moduleId,eventId);
-        return performed;
+        return StringAdapter.getString(date);
     }
 
     /*@RequestMapping("/eventProcessing")

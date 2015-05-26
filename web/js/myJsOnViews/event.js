@@ -17,8 +17,9 @@ $(function(){
     
     function writeHistory(moduleId){
         var dateObj = new Date();
+        var eventId = $('#moduleBufer').attr('data-eventId');
         $.ajax({
-            url:"/CallCentr/Event/writeModuleInHistory?date="+dateObj.valueOf()+"&moduleId="+moduleId,
+            url:"/CallCentr/Event/writeModuleInHistory?date="+dateObj.valueOf()+"&moduleId="+moduleId+"&eventId="+eventId,
             dataType : "json",
             type: "POST",
             cache: false,

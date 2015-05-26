@@ -146,7 +146,7 @@
                         </div>
 
                     </div>
-                    <div hidden="1" id="moduleBufer" data-clientId="${event.client.clientId}">
+                    <div hidden="1" id="moduleBufer" data-clientId="${event.client.clientId}" data-eventId="${event.eventId}">
 
                         <c:forEach var="entry"  items="${аctiveMap}" >
                             <c:forEach var="module"  items="${entry.value}" >
