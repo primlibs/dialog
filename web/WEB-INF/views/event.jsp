@@ -86,7 +86,7 @@
                                                         <input type="hidden" name="userId" value=${paraqm.userId}>
                                                         <input type="hidden" name="eventId" value=${param.eventId}>
                                                         <input type="hidden" name="eventId" value=${event.eventId}>
-                                                        <input class="btn btn-primary" type="submit" value="Отправить">
+                                                   <p>     <input class="btn btn-primary" type="submit" value="Отправить">
                                                 </form>
 
                                             </div>
