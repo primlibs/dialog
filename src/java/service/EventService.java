@@ -483,13 +483,15 @@ public class EventService extends PrimService {
         return userAssignedClientProcessedFails;
     }
 
-    public HashMap<Campaign, String> userShowPageEventClientList(Long cabinetId, Long userId) {
-        HashMap<Campaign, String> result = new HashMap();
+    public LinkedHashMap<Campaign, String> userShowPageEventClientList(Long cabinetId, Long userId) {
+        LinkedHashMap<Campaign, String> result = new LinkedHashMap();
         for (Object[] ecl : eventDao.getCampaignByCabinetAndUserId(cabinetId, userId)) {
             result.put((Campaign) ecl[0], StringAdapter.getString(ecl[1]));
         }
         return result;
     }
+    
+    
 
     private String getStringNumber(Object ob) {
         String count = "0";
@@ -539,4 +541,8 @@ public class EventService extends PrimService {
         List<Drain> drainList = str.getDrainList();
         return drainList;
     }
+    
+    /*public List<Campaign> getCampaignsByUserAndCabinet(Long cabinetId, Long userId){
+        return eventDao.getCampaignsByUserAndCabinet(cabinetId, userId);
+    }*/
 }
