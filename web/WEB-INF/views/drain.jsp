@@ -41,7 +41,7 @@
 
                         <tr>
                             <td>${myIndex.count}</td>
-                            <td onClick="location = '<c:url value="/Strategy/#?drainId=${drain.drainId}"/>'"> ${drainId.name} </td>
+                            <td onClick="location = '<c:url value="/Strategy/#?drainId=${drain.drainId}"/>'"> ${drain.name} </td>
                             <td onClick="location = '<c:url value="/Strategy/#?drainId=${drain.drainId}"/>'"> удалить </td>
                         </tr>
                     </c:forEach>
