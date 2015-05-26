@@ -542,7 +542,7 @@ public class EventService extends PrimService {
         return drainList;
     }
     
-    public List<Campaign> getCampaignsByUserAndCabinet(Long cabinetId, Long userId){
+    /*public List<Campaign> getCampaignsByUserAndCabinet(Long cabinetId, Long userId){
         return eventDao.getCampaignsByUserAndCabinet(cabinetId, userId);
-    }
+    }*/
 }
