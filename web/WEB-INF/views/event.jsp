@@ -15,13 +15,13 @@
     <body class="container">
         <script src="<c:url value="/js/myJsOnViews/event.js" />"></script>
         <script type="text/javascript">
-  $(function () {
-    //Установим для виджета русскую локаль с помощью параметра language и значения ru
-    $('#datetimepicker2').datetimepicker(
-      {language: 'ru'}
-    );
-  });
-</script>
+            $(function () {
+                //Установим для виджета русскую локаль с помощью параметра language и значения ru
+                $('#datetimepicker2').datetimepicker(
+                        {language: 'ru'}
+                );
+            });
+        </script>
 
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
@@ -112,16 +112,16 @@
                                             <div class="modal-body">
                                                 <form  action="<c:url value="/Event/#" />" method="post">
                                                     <p><textarea rows="6" cols="78" name="comment"> </textarea>
-                                                        
+
                                                     <p>    <div class="form-group">
                                                         <div class="input-group date" id="datetimepicker2">
                                                             <input type="text" class="form-control" />
                                                             <span class="input-group-addon">
-                                                                <span class="glyphicon glyphicon-calendar"></span>
+                                                                <i class="icon-calendar"></i>
                                                             </span>
                                                         </div>
                                                     </div> 
-                                                    
+
                                                     <input type="hidden" name="campaignId" value=${param.campaignId}>
                                                     <input type="hidden" name="userId" value=${paraqm.userId}>
                                                     <input type="hidden" name="eventId" value=${param.eventId}>
