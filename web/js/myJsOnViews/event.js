@@ -52,7 +52,7 @@ $(function(){
             function changeParam(event){
                 var newVal = $('#input').val();
                 var target = $(event.target);
-                var cientId = $('#moduleBufer').data('clientId');
+                var cientId = $('#moduleBufer').attr('[data-clientid]');
                 //alert(event.type+"-"+event.currentTarget);
                 if (target.attr('name') !== paramType) {
                     $.ajax({
@@ -64,7 +64,7 @@ $(function(){
                             alert(json)
                         },
                         error: function(json){
-                            alert('fail '+paramType);
+                            alert('fail ');
                             changebleElem.html(value);
                         }
                     });
