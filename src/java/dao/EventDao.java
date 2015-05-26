@@ -268,7 +268,7 @@ public class EventDao extends Dao<Event> {
     }
     
     public List<Campaign> getCampaignsByUserAndCabinet(Long cabinetId, Long userId){
-        String hql = "select ev.campaignfrom Event ev where ev.cabinet.personalCabinetId= :cabinetId and ev.user.userId= :userId group by ev.campaign order by ev.campaign.creationDate";
+        String hql = "select ev.campaign from Event ev where ev.cabinet.personalCabinetId= :cabinetId and ev.user.userId= :userId group by ev.campaign order by ev.campaign.creationDate";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("cabinetId", cabinetId);
         query.setParameter("userId", userId);
