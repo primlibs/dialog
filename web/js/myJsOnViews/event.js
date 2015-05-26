@@ -21,7 +21,11 @@ $(function(){
         changebleElem.html(input);
         
         //$(document).ready(function(e) {
-            $(document).click(function(event) {
+            //$(document).click(function(event) {});
+             
+             $(document).addEventListener("click",changeParam,false);
+        
+            function changeParam(event){
                 var newVal = $('#input').val();
                 var target = $(event.target);
                 var cientId = $('#moduleBufer').data('clientId');
@@ -39,8 +43,10 @@ $(function(){
                             changebleElem.html(value);
                         }
                     });
+                    $(document).removeEventListener("click",changeParam,false);
                 }
-            });
+            }
+            
         //});
     });
     
