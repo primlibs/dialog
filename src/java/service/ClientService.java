@@ -16,6 +16,7 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.parent.PrimService;
+import support.StringAdapter;
 
 /**
  *
@@ -47,6 +48,48 @@ public class ClientService extends PrimService {
     
     public List<Client> getClientsBySearchRequest(Long pkId,String uid,String adress,String nameCompany,String name,Long phone){
         return clientDao.getClientsBySearchRequest(pkId,uid, adress, nameCompany, name, phone);
+    }
+    
+    public boolean updateClientField(String field,Long clientId,String newVal){
+        boolean performed=false;
+        Client client = clientDao.find(clientId);
+        if(client!=null){
+            switch (field){
+                case "adress":
+                    client.setAddress(newVal);
+                    break;
+                case "nameSecretary":
+                    client.setNameSecretary(newVal);
+                    break;
+                case "nameLpr":
+                    client.setNameLpr(newVal);
+                    break;
+                case "phoneSecretary":
+                    //++filtr++validation?
+                    Long phoneSec=StringAdapter.toLong(newVal);
+                    client.setPhoneSecretary(phoneSec);
+                    break;
+                case "phoneLpr":
+                    //same
+                    Long phoneLpr=StringAdapter.toLong(newVal);
+                    client.setPhoneLpr(phoneLpr);
+                    break;
+                case "comment":
+                    client.setComment(newVal);
+                    break;
+                default:client=null;
+                    break;
+            }
+        }else{
+            addError("Клиент с ИД:"+clientId+" не найден");
+        }
+        if(client!=null){
+            if(validate(client)){
+                clientDao.update(client);
+                performed=true;
+            }
+        }
+        return performed;
     }
     
 }

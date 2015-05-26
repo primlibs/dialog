@@ -18,8 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import service.ClientService;
 import service.EventService;
 import service.GroupService;
 import service.ModuleService;
@@ -51,6 +53,9 @@ public class EventController extends WebController {
 
     @Autowired
     private StrategyService strategyService;
+    
+    @Autowired
+    private ClientService clientService;
 
     @RequestMapping("/campaignList")
     public String showCampaigns(Map<String, Object> model, HttpServletRequest request) throws Exception {
@@ -283,6 +288,19 @@ public class EventController extends WebController {
 
         model.put("campaign", eventService.userShowPageEventClientList(cabinetId, userId));
         return "campaign";
+    }
+    
+    @RequestMapping("/updateClientFromUser")
+    @ResponseBody
+    public String updateClient(Map<String, Object> model,@RequestParam(value = "clientId") Long clientId,@RequestParam(value = "param") String param,@RequestParam(value = "newVal") String newVal, HttpServletRequest request) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+     
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        
+        //clientService
+        
+        String json = cabinetId.toString();
+        return json;
     }
 
     /*@RequestMapping("/eventProcessing")
