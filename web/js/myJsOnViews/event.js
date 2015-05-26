@@ -21,16 +21,13 @@ $(function(){
         changebleElem.html(input);
         
         //$(document).ready(function(e) {
-            //$(document).click(function(event) {});
-             
-             $(document).addEventListener("click",changeParam,false);
-        
-            function changeParam(event){
+            $(document).click(function(event) {
                 var newVal = $('#input').val();
                 var target = $(event.target);
                 var cientId = $('#moduleBufer').data('clientId');
-                if (target.attr('id') !== $('#input').attr('id')) {
-                    $.ajax({
+                alert(event.type+"-"+event.currentTarget);
+                if (target.attr('name') !== paramType) {
+                    /*$.ajax({
                         url:"CallCentr/Client/updateClientFromUser?clientId="+cientId+"&param="+paramType+"&newVal="+newVal,
                         dataType : "json",
                         cache: false,
@@ -42,11 +39,13 @@ $(function(){
                             alert('fail '+paramType);
                             changebleElem.html(value);
                         }
-                    });
-                    $(document).removeEventListener("click",changeParam,false);
+                    });*/
                 }
-            }
+            });
             
+            $(document).click(function() {
+                
+            });
         //});
     });
     
