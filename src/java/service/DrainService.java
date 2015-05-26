@@ -9,6 +9,7 @@ import dao.DrainDao;
 import dao.StrategyDao;
 import entities.Drain;
 import entities.Strategy;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -61,5 +62,28 @@ public class DrainService extends PrimService {
                 addError("модуль отказа не сохранился");
             }
         }
+    }
+
+    public void drainDelete(Long drainId, Long strategyId) {
+        Strategy str = strategyDao.find(strategyId);
+        List<Drain> drList = str.getDrainList();
+        if (drList.size() > 1) {
+            Drain drain = drainDao.find(drainId);
+            Date dt = new Date();
+            drain.setDateDelete(dt);
+            if (validate(drain)) {
+                drainDao.save(drain);
+            } else {
+                addError("удаление не выполнено");
+            }
+        } else {
+            addError("Добавте модуль прежде чем удалить");
+        }
+
+    }
+    
+    public Drain getDrain(Long drainId){
+        return drainDao.find(drainId);
+        
     }
 }
