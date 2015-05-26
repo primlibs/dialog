@@ -75,18 +75,44 @@
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&amp;times;</button>
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                                                 <h4 class="modal-title" id="myModalLabel">Справочник сливов</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <h3>Modal Body</h3>
                                                 <form  action="<c:url value="/Event/#" />" method="post">
-                                                    <select name="drainId">
-                                                        <c:forEach var="drain" items="${drainList}" varStatus="myIndex">
-                                                            <option value="${drain.drainId}">${drain.name}</option>
-                                                        </c:forEach>
-                                                    </select>
                                                     <input type="text" name="comment" placeholder="Введите коментарий" width="200px" height="50px">
+
+                                                    <p>     <select name="drainId">
+                                                            <c:forEach var="drain" items="${drainList}" varStatus="myIndex">
+                                                                <option value="${drain.drainId}">${drain.name}</option>
+                                                            </c:forEach>
+                                                        </select>
+
+
+                                                        <input type="hidden" name="campaignId" value=${param.campaignId}>
+                                                        <input type="hidden" name="userId" value=${paraqm.userId}>
+                                                        <input type="hidden" name="eventId" value=${param.eventId}>
+                                                        <input type="hidden" name="eventId" value=${event.eventId}>
+                                                        <input class="btn btn-primary" type="submit" value="Отправить">
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal fade" id="basicModalSuccess" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                                <h4 class="modal-title" id="myModalLabel">Положительный результат</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form  action="<c:url value="/Event/#" />" method="post">
+
+
+
+                                                    <input type="text" name="comment" placeholder="Введите коментарий" style="width: 200px; height: 80px" >
                                                     <input type="hidden" name="campaignId" value=${param.campaignId}>
                                                     <input type="hidden" name="userId" value=${paraqm.userId}>
                                                     <input type="hidden" name="eventId" value=${param.eventId}>
@@ -95,25 +121,24 @@
                                                 </form>
 
                                             </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary">Сохранить</button>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <p>  <a href="#" class="btn btn-lg btn-danger"
+                                <p>  <a href="#" class="btn btn-large btn-danger"
                                         data-toggle="modal"
                                         data-target="#basicModal">Справочник сливов</a>
-                                <p>    <a href="<c:url value="/Event/#?eventId=${event.eventId}"/>" class="btn btn-large btn-success" role="button">Положительный результат</a>
+                                <p>   <a href="#" class="btn btn-large btn-success"
+                                         data-toggle="modal"
+                                         data-target="#basicModalSuccess">Положительный результат</a>
                                 <p>    <a href="<c:url value="/Event/event?campaignId=${param.campaignId}&strategyId=${campaign.strategy.strategyId}"/>" class="btn btn-large btn-primary" role="button">следующий клиент</a>
+
                             </div>
                         </div>
                         <div hidden="1" id="moduleBufer">
                             <c:forEach var="entry"  items="${аctiveMap}" >
                                 <c:forEach var="module"  items="${entry.value}" >
-                                    <div id=${module.moduleId} class="hiddenModule">
+                                    <div id="${module.moduleId}" class="hiddenModule">
                                         ${module.moduleName}
                                         <br><br>
                                         ${module.bodyText}
