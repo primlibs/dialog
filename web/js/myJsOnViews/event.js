@@ -18,7 +18,7 @@ $(function(){
     function writeHistory(moduleId){
         var dateObj = new Date();
         $.ajax({
-            url:"/writeModuleInHistory?date="+dateObj.valueOf()+"&moduleId="+moduleId,
+            url:"/CallCentr/Event/writeModuleInHistory?date="+dateObj.valueOf()+"&moduleId="+moduleId,
             dataType : "json",
             type: "POST",
             cache: false,
@@ -50,7 +50,7 @@ $(function(){
                 var cientId = $('#moduleBufer').attr('data-clientid');
                 if (target.attr('name') !== paramType) {
                     $.ajax({
-                        url:"/updateClientFromUser?clientId="+cientId+"&param="+paramType+"&newVal="+newVal,
+                        url:"/CallCentr/Event/updateClientFromUser?clientId="+cientId+"&param="+paramType+"&newVal="+newVal,
                         dataType : "json",
                         cache: false,
                         success: function(json){
