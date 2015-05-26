@@ -9,6 +9,7 @@ import static controllers.LkController.CABINET_ID_SESSION_NAME;
 import controllers.parent.WebController;
 import entities.CabinetUser;
 import entities.User;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -302,6 +303,16 @@ public class EventController extends WebController {
         
         String json = cabinetId.toString();
         return json;
+    }
+    
+    @RequestMapping("writeModuleInHistory")
+    @ResponseBody
+    public boolean writeModuleInHistory(Map<String, Object> model,@RequestParam(value = "moduleId") Long moduleId,@RequestParam(value = "eventId") Long eventId,@RequestParam(value = "date") Date date, HttpServletRequest request) throws Exception{
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        User user = authManager.getCurrentUser();
+        boolean performed = eventService.writeModuleInHistory(date, user.getId(), cabinetId, moduleId,eventId);
+        return performed;
     }
 
     /*@RequestMapping("/eventProcessing")
