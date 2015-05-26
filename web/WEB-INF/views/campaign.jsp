@@ -24,11 +24,11 @@
                     <td>Стратегия</td>
                     <td>Количество клиентов</td>
                 </tr>
-                <c:forEach var="camp" items="${campaign}" varStatus="myIndex">
+                <c:forEach var="camp" items="${campaigns}">
                     <tr>
-                        <td onClick="location = '<c:url value="/Event/event?campaignId=${camp.key.getCampaignId()}&strategyId=${camp.key.getStrategy().getStrategyId()}"/>'"> ${camp.key.getName()}</td>
-                        <td onClick="location = '<c:url value="/Event/event?campaignId=${camp.key.getCampaignId()}&strategyId=${camp.key.getStrategy().getStrategyId()}"/>'"> ${camp.key.getStrategy().getStrategyName()} </td>
-                        <td onClick="location = '<c:url value="/Event/event?campaignId=${camp.key.getCampaignId()}&strategyId=${camp.key.getStrategy().getStrategyId()}"/>'"> ${camp.value}  </td>
+                        <td onClick="location = '<c:url value="/Event/event?campaignId=${camp.campaignId}"/>'"> ${camp.name}</td>
+                        <td onClick="location = '<c:url value="/Event/event?campaignId=${camp.campaignId}"/>'"> ${camp.name}</td>
+                        <td onClick="location = '<c:url value="/Event/event?campaignId=${camp.campaignId}"/>'"> ${camp.name}</td>
                     </tr>
                 </c:forEach>
             </table>

@@ -490,6 +490,10 @@ public class EventService extends PrimService {
         }
         return result;
     }
+    
+    public List<Campaign> getCampaignsByUserAndCabinet(Long cabinetId, Long userId){
+        return eventDao.getCampaignsByUserAndCabinet(cabinetId, userId);
+    }
 
     private String getStringNumber(Object ob) {
         String count = "0";

@@ -267,6 +267,14 @@ public class EventDao extends Dao<Event> {
         return clist;
     }
     
+    public List<Campaign> getCampaignsByUserAndCabinet(Long cabinetId, Long userId){
+        String hql = "select ev.campaignfrom Event ev where ev.cabinet.personalCabinetId= :cabinetId and ev.user.userId= :userId group by ev.campaign order by ev.campaign.creationDate";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("cabinetId", cabinetId);
+        query.setParameter("userId", userId);
+        return query.list();
+    }
+    
      // ДОПИСАТЬ ЗАПРОС лист Ссылкок event по campaignId НЕ ОБРАБОТАНЫХ по userId
     public List<Event> getEventListByUserByCampaign(Long campaignId, Long cabinetId, Long userId) {
         Date dt = new Date();
