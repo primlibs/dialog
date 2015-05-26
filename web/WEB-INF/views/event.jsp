@@ -20,55 +20,48 @@
 
         <div class="row ">
             <h4>   Стратегия: ${strategy.strategyName}</h4>
-            <input type="hidden" name="userId" value=${paraqm.userId}>
-            <input type="hidden" name="cabinetId" value=${param.cabinetId}>
-
 
             <div class="row">
                 <div class="col-md-12">
-                    <input type="hidden" name="eventId" value=${param.eventId}>
-                    <input type="hidden" name="eventId" value=${event.eventId}>
+                    <!--<input type="hidden" name="eventId" id="eventId" value=${event.eventId}>-->
                     <table class="table table-bordered table-hover">
                         <tr>
                             <th>Компания: </th>
                             <th>Адрес: </th>
                             <th>Секретарь: </th>
-                            <th>ЛПР:</th>
-                            <th>Телефон секретаря:  </th>
+                            <th>ЛПР: </th>
+                            <th>Телефон секретаря: </th>
                             <th>Телефон ЛПР: </th>
                             <th>Комментарий: </th>
                         </tr>
                         <tr>
                             <td>${event.client.nameCompany} </td>
-                            <td>${event.client.address} </td>
-                            <td>${event.client.nameSecretary} </td>
-                            <td>${event.client.nameLpr}</td>
-                            <td>${event.client.phoneSecretary} </td>
-                            <td>${event.client.phoneLpr} </td>
-                            <td>${event.client.comment} </td>
+                            <td class="changebleParam" id="adress">${event.client.address} </td>
+                            <td class="changebleParam" id="nameSecretary">${event.client.nameSecretary} </td>
+                            <td class="changebleParam" id="nameLpr">${event.client.nameLpr} </td>
+                            <td class="changebleParam" id="phoneSecretary">${event.client.phoneSecretary} </td>
+                            <td class="changebleParam" id="phoneLpr">${event.client.phoneLpr} </td>
+                            <td class="changebleParam" id="comment">${event.client.comment} </td>
                         </tr>
                     </table>
 
                     <div class="row">
                         <div style="float:left;" id="moduleShow"></div>
-                        <!--<div class="col-md-6">
-                        ${module.moduleName}
-                        <br>
-                        <br>
-                        ${module.bodyText}
-                    </div>-->
-                        <div style="float:right;">
-                            <div class="col-md-4"  data-spy="scroll" style="height: 100vh ; line-height: 1em;">
-                                <c:forEach var="entry"  items="${аctiveMap}" >
-                                    <ul> ${entry.key.groupName} 
-                                        <c:forEach var="module"  items="${entry.value}" >
-                                            <li style="cursor: pointer;" class="showableModule" id="${module.moduleId}"> <ins>
-                                                    ${module.moduleName}<!--<a href="<c:url value="/Event/eventProcessing?campaignId=${param.campaignId}&groupId=${entry.key.groupId}&moduleId=${module.moduleId}&eventId=${event.eventId}"/>">${module.moduleName}</a>-->
-                                                </ins></li>
-                                            </c:forEach>
-                                    </ul>
-                                </c:forEach>
-                            </div>
+
+                            <div style="float:right;">
+                        <div class="col-md-4"  data-spy="scroll" style="height: 100vh ; line-height: 1em;">
+                            <c:forEach var="entry"  items="${аctiveMap}" >
+                                <ul> ${entry.key.groupName} 
+                                    <c:forEach var="module" items="${entry.value}" >
+                                        <li style="cursor: pointer;" class="showableModule" id="${module.moduleId}"> <ins>
+                                            ${module.moduleName}<!--<a href="<c:url value="/Event/eventProcessing?campaignId=${param.campaignId}&groupId=${entry.key.groupId}&moduleId=${module.moduleId}&eventId=${event.eventId}"/>">${module.moduleName}</a>-->
+                                            </ins></li>
+                                    </c:forEach>
+                                </ul>
+                            </c:forEach>
+                        </div>
+                        
+                        
 
                             <div class="col-md-2"  >
                                 <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
@@ -135,7 +128,10 @@
 
                             </div>
                         </div>
-                        <div hidden="1" id="moduleBufer">
+
+                            </div>
+                        <div hidden="1" id="moduleBufer" data-clientId="${event.client.clientId}">
+
                             <c:forEach var="entry"  items="${аctiveMap}" >
                                 <c:forEach var="module"  items="${entry.value}" >
                                     <div id="${module.moduleId}" class="hiddenModule">
