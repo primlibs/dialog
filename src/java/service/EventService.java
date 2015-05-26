@@ -483,8 +483,8 @@ public class EventService extends PrimService {
         return userAssignedClientProcessedFails;
     }
 
-    public HashMap<Campaign, String> userShowPageEventClientList(Long cabinetId, Long userId) {
-        HashMap<Campaign, String> result = new HashMap();
+    public LinkedHashMap<Campaign, String> userShowPageEventClientList(Long cabinetId, Long userId) {
+        LinkedHashMap<Campaign, String> result = new LinkedHashMap();
         for (Object[] ecl : eventDao.getCampaignByCabinetAndUserId(cabinetId, userId)) {
             result.put((Campaign) ecl[0], StringAdapter.getString(ecl[1]));
         }
