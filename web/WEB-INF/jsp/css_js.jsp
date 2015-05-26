@@ -16,9 +16,12 @@
 
 
 <!--    js -->
-<!--<script src="<c:url value='/js/jquery-1.11.2.min.js'/>"> </script>-->
-<script src="<c:url value='/js/jquery.js'/>"> </script>
+<script src="<c:url value='/js/jquery-1.11.2.min.js'/>"> </script>
 <script src="<c:url value='/js/bootstrap.js'/>"> </script>
-<script src="<c:url value='/js/dropdown.js'/>"> </script>
-<script src="<c:url value='/js/bootstrap-datetimepicker.min.js'/>"> </script>
 <script src="<c:url value='/js/moment-with-locales.min.js'/>"> </script>
+<script src="<c:url value='/js/bootstrap-datetimepicker.min.js'/>"> </script>
+<script src="<c:url value='/js/dropdown.js'/>"> </script>
+ <!--   <script src="<c:url value='/js/jquery.js'/>"> </script> -->
+
+
+
