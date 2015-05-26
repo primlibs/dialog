@@ -188,11 +188,29 @@ public class StrategyController extends WebController {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         Strategy strategy = strategyService.findStrategy(strategyId);
 
-        model.put("drainActiveList",drainService.getDrainActiveListByStrategy(strategy));
+        model.put("drainActiveList", drainService.getDrainActiveListByStrategy(strategy));
+        model.put("errors", drainService.getError());
+        model.put("strategyId", strategyId);
+
+        return "drain";
+    }
+
+    @RequestMapping("/newDrain")
+    public String drainNew(Map<String, Object> model,
+            HttpServletRequest request,
+           
+            @RequestParam(value = "drainName") String drainName,
+            @RequestParam(value = "strategyId") Long strategyId) throws Exception {
+
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        Strategy strategy = strategyService.findStrategy(strategyId);
+
+        model.put("drainActiveList", drainService.getDrainActiveListByStrategy(strategy));
         model.put("errors", drainService.getError());
 
         //model.put("GroupList", strategyService.getGroupList(strategyId));
-     model.put("strategyId", strategyId);
+        model.put("strategyId", strategyId);
         //model.put("strategyName", strategyService.findStrategy(strategyId).getStrategyName());
         // model.put("strategy",strategy);
         return "drain";
