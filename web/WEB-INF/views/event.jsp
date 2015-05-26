@@ -117,7 +117,7 @@
                                                         <div class="input-group date" id="datetimepicker2">
                                                             <input type="text" class="form-control" />
                                                             <span class="input-group-addon">
-                                                                <i class="icon-calendar"></i>
+                                                               <span class="glyphicon glyphicon-calendar glyphicon-nonescaped"></span>
                                                             </span>
                                                         </div>
                                                     </div> 
