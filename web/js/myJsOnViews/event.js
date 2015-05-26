@@ -8,7 +8,7 @@ $(function(){
         var div = '';
         $('#moduleShow').html(div);
         
-        
+        writeHistory(moduleId);
         
         div=$('#'+moduleId+'.hiddenModule').clone();
         $('#moduleShow').html(div);
