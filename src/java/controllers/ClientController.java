@@ -67,17 +67,6 @@ public class ClientController extends WebController {
         return "oneClient";
     }
     
-    @RequestMapping("/updateClientFromUser")
-    @ResponseBody
-    public String updateClient(Map<String, Object> model,@RequestParam(value = "clientId") Long clientId,@RequestParam(value = "param") String param,@RequestParam(value = "newVal") String newVal, HttpServletRequest request) throws Exception {
-        lk.dataByUserAndCompany(request, model);
-     
-        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        
-        //clientService
-        
-        String json = cabinetId.toString();
-        return json;
-    }
+    
 
 }
