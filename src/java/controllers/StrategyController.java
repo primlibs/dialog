@@ -26,35 +26,35 @@ import service.StrategyService;
 @RequestMapping("/Strategy")
 @Controller
 public class StrategyController extends WebController {
-
+    
     @Autowired
     private LkController lk;
-
+    
     @Autowired
     private StrategyService strategyService;
-
+    
     @Autowired
     private ModuleService moduleService;
-
+    
     @Autowired
     private DrainService drainService;
-
+    
     @RequestMapping("/show")
     public String showStrategyListPage(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "strategyName", required = false) String strategyName,
             String submit) throws Exception {
-
+        
         lk.dataByUserAndCompany(request, model);
         //  Object cabinetId = request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-
+        
         if (submit != null) {
             strategyService.saveStrategy(strategyName, cabinetId);
             if (strategyService.getError().isEmpty()) {
                 model.put("message", "Стратегия " + strategyName + " создана");
             }
-
+            
         }
         if (!strategyService.getError().isEmpty()) {
             model.put("errors", strategyService.getError());
@@ -62,18 +62,18 @@ public class StrategyController extends WebController {
         model.put("StrategyList", strategyService.getActiveStrategyList(cabinetId));
         return "strategyList";
     }
-
+    
     @RequestMapping("/strategy")
     public String showStrategyPage(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "moduleName", required = false) String moduleName,
             @RequestParam(value = "moduleId", required = false) Long moduleId,
             @RequestParam(value = "strategyId") Long strategyId) throws Exception {
-
+        
         lk.dataByUserAndCompany(request, model);
         //Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         Strategy strategy = strategyService.findStrategy(strategyId);
-
+        
         model.put("module", moduleService.showModule(moduleId));
         model.put("moduleId", moduleId);
         if (!strategyService.getError().isEmpty()) {
@@ -85,7 +85,7 @@ public class StrategyController extends WebController {
         model.put("strategy", strategy);
         return "strategy";
     }
-
+    
     @RequestMapping("/renameStrategy")
     public String renameStrategy(Map<String, Object> model, HttpServletRequest request, @RequestParam(value = "strategyId") Long strategyId,
             @RequestParam(value = "name") String name, RedirectAttributes ras) {
@@ -93,25 +93,25 @@ public class StrategyController extends WebController {
         ras.addFlashAttribute("errors", strategyService.getError());
         return "redirect:/Strategy/show";
     }
-
+    
     @RequestMapping("/addGroup")
     public String addGroup(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "strategyId") Long strategyId,
             @RequestParam(value = "groupName") String groupName,
             RedirectAttributes ras) throws Exception {
-
+        
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-
+        
         strategyService.saveGroup(strategyId, groupName, cabinetId);
         if (strategyService.getError().isEmpty()) {
             ras.addFlashAttribute("message", "Группа " + groupName + " создана");
         }
-
+        
         ras.addAttribute("strategyId", strategyId);
         return "redirect:/Strategy/strategy";
     }
-
+    
     @RequestMapping("/addModule")
     public String addModule(Map<String, Object> model,
             HttpServletRequest request,
@@ -119,7 +119,7 @@ public class StrategyController extends WebController {
             @RequestParam(value = "groupId") Long groupId,
             @RequestParam(value = "moduleName") String moduleName,
             RedirectAttributes ras) throws Exception {
-
+        
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         strategyService.saveModule(groupId, moduleName, cabinetId);
         ras.addFlashAttribute("errors", strategyService.getError());
@@ -127,7 +127,7 @@ public class StrategyController extends WebController {
         ras.addAttribute("groupId", groupId);
         return "redirect:/Strategy/strategy";
     }
-
+    
     @RequestMapping("/deleteStrategy")
     public String delStrategy(Map<String, Object> model,
             HttpServletRequest request,
@@ -136,26 +136,26 @@ public class StrategyController extends WebController {
         //Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
         strategyService.deleteStrategy(strategyId);
-
+        
         ras.addFlashAttribute("errors", strategyService.getError());
-
+        
         return "redirect:/Strategy/show";
     }
-
+    
     @RequestMapping("/showModule")
     public String showModule(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "moduleId") Long moduleId,
             @RequestParam(value = "strategyId") Long strategyId,
             RedirectAttributes ras) {
-
+        
         ras.addFlashAttribute("module", moduleService.showModule(moduleId));
         ras.addAttribute("strategyId", strategyId);
         ras.addAttribute("moduleId", moduleId);
         ras.addFlashAttribute("errors", moduleService.getError());
         return "redirect:/Strategy/strategy";
     }
-
+    
     @RequestMapping("/addBodyModule")
     public String addBodyModule(Map<String, Object> model,
             HttpServletRequest request,
@@ -163,49 +163,53 @@ public class StrategyController extends WebController {
             @RequestParam(value = "strategyId") Long strategyId,
             @RequestParam(value = "bodyText") String bodyText,
             RedirectAttributes ras) {
-
+        
         if (moduleId != null) {
             moduleService.addBodyText(moduleId, bodyText);
         } else {
             ras.addFlashAttribute("errors", "Выберите модуль");
         }
-
+        
         ras.addFlashAttribute("module", moduleService.showModule(moduleId));
         ras.addAttribute("strategyId", strategyId);
         ras.addAttribute("moduleId", moduleId);
         ras.addFlashAttribute("errors", moduleService.getError());
         return "redirect:/Strategy/strategy";
     }
-
+    
     @RequestMapping("/drainEditor")
     public String drainEditor(Map<String, Object> model,
             HttpServletRequest request,
             //  @RequestParam(value = "moduleName", required = false) String moduleName,
             //  @RequestParam(value = "moduleId", required = false) Long moduleId,
             @RequestParam(value = "strategyId") Long strategyId) throws Exception {
-
+        
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         Strategy strategy = strategyService.findStrategy(strategyId);
-
+        
         model.put("drainActiveList", drainService.getDrainActiveListByStrategy(strategy));
         model.put("errors", drainService.getError());
         model.put("strategyId", strategyId);
-
+        
         return "drain";
     }
-
+    
     @RequestMapping("/newDrain")
     public String drainNew(Map<String, Object> model,
             HttpServletRequest request,
-           
             @RequestParam(value = "drainName") String drainName,
             @RequestParam(value = "strategyId") Long strategyId) throws Exception {
-
+        
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         Strategy strategy = strategyService.findStrategy(strategyId);
-
+        
+        drainService.saveDrain(drainName, strategyId);
+        if (drainService.getError().isEmpty()) {
+            model.put("message", "Модуль отказа " + drainName + " создан");
+        }
+        
         model.put("drainActiveList", drainService.getDrainActiveListByStrategy(strategy));
         model.put("errors", drainService.getError());
 
