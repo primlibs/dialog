@@ -558,7 +558,7 @@ public class EventService extends PrimService {
         mec.setEvent(ev);
         mec.setCabinet(pk);
         mec.setModule(module);
-        mec.setGroup(module.getGroups());
+        mec.setGroup(module.getGroup());
         mec.setInsertDate(date);
         mec.setStrategy(ev.getCampaign().getStrategy());
         if(validate(mec)){

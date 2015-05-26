@@ -194,7 +194,7 @@ public class StrategyService extends PrimService {
         if (!nameList.contains(moduleName) & moduleName != null) {
             Module ml = new Module();
             ml.setCabinet(pk);
-            ml.setGroups(gp);
+            ml.setGroup(gp);
             ml.setModuleName(moduleName);
             if (validate(ml)) {
                 moduleDao.save(ml);
