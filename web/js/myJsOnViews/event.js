@@ -30,7 +30,7 @@ $(function(){
                 var cientId = $('#moduleBufer').attr('data-clientid');
                 if (target.attr('name') !== paramType) {
                     $.ajax({
-                        url:"CallCentr/Client/updateClientFromUser?clientId="+cientId+"&param="+paramType+"&newVal="+newVal,
+                        url:"/updateClientFromUser?clientId="+cientId+"&param="+paramType+"&newVal="+newVal,
                         dataType : "json",
                         cache: false,
                         success: function(json){

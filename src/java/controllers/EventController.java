@@ -290,7 +290,7 @@ public class EventController extends WebController {
         return "campaign";
     }
     
-    @RequestMapping("/updateClientFromUser")
+    @RequestMapping("updateClientFromUser")
     @ResponseBody
     public String updateClient(Map<String, Object> model,@RequestParam(value = "clientId") Long clientId,@RequestParam(value = "param") String param,@RequestParam(value = "newVal") String newVal, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
