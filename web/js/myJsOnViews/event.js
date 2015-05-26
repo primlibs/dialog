@@ -11,6 +11,8 @@ $(function(){
         $('#moduleShow').html(div);
     }
     
+    
+    
     $('.changebleParam').dblclick(function(){
         var changebleElem = $(this);
         var paramType = $(this).attr('id');
@@ -21,7 +23,7 @@ $(function(){
         changebleElem.html(input);
         
         //$(document).ready(function(e) {
-            $(document).click(function(event) {
+            $(document).one('click',function(event) {
                 var newVal = $('#input').val();
                 var target = $(event.target);
                 var cientId = $('#moduleBufer').data('clientId');
@@ -41,13 +43,11 @@ $(function(){
                         }
                     });
                 }
-                event.stopPropagation()
+                
 
             });
             
-            $(document).click(function() {
-                
-            });
+            return false;
         //});
     });
     
