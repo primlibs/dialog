@@ -42,7 +42,7 @@ public class Module extends PrimEntity {
 
     @JoinColumn(name = "group_id")
     @ManyToOne(fetch = FetchType.EAGER)
-    private Group groups;
+    private Group group;
 
     @Column(name = "name")
     @NotBlank(message = "Поле Название модуля не может быть пустым")
@@ -80,12 +80,12 @@ public class Module extends PrimEntity {
         this.cabinet = cabinet;
     }
 
-    public Group getGroups() {
-        return groups;
+    public Group getGroup() {
+        return group;
     }
 
-    public void setGroups(Group groups) {
-        this.groups = groups;
+    public void setGroup(Group group) {
+        this.group = group;
     }
 
     public String getModuleName() {

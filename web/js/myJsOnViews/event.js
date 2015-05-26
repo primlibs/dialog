@@ -7,8 +7,28 @@ $(function(){
     function showModule(moduleId){
         var div = '';
         $('#moduleShow').html(div);
+        
+        
+        
         div=$('#'+moduleId+'.hiddenModule').clone();
         $('#moduleShow').html(div);
+        
+    }
+    
+    function writeHistory(moduleId){
+        var dateObj = new Date();
+        $.ajax({
+            url:"/writeModuleInHistory?date="+dateObj+"&moduleId="+moduleId,
+            dataType : "json",
+            type: "POST",
+            cache: false,
+            success: function(json){
+                alert(json)
+            },
+            error: function(json){
+                alert('fail ');
+            }
+        });
     }
     
     

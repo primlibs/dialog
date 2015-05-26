@@ -55,11 +55,11 @@ public class Group extends PrimEntity {
     private Date deleteDate;
 
     @LazyCollection(LazyCollectionOption.TRUE)
-    @OneToMany(mappedBy = "groups", orphanRemoval = true)
+    @OneToMany(mappedBy = "group", orphanRemoval = true)
     private List<Module> moduleList;
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "groups")
+    @OneToMany(mappedBy = "group")
     private List<ModuleEventClient> moduleEventClientList;
 
     @Override

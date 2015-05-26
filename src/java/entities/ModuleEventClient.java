@@ -49,7 +49,7 @@ public class ModuleEventClient extends PrimEntity {
 
     @JoinColumn(name = "group_id")
     @ManyToOne(fetch = FetchType.EAGER)
-    private Group groups;
+    private Group group;
 
     @JoinColumn(name = "module_id")
     @ManyToOne(fetch = FetchType.EAGER)
@@ -103,12 +103,12 @@ public class ModuleEventClient extends PrimEntity {
         this.strategy = strategy;
     }
 
-    public Group getGroups() {
-        return groups;
+    public Group getGroup() {
+        return group;
     }
 
-    public void setGroups(Group groups) {
-        this.groups = groups;
+    public void setGroup(Group group) {
+        this.group = group;
     }
 
     public Module getModule() {

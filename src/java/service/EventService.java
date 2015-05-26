@@ -11,6 +11,7 @@ import dao.CampaignDao;
 import dao.DrainDao;
 import dao.GroupDao;
 import dao.ModuleDao;
+import dao.ModuleEventClientDao;
 import dao.PersonalCabinetDao;
 import dao.StrategyDao;
 import dao.UserDao;
@@ -19,6 +20,8 @@ import entities.Client;
 import entities.Campaign;
 import entities.Drain;
 import entities.Event;
+import entities.Module;
+import entities.ModuleEventClient;
 import entities.PersonalCabinet;
 import entities.Strategy;
 import entities.User;
@@ -81,6 +84,9 @@ public class EventService extends PrimService {
 
     @Autowired
     private ClientService clientService;
+    
+    @Autowired
+    private ModuleEventClientDao moduleEventClientDao;
 
     public String numericName(Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
@@ -491,8 +497,6 @@ public class EventService extends PrimService {
         return result;
     }
     
-    
-
     private String getStringNumber(Object ob) {
         String count = "0";
         if (ob != null && !ob.equals("") && !ob.equals("null")) {
@@ -540,6 +544,27 @@ public class EventService extends PrimService {
         Strategy str = strategyDao.find(strategyId);
         List<Drain> drainList = str.getDrainList();
         return drainList;
+    }
+    
+    public boolean writeModuleInHistory(Date date,Long userId,Long cabinetId,Long moduleId,Long eventId){
+        boolean performed = false;
+        Event ev = eventDao.find(eventId);
+        PersonalCabinet pk = personalCabinetDao.find(cabinetId);
+        User user = userDao.find(userId);
+        Module module = moduleDao.find(moduleId);
+        
+        ModuleEventClient mec = new ModuleEventClient();
+        
+        mec.setEvent(ev);
+        mec.setCabinet(pk);
+        mec.setModule(module);
+        mec.setGroup(module.getGroup());
+        mec.setInsertDate(date);
+        mec.setStrategy(ev.getCampaign().getStrategy());
+        if(validate(mec)){
+            moduleEventClientDao.save(mec);
+        }
+        return performed;
     }
     
     /*public List<Campaign> getCampaignsByUserAndCabinet(Long cabinetId, Long userId){
