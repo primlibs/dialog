@@ -27,7 +27,7 @@ $(function(){
                 var cientId = $('#moduleBufer').data('clientId');
                 alert(event.type+"-"+event.currentTarget);
                 if (target.attr('name') !== paramType) {
-                    /*$.ajax({
+                    $.ajax({
                         url:"CallCentr/Client/updateClientFromUser?clientId="+cientId+"&param="+paramType+"&newVal="+newVal,
                         dataType : "json",
                         cache: false,
@@ -39,8 +39,10 @@ $(function(){
                             alert('fail '+paramType);
                             changebleElem.html(value);
                         }
-                    });*/
+                    });
                 }
+                event.stopPropagation()
+
             });
             
             $(document).click(function() {
