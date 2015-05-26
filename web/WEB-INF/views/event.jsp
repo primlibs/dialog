@@ -47,6 +47,7 @@
 
                     <div class="row">
                         <div style="float:left;" id="moduleShow"></div>
+
                             <div style="float:right;">
                         <div class="col-md-4"  data-spy="scroll" style="height: 100vh ; line-height: 1em;">
                             <c:forEach var="entry"  items="${аctiveMap}" >
@@ -60,29 +61,59 @@
                             </c:forEach>
                         </div>
                         
-                        <div class="col-md-2"  >
-                            <div class="carousel-search hidden-sm">
-                                <div class="btn-group"> <a class="btn btn-danger dropdown-toggle btn-select" data-toggle="dropdown" href="#">Справочник сливов <span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        <c:forEach var="drain"  items="${drainList}" >
-                                            <li><a href="<c:url value="/Event/#?drainId=${drain.drainId}&campaignId=${param.campaignId}&eventId=${event.eventId}"/>">${drain.name}</a></li>
-                                            </c:forEach>
-                                    </ul>
+                        
+
+                            <div class="col-md-2"  >
+                                <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&amp;times;</button>
+                                                <h4 class="modal-title" id="myModalLabel">Справочник сливов</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h3>Modal Body</h3>
+                                                <form  action="<c:url value="/Event/#" />" method="post">
+                                                    <select name="drainId">
+                                                        <c:forEach var="drain" items="${drainList}" varStatus="myIndex">
+                                                            <option value="${drain.drainId}">${drain.name}</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                    <input type="text" name="comment" placeholder="Введите коментарий" width="200px" height="50px">
+                                                    <input type="hidden" name="campaignId" value=${param.campaignId}>
+                                                    <input type="hidden" name="userId" value=${paraqm.userId}>
+                                                    <input type="hidden" name="eventId" value=${param.eventId}>
+                                                    <input type="hidden" name="eventId" value=${event.eventId}>
+                                                    <input class="btn btn-primary" type="submit" value="Отправить">
+                                                </form>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary">Сохранить</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
+                                <p>  <a href="#" class="btn btn-lg btn-danger"
+                                        data-toggle="modal"
+                                        data-target="#basicModal">Справочник сливов</a>
                                 <p>    <a href="<c:url value="/Event/#?eventId=${event.eventId}"/>" class="btn btn-large btn-success" role="button">Положительный результат</a>
                                 <p>    <a href="<c:url value="/Event/event?campaignId=${param.campaignId}&strategyId=${campaign.strategy.strategyId}"/>" class="btn btn-large btn-primary" role="button">следующий клиент</a>
                             </div>
                         </div>
+
                             </div>
                         <div hidden="1" id="moduleBufer" data-clientId="${event.client.clientId}">
+
                             <c:forEach var="entry"  items="${аctiveMap}" >
                                 <c:forEach var="module"  items="${entry.value}" >
-                                <div id=${module.moduleId} class="hiddenModule">
-                                    ${module.moduleName}
-                                    <br><br>
-                                    ${module.bodyText}
-                                </div>
+                                    <div id=${module.moduleId} class="hiddenModule">
+                                        ${module.moduleName}
+                                        <br><br>
+                                        ${module.bodyText}
+                                    </div>
                                 </c:forEach>
                             </c:forEach>
                         </div>
