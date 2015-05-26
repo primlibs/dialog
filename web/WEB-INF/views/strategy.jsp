@@ -21,7 +21,7 @@
 
         <div class="form-group" size="16">  
             <a href="<c:url value="/Strategy/show"/>" class="btn btn-large btn-primary" role="button">Список стратегий</a>
-             <a href="<c:url value="/Strategy/drainEditor"/>" class="btn btn-large btn-primary" role="button">Редактор сливов</a> &nbsp &nbsp  ${strategy.strategyName} 
+             <a href="<c:url value="/Strategy/drainEditor?strategyId=${strategy.strategyId} "/>" class="btn btn-large btn-primary" role="button">Редактор сливов</a> &nbsp &nbsp  ${strategy.strategyName} 
         </div>
         <div class="row">
             <div class="col-md-6"> 
