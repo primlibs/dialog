@@ -48,20 +48,20 @@
                     <div class="row">
                         <div style="float:left;" id="moduleShow"></div>
 
-                        <div style="float:right;">
-                            <div class="col-md-4"  data-spy="scroll" style="height: 100vh ; line-height: 1em;">
-                                <c:forEach var="entry"  items="${аctiveMap}" >
-                                    <ul> ${entry.key.groupName} 
-                                        <c:forEach var="module" items="${entry.value}" >
-                                            <li style="cursor: pointer;" class="showableModule" id="${module.moduleId}"> <ins>
-                                                    ${module.moduleName}<!--<a href="<c:url value="/Event/eventProcessing?campaignId=${param.campaignId}&groupId=${entry.key.groupId}&moduleId=${module.moduleId}&eventId=${event.eventId}"/>">${module.moduleName}</a>-->
-                                                </ins></li>
-                                            </c:forEach>
-                                    </ul>
-                                </c:forEach>
-                            </div>
-
-
+                            <div style="float:right;">
+                        <div class="col-md-4"  data-spy="scroll" style="height: 100vh ; line-height: 1em;">
+                            <c:forEach var="entry"  items="${аctiveMap}" >
+                                <ul> ${entry.key.groupName} 
+                                    <c:forEach var="module" items="${entry.value}" >
+                                        <li style="cursor: pointer;" class="showableModule" id="${module.moduleId}"> <ins>
+                                            ${module.moduleName}<!--<a href="<c:url value="/Event/eventProcessing?campaignId=${param.campaignId}&groupId=${entry.key.groupId}&moduleId=${module.moduleId}&eventId=${event.eventId}"/>">${module.moduleName}</a>-->
+                                            </ins></li>
+                                    </c:forEach>
+                                </ul>
+                            </c:forEach>
+                        </div>
+                        
+                        
 
                             <div class="col-md-2"  >
                                 <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
@@ -73,7 +73,7 @@
                                             </div>
                                             <div class="modal-body">
                                                 <form  action="<c:url value="/Event/#" />" method="post">
-                                                    <p>   <input type="text" name="comment" placeholder="Введите коментарий" style="width: 400px; height: 150px">
+                                                  <p>   <input type="text" name="comment" placeholder="Введите коментарий" width="200px" height="50px">
 
                                                     <p>     <select name="drainId">
                                                             <c:forEach var="drain" items="${drainList}" varStatus="myIndex">
@@ -105,12 +105,12 @@
 
 
 
-                                                    <p> <input type="text" name="comment" placeholder="Введите коментарий" style="width: 400px; height: 150px" >
-                                                        <input type="hidden" name="campaignId" value=${param.campaignId}>
-                                                        <input type="hidden" name="userId" value=${paraqm.userId}>
-                                                        <input type="hidden" name="eventId" value=${param.eventId}>
-                                                        <input type="hidden" name="eventId" value=${event.eventId}>
-                                                    <p> <input class="btn btn-primary" type="submit" value="Отправить">
+                                                    <input type="text" name="comment" placeholder="Введите коментарий" style="width: 200px; height: 80px" >
+                                                    <input type="hidden" name="campaignId" value=${param.campaignId}>
+                                                    <input type="hidden" name="userId" value=${paraqm.userId}>
+                                                    <input type="hidden" name="eventId" value=${param.eventId}>
+                                                    <input type="hidden" name="eventId" value=${event.eventId}>
+                                                    <input class="btn btn-primary" type="submit" value="Отправить">
                                                 </form>
 
                                             </div>
@@ -129,22 +129,22 @@
                             </div>
                         </div>
 
-                    </div>
-                    <div hidden="1" id="moduleBufer" data-clientId="${event.client.clientId}">
+                            </div>
+                        <div hidden="1" id="moduleBufer" data-clientId="${event.client.clientId}">
 
-                        <c:forEach var="entry"  items="${аctiveMap}" >
-                            <c:forEach var="module"  items="${entry.value}" >
-                                <div id="${module.moduleId}" class="hiddenModule">
-                                    ${module.moduleName}
-                                    <br><br>
-                                    ${module.bodyText}
-                                </div>
+                            <c:forEach var="entry"  items="${аctiveMap}" >
+                                <c:forEach var="module"  items="${entry.value}" >
+                                    <div id="${module.moduleId}" class="hiddenModule">
+                                        ${module.moduleName}
+                                        <br><br>
+                                        ${module.bodyText}
+                                    </div>
+                                </c:forEach>
                             </c:forEach>
-                        </c:forEach>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
+        
     </body>
 </html>
