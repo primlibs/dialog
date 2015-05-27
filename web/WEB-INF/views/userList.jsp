@@ -18,7 +18,6 @@
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
         <div class="form-group">
-            <a href="<c:url value="/User/userList"/>" class="btn btn-primary" role="button">Список пользователей</a>
             <a href="<c:url value="/User/userAdd"/>" class="btn btn-primary" role="button">Добавить пользователя</a>
         </div> 
 
@@ -41,11 +40,11 @@
                     <td>${cabinetUser.user.surname}</td>
                     <td>${cabinetUser.user.name}</td>
                     <td>${cabinetUser.user.patronymic}</td>
-                    <td>${cabinetUser.userRole}</td>
-                    
+                    <c:if test="${cabinetUser.userRole=='admin'}"><c:set var="rusRole" value="Администратор" /></c:if>
+                    <c:if test="${cabinetUser.userRole=='user'}"><c:set var="rusRole" value="Пользователь" /></c:if>
+                    <td>${rusRole}</td>
                     <c:if test="${cabinetUser.makesCalls==null}"><c:set var="makesCalls" value="Да" /></c:if>
                     <c:if test="${cabinetUser.makesCalls==null}"><c:set var="makesCalls" value="Нет" /></c:if>
-                    
                     <td>${makesCalls}</td>
                     <td onClick="location = '<c:url value="/User/deleteUser?cabinetUserId=${cabinetUser.cabinetUserId}&userId=${cabinetUser.user.userId}"/>'" >Удалить</td>
                 </tr>

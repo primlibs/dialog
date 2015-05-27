@@ -55,8 +55,8 @@
                 <label class="control-label col-xs-3" for="selectRole">Выбрать роль:</label>
                 <div class="col-xs-9">
                     <select name="role">
-                        <option value="user">user</option>
-                        <option value="admin">admin</option>
+                        <option value="user">Пользователь</option>
+                        <option value="admin">Администратор</option>
                     </select>
                 </div>
             </div>     
