@@ -69,6 +69,6 @@ public class CabinetUserService extends PrimService {
         
        List<CabinetUser> culist = cabinetUserDao.getByUserAndCabinet(user, cabinetDao.find(cabinetId));
        
-        return culist.get(0).getUser_role();
+        return culist.get(0).getUserRole();
     }
 }

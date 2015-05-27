@@ -86,7 +86,7 @@ public class UserService extends PrimService {
                     CabinetUser link = new CabinetUser();
                     link.setCabinet(cabinet);
                     link.setUser(user);
-                    link.setUser_role("admin");
+                    link.setUserRole("admin");
                     if (validate(link)) {
                         cabinetUserDao.save(link);
                     }
@@ -106,9 +106,8 @@ public class UserService extends PrimService {
             String role,
             Object cabinetId) {
 
-        User existingUser;
-        existingUser = userDao.getUserByLogin(email);
-        PersonalCabinet cabinet = personalCabinetDao.find((Long) cabinetId);
+        User existingUser = userDao.getUserByLogin(email);
+        PersonalCabinet cabinet = personalCabinetDao.find((long)cabinetId);
 
         if (existingUser != null) {
 
@@ -117,7 +116,10 @@ public class UserService extends PrimService {
             if (exist == false) {
                 CabinetUser link = new CabinetUser();
                 link.setCabinet(cabinet);
-                link.setUser_role(role);
+                link.setUserRole(role);
+                if(role.equals("user")){
+                    link.setMakesCalls((short)1);
+                }
                 link.setUser(existingUser);
                 if (validate(link)) {
                     cabinetUserDao.save(link);
@@ -142,7 +144,10 @@ public class UserService extends PrimService {
             if (getError().isEmpty()) {
                 CabinetUser link = new CabinetUser();
                 link.setCabinet(cabinet);
-                link.setUser_role(role);
+                link.setUserRole(role);
+                if(role.equals("user")){
+                    link.setMakesCalls((short)1);
+                }
                 link.setUser(user);
                 if (validate(link)) {
                     cabinetUserDao.save(link);

@@ -577,6 +577,15 @@ public class EventService extends PrimService {
         }
     }
     
+    public void goodFinish(Long eventId,Date successDate,String comment){
+        Event ev = eventDao.find(eventId);
+        ev.setFinalComment(comment);
+        ev.setSuccessDate(successDate);
+        if(validate(ev)){
+            eventDao.update(ev);
+        }
+    }
+    
     /*public List<Campaign> getCampaignsByUserAndCabinet(Long cabinetId, Long userId){
         return eventDao.getCampaignsByUserAndCabinet(cabinetId, userId);
     }*/

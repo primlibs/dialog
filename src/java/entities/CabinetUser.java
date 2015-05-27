@@ -36,7 +36,10 @@ public class CabinetUser extends PrimEntity {
     @Column(name = "user_role")
     @NotNull(message = "Роль не может быть пустой")
     @NotBlank(message = "поле РОЛЬ не может быть пустым")
-    private String user_role;
+    private String userRole;
+    
+    @Column(name = "makes_calls")
+    private Short makesCalls;
 
     @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -58,12 +61,12 @@ public class CabinetUser extends PrimEntity {
         this.cabinetUserId = cabinetUserId;
     }
 
-    public String getUser_role() {
-        return user_role;
+    public String getUserRole() {
+        return userRole;
     }
 
-    public void setUser_role(String user_role) {
-        this.user_role = user_role;
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
     }
 
     public User getUser() {
@@ -95,4 +98,11 @@ public class CabinetUser extends PrimEntity {
         this.deleteDate = deleteDate;
     }
 
+    public Short getMakesCalls() {
+        return makesCalls;
+    }
+
+    public void setMakesCalls(Short makesCalls) {
+        this.makesCalls = makesCalls;
+    }
 }

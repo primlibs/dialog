@@ -321,7 +321,27 @@ public class EventController extends WebController {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         User user = authManager.getCurrentUser();
+        if(comment.equals("")){
+            comment="Без комментариев";
+        }
         eventService.badFinish(eventId, drainId, comment);
+
+        ras.addFlashAttribute("errors",eventService.getError());
+        ras.addAttribute("campaignId", campaignId);
+        return "redirect:/Event/event";
+    }
+    
+    @RequestMapping("/goodFinish")
+    public String goodFinish(Map<String, Object> model,@RequestParam(value = "eventId") Long eventId,@RequestParam(value = "successDate") Date successDate,
+            @RequestParam(value = "campaignId") Long campaignId,@RequestParam(value = "comment") String comment,RedirectAttributes ras,HttpServletRequest request) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        User user = authManager.getCurrentUser();
+        if(comment.equals("")){
+            comment="Без комментариев";
+        }
+        //Date successDate = new Date(successLongDate);
+        eventService.goodFinish(eventId, successDate, comment);
 
         ras.addFlashAttribute("errors",eventService.getError());
         ras.addAttribute("campaignId", campaignId);

@@ -57,7 +57,7 @@
                         <div style="float:left;" id="moduleShow"></div>
 
                         <div style="float:right;">
-                            <div class="col-md-4"  data-spy="scroll" style="height: 100vh ; line-height: 1em;">
+                            <div class="col-md-6"  data-spy="scroll" style="height: 100vh ;">
                                 <c:forEach var="entry"  items="${аctiveMap}" >
                                     <ul> ${entry.key.groupName} 
                                         <c:forEach var="module" items="${entry.value}" >
@@ -107,12 +107,12 @@
                                                 <h4 class="modal-title" id="myModalLabel">Положительный результат</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <form  action="<c:url value="/Event/#" />" method="post">
-                                                    <p><textarea rows="6" cols="78" name="comment"> </textarea>
+                                                <form  action="<c:url value="/Event/goodFinish" />" method="post">
+                                                    <p><textarea rows="5" cols="50" name="comment"> </textarea>
 
                                                     <p>    <div class="form-group">
                                                         <div class="input-group date" id="datetimepicker2">
-                                                            <input type="text" class="form-control" />
+                                                            <input type="text" name="successDate" class="form-control" />
                                                             <span class="input-group-addon">
                                                                <span class="glyphicon glyphicon-calendar glyphicon-nonescaped"></span>
                                                             </span>

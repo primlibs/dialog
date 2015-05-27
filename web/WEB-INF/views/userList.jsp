@@ -26,20 +26,27 @@
 
             <tr>
                 <td>${myIndex.index}</td>
-                <td>имя</td>
+                
                 <td>Фамилия</td>
-                <td>роль</td>
-                <td>изменить</td>
-                <td>удалить</td>
+                <td>Имя</td>
+                <td>Отчество</td>
+                <td>Роль</td>
+                <td>Участие в кампаниях</td>
+                <td>Удалить</td>
             </tr>
             <c:forEach var="cabinetUser" items="${cabinetUserList}" varStatus="myIndex">
 
                 <tr>
                     <td>${myIndex.count}</td>
-                    <td>${cabinetUser.user.name}</td>
                     <td>${cabinetUser.user.surname}</td>
-                    <td>${cabinetUser.user_role}</td>
-                    <td>изменить</td>
+                    <td>${cabinetUser.user.name}</td>
+                    <td>${cabinetUser.user.patronymic}</td>
+                    <td>${cabinetUser.userRole}</td>
+                    
+                    <c:if test="${cabinetUser.makesCalls==null}"><c:set var="makesCalls" value="Да" /></c:if>
+                    <c:if test="${cabinetUser.makesCalls==null}"><c:set var="makesCalls" value="Нет" /></c:if>
+                    
+                    <td>${makesCalls}</td>
                     <td onClick="location = '<c:url value="/User/deleteUser?cabinetUserId=${cabinetUser.cabinetUserId}&userId=${cabinetUser.user.userId}"/>'" >Удалить</td>
                 </tr>
             </c:forEach>

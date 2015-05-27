@@ -6,14 +6,18 @@
 package controllers.parent;
 
 
+import java.util.Date;
 import java.util.Map;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.datetime.DateFormatter;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import support.AuthManager;
+import support.editors.DateEditor;
 import support.ServiceResult;
 
 /**
@@ -30,7 +34,8 @@ public class WebController {
     
     protected final String ERRORS_LIST_NAME = "errors";
 
-   
+    @Autowired
+    private DateEditor dateEditor;
 
     @ModelAttribute
     public void setOrderInfo(Map<String, Object> model) {
@@ -64,7 +69,10 @@ public class WebController {
 */
   
 
-   
+    @InitBinder
+    public void standartInitBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(Date.class, dateEditor);
+    }
   
 
 
