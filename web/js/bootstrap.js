@@ -229,8 +229,8 @@ if (typeof jQuery === 'undefined') {
     if ($parent.length) {
       var $input = this.$element.find('input')
       if ($input.prop('type') == 'radio') {
-        if ($input.prop('checked')) changed = false
-        if (!$input.prop('checked') || !this.$element.hasClass('active')) $parent.find('.active').removeClass('active')
+        if ($input.prop('checked') && this.$element.hasClass('active')) changed = false
+        else $parent.find('.active').removeClass('active')
       }
       if (changed) $input.prop('checked', !this.$element.hasClass('active')).trigger('change')
     } else {
@@ -280,7 +280,7 @@ if (typeof jQuery === 'undefined') {
       var $btn = $(e.target)
       if (!$btn.hasClass('btn')) $btn = $btn.closest('.btn')
       Plugin.call($btn, 'toggle')
-      if (!$(e.target).is('input[type="radio"]')) e.preventDefault()
+      e.preventDefault()
     })
     .on('focus.bs.button.data-api blur.bs.button.data-api', '[data-toggle^="button"]', function (e) {
       $(e.target).closest('.btn').toggleClass('focus', /^focus(in)?$/.test(e.type))
@@ -774,10 +774,7 @@ if (typeof jQuery === 'undefined') {
     if (!isActive) {
       if ('ontouchstart' in document.documentElement && !$parent.closest('.navbar-nav').length) {
         // if mobile we use a backdrop because click events don't delegate
-        $(document.createElement('div'))
-          .addClass('dropdown-backdrop')
-          .insertAfter($(this))
-          .on('click', clearMenus)
+        $('<div class="dropdown-backdrop"/>').insertAfter($(this)).on('click', clearMenus)
       }
 
       var relatedTarget = { relatedTarget: this }
@@ -839,8 +836,6 @@ if (typeof jQuery === 'undefined') {
 
       if (!$parent.hasClass('open')) return
 
-      if (e && e.type == 'click' && /input|textarea/i.test(e.target.tagName) && $.contains($parent[0], e.target)) return
-
       $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
 
       if (e.isDefaultPrevented()) return
@@ -900,7 +895,8 @@ if (typeof jQuery === 'undefined') {
     .on('click.bs.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
     .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
     .on('keydown.bs.dropdown.data-api', toggle, Dropdown.prototype.keydown)
-    .on('keydown.bs.dropdown.data-api', '.dropdown-menu', Dropdown.prototype.keydown)
+    .on('keydown.bs.dropdown.data-api', '[role="menu"]', Dropdown.prototype.keydown)
+    .on('keydown.bs.dropdown.data-api', '[role="listbox"]', Dropdown.prototype.keydown)
 
 }(jQuery);
 
@@ -996,7 +992,9 @@ if (typeof jQuery === 'undefined') {
         that.$element[0].offsetWidth // force reflow
       }
 
-      that.$element.addClass('in')
+      that.$element
+        .addClass('in')
+        .attr('aria-hidden', false)
 
       that.enforceFocus()
 
@@ -1030,6 +1028,7 @@ if (typeof jQuery === 'undefined') {
 
     this.$element
       .removeClass('in')
+      .attr('aria-hidden', true)
       .off('click.dismiss.bs.modal')
       .off('mouseup.dismiss.bs.modal')
 
@@ -1093,8 +1092,7 @@ if (typeof jQuery === 'undefined') {
     if (this.isShown && this.options.backdrop) {
       var doAnimate = $.support.transition && animate
 
-      this.$backdrop = $(document.createElement('div'))
-        .addClass('modal-backdrop ' + animate)
+      this.$backdrop = $('<div class="modal-backdrop ' + animate + '" />')
         .appendTo(this.$body)
 
       this.$element.on('click.dismiss.bs.modal', $.proxy(function (e) {
@@ -1294,7 +1292,7 @@ if (typeof jQuery === 'undefined') {
     this.type      = type
     this.$element  = $(element)
     this.options   = this.getOptions(options)
-    this.$viewport = this.options.viewport && $($.isFunction(this.options.viewport) ? this.options.viewport.call(this, this.$element) : (this.options.viewport.selector || this.options.viewport))
+    this.$viewport = this.options.viewport && $(this.options.viewport.selector || this.options.viewport)
 
     if (this.$element[0] instanceof document.constructor && !this.options.selector) {
       throw new Error('`selector` option must be specified when initializing ' + this.type + ' on the window.document object!')
@@ -1429,7 +1427,6 @@ if (typeof jQuery === 'undefined') {
         .data('bs.' + this.type, this)
 
       this.options.container ? $tip.appendTo(this.options.container) : $tip.insertAfter(this.$element)
-      this.$element.trigger('inserted.bs.' + this.type)
 
       var pos          = this.getPosition()
       var actualWidth  = $tip[0].offsetWidth
@@ -1685,12 +1682,6 @@ if (typeof jQuery === 'undefined') {
     clearTimeout(this.timeout)
     this.hide(function () {
       that.$element.off('.' + that.type).removeData('bs.' + that.type)
-      if (that.$tip) {
-        that.$tip.detach()
-      }
-      that.$tip = null
-      that.$arrow = null
-      that.$viewport = null
     })
   }
 
