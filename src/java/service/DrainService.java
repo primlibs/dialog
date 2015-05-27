@@ -56,6 +56,7 @@ public class DrainService extends PrimService {
         if (drainName != null & existName == false) {
             Drain drain = new Drain();
             drain.setName(drainName);
+            drain.setStrategy(str);
             if (validate(drain)) {
                 drainDao.save(drain);
             } else {
