@@ -35,7 +35,7 @@
                     <textarea name="bodyText"> ${module.bodyText}   </textarea>
                     <input type="hidden" name="moduleId" value=${module.moduleId}>
                     <input type="hidden" name="strategyId" value=${strategy.strategyId}>
-                    <button type="submit" name="submit" class="btn btn-default"> Загрузить </button>
+                    <button type="submit" name="submit" class="btn btn-default"> Сохранить </button>
                 </form>
 
             </div>

@@ -75,9 +75,9 @@ public class StrategyService extends PrimService {
             }
             if (getError().isEmpty()) {
                 ArrayList<String> drainList = new ArrayList<>();
-                drainList.add(0, "Выслано коммерческое предложение");
-                drainList.add(1, "Нет денег");
-                drainList.add(2, "Не интересно");
+                drainList.add(0, "Нет потребности");
+                drainList.add(1, "Нет средств");
+                //drainList.add(2, "Не интересно");
                 for (String str :drainList ) {
                     Drain drain = new Drain();
                     drain.setStrategy(strategy);

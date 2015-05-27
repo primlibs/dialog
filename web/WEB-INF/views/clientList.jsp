@@ -38,7 +38,6 @@
                     <th> Телефон К.Л. </th>
                     <th> Лицо принимающее решения </th>
                     <th> Телефон Л.П.Р. </th>
-                    <th> Комментарий </th>
                 </tr>
                 <c:forEach var="client"  items="${clients}" >
                     <tr style="cursor: pointer;" onclick="location = '<c:url value="/Client/oneClient?clientId=${client.clientId}"/>'"><td>${client.uniqueId}</td>
@@ -48,7 +47,6 @@
                     <td>${client.phoneSecretary}</td>
                     <td>${client.nameLpr}</td>
                     <td>${client.phoneLpr}</td>
-                    <td>${client.comment}</td></tr>
                 </c:forEach>
             </table>
         </div>

@@ -18,8 +18,8 @@
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
         <div class="row ">
-            <h4>  Евент:  ${campaign.name} &nbsp Стратегия: ${campaign.strategy.strategyName} </h4>
-
+            <h4> Кампания: ${campaign.name} </h4>
+            <h4> Стратегия: ${campaign.strategy.strategyName} </h4>
             <form class="form-inline" enctype="multipart/form-data" action="<c:url value="/Event/setXls" />" method="post">
                 <div class="form-group"> 
                     <a href="<c:url value="/Event/getShapeExcel"/>" class="btn btn-large btn-primary" role="button">Получить форму excel</a>
