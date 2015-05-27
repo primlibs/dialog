@@ -258,7 +258,7 @@ public class EventDao extends Dao<Event> {
 
     //Оператору: список ссылок по kичному кабинету и userId
     public List<Object[]> getCampaignByCabinetAndUserId(Long cabinetId, Long userId) {
-        String hql = "select ev.campaign,count(ev.eventId) from Event as ev where ev.cabinet.personalCabinetId= :cabinetId and ev.user.userId= :userId group by ev.campaign order by ev.campaign.creationDate";
+        String hql = "select ev.campaign,count(ev.eventId) from Event as ev where ev.cabinet.personalCabinetId= :cabinetId and ev.user.userId= :userId and ev.finalComment is null group by ev.campaign order by ev.campaign.creationDate";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("cabinetId", cabinetId);
         query.setParameter("userId", userId);
@@ -278,7 +278,7 @@ public class EventDao extends Dao<Event> {
      // ДОПИСАТЬ ЗАПРОС лист Ссылкок event по campaignId НЕ ОБРАБОТАНЫХ по userId
     public List<Event> getEventListByUserByCampaign(Long campaignId, Long cabinetId, Long userId) {
         Date dt = new Date();
-        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.cabinet.personalCabinetId= :cabinet and ev.user.userId= :userId and ev.status is null order by ev.postponedDate";
+        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.cabinet.personalCabinetId= :cabinet and ev.user.userId= :userId and ev.finalComment is null order by ev.postponedDate";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
         query.setParameter("cabinet", cabinetId);

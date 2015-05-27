@@ -314,6 +314,19 @@ public class EventController extends WebController {
         boolean performed = eventService.writeModuleInHistory(date, user.getId(), cabinetId, moduleId,eventId);
         return StringAdapter.getString(date);
     }
+    
+    @RequestMapping("/badFinish")
+    public String badFinish(Map<String, Object> model,@RequestParam(value = "eventId") Long eventId,@RequestParam(value = "drainId") Long drainId,
+            @RequestParam(value = "campaignId") Long campaignId,@RequestParam(value = "comment") String comment,RedirectAttributes ras,HttpServletRequest request) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        User user = authManager.getCurrentUser();
+        eventService.badFinish(eventId, drainId, comment);
+
+        ras.addFlashAttribute("errors",eventService.getError());
+        ras.addAttribute("campaignId", campaignId);
+        return "redirect:/Event/event";
+    }
 
     /*@RequestMapping("/eventProcessing")
     public String eventProcessing(Map<String, Object> model,

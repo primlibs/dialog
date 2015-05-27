@@ -77,23 +77,20 @@
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                                <h4 class="modal-title" id="myModalLabel">Справочник сливов</h4>
+                                                <h4 class="modal-title" id="myModalLabel">Слив звонка</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <form  action="<c:url value="/Event/#" />" method="post">
+                                                <form  action="<c:url value="/Event/badFinish" />" method="post">
 
-                                                    <p><textarea rows="6" cols="78" name="comment"> </textarea>
+                                                    
 
-                                                    <p>     <select name="drainId">
+                                                    <p> Причина:    <select name="drainId">
                                                             <c:forEach var="drain" items="${drainList}" varStatus="myIndex">
                                                                 <option value="${drain.drainId}">${drain.name}</option>
                                                             </c:forEach>
                                                         </select>
-
-
+                                                    <p><textarea rows="5" cols="50" name="comment"> </textarea>
                                                         <input type="hidden" name="campaignId" value=${param.campaignId}>
-                                                        <input type="hidden" name="userId" value=${paraqm.userId}>
-                                                        <input type="hidden" name="eventId" value=${param.eventId}>
                                                         <input type="hidden" name="eventId" value=${event.eventId}>
                                                     <p>     <input class="btn btn-primary" type="submit" value="Отправить">
                                                 </form>
@@ -123,8 +120,6 @@
                                                     </div> 
 
                                                     <input type="hidden" name="campaignId" value=${param.campaignId}>
-                                                    <input type="hidden" name="userId" value=${paraqm.userId}>
-                                                    <input type="hidden" name="eventId" value=${param.eventId}>
                                                     <input type="hidden" name="eventId" value=${event.eventId}>
                                                     <p>    <input class="btn btn-primary" type="submit" value="Отправить">
                                                 </form>
@@ -136,7 +131,7 @@
 
                                 <p>  <a href="#" class="btn btn-large btn-danger"
                                         data-toggle="modal"
-                                        data-target="#basicModal">Справочник сливов</a>
+                                        data-target="#basicModal">Слив звонка</a>
                                 <p>   <a href="#" class="btn btn-large btn-success"
                                          data-toggle="modal"
                                          data-target="#basicModalSuccess">Положительный результат</a>

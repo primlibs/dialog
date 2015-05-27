@@ -67,6 +67,10 @@ public class Event extends PrimEntity {
     @Column(name = "postponed_date")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date postponedDate;
+    
+    @JoinColumn(name = "directory_drain_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Drain drain;
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "event")
@@ -171,6 +175,14 @@ public class Event extends PrimEntity {
 
     public void setPostponedDate(Date postponedDate) {
         this.postponedDate = postponedDate;
+    }
+
+    public Drain getDrain() {
+        return drain;
+    }
+
+    public void setDrain(Drain drain) {
+        this.drain = drain;
     }
     
     

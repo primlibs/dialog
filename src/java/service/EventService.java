@@ -567,6 +567,16 @@ public class EventService extends PrimService {
         return performed;
     }
     
+    public void badFinish(Long eventId,Long drainId,String comment){
+        Event ev = eventDao.find(eventId);
+        Drain drain = drainDao.find(drainId);
+        ev.setFinalComment(comment);
+        ev.setDrain(drain);
+        if(validate(ev)){
+            eventDao.update(ev);
+        }
+    }
+    
     /*public List<Campaign> getCampaignsByUserAndCabinet(Long cabinetId, Long userId){
         return eventDao.getCampaignsByUserAndCabinet(cabinetId, userId);
     }*/

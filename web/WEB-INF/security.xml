@@ -27,6 +27,7 @@
         <intercept-url pattern="/Lk/selectLk" access="hasAnyRole('user', 'admin')" />
         
         <intercept-url pattern="/Event/event" access="hasAnyRole('user', 'admin')" />
+        <intercept-url pattern="/Event/badFinish" access="hasAnyRole('user', 'admin')" />
         <intercept-url pattern="/Event/updateClientFromUser" access="hasAnyRole('user', 'admin')" />
         <intercept-url pattern="/Event/writeModuleInHistory" access="hasAnyRole('user', 'admin')" />
         <intercept-url pattern="/Event/campaign" access="hasAnyRole('user', 'admin')" />

@@ -25,6 +25,7 @@
                 <tr>
                     <td> Название </td>
                     <td> Стратегия </td>
+                    <td> Назначенных клиентов </td>
                     <td> Дата создания </td>
                     <td> Дата окончания </td>
                     <td> Статус </td>
@@ -34,6 +35,7 @@
                     <tr>
                         <td onClick="location = '<c:url value="/Event/campaignSpecification?campaignId=${campaign.campaignId}"/>'" >${campaign.name}</td>
                         <td onClick="location = '<c:url value="/Event/campaignSpecification?campaignId=${campaign.campaignId}"/>'" >${campaign.strategy.strategyName}</td>
+                        <td>${campaign.events.size()}</td>
                         <td>${campaign.creationDate}</td>
                         <td>${campaign.endDate}</td>
                         <c:if test="${campaign.status== 1}">
