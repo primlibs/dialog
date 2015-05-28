@@ -7,8 +7,11 @@ package service;
 
 
 import dao.ClientDao;
+import dao.ModuleDao;
 import entities.Client;
 import entities.Event;
+import entities.Module;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -29,6 +32,8 @@ public class ClientService extends PrimService {
     
     @Autowired
     private ClientDao clientDao;
+    @Autowired
+    private ModuleDao moduleDao;
     
     public List<Client> getCabinetClients(Long pkId){
         return clientDao.getCabinetClients(pkId);
@@ -48,6 +53,11 @@ public class ClientService extends PrimService {
     
     public List<Client> getClientsBySearchRequest(Long pkId,String uid,String adress,String nameCompany,String name,Long phone){
         return clientDao.getClientsBySearchRequest(pkId,uid, adress, nameCompany, name, phone);
+    }
+    
+    public List<Module> getHistory(Long eventId){
+        List<Module> dialog = moduleDao.getHistory(eventId);
+        return dialog;
     }
     
     public boolean updateClientField(String field,Long clientId,String newVal){

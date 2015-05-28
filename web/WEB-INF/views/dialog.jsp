@@ -1,65 +1,33 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <head>
-	<style type="text/css">
-		body { margin: 0px 0px; padding: 0px; text-align:center; }
-		table { border-collapse: collapse; }
-		#Content 
-		{
-			width:650px;
-			margin: 0px auto;
-			text-align: left; /* Counteract to IE5/Win Hack */
-			padding: 0px;
-			border: 1px dashed #333;
-			overflow: auto;
-		}	
-		.incoming { margin-top: 10px; margin-bottom: 10px; clear: both; }
-		.outgoing { margin-top: 10px; margin-bottom: 10px; clear: both; float:right; }
-		.precell { border: 1px solid white; max-width: 450px; }
-		.cell { border: 1px solid red; }
-		.textcell { max-width: 450px; }
-		.message { text-align: center; }
-		.message table { margin: 0px auto; }
-	</style>
+     <link rel="stylesheet" type="text/css" href=<c:url value='/css/dialog.css'/> >
 </head>
 <body>
-	<div id="Content">
-		<div class="message">
-			<table>
-				<tr><td class="cell">a</td><td class="cell">b</td><td class="cell">c</td></tr>
-				<tr><td class="cell">d</td><td class="call textcell">This is a message.</td><td class="cell">f</td></tr>
-				<tr><td class="cell">g</td><td class="cell">h</td><td class="cell">i</td></tr>
-			</table>
-		</div>
-		<div class="incoming">
-			<table>
-				<tr><td class="cell">a</td><td class="cell">b</td><td class="cell">c</td></tr>
-				<tr><td class="cell">d</td><td class="call textcell">This is the text that will display for a message. It might not work right in IE 8 because of the maximum width setting but we can hope it works.</td><td class="cell">f</td></tr>
-				<tr><td class="cell">g</td><td class="cell">h</td><td class="cell">i</td></tr>
-			</table>
-		</div>
-		<div class="outgoing">
-			<table>
-				<tr><td class="precell">a</td><td class="precell">Address goes here</td><td class="precell">c</td></tr>
-				<tr><td class="cell">a</td><td class="cell">b</td><td class="cell">c</td></tr>
-				<tr><td class="cell">d</td><td class="call textcell">This is the text that will display for a message. It might not work right in IE 8 because of the maximum width setting but we can hope it works.</td><td class="cell">f</td></tr>
-				<tr><td class="cell">g</td><td class="cell">h</td><td class="cell">i</td></tr>
-			</table>
-		</div>
-		<div class="outgoing">
-			<table>
-				<tr><td class="precell">a</td><td class="precell">Address goes here</td><td class="precell">c</td></tr>
-				<tr><td class="cell">a</td><td class="cell">b</td><td class="cell">c</td></tr>
-				<tr><td class="cell">d</td><td class="call textcell">Short text.</td><td class="cell">f</td></tr>
-				<tr><td class="cell">g</td><td class="cell">h</td><td class="cell">i</td></tr>
-			</table>
-		</div>
-		<div class="incoming">
-			<table>
-				<tr><td class="cell">a</td><td class="cell">b</td><td class="cell">c</td></tr>
-				<tr><td class="cell">d</td><td class="call textcell">This is the text that will display for a message. It might not </td><td class="cell">f</td></tr>
-				<tr><td class="cell">g</td><td class="cell">h</td><td class="cell">i</td></tr>
-			</table>
-		</div>
-	</div>
+    <c:set var="num" value="0"/>
+    <c:forEach var="module" items="${dialog}">
+        <c:set var="num" value="${num+1}"/>
+        <div class="sms_bubble">${num} ${module.moduleName}</div>
+        <div class="sms_bubble blue-right">${module.bodyText}</div>
+    </c:forEach>
+	<!--<div id="one" class="sms_bubble">
+        Hey bro, what's up? Long time no see.
+    </div>
+    
+    <div id="two" class="sms_bubble blue-right">
+    Not much, man. Just writting some CSS3 SMS talk bubbles. You know, usual stuff. Wanna hang?
+    </div>
+    
+    <div id="three" class="sms_bubble">
+        Yeah!
+    </div>
+    
+    <div id="four" class="sms_bubble blue-right">
+    Where at?
+    </div>
+    
+    <div id="five" class="sms_bubble">
+    Let's go up to that one coffee shop off 1st street.
+    </div>-->
 </body>

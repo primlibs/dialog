@@ -9,7 +9,7 @@
 <body class="container" >
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
-        <div><%@include file="/WEB-INF/views/dialog.jsp" %></div>
+        <div style="float: right;"><%@include file="/WEB-INF/views/dialog.jsp" %></div>
         <div class="row" style="width: 50%;">
             
             <table>
@@ -30,7 +30,7 @@
             <c:if test="${empty unfinishedEvents && empty finishedEvents}">
                 Нет контактов
             </c:if>
-            <c:if test="${not empty unfinishedEvents}">
+            <c:if test="${not empty unfinishedEvents || not empty finishedEvents}">
                 <table class="table table-bordered table-hover">
                     <tr><td>Кампания</td><td>Оператор</td><td>Инфо</td></tr>
                 <c:forEach var="event"  items="${unfinishedEvents}" >
@@ -38,33 +38,34 @@
                     <c:if test="${ not empty event.user.userId}">
                         <c:set var="assigned" value="${event.user.userId}" />
                     </c:if>
-                    <tr style="cursor: pointer;" onClick="location = '<c:url value="/Event/eventClient?campaignId=${event.campaign.campaignId}&assigned=${assigned}"/>'">
-                        <td>${event.campaign.name}</td>
+                    <tr class="active">
+                        <td style="cursor: pointer;" onClick="location = '<c:url value="/Event/eventClient?campaignId=${event.campaign.campaignId}&assigned=${assigned}"/>'">${event.campaign.name}</td>
                         <c:if test="${not empty event.user}">
                         <td>${event.user.surname}</td>
                         </c:if>
                         <c:if test="${empty event.user}">
                         <td>Не назначен</td>
                         </c:if>
-                        <td>${event.comment}</td>
+                        <td>Не завершено</td>
                         </tr>
                 </c:forEach>
-                        
+                      
                         <c:forEach var="event"  items="${finishedEvents}" >
-                    <tr style="cursor: pointer;"><td>${event.campaign.name}</td>
-                        <c:if test="${not empty event.user}">
+                            <c:if test="${ not empty event.drain}">
+                        <c:set var="trstyle" value="danger" />
+                    </c:if>
+                            <c:if test="${ not empty event.successDate}">
+                        <c:set var="trstyle" value="success" />
+                    </c:if>
+                    <tr class="${trstyle}"><td>${event.campaign.name}</td>
                         <td>${event.user.surname}</td>
-                        </c:if>
-                        <c:if test="${empty event.user}">
-                        <td>Не назначен</td>
-                        </c:if>
-                        <td>${event.comment}</td>
+                        <td style="cursor: pointer;" onclick="location = '<c:url value="/Client/oneClient?clientId=${client.clientId}&eventId=${event.eventId}"/>'">${event.finalComment}</td>
                         </tr>
                 </c:forEach>
                 </table>
-            </c:if>
-                </div>
             
+                </div>
+            </c:if>  
         </div>
             </body>
 </html>

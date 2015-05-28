@@ -73,7 +73,7 @@ public class ClientDao extends Dao<Client> {
     }
 
     public List<Event> getFinishedEventsByClient(Long clientId) {
-        String hql = "from Event e where e.client.clientId=:clientId and e.status is not null";
+        String hql = "from Event e where e.client.clientId=:clientId and e.finalComment is not null";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("clientId", clientId);
         List<Event> elist = query.list();
@@ -81,7 +81,7 @@ public class ClientDao extends Dao<Client> {
     }
 
     public List<Event> getUnfinishedEventsByClient(Long clientId) {
-        String hql = "from Event e where e.client.clientId=:clientId and e.status is null";
+        String hql = "from Event e where e.client.clientId=:clientId and e.finalComment is null";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("clientId", clientId);
         List<Event> elist = query.list();

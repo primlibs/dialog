@@ -50,7 +50,7 @@ public class ClientController extends WebController {
     }
     
     @RequestMapping("/oneClient")
-    public String showOneClient(Map<String, Object> model,@RequestParam(value = "clientId") Long clientId, HttpServletRequest request) throws Exception {
+    public String showOneClient(Map<String, Object> model,@RequestParam(value = "clientId") Long clientId,@RequestParam(value = "eventId", required = false) Long eventId, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
      
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
@@ -58,6 +58,7 @@ public class ClientController extends WebController {
         model.put("client",clientService.getClient(clientId));
         model.put("unfinishedEvents",clientService.getUnfinishedEventsByClient(clientId));
         model.put("finishedEvents",clientService.getFinishedEventsByClient(clientId));
+        model.put("dialog",clientService.getHistory(eventId));
         
         List<String> clientErrors = clientService.getError();
         if(model.get("errors")!=null){
