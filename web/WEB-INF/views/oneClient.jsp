@@ -9,7 +9,7 @@
 <body class="container" >
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
-        
+        <div><%@include file="/WEB-INF/views/dialog.jsp" %></div>
         <div class="row" style="width: 50%;">
             
             <table>

@@ -19,7 +19,7 @@
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
 
-        <div class="form-group" size="16">  
+        <div class="form-group">  
             <a href="<c:url value="/Strategy/show"/>" class="btn btn-large btn-primary" role="button">Список стратегий</a>
              <a href="<c:url value="/Strategy/drainEditor?strategyId=${strategy.strategyId} "/>" class="btn btn-large btn-primary" role="button">Редактор сливов</a> &nbsp &nbsp  ${strategy.strategyName} 
         </div>
