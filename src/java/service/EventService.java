@@ -114,14 +114,13 @@ public class EventService extends PrimService {
         return new ArrayList();
     }
 
-    public List<Campaign> getCampaignList(Long cabinetId) {
-        PersonalCabinet pk = personalCabinetDao.find(cabinetId);
-        if (pk != null) {
-            return pk.getEventList();
-        } else {
-            addError("Компания не найдена по id " + cabinetId);
+    public LinkedHashMap<Campaign, String> getCampaignsAndFinishedCallsInCabinet(Long cabinetId) {
+        LinkedHashMap<Campaign, String> res = new LinkedHashMap();
+        for (Object[] ecl : personalCabinetDao.getCampaignsAndFinishedCallsInCabinet(cabinetId)) {
+            res.put((Campaign)ecl[1], getStringNumber(ecl[0]));
         }
-        return new ArrayList();
+        
+        return res;
     }
 
     public void createCampaign(String name, Long strategyId, Long cabinetId) {

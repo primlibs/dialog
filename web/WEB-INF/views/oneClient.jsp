@@ -9,8 +9,8 @@
 <body class="container" >
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
-        <div style="float: right;"><%@include file="/WEB-INF/views/dialog.jsp" %></div>
-        <div class="row" style="width: 50%;">
+        <div style="float: right;width: 49%;"><%@include file="/WEB-INF/views/dialog.jsp" %></div>
+        <div class="row" style="width: 49%;">
             
             <table>
                 <tr><td>Наименование: </td><td>${client.nameCompany}</td></tr>

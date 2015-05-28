@@ -25,23 +25,25 @@
                 <tr>
                     <td> Название </td>
                     <td> Стратегия </td>
-                    <td> Назначенных клиентов </td>
+                    <td> Клиенты </td>
+                    <td> Завершено звонков </td>
                     <td> Дата создания </td>
                     <td> Дата окончания </td>
                     <td> Статус </td>
                 </tr>
-                <c:forEach var="campaign" items="${campaigns}" varStatus="myIndex">
+                <c:forEach var="entry" items="${campaignFinishedCallMap}">
 
                     <tr>
-                        <td onClick="location = '<c:url value="/Event/campaignSpecification?campaignId=${campaign.campaignId}"/>'" >${campaign.name}</td>
-                        <td onClick="location = '<c:url value="/Event/campaignSpecification?campaignId=${campaign.campaignId}"/>'" >${campaign.strategy.strategyName}</td>
-                        <td>${campaign.events.size()}</td>
-                        <td>${campaign.creationDate}</td>
-                        <td>${campaign.endDate}</td>
-                        <c:if test="${campaign.status== 1}">
+                        <td onClick="location = '<c:url value="/Event/campaignSpecification?campaignId=${entry.key.campaignId}"/>'" >${entry.key.name}</td>
+                        <td onClick="location = '<c:url value="/Event/campaignSpecification?campaignId=${entry.key.campaignId}"/>'" >${entry.key.strategy.strategyName}</td>
+                        <td>${entry.key.events.size()}</td>
+                        <td>${entry.value}</td>
+                        <td>${entry.key.creationDate}</td>
+                        <td>${entry.key.endDate}</td>
+                        <c:if test="${entry.key.status== 1}">
                             <td>Закрыто</td>
                         </c:if>
-                        <c:if test="${campaign.status== 0}">
+                        <c:if test="${entry.key.status== 0}">
                             <td>Активна</td>
                         </c:if>
                         <%--

@@ -32,5 +32,13 @@ public class PersonalCabinetDao extends Dao<PersonalCabinet> {
 
         return (PersonalCabinet) query.uniqueResult();
     }
+    
+    public List<Object[]> getCampaignsAndFinishedCallsInCabinet(Long cabinetId){
+        String hql="select count(ev.finalComment),ev.campaign from Event ev where ev.cabinet.personalCabinetId=:cabinetId group by ev.campaign order by ev.campaign.creationDate asc";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("cabinetId", cabinetId);
+        List<Object[]> res=query.list();
+        return res;
+    }
 
 }

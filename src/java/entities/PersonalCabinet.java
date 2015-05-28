@@ -33,7 +33,7 @@ public class PersonalCabinet extends PrimEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "personal_cabinet_id")
-    private Long personalCabinetId;
+    private Long pkId;
 
     @Email
     @Column(name = "email")
@@ -116,12 +116,12 @@ public class PersonalCabinet extends PrimEntity {
         this.moduleList = moduleList;
     }
 
-    public Long getPersonalCabinetId() {
-        return personalCabinetId;
+    public Long getPkId() {
+        return pkId;
     }
 
-    public void setPersonalCabinetId(Long personalCabinetId) {
-        this.personalCabinetId = personalCabinetId;
+    public void setPkId(Long pkId) {
+        this.pkId = pkId;
     }
 
     public String getEmail() {
@@ -150,7 +150,7 @@ public class PersonalCabinet extends PrimEntity {
 
     @Override
     public Long getId() {
-        return personalCabinetId;
+        return pkId;
     }
 
     public List<CabinetUser> getActiveCabinetUserList() {

@@ -46,8 +46,8 @@ public class LkController extends WebController{
         List<CabinetUser> list = service.getByUser(user);
         if (list.size() == 1) {
             CabinetUser cu = list.get(0);
-            request.getSession().setAttribute(CABINET_ID_SESSION_NAME, cu.getCabinet().getPersonalCabinetId());
-            request.getSession().setAttribute("role", service.getUserRole(user, cu.getCabinet().getPersonalCabinetId()));
+            request.getSession().setAttribute(CABINET_ID_SESSION_NAME, cu.getCabinet().getPkId());
+            request.getSession().setAttribute("role", service.getUserRole(user, cu.getCabinet().getPkId()));
             return "redirect:/";
         } else {
             model.put("list", list);
