@@ -38,7 +38,7 @@ public class TagService extends PrimService {
     
     public boolean create(String name,Long pkId){
         Tag tag = new Tag();
-        tag.setPk(pkDao.find(pkId));
+        tag.setCabinet(pkDao.find(pkId));
         if(isUniqueName(name,pkId)){
             tag.setName(name);
         }else{

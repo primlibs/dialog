@@ -27,7 +27,7 @@ public class ModuleDao extends Dao<Module> {
 
     //получить модуль по moduleId 
     public Module getShowModule(Long moduleId, Long cabinetId) {
-        String hql = "from Module as m where m.moduleId= :moduleId and m.cabinet.personalCabinetId= :cabinet and m.deleteDate is null";
+        String hql = "from Module as m where m.moduleId= :moduleId and m.cabinet.pkId= :cabinet and m.deleteDate is null";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("moduleId", moduleId);
         query.setParameter("cabinet", cabinetId);

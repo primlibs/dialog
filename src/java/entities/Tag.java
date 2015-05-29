@@ -11,9 +11,12 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -36,9 +39,10 @@ public class Tag extends PrimEntity {
     @Column(name = "tag_id")
     private Long tagId;
     
-    @Column(name = "personal_cabinet_id")
+    @JoinColumn(name = "personal_cabinet_id")
+    @ManyToOne(fetch = FetchType.EAGER)
     @NotNull(message = "Необходимо указать ИД кабинета")
-    private PersonalCabinet pk;
+    private PersonalCabinet cabinet;
     
     @Column(name = "name")
     @NotBlank(message = "Необходимо указать наименование тэга")
@@ -81,12 +85,12 @@ public class Tag extends PrimEntity {
         this.clientLinks = clientLinks;
     }
 
-    public PersonalCabinet getPk() {
-        return pk;
+    public PersonalCabinet getCabinet() {
+        return cabinet;
     }
 
-    public void setPk(PersonalCabinet pk) {
-        this.pk = pk;
+    public void setCabinet(PersonalCabinet cabinet) {
+        this.cabinet = cabinet;
     }
 
     public Date getDeleteDate() {

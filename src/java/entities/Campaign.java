@@ -42,6 +42,7 @@ public class Campaign extends PrimEntity {
 
     @JoinColumn(name = "personal_cabinet_id")
     @ManyToOne(fetch = FetchType.EAGER)
+    @NotNull(message = "Необходимо указать ИД кабинета")
     private PersonalCabinet cabinet;
 
     @JoinColumn(name = "strategy_id")
