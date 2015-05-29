@@ -6,8 +6,12 @@
 
 package service;
 
+import dao.ClientDao;
+import dao.ClientTagLinkDao;
 import dao.PersonalCabinetDao;
 import dao.TagDao;
+import entities.Client;
+import entities.ClientTagLink;
 import entities.Tag;
 import java.util.Date;
 import java.util.List;
@@ -31,29 +35,61 @@ public class TagService extends PrimService {
     private TagDao tagDao;
     @Autowired
     private PersonalCabinetDao pkDao;
+    @Autowired
+    private ClientTagLinkDao clientTagLinkDao;
+    @Autowired
+    private ClientDao clientDao;
     
     public List<Tag> getAllActiveTags(Long pkId){
         return tagDao.getAllTags(pkId);
     }
     
     public boolean create(String name,Long pkId){
-        Tag tag = new Tag();
-        tag.setCabinet(pkDao.find(pkId));
-        if(isUniqueName(name,pkId)){
-            tag.setName(name);
-        }else{
-            addError("Такой тэг уже есть");
+        List<Tag> tags = tagDao.getAllTags(pkId);
+        Tag supTag=null;
+        boolean unique = true;
+        boolean deleted = false;
+        for(Tag tag:tags){
+            if(tag.getName().equalsIgnoreCase(name)){
+                unique = false;
+                supTag = tag;
+                if(tag.getDeleteDate()!=null){
+                    deleted = true;
+                }
+            }
         }
-        if(validate(tag)){
-            tagDao.save(tag);
-            return true;
+        if(unique){
+            Tag tag = new Tag();
+            tag.setCabinet(pkDao.find(pkId));
+            tag.setName(name);
+            if(validate(tag)){
+                tagDao.save(tag);
+                return true;
+            }
+        }else{
+            if(deleted&&supTag!=null){
+                supTag.setDeleteDate(null);
+                supTag.setName(name);
+                if(validate(supTag)){
+                    tagDao.update(supTag);
+                    return true;
+                }
+            }else{
+                addError("Такой тэг уже есть");
+                return false;
+            }
         }
         return false;
     }
     
-    public void delete(Long tagId){
+    public void delete(Long tagId,boolean deleteLinks){
         Tag tag = tagDao.find(tagId);
         if(tag!=null){
+            if(deleteLinks){
+                for(ClientTagLink ctl:tag.getClientLinks()){
+                    clientTagLinkDao.delete(ctl);
+                }
+            }
             tag.setDeleteDate(new Date());
         }else{
             addError("Не удалось найти тэг");
@@ -76,11 +112,42 @@ public class TagService extends PrimService {
     
     public boolean isUniqueName(String name,Long pkId){
         for(Tag tag:getAllActiveTags(pkId)){
-            if(tag.getName().equals(name)){
+            if(tag.getName().equalsIgnoreCase(name)){
                 return false;
             }
         }
         return true;
+    }
+    
+    public boolean addTagToClient(Long clientId,Long tagId){
+        ClientTagLink ctl = new ClientTagLink();
+        Client client = clientDao.find(clientId);
+        Tag tag = tagDao.find(tagId);
+        ctl.setClient(client);
+        ctl.setTag(tag);
+        if(validate(ctl)){
+            clientTagLinkDao.save(ctl);
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean deleteClientTagLink(Long ctlId){
+        ClientTagLink ctl = clientTagLinkDao.find(ctlId);
+        if(ctl!=null){
+            clientTagLinkDao.delete(ctl);
+            return true;
+        }
+        addError("Связь Тэга с клиентом не найдена");
+        return false;
+    }
+    
+    public List<Tag> getNotLinkedTags(Long ClientId){
+        return clientTagLinkDao.getNotLinkedTags(ClientId);
+    }
+    
+    public List<Tag> getDeletedTags(Long pkId){
+        return tagDao.getDeletedTags(pkId);
     }
     
 }

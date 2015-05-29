@@ -41,14 +41,18 @@ public class TagController extends WebController {
     public String createTag(Map<String, Object> model,HttpServletRequest request,@RequestParam(value = "name") String name,RedirectAttributes ras) throws Exception {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         tagService.create(name, cabinetId);
-        ras.addAttribute("errors", tagService.getError());
+        ras.addFlashAttribute("errors", tagService.getError());
+        ras.addFlashAttribute("name", name);
         return "redirect:/Tag/show";
     }
     
     @RequestMapping("/delete")
-    public String deleteTag(Map<String, Object> model,HttpServletRequest request,@RequestParam(value = "tagId") Long tagId,RedirectAttributes ras) throws Exception {
+    public String deleteTag(Map<String, Object> model,HttpServletRequest request,@RequestParam(value = "tagId") Long tagId,@RequestParam(value = "deleteLinks",required = false) Boolean deleteLinks,RedirectAttributes ras) throws Exception {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        tagService.delete(tagId);
+        if(deleteLinks==null){
+            deleteLinks=false;
+        }
+        tagService.delete(tagId,deleteLinks);
         ras.addAttribute("errors", tagService.getError());
         
         return "redirect:/Tag/show";

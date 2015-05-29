@@ -30,4 +30,11 @@ public class TagDao extends Dao<Tag> {
         q.setParameter("pkId", pkId);
         return q.list();
     }
+    
+    public List<Tag> getDeletedTags(Long pkId){
+        String hql = "from Tag where cabinet.pkId=:pkId and deleteDate is not null order by name";
+        Query q = getCurrentSession().createQuery(hql);
+        q.setParameter("pkId", pkId);
+        return q.list();
+    }
 }

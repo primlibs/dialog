@@ -15,6 +15,11 @@
             <table>
                 <tr><td>Наименование: </td><td>${client.nameCompany}</td></tr>
                 <tr><td>Уникальный ИД: </td><td>${client.nameSecretary}</td></tr>
+                <tr><td>Тэги: </td><td>
+                        <c:forEach var="ctl" items="${client.tagLinks}">
+                            ${ctl.tag.name}; 
+                        </c:forEach>
+                    </td></tr>
                 <tr><td>Контактное лицо: </td><td>${client.nameLpr}</td></tr>
                 <tr><td>Телефон: </td><td>${client.phoneSecretary}</td></tr>
                 <tr><td>Принимает решения: </td><td>${client.nameCompany}</td></tr>
@@ -24,6 +29,15 @@
                 
                 
             </table>
+                
+                <c:if test="not empty ${possibleTagsToAdd}">
+                    <div style="margin-bottom: 10px;">
+                    <form role="form" class="form-inline" action="<c:url value="/Client/addTag" />"  method="post"> 
+                        <input class="span5" id="appendedInputButton" name="name" style="width: 376px " size="16" type="text" value="${name}">
+                        <button type="submit" name="submit" class="btn btn-primary">  Добавить  </button>
+                    </form>
+                </div>
+                </c:if>
             
                 <div>
             <h3>Контакты в рамках кампаний</h3>
