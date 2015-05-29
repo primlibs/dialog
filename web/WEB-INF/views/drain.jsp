@@ -8,8 +8,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title> </title>
+        <meta content="text/html; charset=UTF-8">
         <%@include file="/WEB-INF/jsp/css_js.jsp" %>
     </head>
     <body class="container" >

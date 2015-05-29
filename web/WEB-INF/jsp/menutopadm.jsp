@@ -20,6 +20,7 @@
             <ul class="dropdown-menu">
                 <li><a href="<c:url value="/User/userList"/>">Пользователи</a></li>
                 <li><a href="<c:url value="/Strategy/show"/>">Стратегии</a></li>
+                <li><a href="<c:url value="/Tag/show"/>">Тэги</a></li>
             </ul>                    
         </li>
         
