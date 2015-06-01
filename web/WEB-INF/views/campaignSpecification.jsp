@@ -15,7 +15,8 @@
     <body class="container" >
 
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
-        <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
+        <%@include file="/WEB-INF/jsp/error.jsp" %>
+        <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
         <div class="row ">
             <h4> Кампания: ${campaign.name} </h4>
@@ -41,11 +42,11 @@
 
                 <tr>
                     <td rowspan="2">Менеджеры </td>
-                    <td rowspan="2" >Клиенты </td>
-                    <td rowspan="2">Назначено </td>
-                    <td rowspan="2">Не назначено </td>
+                    <td rowspan="2">Клиенты </td>
+                    <td rowspan="2">Назначено</td>
+                    <td rowspan="2">Не назначено</td>
                     <td colspan="3">Обработано</td>
-                    <td rowspan="2">Не обработано </td>
+                    <td rowspan="2">Не обработано</td>
                 </tr>
                 <tr>
                     <td>Успешно </td>

@@ -10,6 +10,7 @@ import dao.PersonalCabinetDao;
 import entities.CabinetUser;
 import entities.PersonalCabinet;
 import entities.User;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,4 +72,7 @@ public class CabinetUserService extends PrimService {
        
         return culist.get(0).getUserRole();
     }
+    
+    
+    
 }
