@@ -18,13 +18,28 @@
         
         <div class="row "><h3>Клиенты</h3>
             
+            <c:set var="selectSize" value="${tags.size()}"/>
+                    <c:if test="${tags.size()>5}">
+                        <c:set var="selectSize" value="5"/>
+                    </c:if>
+                    <c:if test="${tags.size()==0}">
+                        <c:set var="selectSize" value="1"/>
+                    </c:if>
+            
             <div style="margin-bottom: 10px;"> 
                 <form role="form" class="form-inline" action="<c:url value="/Client/clientList" />">
-                    <input type="text" class="form-control" name="uid" id="uidInput" placeholder="Уникальный ИД">
-                    <input type="text" class="form-control" name="nameCompany" id="nameCompanyInput" placeholder="Компания">
-                    <input type="text" class="form-control" name="adress" id="adressInput" placeholder="Адрес">
-                    <input type="text" class="form-control" name="name" id="nameInput" placeholder="Контактное лицо">
-                    <input type="text" class="form-control" name="phone" id="phoneInput" placeholder="Телефон">
+                    <input type="text" class="form-control" style="width: 150px;" name="uid" id="uidInput" placeholder="Уникальный ИД">
+                    <input type="text" class="form-control" style="width: 150px;" name="nameCompany" id="nameCompanyInput" placeholder="Компания">
+                    <input type="text" class="form-control" style="width: 150px;" name="adress" id="adressInput" placeholder="Адрес">
+                    <input type="text" class="form-control" style="width: 150px;" name="name" id="nameInput" placeholder="Контактное лицо">
+                    <input type="text" class="form-control" style="width: 150px;" name="phone" id="phoneInput" placeholder="Телефон">
+                    <c:if test="${not empty tags}">
+                        <select style="vertical-align: middle;" size="${selectSize}" multiple="multiple" class="form-control" name="tags">
+                            <c:forEach var="tag" items="${tags}">
+                                <option value="${tag.tagId}">${tag.name}</option>
+                            </c:forEach>
+                        </select>
+                    </c:if>
                     <input type="submit" name="submit"  class="btn btn-primary" value="Поиск">
                 </form>
             </div>

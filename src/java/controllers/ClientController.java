@@ -38,12 +38,14 @@ public class ClientController extends WebController {
     @RequestMapping("/clientList")
     public String showClientList(Map<String, Object> model, HttpServletRequest request,@RequestParam(value = "uid", required = false) String uid,
             @RequestParam(value = "adress", required = false) String adress,@RequestParam(value = "nameCompany", required = false) String nameCompany,
-            @RequestParam(value = "name", required = false) String name,@RequestParam(value = "phone", required = false) Long phone) throws Exception {
+            @RequestParam(value = "name", required = false) String name,@RequestParam(value = "phone", required = false) Long phone,
+            @RequestParam(value = "tags", required = false) Long[] tags) throws Exception {
         lk.dataByUserAndCompany(request, model);
      
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         
-        model.put("clients",clientService.getClientsBySearchRequest(cabinetId,uid, adress, nameCompany, name, phone));
+        model.put("clients",clientService.getClientsBySearchRequest(cabinetId,uid, adress, nameCompany, name, phone,tags));
+        model.put("tags",tagService.getAllActiveTags(cabinetId));
         
         List<String> clientErrors = clientService.getError();
         if(model.get("errors")!=null){
@@ -74,13 +76,13 @@ public class ClientController extends WebController {
     }
     
     @RequestMapping("/addTag")
-    public String addTagToClient(Map<String, Object> model,@RequestParam(value = "clientId") Long clientId,@RequestParam(value = "tags", required = false) Long[] tags,@RequestParam(value = "eventId", required = false) Long eventId, HttpServletRequest request,RedirectAttributes ras) throws Exception {
+    public String addTagToClient(Map<String, Object> model,@RequestParam(value = "clientId") Long clientId,@RequestParam(value = "tags", required = false) Long[] tagIds,@RequestParam(value = "eventId", required = false) Long eventId, HttpServletRequest request,RedirectAttributes ras) throws Exception {
         List<String> errors = (List<String>)model.get("errors");
         if(errors==null){
             errors=new ArrayList();
         }
-        if(tags!=null&&tags.length!=0){
-            tagService.addTagToClient(clientId, tags);
+        if(tagIds!=null&&tagIds.length!=0){
+            tagService.addTagToClient(clientId, tagIds);
         }else{
             errors.add("Нужно выбрать хотябы один тэг");
         }

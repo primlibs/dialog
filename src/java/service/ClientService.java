@@ -51,8 +51,8 @@ public class ClientService extends PrimService {
         return clientDao.getUnfinishedEventsByClient(clientId);
     }
     
-    public List<Client> getClientsBySearchRequest(Long pkId,String uid,String adress,String nameCompany,String name,Long phone){
-        return clientDao.getClientsBySearchRequest(pkId,uid, adress, nameCompany, name, phone);
+    public List<Client> getClientsBySearchRequest(Long pkId,String uid,String adress,String nameCompany,String name,Long phone,Long[] tags){
+        return clientDao.getClientsBySearchRequest(pkId,uid, adress, nameCompany, name, phone,tags);
     }
     
     public List<Module> getHistory(Long eventId){

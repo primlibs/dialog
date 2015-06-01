@@ -8,13 +8,16 @@ package dao;
 import dao.parent.Dao;
 import entities.Client;
 import entities.Campaign;
+import entities.ClientTagLink;
 import entities.Event;
 import entities.PersonalCabinet;
+import entities.Tag;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.hibernate.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -23,6 +26,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class ClientDao extends Dao<Client> {
+    
+    @Autowired
+    private TagDao tagDao;
 
     @Override
     public Class getSupportedClass() {
@@ -88,7 +94,8 @@ public class ClientDao extends Dao<Client> {
         return elist;
     }
 
-    public List<Client> getClientsBySearchRequest(Long pkId, String uid, String adress, String nameCompany, String name, Long phone) {
+    public List<Client> getClientsBySearchRequest(Long pkId, String uid, String adress, String nameCompany, String name, Long phone,Long[] tagIds) {
+        List<Client> result = new ArrayList();
         HashMap<String, Object> paramMap = new HashMap();
         paramMap.put("pkId", pkId);
         String hql = "from Client с where с.cabinet.pkId=:pkId";
@@ -116,7 +123,30 @@ public class ClientDao extends Dao<Client> {
         for (Map.Entry<String, Object> entry : paramMap.entrySet()) {
             query.setParameter(entry.getKey(), entry.getValue());
         }
-        return query.list();
+        
+        //TO DO: remove this pron
+        result=query.list();
+        if(tagIds!=null&&tagIds.length>0){
+        ArrayList<Long> tagIdList = new ArrayList();
+            List<Client> resWithTags = new ArrayList();
+            for(Long tagId:tagIds){
+                Tag tag = tagDao.find(tagId);
+                tagIdList.add(tag.getTagId());
+            }
+            for(Client client:result){
+                List<Long>subList=new ArrayList();
+                for(ClientTagLink ctl:client.getTagLinks()){
+                    if(tagIdList.contains(ctl.getTag().getTagId())){
+                        subList.add(ctl.getTag().getTagId());
+                    }
+                }
+                if(subList.size()==tagIdList.size()){
+                    resWithTags.add(client);
+                }
+            }
+            return resWithTags;
+        }
+        return result;
     }
 
 }
