@@ -81,9 +81,6 @@
                                             </div>
                                             <div class="modal-body">
                                                 <form  action="<c:url value="/Event/badFinish" />" method="post">
-
-                                                    
-
                                                     <p> Причина:    <select name="drainId">
                                                             <c:forEach var="drain" items="${drainList}" varStatus="myIndex">
                                                                 <option value="${drain.drainId}">${drain.name}</option>
@@ -114,7 +111,7 @@
                                                         <div class="input-group date" id="datetimepicker2">
                                                             <input type="text" name="successDate" class="form-control" />
                                                             <span class="input-group-addon">
-                                                               <span class="glyphicon glyphicon-calendar glyphicon-nonescaped"></span>
+                                                               <i class="glyphicon glyphicon-calendar glyphicon-nonescaped"></i>
                                                             </span>
                                                         </div>
                                                     </div> 

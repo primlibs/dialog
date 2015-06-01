@@ -287,4 +287,14 @@ public class EventDao extends Dao<Event> {
         List<Event> ev = query.list();
         return ev;
     }
+    
+    public List<Object[]> getUsersAndSuccessfulFailedPerformancesForReport(Date dateCampaignFrom,Date dateCampaignTo,Long pkId){
+        String hql = "select ev.user,count(ev.successDate),count(ev.drain),count(ev) from Event ev where ev.cabinet.pkId=:pkId and ev.campaign.creationDate after :dateCampaignFrom and ev.campaign.creationDate before :dateCampaignTo group by ev.user order by ev.user.surname";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("dateCampaignFrom", dateCampaignFrom);
+        query.setParameter("dateCampaignTo", dateCampaignTo);
+        query.setParameter("pkId", pkId);
+        return query.list();
+    }
+    
 }

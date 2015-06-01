@@ -585,6 +585,18 @@ public class EventService extends PrimService {
         }
     }
     
+    public LinkedHashMap<User,HashMap> getUsersAndSuccessfulFailedPerformancesForReport(Date dateCampaignFrom,Date dateCampaignTo,Long pkId){
+        LinkedHashMap<User,HashMap>result = new LinkedHashMap();
+        for(Object[] o:eventDao.getUsersAndSuccessfulFailedPerformancesForReport(dateCampaignFrom,dateCampaignTo,pkId)){
+            HashMap<String,String> infoMap = new HashMap();
+            infoMap.put("successful",StringAdapter.getString(o[1]));
+            infoMap.put("failed",StringAdapter.getString(o[2]));
+            infoMap.put("all",StringAdapter.getString(o[3]));
+            result.put((User)o[0],infoMap);
+        }
+        return result;
+    }
+    
     /*public List<Campaign> getCampaignsByUserAndCabinet(Long cabinetId, Long userId){
         return eventDao.getCampaignsByUserAndCabinet(cabinetId, userId);
     }*/

@@ -13,6 +13,7 @@ import dao.TagDao;
 import entities.Client;
 import entities.ClientTagLink;
 import entities.Tag;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,14 +120,22 @@ public class TagService extends PrimService {
         return true;
     }
     
-    public boolean addTagToClient(Long clientId,Long tagId){
-        ClientTagLink ctl = new ClientTagLink();
+    public boolean addTagToClient(Long clientId,Long[] tags){
+        List<ClientTagLink> listForSave = new ArrayList();
         Client client = clientDao.find(clientId);
-        Tag tag = tagDao.find(tagId);
-        ctl.setClient(client);
-        ctl.setTag(tag);
-        if(validate(ctl)){
-            clientTagLinkDao.save(ctl);
+        if(!(tags.length==1&&tags[0]==(long)0)){
+            for(Long tagId:tags){
+                ClientTagLink ctl = new ClientTagLink();
+                Tag tag = tagDao.find(tagId);
+                ctl.setClient(client);
+                ctl.setTag(tag);
+                if(validate(ctl)){
+                    listForSave.add(ctl);
+                }
+            }
+            for(ClientTagLink link:listForSave){
+                clientTagLinkDao.save(link);
+            }
             return true;
         }
         return false;

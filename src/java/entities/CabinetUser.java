@@ -38,6 +38,7 @@ public class CabinetUser extends PrimEntity {
     @NotBlank(message = "поле РОЛЬ не может быть пустым")
     private String userRole;
     
+    //null - ne makes, 1 - makes
     @Column(name = "makes_calls")
     private Short makesCalls;
 

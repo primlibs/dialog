@@ -15,7 +15,8 @@
     <body class="container" >
 
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
-        <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
+        <%@include file="/WEB-INF/jsp/error.jsp" %>
+        <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
         <div class="row ">
             <h4> Кампания: ${campaign.name} </h4>
@@ -23,26 +24,29 @@
             <form class="form-inline" enctype="multipart/form-data" action="<c:url value="/Event/setXls" />" method="post">
                 <div class="form-group"> 
                     <a href="<c:url value="/Event/getShapeExcel"/>" class="btn btn-large btn-primary" role="button">Получить форму excel</a>
-                    <input type="file"  name="fileXls" size="40"  onchange='$("#upload-file-info").html($(this).val());'>
-                    
-                    &nbsp;
-                    <span class='label label-info' id="upload-file-info"></span>
-
-                    Обновлять клиентов: <input  type="checkbox" name="checkbox" value="agree"> 
-                    <input type="hidden" name="campaignId" value=${param.campaignId}>
-                    <input class="btn btn-primary" type="submit" value="Отправить">
                 </div>
+                    <div class="form-group">
+                        <input type="file"  name="fileXls" size="40"  onchange='$("#upload-file-info").html($(this).val());'>
+                        <span class='label label-info' id="upload-file-info"></span>
+                    </div>
+                    <div class="form-group">
+                       Обновлять клиентов: <input  type="checkbox" name="checkbox" value="agree">  
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" name="campaignId" value=${param.campaignId}>
+                        <input class="btn btn-primary" type="submit" value="Отправить">
+                    </div>
             </form>
 
-            <table class="table table-bordered table-hover">
+            <table class="table table-bordered table-hover" style="margin-top: 20px;">
 
                 <tr>
                     <td rowspan="2">Менеджеры </td>
-                    <td rowspan="2" >Клиенты </td>
-                    <td rowspan="2">Назначено </td>
-                    <td rowspan="2">Не назначено </td>
+                    <td rowspan="2">Клиенты </td>
+                    <td rowspan="2">Назначено</td>
+                    <td rowspan="2">Не назначено</td>
                     <td colspan="3">Обработано</td>
-                    <td rowspan="2">Не обработано </td>
+                    <td rowspan="2">Не обработано</td>
                 </tr>
                 <tr>
                     <td>Успешно </td>

@@ -26,7 +26,7 @@ public class ClientTagLinkDao extends Dao<ClientTagLink> {
     }
     
     public List<Tag> getNotLinkedTags(Long clientId){
-        String hql="select t.tag from Tag t where t.deleteDate is null and t.tag not in(select ctl.tag from ClientTagLink ctl where ctl.client.clientId=:clientId)";
+        String hql="select t from Tag t where t.deleteDate is null and t.tagId not in(select ctl.tag.tagId from ClientTagLink ctl where ctl.client.clientId=:clientId)";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("clientId", clientId);
         return query.list();
