@@ -119,15 +119,19 @@ public class TagService extends PrimService {
         return true;
     }
     
-    public boolean addTagToClient(Long clientId,Long tagId){
+    public boolean addTagToClient(Long clientId,Long[] tags){
         ClientTagLink ctl = new ClientTagLink();
         Client client = clientDao.find(clientId);
-        Tag tag = tagDao.find(tagId);
-        ctl.setClient(client);
-        ctl.setTag(tag);
-        if(validate(ctl)){
-            clientTagLinkDao.save(ctl);
-            return true;
+        if(!(tags.length==1&&tags[0]==(long)0)){
+            for(Long tagId:tags){
+                Tag tag = tagDao.find(tagId);
+                ctl.setClient(client);
+                ctl.setTag(tag);
+                if(validate(ctl)){
+                    clientTagLinkDao.save(ctl);
+                    return true;
+                }
+            }
         }
         return false;
     }

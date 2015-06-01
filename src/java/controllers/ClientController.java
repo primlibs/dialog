@@ -7,6 +7,7 @@ package controllers;
 
 import static controllers.LkController.CABINET_ID_SESSION_NAME;
 import controllers.parent.WebController;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.ClientService;
 import service.TagService;
 
@@ -72,19 +74,39 @@ public class ClientController extends WebController {
     }
     
     @RequestMapping("/addTag")
-    public String addTagToClient(Map<String, Object> model,@RequestParam(value = "clientId") Long clientId,@RequestParam(value = "tagId", required = false) Long tagId, HttpServletRequest request) throws Exception {
-        lk.dataByUserAndCompany(request, model);
-     
-        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        
-        
-        
-        List<String> clientErrors = clientService.getError();
-        if(model.get("errors")!=null){
-            clientErrors.addAll((List<String>)model.get("errors"));
+    public String addTagToClient(Map<String, Object> model,@RequestParam(value = "clientId") Long clientId,@RequestParam(value = "tags", required = false) Long[] tags,@RequestParam(value = "eventId", required = false) Long eventId, HttpServletRequest request,RedirectAttributes ras) throws Exception {
+        List<String> errors = (List<String>)model.get("errors");
+        if(errors==null){
+            errors=new ArrayList();
         }
-        model.put("errors",clientErrors);
-        return "oneClient";
+        if(tags!=null&&tags.length!=0){
+            tagService.addTagToClient(clientId, tags);
+        }else{
+            errors.add("Нужно выбрать хотябы один тэг");
+        }
+        errors.addAll(tagService.getError());
+        
+        model.put("errors",errors);
+        ras.addFlashAttribute("errors",errors);
+        ras.addAttribute("eventId", eventId);
+        ras.addAttribute("clientId", clientId);
+        return "redirect:/Client/oneClient";
+    }
+    
+    @RequestMapping("/deleteTag")
+    public String deleteTagFromClient(Map<String, Object> model,@RequestParam(value = "clientId") Long clientId,@RequestParam(value = "ctlId", required = false) Long ctlId,@RequestParam(value = "eventId", required = false) Long eventId, HttpServletRequest request,RedirectAttributes ras) throws Exception {
+        List<String> errors = (List<String>)model.get("errors");
+        if(errors==null){
+            errors=new ArrayList();
+        }
+        tagService.deleteClientTagLink(ctlId);
+        errors.addAll(tagService.getError());
+        
+        model.put("errors",errors);
+        ras.addFlashAttribute("errors",errors);
+        ras.addAttribute("eventId", eventId);
+        ras.addAttribute("clientId", clientId);
+        return "redirect:/Client/oneClient";
     }
 
 }

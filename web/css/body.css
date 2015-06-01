@@ -12,3 +12,15 @@ body {
     background-color: #FFF; 
     color: #00A1D2;
     }
+.tag{
+    background-color: lavender;
+    border: #0081c2;
+    border-radius: 5px;
+    box-shadow: rgba(0,0,0,0.5) 0px 1px 3px;
+    width: auto;
+    display: block;
+    float: left;
+    margin: 4px;
+    padding: 3px;
+    cursor: pointer;
+}
