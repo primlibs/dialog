@@ -55,9 +55,9 @@
                     <th> Завершены положительно </th>
                     <th> Всего назначено </th>
                 </tr>
-                <c:forEach var="entry" items="${reportMap.entrySet}">
+                <c:forEach var="entry" items="${reportMap}">
                     <tr>
-                        <td>${entry.key}</td>
+                        <td>${entry.key.surname}</td>
                         <td>${entry.value.get('successful')}</td>
                         <td>${entry.value.get('failed')}</td>
                         <td>${entry.value.get('all')}</td>

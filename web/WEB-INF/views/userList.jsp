@@ -25,7 +25,7 @@
 
             <tr>
                 <td>${myIndex.index}</td>
-                
+                <td>Логин</td>
                 <td>Фамилия</td>
                 <td>Имя</td>
                 <td>Отчество</td>
@@ -37,6 +37,7 @@
 
                 <tr>
                     <td>${myIndex.count}</td>
+                    <td>${cabinetUser.user.email}</td>
                     <td>${cabinetUser.user.surname}</td>
                     <td>${cabinetUser.user.name}</td>
                     <td>${cabinetUser.user.patronymic}</td>
