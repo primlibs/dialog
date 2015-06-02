@@ -6,7 +6,7 @@
 package dao;
 
 import dao.parent.Dao;
-import entities.Drain;
+import entities.FailReason;
 import entities.Strategy;
 import java.util.List;
 import org.hibernate.Query;
@@ -17,19 +17,19 @@ import org.springframework.stereotype.Repository;
  * @author Юрий
  */
 @Repository
-public class DrainDao extends Dao<Drain>{
+public class FailReasonDao extends Dao<FailReason>{
 
     @Override
     public Class getSupportedClass() {
-        return Drain.class;
+        return FailReason.class;
     }
     
-     public List<Drain> getDrainListActive (Strategy strategy) {
+     public List<FailReason> getActiveFailReasons (Long strategyId) {
         //   String hql = "from Event as ev where ev.event.campaignId= :event and ev.cabinet.pkId= :cabinet and ev.client.clientId= :client";
-        String hql = "from Drain as dr where dr.strategy= :strategy and dr.dateDelete is null";
+        String hql = "from FailReason fr where fr.strategy.strategyId=:strategyId and fr.dateDelete is null";
         Query query = getCurrentSession().createQuery(hql);
-        query.setParameter("strategy", strategy);
-                List<Drain> clist = query.list();
+        query.setParameter("strategyId", strategyId);
+                List<FailReason> clist = query.list();
                  return clist;
       
     }

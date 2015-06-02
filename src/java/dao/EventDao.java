@@ -103,7 +103,7 @@ public class EventDao extends Dao<Event> {
 
     //лист Ссылкок ECL по campaignId НЕ УСПЕШНО ОБРАБОТАНЫХ
     public List<Event> getEventLisNotSuccess(Long campaignId, Long cabinetId) {
-        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.cabinet.pkId= :cabinet and ev.drain is not null order by ev.eventId";
+        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.cabinet.pkId= :cabinet and ev.failReason is not null order by ev.eventId";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
         query.setParameter("cabinet", cabinetId);
@@ -143,7 +143,7 @@ public class EventDao extends Dao<Event> {
 
     // получить лист назначенных ссылок ECL , не успешно обработанных
     public List<Event> getAssignedEventNotSuccess(Long campaignId, Long cabinetId) {
-        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.user is not null and ev.cabinet.pkId= :cabinet and ev.drain is not null order by ev.eventId";
+        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.user is not null and ev.cabinet.pkId= :cabinet and ev.failReason is not null order by ev.eventId";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
         query.setParameter("cabinet", cabinetId);
@@ -185,7 +185,7 @@ public class EventDao extends Dao<Event> {
 
     //лист Ссылкок ECL по campaignId НЕ УСПЕШНО ОБРАБОТАНЫХ по userId
     public List<Event> getFailedEventsByUserId(Long campaignId, Long cabinetId, Long userId) {
-        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.cabinet.pkId= :cabinet and ev.user.userId= :userId and ev.drain is not null order by ev.eventId";
+        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.cabinet.pkId= :cabinet and ev.user.userId= :userId and ev.failReason is not null order by ev.eventId";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
         query.setParameter("cabinet", cabinetId);
@@ -248,7 +248,7 @@ public class EventDao extends Dao<Event> {
 
     //клиенты назначение юзерам обработанные Не успешно
     public List<Object[]> getAssignedProcessedFailedClientsByUserId(Long campaignId, Long cabinetId) {
-        String hql = "select count(ev.eventId) , ev.user.userId  from Event ev where ev.campaign.campaignId= :campaignId and ev.cabinet.pkId= :cabinet and ev.user is not null and ev.drain is not null group by user.userId";
+        String hql = "select count(ev.eventId) , ev.user.userId  from Event ev where ev.campaign.campaignId= :campaignId and ev.cabinet.pkId= :cabinet and ev.user is not null and ev.failReason is not null group by user.userId";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
         query.setParameter("cabinet", cabinetId);
@@ -289,7 +289,7 @@ public class EventDao extends Dao<Event> {
     }
     
     public List<Object[]> getUsersAndSuccessfulFailedPerformancesForReport(Date dateCampaignFrom,Date dateCampaignTo,Long pkId){
-        String hql = "select ev.user,count(ev.successDate),count(ev.drain),count(ev.eventId) from Event ev where ev.cabinet.pkId=:pkId and ev.campaign.creationDate between :dateCampaignFrom and :dateCampaignTo group by ev.user order by ev.user.surname";
+        String hql = "select ev.user,count(ev.successDate),count(ev.failReason),count(ev.eventId) from Event ev where ev.cabinet.pkId=:pkId and ev.campaign.creationDate between :dateCampaignFrom and :dateCampaignTo group by ev.user order by ev.user.surname";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("dateCampaignFrom", dateCampaignFrom);
         query.setParameter("dateCampaignTo", dateCampaignTo);

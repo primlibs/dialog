@@ -267,7 +267,7 @@ public class EventController extends WebController {
         } else {
             model.put("event", eventService.getEventById(eventId));
         }
-        model.put("drainList", eventService.getDrainList(strategyId));
+        model.put("failReasons", eventService.getAllFailReasons(strategyId));
         model.put("campaign", eventService.getCampaign(campaignId));
         model.put("errors", eventService.getError());
         model.put("strategy", strategyService.getStrategy(strategyId));
@@ -317,7 +317,7 @@ public class EventController extends WebController {
     }
     
     @RequestMapping("/badFinish")
-    public String badFinish(Map<String, Object> model,@RequestParam(value = "eventId") Long eventId,@RequestParam(value = "drainId") Long drainId,
+    public String badFinish(Map<String, Object> model,@RequestParam(value = "eventId") Long eventId,@RequestParam(value = "failReasonId") Long failReasonId,
             @RequestParam(value = "campaignId") Long campaignId,@RequestParam(value = "comment") String comment,RedirectAttributes ras,HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
@@ -325,7 +325,7 @@ public class EventController extends WebController {
         if(comment.equals("")){
             comment="Без комментариев";
         }
-        eventService.badFinish(eventId, drainId, comment);
+        eventService.badFinish(eventId, failReasonId, comment);
 
         ras.addFlashAttribute("errors",eventService.getError());
         ras.addAttribute("campaignId", campaignId);
@@ -377,28 +377,4 @@ public class EventController extends WebController {
         model.put("errors", eventService.getError());
         return "postponedEvents";
     }
-
-    /*@RequestMapping("/eventProcessing")
-    public String eventProcessing(Map<String, Object> model,
-            @RequestParam(value = "campaignId") Long campaignId,
-            @RequestParam(value = "groupId") Long groupId,
-            @RequestParam(value = "moduleId") Long moduleId,
-            @RequestParam(value = "eventId") Long eventId,
-            HttpServletRequest request,
-            RedirectAttributes ras) throws Exception {
-        lk.dataByUserAndCompany(request, model);
-        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        User user = authManager.getCurrentUser();
-        Long userId = user.getUserId();
-        Long strategyId = eventService.getStrategyId(campaignId);
-
-        model.put("drainList", eventService.getDrainList(strategyId));
-        model.put("module", moduleService.showModule(moduleId, cabinetId));
-        model.put("strategy", strategyService.getStrategy(strategyId));
-        model.put("campaign", eventService.getCampaign(campaignId));
-        model.put("errors", eventService.getError());
-        model.put("event", eventService.getEventById(eventId));
-        model.put("аctiveMap", groupService.getActiveMap(strategyId));
-        return "event";
-    }*/
 }

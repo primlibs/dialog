@@ -1,7 +1,7 @@
 <%-- 
-    Document   : drain
+    Document   : failReason
     Created on : 27.05.2015, 1:11:51
-    Author     : Ra
+    Author     : NameLostInAges
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -14,7 +14,8 @@
     <body class="container" >
 
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
-        <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
+        <%@include file="/WEB-INF/jsp/error.jsp" %> 
+        <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
         <div class="row ">
             <div class="col-md-6"> 
@@ -27,8 +28,8 @@
             <div class="col-md-6"> 
 
                 <div class=" input-append pull-right btn-group">
-                    <form action="<c:url value="/Strategy/newDrain" />"  method="post"> 
-                        <input class="span5" id="appendedInputButton" name="drainName" style="width: 376px " size="16" type="text">
+                    <form action="<c:url value="/Strategy/createFailReason" />"  method="post"> 
+                        <input class="span5" id="appendedInputButton" name="failReasonName" style="width: 376px " size="16" type="text">
                         <input type="hidden" name="strategyId" value=${param.strategyId}>
                         <button type="submit" name="submit" class="btn btn-default">  Добавить  </button>
                     </form>
@@ -39,12 +40,12 @@
                         <td>имя</td>
                         <td>удалить</td>
                     </tr>
-                    <c:forEach var="drain" items="${drainActiveList}" varStatus="myIndex">
+                    <c:forEach var="failReason" items="${actualReasons}" varStatus="myIndex">
 
                         <tr>
                             <td>${myIndex.count}</td>
-                            <td > ${drain.name} </td>
-                            <td onClick="location = '<c:url value="/Strategy/drainDelete?drainId=${drain.drainId}&strategyId=${param.strategyId}"/>'"> удалить </td>
+                            <td > ${failReason.name} </td>
+                            <td onClick="location = '<c:url value="/Strategy/deleteFailReason?failReasonId=${failReason.failReasonId}"/>'"> удалить </td>
                         </tr>
                     </c:forEach>
                 </table>

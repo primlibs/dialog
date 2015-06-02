@@ -29,6 +29,12 @@ import org.hibernate.annotations.LazyCollectionOption;
 @Entity
 @Table(name = "event")
 public class Event extends PrimEntity {
+    
+    public static int FAILED = 4;
+    public static int SUCCESSFUL = 3;
+    public static int POSTPONED = 2;
+    public static int ASSIGNED = 1;
+    public static int ACTIVE = 0;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,7 +58,7 @@ public class Event extends PrimEntity {
     private User user;
 
     @Column(name = "status")
-    private String status;
+    private Integer status;
 
     @Column(name = "comment")
     private String comment;
@@ -68,9 +74,9 @@ public class Event extends PrimEntity {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date postponedDate;
     
-    @JoinColumn(name = "directory_drain_id")
+    @JoinColumn(name = "fail_reason_id")
     @ManyToOne(fetch = FetchType.EAGER)
-    private Drain drain;
+    private FailReason failReason;
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "event")
@@ -113,11 +119,11 @@ public class Event extends PrimEntity {
         this.user = user;
     }
 
-    public String getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -177,12 +183,12 @@ public class Event extends PrimEntity {
         this.postponedDate = postponedDate;
     }
 
-    public Drain getDrain() {
-        return drain;
+    public FailReason getFailReason() {
+        return failReason;
     }
 
-    public void setDrain(Drain drain) {
-        this.drain = drain;
+    public void setFailReason(FailReason failReason) {
+        this.failReason = failReason;
     }
     
     

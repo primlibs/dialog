@@ -8,7 +8,7 @@ package service;
 import dao.ClientDao;
 import dao.EventDao;
 import dao.CampaignDao;
-import dao.DrainDao;
+import dao.FailReasonDao;
 import dao.GroupDao;
 import dao.ModuleDao;
 import dao.ModuleEventClientDao;
@@ -18,7 +18,7 @@ import dao.UserDao;
 import entities.CabinetUser;
 import entities.Client;
 import entities.Campaign;
-import entities.Drain;
+import entities.FailReason;
 import entities.Event;
 import entities.Module;
 import entities.ModuleEventClient;
@@ -75,7 +75,7 @@ public class EventService extends PrimService {
     private CampaignDao campaignDao;
 
     @Autowired
-    private DrainDao drainDao;
+    private FailReasonDao failReasonDao;
 
     @Autowired
     private ClientDao clientDao;
@@ -110,7 +110,7 @@ public class EventService extends PrimService {
         if (pk != null) {
             return pk.getStrategyList();
         } else {
-            addError("Стратегия не найден по id " + cabinetId);
+            addError("Стратегия не найдена по id " + cabinetId);
         }
         return new ArrayList();
     }
@@ -141,7 +141,7 @@ public class EventService extends PrimService {
                         campaignDao.save(campaign);
                     }
                 } else {
-                    addError("поле название эвента не может быть пустым");
+                    addError("наименование кампании не может быть пустым");
                 }
             } else {
                 addError("не найдена стратегия по id" + strategyId);
@@ -540,10 +540,10 @@ public class EventService extends PrimService {
         return event;
     }
 
-    public List<Drain> getDrainList(Long strategyId){
+    public List<FailReason> getAllFailReasons(Long strategyId){
         Strategy str = strategyDao.find(strategyId);
-        List<Drain> drainList = str.getDrainList();
-        return drainList;
+        List<FailReason> failReasons = str.getFailReasons();
+        return failReasons;
     }
     
     public boolean writeModuleInHistory(Date date,Long userId,Long cabinetId,Long moduleId,Long eventId){
@@ -567,11 +567,11 @@ public class EventService extends PrimService {
         return performed;
     }
     
-    public void badFinish(Long eventId,Long drainId,String comment){
+    public void badFinish(Long eventId,Long reasonId,String comment){
         Event ev = eventDao.find(eventId);
-        Drain drain = drainDao.find(drainId);
+        FailReason fr = failReasonDao.find(reasonId);
         ev.setFinalComment(comment);
-        ev.setDrain(drain);
+        ev.setFailReason(fr);
         if(validate(ev)){
             eventDao.update(ev);
         }

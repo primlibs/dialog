@@ -85,9 +85,9 @@
                                             </div>
                                             <div class="modal-body">
                                                 <form  action="<c:url value="/Event/badFinish" />" method="post">
-                                                    <p> Причина:    <select name="drainId">
-                                                            <c:forEach var="drain" items="${drainList}" varStatus="myIndex">
-                                                                <option value="${drain.drainId}">${drain.name}</option>
+                                                    <p> Причина:    <select name="failReasonId">
+                                                            <c:forEach var="reason" items="${failReasons}" varStatus="myIndex">
+                                                                <option value="${reason.failReasonId}">${reason.name}</option>
                                                             </c:forEach>
                                                         </select>
                                                     <p><textarea rows="5" cols="50" name="comment"> </textarea>

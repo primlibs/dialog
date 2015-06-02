@@ -23,18 +23,18 @@ import javax.persistence.Temporal;
  * @author Юрий
  */
 @Entity
-@Table(name = "directory_drain")
-public class Drain extends PrimEntity {
+@Table(name = "fail_reason")
+public class FailReason extends PrimEntity {
 
     @Override
     public Long getId() {
-        return drainId;
+        return failReasonId;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "directory_drain_id")
-    private Long drainId;
+    @Column(name = "fail_reason_id")
+    private Long failReasonId;
 
     @Column(name = "name")
     private String name;
@@ -47,12 +47,12 @@ public class Drain extends PrimEntity {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateDelete;
 
-    public Long getDrainId() {
-        return drainId;
+    public Long getFailReasonId() {
+        return failReasonId;
     }
 
-    public void setDrainId(Long drainId) {
-        this.drainId = drainId;
+    public void setFailReasonId(Long failReasonId) {
+        this.failReasonId = failReasonId;
     }
 
     public String getName() {

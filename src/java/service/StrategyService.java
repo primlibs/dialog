@@ -5,12 +5,12 @@
  */
 package service;
 
-import dao.DrainDao;
+import dao.FailReasonDao;
 import dao.GroupDao;
 import dao.ModuleDao;
 import dao.PersonalCabinetDao;
 import dao.StrategyDao;
-import entities.Drain;
+import entities.FailReason;
 import entities.Group;
 import entities.Module;
 import entities.PersonalCabinet;
@@ -47,7 +47,7 @@ public class StrategyService extends PrimService {
     private ModuleDao moduleDao;
 
     @Autowired
-    private DrainDao drainDao;
+    private FailReasonDao failReasonDao;
 
     @Autowired
     private GroupService groupService;
@@ -70,20 +70,18 @@ public class StrategyService extends PrimService {
             strategy.setCabinet(pk);
             if (validate(strategy)) {
                 strategyDao.save(strategy);
-            } else {
-                addError("Стратегия не сохранилась");
             }
             if (getError().isEmpty()) {
-                ArrayList<String> drainList = new ArrayList<>();
-                drainList.add(0, "Нет потребности");
-                drainList.add(1, "Нет средств");
-                //drainList.add(2, "Не интересно");
-                for (String str :drainList ) {
-                    Drain drain = new Drain();
-                    drain.setStrategy(strategy);
-                    drain.setName(str);
-                    if (validate(drain)) {
-                        drainDao.save(drain);
+                ArrayList<String> failReasons = new ArrayList<>();
+                failReasons.add(0, "Нет потребности");
+                failReasons.add(1, "Нет средств");
+                //failReasons.add(2, "Не интересно");
+                for (String str :failReasons ) {
+                    FailReason fr = new FailReason();
+                    fr.setStrategy(strategy);
+                    fr.setName(str);
+                    if (validate(fr)) {
+                        failReasonDao.save(fr);
                     }else{
                         addError("Список сливов не сохранился");
                     }

@@ -85,7 +85,7 @@
                         </c:forEach>
 
                         <c:forEach var="event"  items="${finishedEvents}" >
-                            <c:if test="${ not empty event.drain}">
+                            <c:if test="${ not empty event.failReason}">
                                 <c:set var="trstyle" value="danger" />
                             </c:if>
                             <c:if test="${ not empty event.successDate}">

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import service.DrainService;
+import service.FailReasonService;
 import service.ModuleService;
 import service.StrategyService;
 
@@ -37,7 +37,7 @@ public class StrategyController extends WebController {
     private ModuleService moduleService;
 
     @Autowired
-    private DrainService drainService;
+    private FailReasonService failReasonService;
 
     @RequestMapping("/show")
     public String showStrategyListPage(Map<String, Object> model,
@@ -177,8 +177,8 @@ public class StrategyController extends WebController {
         return "redirect:/Strategy/strategy";
     }
 
-    @RequestMapping("/drainEditor")
-    public String drainEditor(Map<String, Object> model,
+    @RequestMapping("/failReasonEditor")
+    public String editFailReason(Map<String, Object> model,
             HttpServletRequest request,
             //  @RequestParam(value = "moduleName", required = false) String moduleName,
             //  @RequestParam(value = "moduleId", required = false) Long moduleId,
@@ -188,51 +188,51 @@ public class StrategyController extends WebController {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         Strategy strategy = strategyService.findStrategy(strategyId);
 
-        model.put("drainActiveList", drainService.getDrainActiveListByStrategy(strategy));
-        model.put("errors", drainService.getError());
+        model.put("actualReasons", failReasonService.getActiveFailReasonsByStrategy(strategyId));
+        model.put("errors", failReasonService.getError());
         model.put("strategyId", strategyId);
 
-        return "drain";
+        return "failReasons";
     }
 
-    @RequestMapping("/newDrain")
-    public String drainNew(Map<String, Object> model,
+    @RequestMapping("/createFailReason")
+    public String createFailReason(Map<String, Object> model,
             HttpServletRequest request,
-            @RequestParam(value = "drainName") String drainName,
+            @RequestParam(value = "failReasonName") String failReasonName,
             @RequestParam(value = "strategyId") Long strategyId) throws Exception {
 
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         Strategy strategy = strategyService.findStrategy(strategyId);
 
-        drainService.saveDrain(drainName, strategyId);
+        failReasonService.saveFailReason(failReasonName, strategyId);
         
-        if (drainService.getError().isEmpty()) {
-            model.put("message", "Модуль отказа " + drainName + " создан");
+        if (failReasonService.getError().isEmpty()) {
+            model.put("message", "Модуль отказа " + failReasonName + " создан");
         }
 
-        model.put("drainActiveList", drainService.getDrainActiveListByStrategy(strategy));
-        model.put("errors", drainService.getError());
+        model.put("actualReasons", failReasonService.getActiveFailReasonsByStrategy(strategyId));
+        model.put("errors", failReasonService.getError());
         model.put("strategyId", strategyId);
-        return "drain";
+        return "failReasons";
     }
 
-    @RequestMapping("/drainDelete")
-    public String drainDelete(Map<String, Object> model,
+    @RequestMapping("/deleteFailReason")
+    public String deleteFailReason(Map<String, Object> model,
             HttpServletRequest request,
-            @RequestParam(value = "drainId") Long drainId,
+            @RequestParam(value = "failReasonId") Long failReasonId,
             @RequestParam(value = "strategyId") Long strategyId) throws Exception {
 
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         Strategy strategy = strategyService.findStrategy(strategyId);
-        drainService.drainDelete(drainId, strategyId);
-          if (drainService.getError().isEmpty()) {
-            model.put("message", "Модуль отказа " + drainService.getDrain(drainId) + " удален");
+        failReasonService.delete(failReasonId);
+          if (failReasonService.getError().isEmpty()) {
+            model.put("message", "Модуль отказа " + failReasonService.getFailReasons(failReasonId) + " удален");
         }
-        model.put("drainActiveList", drainService.getDrainActiveListByStrategy(strategy));
-        model.put("errors", drainService.getError());
+        model.put("actualReasons", failReasonService.getActiveFailReasonsByStrategy(strategyId));
+        model.put("errors", failReasonService.getError());
         model.put("strategyId", strategyId);
-        return "drain";
+        return "failReasons";
     }
 }
