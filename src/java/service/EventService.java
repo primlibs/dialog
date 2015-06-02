@@ -105,7 +105,8 @@ public class EventService extends PrimService {
 
     }
 
-    public List<Strategy> strategytList(Long cabinetId) {
+    public List<Strategy> getStrategies(Long cabinetId) {
+        //fail
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         if (pk != null) {
             return pk.getStrategyList();

@@ -28,8 +28,8 @@
                     <label class="control-label col-xs-3" for="selectRole">Выбрать стратегию:</label>
                     <div class="col-xs-9">
                         <select name="strategyId">
-                            <c:forEach var="strateg" items="${strategytList}" varStatus="myIndex">
-                                <option value="${strateg.strategyId}">${strateg.strategyName}</option>
+                            <c:forEach var="strategy" items="${strategies}" varStatus="myIndex">
+                                <option value="${strategy.strategyId}">${strategy.strategyName}</option>
 
                             </c:forEach>
                         </select>

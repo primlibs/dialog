@@ -80,7 +80,7 @@ public class EventController extends WebController {
     ) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-
+        
         if (strategyId != null) {
             eventService.createCampaign(name, strategyId, cabinetId);
             if (eventService.getError().isEmpty()) {
@@ -89,7 +89,7 @@ public class EventController extends WebController {
             }
         }
         model.put("numericName", eventService.numericName(cabinetId));
-        model.put("strategytList", eventService.strategytList(cabinetId));
+        model.put("strategies", eventService.getStrategies(cabinetId));
         model.put("errors", eventService.getError());
         return "createCampaign";
     }

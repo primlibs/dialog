@@ -35,7 +35,7 @@ public class CabinetUserDao extends Dao<CabinetUser> {
     }
 
     public List<CabinetUser> getByUserHql(User user) {
-        String hql = "from CabinetUser as cu where cu.user= :user";
+        String hql = "from CabinetUser as cu where cu.user=:user";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("user", user);
         return query.list();
@@ -43,7 +43,7 @@ public class CabinetUserDao extends Dao<CabinetUser> {
     }
 
     public List<CabinetUser> getByUserAndCabinet(User user, PersonalCabinet cabinet) {
-        String hql = "from CabinetUser as cu where cu.user= :user and cu.cabinet= :cabinet ";
+        String hql = "from CabinetUser as cu where cu.user=:user and cu.cabinet=:cabinet ";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("user", user);
         query.setParameter("cabinet", cabinet);
