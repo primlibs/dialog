@@ -289,10 +289,19 @@ public class EventDao extends Dao<Event> {
     }
     
     public List<Object[]> getUsersAndSuccessfulFailedPerformancesForReport(Date dateCampaignFrom,Date dateCampaignTo,Long pkId){
-        String hql = "select ev.user,count(ev.successDate),count(ev.drain),count(ev) from Event ev where ev.cabinet.pkId=:pkId and ev.campaign.creationDate > :dateCampaignFrom and ev.campaign.creationDate < :dateCampaignTo group by ev.user order by ev.user.surname";
+        String hql = "select ev.user,count(ev.successDate),count(ev.drain),count(ev.eventId) from Event ev where ev.cabinet.pkId=:pkId and ev.campaign.creationDate between :dateCampaignFrom and :dateCampaignTo group by ev.user order by ev.user.surname";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("dateCampaignFrom", dateCampaignFrom);
         query.setParameter("dateCampaignTo", dateCampaignTo);
+        query.setParameter("pkId", pkId);
+        return query.list();
+    }
+    
+    public List<Event> getPostponedEvents(Date dateFrom,Date dateTo,Long pkId){
+        String hql = "from Event ev where ev.cabinet.pkId=:pkId and ev.postponedDate between :dateFrom and :dateTo order by ev.postponedDate asc";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("dateFrom", dateFrom);
+        query.setParameter("dateTo", dateTo);
         query.setParameter("pkId", pkId);
         return query.list();
     }

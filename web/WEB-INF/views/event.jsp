@@ -20,11 +20,15 @@
                 $('#datetimepicker2').datetimepicker(
                         {language: 'ru'}
                 );
+                $('#datetimepicker1').datetimepicker(
+                        {language: 'ru'}
+                );
             });
         </script>
 
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
-        <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
+        <%@include file="/WEB-INF/jsp/error.jsp" %> 
+        <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
         <div class="row ">
             <h4>   Стратегия: ${strategy.strategyName}</h4>
@@ -125,7 +129,40 @@
                                         </div>
                                     </div>
                                 </div>
+                                                    
+                                <div class="modal fade" id="basicModalPostpone" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                                <h4 class="modal-title" id="myModalLabel">Перенос звонка</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form  action="<c:url value="/Event/postponeEvent" />" method="post">
+                                                    <p><textarea rows="5" cols="50" name="comment"> </textarea>
 
+                                                    <p>    <div class="form-group">
+                                                        <div class="input-group date" id="datetimepicker1">
+                                                            <input type="text" name="postponeDate" class="form-control" />
+                                                            <span class="input-group-addon">
+                                                               <i class="glyphicon glyphicon-calendar glyphicon-nonescaped"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div> 
+
+                                                    <input type="hidden" name="campaignId" value=${param.campaignId}>
+                                                    <input type="hidden" name="eventId" value=${event.eventId}>
+                                                    <p>    <input class="btn btn-primary" type="submit" value="Перенести">
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <p>  <a href="#" class="btn btn-large btn-warning"
+                                        data-toggle="modal"
+                                        data-target="#basicModalPostpone">Перенести</a>
                                 <p>  <a href="#" class="btn btn-large btn-danger"
                                         data-toggle="modal"
                                         data-target="#basicModal">Слив звонка</a>

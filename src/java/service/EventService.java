@@ -28,6 +28,7 @@ import entities.User;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -576,9 +577,9 @@ public class EventService extends PrimService {
         }
     }
     
-    public void goodFinish(Long eventId,Date successDate,String comment){
+    public void goodFinish(Long eventId,Date successDate,String finalComment){
         Event ev = eventDao.find(eventId);
-        ev.setFinalComment(comment);
+        ev.setFinalComment(finalComment);
         ev.setSuccessDate(successDate);
         if(validate(ev)){
             eventDao.update(ev);
@@ -595,6 +596,30 @@ public class EventService extends PrimService {
             result.put((User)o[0],infoMap);
         }
         return result;
+    }
+    
+    public void postponeEvent(Long eventId,Date postponeDate,String Comment){
+        Event ev = eventDao.find(eventId);
+        ev.setComment(Comment);
+        ev.setPostponedDate(postponeDate);
+        if(validate(ev)){
+            eventDao.update(ev);
+        }
+    }
+    
+    public List<Event> getPostponedEvents(Date dateFrom,Date dateTo,Long pkId){
+        if(dateTo==null){
+            Calendar cl = Calendar.getInstance();
+            cl.set(Calendar.DATE,cl.getActualMaximum(Calendar.DATE));
+            dateTo=cl.getTime();
+        }
+        if(dateFrom==null){
+            Calendar cl = Calendar.getInstance();
+            cl.set(2000, 0, 1);
+            dateFrom=cl.getTime();
+        }
+        //addError("from "+dateFrom.toString()+" to "+dateTo.toString());
+        return eventDao.getPostponedEvents(dateFrom, dateTo, pkId);
     }
     
     /*public List<Campaign> getCampaignsByUserAndCabinet(Long cabinetId, Long userId){

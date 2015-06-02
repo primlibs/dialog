@@ -8,6 +8,7 @@ package controllers;
 import static controllers.LkController.CABINET_ID_SESSION_NAME;
 import controllers.parent.WebController;
 import entities.CabinetUser;
+import entities.Event;
 import entities.User;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -333,19 +334,48 @@ public class EventController extends WebController {
     
     @RequestMapping("/goodFinish")
     public String goodFinish(Map<String, Object> model,@RequestParam(value = "eventId") Long eventId,@RequestParam(value = "successDate") Date successDate,
+            @RequestParam(value = "campaignId") Long campaignId,@RequestParam(value = "comment") String finalComment,RedirectAttributes ras,HttpServletRequest request) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        User user = authManager.getCurrentUser();
+        if(finalComment.equals("")){
+            finalComment="Без комментариев";
+        }
+        //Date successDate = new Date(successLongDate);
+        eventService.goodFinish(eventId, successDate, finalComment);
+
+        ras.addFlashAttribute("errors",eventService.getError());
+        ras.addAttribute("campaignId", campaignId);
+        return "redirect:/Event/event";
+    }
+    
+    @RequestMapping("/postponeEvent")
+    public String postponeEvent(Map<String, Object> model,@RequestParam(value = "eventId") Long eventId,@RequestParam(value = "postponeDate") Date postponeDate,
             @RequestParam(value = "campaignId") Long campaignId,@RequestParam(value = "comment") String comment,RedirectAttributes ras,HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         User user = authManager.getCurrentUser();
         if(comment.equals("")){
-            comment="Без комментариев";
+            comment="Нет комментариев";
         }
         //Date successDate = new Date(successLongDate);
-        eventService.goodFinish(eventId, successDate, comment);
+        eventService.postponeEvent(eventId, postponeDate, comment);
 
         ras.addFlashAttribute("errors",eventService.getError());
         ras.addAttribute("campaignId", campaignId);
         return "redirect:/Event/event";
+    }
+    
+    @RequestMapping("/postponedEvents")
+    public String showPostponedEvents(Map<String, Object> model,@RequestParam(value = "dateTo", required = false) Date dateTo,
+            @RequestParam(value = "dateFrom", required = false) Date dateFrom,HttpServletRequest request) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        List<Event> postponedEvents = eventService.getPostponedEvents(dateFrom, dateTo, cabinetId);
+
+        model.put("postponedEvents",postponedEvents);
+        model.put("errors", eventService.getError());
+        return "postponedEvents";
     }
 
     /*@RequestMapping("/eventProcessing")
