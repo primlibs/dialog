@@ -116,10 +116,14 @@ public class EventService extends PrimService {
         return new ArrayList();
     }
 
-    public LinkedHashMap<Campaign, String> getCampaignsAndFinishedCallsInCabinet(Long cabinetId) {
-        LinkedHashMap<Campaign, String> res = new LinkedHashMap();
+    public LinkedHashMap<Campaign, HashMap<String,String>> getCampaignsAndFinishedCallsInCabinet(Long cabinetId) {
+        LinkedHashMap<Campaign, HashMap<String,String>> res = new LinkedHashMap();
         for (Object[] ecl : personalCabinetDao.getCampaignsAndFinishedCallsInCabinet(cabinetId)) {
-            res.put((Campaign)ecl[1], getStringNumber(ecl[0]));
+            HashMap<String,String> infomap = new HashMap();
+            infomap.put("assignedCount",StringAdapter.getString(ecl[1]));
+            infomap.put("notAssignedCount",StringAdapter.getString(ecl[2]));
+            infomap.put("finishedCount",StringAdapter.getString(ecl[3]));
+            res.put((Campaign)ecl[0], infomap);
         }
         
         return res;

@@ -84,7 +84,7 @@ public class EventController extends WebController {
         if (strategyId != null) {
             eventService.createCampaign(name, strategyId, cabinetId);
             if (eventService.getError().isEmpty()) {
-                ras.addFlashAttribute("message", "Евент " + name + " успешно создан");
+                ras.addFlashAttribute("message", "Кампания " + name + " успешно создана");
                 return "redirect:/Event/campaignList";
             }
         }

@@ -34,7 +34,7 @@ public class PersonalCabinetDao extends Dao<PersonalCabinet> {
     }
     
     public List<Object[]> getCampaignsAndFinishedCallsInCabinet(Long cabinetId){
-        String hql="select count(ev.finalComment),ev.campaign from Event ev where ev.cabinet.pkId=:cabinetId group by ev.campaign order by ev.campaign.creationDate asc";
+        String hql="select ev.campaign,sum(case when ev.user is not null then 1 else 0 end),sum(case when ev.user is not null then 0 else 1 end),sum(case when ev.finalComment is not null then 1 else 0 end) from Event ev where ev.cabinet.pkId=:cabinetId group by ev.campaign.campaignId order by ev.campaign.creationDate asc";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("cabinetId", cabinetId);
         List<Object[]> res=query.list();
