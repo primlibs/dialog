@@ -15,11 +15,15 @@
     <body class="container" >
         
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
-        <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
+        <%@include file="/WEB-INF/jsp/error.jsp" %> 
+        <%@include file="/WEB-INF/jsp/message.jsp" %> 
+        
+        <div class="row "><h3>Кампании</h3>
 
         <div class="row ">
             <a href="<c:url value="/Event/createCampaign"/>" class="btn btn-primary" role="button">Создать кампанию</a>
-            
+        </div>
+        <div class="row ">    
              <table class="table table-bordered table-hover">
 
                 <tr>

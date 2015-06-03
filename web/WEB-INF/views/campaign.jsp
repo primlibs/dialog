@@ -15,7 +15,12 @@
     <body class="container" >
 
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
-        <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
+        <%@include file="/WEB-INF/jsp/error.jsp" %> 
+        <%@include file="/WEB-INF/jsp/message.jsp" %> 
+        
+        <div class="row ">
+            <h3>Эвенты</h3>
+        </div>
 
         <div class="row ">
             <table class="table table-bordered table-hover">

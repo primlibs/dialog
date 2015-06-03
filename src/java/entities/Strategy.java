@@ -9,7 +9,6 @@ import entities.parent.PrimEntity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.NotBlank;
@@ -43,7 +43,8 @@ public class Strategy extends PrimEntity {
     private PersonalCabinet cabinet;
 
     @Column(name = "name")
-    @NotBlank(message = "поле имя не может быть пустым")
+    @NotNull(message = "Наименование стратегии не указано")
+    @NotBlank(message = "Наименование стратегии не указано")
     private String strategyName;
 
     @Column(name = "delete_date")

@@ -15,13 +15,15 @@
     </head>
     <body class="container">
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
+        <%@include file="/WEB-INF/jsp/error.jsp" %> 
+        <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
-        <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
-
-
+        <div class="row"><h4>Стратегия: ${strategy.strategyName}</h4></div>
+        <div class="row">
         <div class="form-group">  
-            <a href="<c:url value="/Strategy/show"/>" class="btn btn-large btn-primary" role="button">Список стратегий</a>
-             <a href="<c:url value="/Strategy/failReasonEditor?strategyId=${strategy.strategyId} "/>" class="btn btn-large btn-primary" role="button">Редактор сливов</a> &nbsp &nbsp  ${strategy.strategyName} 
+            <a href="<c:url value="/Strategy/show"/>" class="btn btn-large" role="button"><= Стратегии</a>
+             <a href="<c:url value="/Strategy/failReasonEditor?strategyId=${strategy.strategyId} "/>" class="btn btn-large btn-primary" role="button">Редактор сливов</a> 
+        </div>
         </div>
         <div class="row">
             <div class="col-md-6"> 

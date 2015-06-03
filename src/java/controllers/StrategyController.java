@@ -58,6 +58,7 @@ public class StrategyController extends WebController {
         }
         if (!strategyService.getError().isEmpty()) {
             model.put("errors", strategyService.getError());
+            model.put("strategyName",strategyName);
         }
         model.put("StrategyList", strategyService.getActiveStrategyList(cabinetId));
         return "strategyList";

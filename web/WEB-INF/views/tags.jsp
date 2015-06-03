@@ -10,13 +10,15 @@
         <%@include file="/WEB-INF/jsp/error.jsp" %> 
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
         <div class="row ">
-            <h4>   Тэги</h4>
-        <div style="margin-bottom: 10px;">
+            <h4>Тэги</h4>
+        </div>
+        <div class="row ">
                     <form role="form" class="form-inline" action="<c:url value="/Tag/create" />"  method="post"> 
                         <input class="span5" id="appendedInputButton" name="name" style="width: 376px " size="16" type="text" value="${name}">
                         <button type="submit" name="submit" class="btn btn-primary">  Добавить  </button>
                     </form>
                 </div>
+        <div class="row ">                
                     <c:if test="${empty tags}">
                         <h5> Нет добавленных тэгов </h5>
                     </c:if>

@@ -15,39 +15,36 @@
     <body class="container">
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
 
-        <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
+        <%@include file="/WEB-INF/jsp/error.jsp" %> 
+        <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
 
         <div class="row">
-            <div class="col-md-6"> 
-                <center><h3> Доступные стратегии </h3></center>
-                <div class=" input-append pull-right btn-group">
+                <h3>Стратегии</h3>
+        </div>            
+                <div class="row">
                     <form action="<c:url value="/Strategy/show" />"  method="post"> 
-                        <input class="span5" id="appendedInputButton" name="strategyName" style="width: 376px " size="16" type="text">
-                        <button type="submit" name="submit" class="btn btn-default">  <img src="/CallCentr/img/add.png" height="20px">  </button>
+                        <input class="span5" id="appendedInputButton" name="strategyName" style="width: 256px " size="16" type="text" value="${strategyName}">
+                        <button type="submit" name="submit" class="btn btn-primary">Добавить</button>
                     </form>
                 </div>
+                <div class="row">
                 <table class="table table-bordered table-hover">
                     <tr>
-                        <td>${myIndex.index}#</td>
-                        <td>имя</td>
-                        <td>удалить</td>
+                        <th>${myIndex.index}#</th>
+                        <th>Наименование</th>
+                        <th></th>
                     </tr>
                     <c:forEach var="strategy" items="${StrategyList}" varStatus="myIndex">
 
                         <tr>
                             <td>${myIndex.count}</td>
                             <td onClick="location = '<c:url value="/Strategy/strategy?strategyId=${strategy.strategyId}"/>'"> ${strategy.strategyName} </td>
-                            <td onClick="location = '<c:url value="/Strategy/deleteStrategy?strategyId=${strategy.strategyId}"/>'"> <img src="/CallCentr/img/minus.png" height="20px"> </td>
+                            <td><div style="cursor: pointer;" onClick="location = '<c:url value="/Strategy/deleteStrategy?strategyId=${strategy.strategyId}"/>'">Удалить</div></td>
                         </tr>
                     </c:forEach>
                 </table>
-
-            </div>
-            <div class="col-md-6">
-
-            </div>
-        </div>
+                </div>
 
 
     </body>

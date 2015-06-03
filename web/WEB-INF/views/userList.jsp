@@ -14,8 +14,12 @@
     </head>
     <body class="container">
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
-     
-        <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
+        <%@include file="/WEB-INF/jsp/error.jsp" %> 
+        <%@include file="/WEB-INF/jsp/message.jsp" %> 
+        
+        <div class="row ">
+            <h3>Пользователи</h3>
+        </div>
 
         <div class="form-group">
             <a href="<c:url value="/User/userAdd"/>" class="btn btn-primary" role="button">Добавить пользователя</a>
@@ -24,14 +28,14 @@
         <table class="table table-bordered table-hover">
 
             <tr>
-                <td>${myIndex.index}</td>
-                <td>Логин</td>
-                <td>Фамилия</td>
-                <td>Имя</td>
-                <td>Отчество</td>
-                <td>Роль</td>
-                <td>Участие в кампаниях</td>
-                <td>Удалить</td>
+                <th>${myIndex.index}</th>
+                <th>Логин</th>
+                <th>Фамилия</th>
+                <th>Имя</th>
+                <th>Отчество</th>
+                <th>Роль</th>
+                <th>Участие в кампаниях</th>
+                <th></th>
             </tr>
             <c:forEach var="cabinetUser" items="${cabinetUserList}" varStatus="myIndex">
 
@@ -47,7 +51,7 @@
                     <c:if test="${cabinetUser.makesCalls==null}"><c:set var="makesCalls" value="Да" /></c:if>
                     <c:if test="${cabinetUser.makesCalls==null}"><c:set var="makesCalls" value="Нет" /></c:if>
                     <td>${makesCalls}</td>
-                    <td onClick="location = '<c:url value="/User/deleteUser?cabinetUserId=${cabinetUser.cabinetUserId}&userId=${cabinetUser.user.userId}"/>'" >Удалить</td>
+                    <td style="cursor: pointer;" onClick="location = '<c:url value="/User/deleteUser?cabinetUserId=${cabinetUser.cabinetUserId}&userId=${cabinetUser.user.userId}"/>'" >Удалить</td>
                 </tr>
             </c:forEach>
         </table>
