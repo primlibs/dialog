@@ -14,14 +14,18 @@
     </head>
     <body class="container" >
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
-        <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
+        <%@include file="/WEB-INF/jsp/error.jsp" %> 
+        <%@include file="/WEB-INF/jsp/message.jsp" %> 
+        
         <div class="row">
-            <h4>  Кампания: ${campaign.name} &nbsp Стратегия: ${campaign.strategy.strategyName} </h4>
-            <input type="hidden" name="campaignId" value=${param['campaignId']}>
-            <div class="btn-group" role="group" >
+            <h4>Кампания: ${campaign.name}</h4> 
+            <h4>Стратегия: ${campaign.strategy.strategyName}</h4>
+        </div>    
+            <div class="form-group" role="group" >
                 <a href="<c:url value="/Event/campaignSpecification?campaignId=${param['campaignId']}"/>" class="btn btn-primary" role="button">Евент</a>
                 <a href="<c:url value="/Event/eventShowAllAppoint?campaignId=${param['campaignId']}"/>" class="btn btn-primary" role="button">Назначить всем</a>
             </div>
+            <div class="form-group">
             <form enctype="multipart/form-data" class="form-inline btn-group" action="<c:url value="/Event/eventClient" />" method="post">
                 <div class="bootstrap-select">
                     <select class="form-control" name="assigned" data-style="btn-primary">
@@ -53,6 +57,7 @@
                     <input type="submit" name="submit"  class="btn btn-primary" value="Выбрать">
                 </div>
             </form>
+            </div>
             <table class="table table-bordered table-hover">
                 <tr>
                     <td>${myIndex.index}номер по порядку</td>
@@ -83,6 +88,6 @@
                 </c:forEach>
             </table>
 
-        </div>
+        
     </body>
 </html>

@@ -22,7 +22,7 @@
         <div class="row">
                 <h3>Стратегии</h3>
         </div>            
-                <div class="row">
+                <div class="form-group">
                     <form action="<c:url value="/Strategy/show" />"  method="post"> 
                         <input class="span5" id="appendedInputButton" name="strategyName" style="width: 256px " size="16" type="text" value="${strategyName}">
                         <button type="submit" name="submit" class="btn btn-primary">Добавить</button>

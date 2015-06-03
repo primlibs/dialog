@@ -20,7 +20,7 @@
         
         <div class="row "><h3>Кампании</h3>
 
-        <div class="row ">
+        <div class="form-group">
             <a href="<c:url value="/Event/createCampaign"/>" class="btn btn-primary" role="button">Создать кампанию</a>
         </div>
         <div class="row ">    

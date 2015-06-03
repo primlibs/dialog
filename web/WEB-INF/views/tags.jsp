@@ -10,11 +10,11 @@
         <%@include file="/WEB-INF/jsp/error.jsp" %> 
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
         <div class="row ">
-            <h4>Тэги</h4>
+            <h3>Тэги</h3>
         </div>
-        <div class="row ">
+        <div class="form-group">
                     <form role="form" class="form-inline" action="<c:url value="/Tag/create" />"  method="post"> 
-                        <input class="span5" id="appendedInputButton" name="name" style="width: 376px " size="16" type="text" value="${name}">
+                        <input class="span5" id="appendedInputButton" name="name" style="width: 256px " size="16" type="text" value="${name}">
                         <button type="submit" name="submit" class="btn btn-primary">  Добавить  </button>
                     </form>
                 </div>
