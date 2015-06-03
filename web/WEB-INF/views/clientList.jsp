@@ -28,11 +28,11 @@
             
             <div style="margin-bottom: 10px;"> 
                 <form role="form" class="form-inline" action="<c:url value="/Client/clientList" />">
-                    <input type="text" class="form-control" style="width: 170px;" name="uid" id="uidInput" placeholder="Уникальный ИД">
-                    <input type="text" class="form-control" style="width: 170px;" name="nameCompany" id="nameCompanyInput" placeholder="Компания">
-                    <input type="text" class="form-control" style="width: 170px;" name="adress" id="adressInput" placeholder="Адрес">
-                    <input type="text" class="form-control" style="width: 170px;" name="name" id="nameInput" placeholder="Контактное лицо">
-                    <input type="text" class="form-control" style="width: 170px;" name="phone" id="phoneInput" placeholder="Телефон">
+                    <input type="text" class="form-control" style="width: 170px;" name="uid" id="uidInput" placeholder="Уникальный ИД" value="${uid}">
+                    <input type="text" class="form-control" style="width: 170px;" name="nameCompany" id="nameCompanyInput" placeholder="Компания" value="${nameCompany}">
+                    <input type="text" class="form-control" style="width: 170px;" name="adress" id="adressInput" placeholder="Адрес" value="${adress}">
+                    <input type="text" class="form-control" style="width: 170px;" name="name" id="nameInput" placeholder="Контактное лицо" value="${name}">
+                    <input type="text" class="form-control" style="width: 170px;" name="phone" id="phoneInput" placeholder="Телефон" value="${phone}">
                     <c:if test="${not empty tags}">
                         <select style="vertical-align: middle;width: 170px;" size="${selectSize}" multiple="multiple" class="form-control" name="tags">
                             <c:forEach var="tag" items="${tags}">

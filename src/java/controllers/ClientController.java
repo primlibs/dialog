@@ -47,6 +47,12 @@ public class ClientController extends WebController {
         model.put("clients",clientService.getClientsBySearchRequest(cabinetId,uid, adress, nameCompany, name, phone,tags));
         model.put("tags",tagService.getAllActiveTags(cabinetId));
         
+        model.put("uid",uid);
+        model.put("nameCompany",nameCompany);
+        model.put("adress",adress);
+        model.put("name",name);
+        model.put("phone",phone);
+        
         List<String> clientErrors = clientService.getError();
         if(model.get("errors")!=null){
             clientErrors.addAll((List<String>)model.get("errors"));

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.UserService;
 import support.SendMail;
 import support.ServiceResult;
@@ -36,7 +37,7 @@ public class UserController extends WebController {
 
     @RequestMapping(value = {"/userAdd"})
     public String showAddUserPage(Map<String, Object> model, String submit,
-            String email, String phone, String name, String surname, String role, String patronymic, HttpServletRequest request) throws Exception {
+            String email, String phone, String name, String surname, String role, String patronymic, HttpServletRequest request,RedirectAttributes ras) throws Exception {
 
         lk.dataByUserAndCompany(request, model);
 
@@ -46,6 +47,7 @@ public class UserController extends WebController {
             userService.addUser(email, phone, name, surname, patronymic, role, cabinetId);
             if (userService.getError().isEmpty()) {
                 model.put("message", "Пользователь добавлен");
+                return "redirect:/User/userList";
             } else {
                 model.put("errors", userService.getError());
             }
@@ -53,6 +55,10 @@ public class UserController extends WebController {
         } else {
             model.put("errors", userService.getError());
         }
+        model.put("email", email);
+        model.put("name", name);
+        model.put("patronymic", patronymic);
+        model.put("surname", surname);
         return "userAdd";
     }
 
