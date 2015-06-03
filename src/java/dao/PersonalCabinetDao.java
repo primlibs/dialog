@@ -6,9 +6,8 @@
 package dao;
 
 import dao.parent.Dao;
-import entities.CabinetUser;
+import entities.Campaign;
 import entities.PersonalCabinet;
-import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
@@ -34,7 +33,8 @@ public class PersonalCabinetDao extends Dao<PersonalCabinet> {
     }
     
     public List<Object[]> getCampaignsAndFinishedCallsInCabinet(Long cabinetId){
-        String hql="select ev.campaign,sum(case when ev.user is not null then 1 else 0 end),sum(case when ev.user is not null then 0 else 1 end),sum(case when ev.finalComment is not null then 1 else 0 end) from Event ev where ev.cabinet.pkId=:cabinetId group by ev.campaign.campaignId order by ev.campaign.creationDate asc";
+        //String hql="select ca.campaignId caId,sum(case when ev.user is not null then 1 else 0 end),sum(case when ev.user is null then 1 else 0 end),sum(case when ev.finalComment is not null then 1 else 0 end) from Campaign ca,Event ev where ca.cabinet.pkId=:cabinetId and ec.campaign.campaignId=caId order by ca.creationDate asc";
+        String hql="select ca,sum(case when ev.user is not null then 1 else 0 end),sum(case when ev.user is null then 1 else 0 end),sum(case when ev.finalComment is not null then 1 else 0 end) from Event ev right join ev.campaign ca where ca.cabinet.pkId=:cabinetId and ev.cabinet.pkId=:cabinetId group by ev.campaign order by ca.creationDate asc";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("cabinetId", cabinetId);
         List<Object[]> res=query.list();

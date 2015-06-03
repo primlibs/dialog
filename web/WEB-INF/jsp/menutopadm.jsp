@@ -12,7 +12,7 @@
 
 <div class="navbar" style="margin-bottom: 0px">
     <ul class="nav navbar-nav">
-        <li><a href="<c:url value="/Event/campaignList"/>">Кампания</a></li>
+        <li><a href="<c:url value="/Event/campaignList"/>">Кампании</a></li>
         <!--<li><a href="<c:url value="/UserReport/summarizedReport"/>">Отчет по операторам</a></li>-->
         <li><a href="<c:url value="/Client/clientList"/>">Клиенты</a></li>
         <li><a href="<c:url value="/Event/campaign"/>">Мои звонки</a></li>  
