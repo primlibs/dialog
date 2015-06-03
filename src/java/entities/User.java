@@ -39,23 +39,23 @@ public class User extends PrimEntity {
     @Email
     @Column(name = "email")
     @NotNull(message = "Необходимо указать Email")
-    @NotBlank(message = "поле Email не может быть пустым")
+    @NotBlank(message = "Необходимо указать Email")
     private String email;
 
     @Size(min = 4, message = "Пароль от 4 символов")
     @Column(name = "password")
     @NotNull(message = "Необходимо указать Пароль")
-    @NotBlank(message = "поле Пароль не может быть пустым")
+    @NotBlank(message = "Необходимо указать Пароль")
     private String password;
 
     @Column(name = "surname")
     @NotNull(message = "Необходимо указать Фамилию")
-    @NotBlank(message = "поле Фамилия не может быть пустым")
+    @NotBlank(message = "Необходимо указать Фамилию")
     private String surname;
 
     @Column(name = "name")
     @NotNull(message = "Необходимо указать Имя")
-    @NotBlank(message = "поле Имя не может быть пустым")
+    @NotBlank(message = "Необходимо указать Имя")
     private String name;
 
     @Column(name = "patronymic")
