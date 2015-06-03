@@ -31,7 +31,7 @@
         <c:forEach var="tag" items="${tags}">
             <tr>
                     <td>${tag.name}</td>
-                        <td style="cursor: pointer;" onClick="location = '<c:url value="/Tag/delete?tagId=${tag.tagId}"/>'"> Удалить </td>
+                    <td><div style="cursor: pointer;display: inline;" onClick="location = '<c:url value="/Tag/delete?tagId=${tag.tagId}"/>'"> Удалить </div></td>
                     </tr>
         </c:forEach>
         </table>

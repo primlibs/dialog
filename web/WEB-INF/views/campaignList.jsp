@@ -4,6 +4,7 @@
     Author     : Юрий
 --%>
 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -42,8 +43,8 @@
                         <td onClick="location = '<c:url value="/Event/campaignSpecification?campaignId=${entry.key.campaignId}"/>'" >${entry.key.strategy.strategyName}</td>
                         <td>${entry.key.events.size()}</td>
                         <td>${entry.value}</td>
-                        <td>${entry.key.creationDate}</td>
-                        <td>${entry.key.endDate}</td>
+                        <td><fmt:formatDate type="date" value="${entry.key.creationDate}"/></td>
+                        <td><fmt:formatDate type="date" value="${entry.key.endDate}"/></td>
                         <c:if test="${entry.key.status== 1}">
                             <td>Закрыто</td>
                         </c:if>

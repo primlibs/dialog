@@ -40,7 +40,7 @@
                         <tr>
                             <td>${myIndex.count}</td>
                             <td onClick="location = '<c:url value="/Strategy/strategy?strategyId=${strategy.strategyId}"/>'"> ${strategy.strategyName} </td>
-                            <td><div style="cursor: pointer;" onClick="location = '<c:url value="/Strategy/deleteStrategy?strategyId=${strategy.strategyId}"/>'">Удалить</div></td>
+                            <td><div style="cursor: pointer;display: inline;" onClick="location = '<c:url value="/Strategy/deleteStrategy?strategyId=${strategy.strategyId}"/>'">Удалить</div></td>
                         </tr>
                     </c:forEach>
                 </table>

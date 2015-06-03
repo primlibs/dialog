@@ -79,7 +79,7 @@
                                 <td style="padding:0px;" onClick="location = '<c:url value="/Strategy/showModule?moduleId=${module.moduleId}&strategyId=${group.strategy.strategyId}"/>'">
                                     ${module.moduleName} 
                                 </td>
-                                <td onClick="location = '<c:url value="/Group/deleteModule?moduleId=${module.moduleId}&groupId=${group.groupId}&strategyId=${group.strategy.strategyId}"/>'"> <img style="padding:0px;" src="/CallCentr/img/minus.png" height="15px"> </td>
+                                <td><div style="cursor: pointer;display: inline;" onClick="location = '<c:url value="/Group/deleteModule?moduleId=${module.moduleId}&groupId=${group.groupId}&strategyId=${group.strategy.strategyId}"/>'"> Удалить</div></td>
                             </tr>
                         </c:forEach>
                     </c:forEach>

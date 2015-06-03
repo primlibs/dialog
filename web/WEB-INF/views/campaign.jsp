@@ -25,12 +25,14 @@
         <div class="row ">
             <table class="table table-bordered table-hover">
                 <tr>
-                    <td>Кампания</td>
-                    <td>Стратегия</td>
-                    <td>Количество клиентов</td>
+                    <th></th>
+                    <th>Кампания</th>
+                    <th>Стратегия</th>
+                    <th>Количество клиентов</th>
                 </tr>
                 <c:forEach var="camp" items="${campaigns}" varStatus="myIndex">
                     <tr>
+                        <td>${myIndex.count}</td>
                         <td onClick="location = '<c:url value="/Event/event?campaignId=${camp.key.getCampaignId()}"/>'"> ${camp.key.getName()}</td>
                         <td onClick="location = '<c:url value="/Event/event?campaignId=${camp.key.getCampaignId()}"/>'"> ${camp.key.getStrategy().getStrategyName()} </td>
                         <td onClick="location = '<c:url value="/Event/event?campaignId=${camp.key.getCampaignId()}"/>'"> ${camp.value}  </td>
