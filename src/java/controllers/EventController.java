@@ -377,6 +377,22 @@ public class EventController extends WebController {
         return "postponedEvents";
     }
     
-    
+     @RequestMapping("/assignEvent")
+    public String assignEvent(Map<String, Object> model,
+            @RequestParam(value = "campaignId") Long campaignId,
+            @RequestParam(value = "arrayClientIdUserId") String[] arrayClientIdUserId,
+            RedirectAttributes ras,
+            HttpServletRequest request) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        eventService.eventAppointSave(arrayClientIdUserId, cabinetId, campaignId);
+        model.put("clientList", eventService.getClientList(campaignId, cabinetId));
+        model.put("campaign", eventService.getCampaign(campaignId));
+        model.put("cabinetUserList", eventService.getActiveMakingCallsUsers(cabinetId));
+        ras.addAttribute("campaignId", campaignId);
+        ras.addFlashAttribute("errors", eventService.getError());
+        ras.addFlashAttribute("campaign", eventService.getCampaign(campaignId));
+        return "redirect:/Event/campaignSpecification";
+    }
     
 }

@@ -187,6 +187,9 @@ public class EventService extends PrimService {
     }
 
     public void readXls(MultipartFile fileXls, Long cabinetId, Long campaignId, Boolean update) throws Exception {
+        List<Client> clientsListForSave = new ArrayList();
+        List<Event> eventsListForSave = new ArrayList();
+        List<Client> noContactList = new ArrayList();
         Boolean newClient = false;
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         List<Client> pkList = pk.getClientList();
@@ -206,17 +209,24 @@ public class EventService extends PrimService {
                         newClient = true;
                     }
                     if (newClient == true || update == true) {
-                        cl.setUniqueId(StringAdapter.getString(rw.getCell(0)));
+                        String uid = StringAdapter.getString(rw.getCell(0));
+                        cl.setUniqueId(uid);
                         cl.setNameCompany(StringAdapter.getString(rw.getCell(1)));
                         cl.setNameSecretary(StringAdapter.getString(rw.getCell(2)));
                         cl.setNameLpr(StringAdapter.getString(rw.getCell(3)));
-                        cl.setPhoneSecretary(Long.getLong(StringAdapter.getString(rw.getCell(4))));
-                        cl.setPhoneLpr(Long.getLong(StringAdapter.getString(rw.getCell(5))));
+                        Long secretaryPhone = StringAdapter.toLong(rw.getCell(4));
+                        Long lprPhone = StringAdapter.toLong(rw.getCell(5));
+                        cl.setPhoneSecretary(secretaryPhone);
+                        cl.setPhoneLpr(lprPhone);
                         cl.setAddress(StringAdapter.getString(rw.getCell(6)));
                         cl.setComment(StringAdapter.getString(rw.getCell(7)));
                         cl.setCabinet(pk);
                         if (validate(cl)) {
-                            clientDao.save(cl);
+                            if(!secretaryPhone.equals((long)0)||!lprPhone.equals((long)0)){
+                                clientsListForSave.add(cl);
+                            }else{
+                                noContactList.add(cl);
+                            }
                         }
                     }
 
@@ -228,7 +238,8 @@ public class EventService extends PrimService {
                             event.setClient(cl);
                             event.setEvent(campaign);
                             if (validate(event)) {
-                                eventDao.save(event);
+                                eventsListForSave.add(event);
+                                //eventDao.save(event);
                             }
 
                         }
@@ -236,6 +247,21 @@ public class EventService extends PrimService {
                 }
             }
         }
+        if(noContactList.isEmpty()){
+            for(Client cl:clientsListForSave){
+                clientDao.save(cl);
+            }
+            for(Event ev:eventsListForSave){
+                eventDao.save(ev);
+            }
+        }else{
+            String err = "Не указаны контакты клиентов с УИД: ";
+            for(Client cl:noContactList){
+                err+=cl.getUniqueId()+"; ";
+            }
+            addError(err+" для загрузки клиентов необходимо указать хотя бы один контакт.");
+        }
+        
 
     }
 
@@ -323,55 +349,56 @@ public class EventService extends PrimService {
     }
 
 //сохранение распределения
-    public void eventAppointSaveAll(Long eventId, Long cabinetId, Long[] userIdArray, String[] clientNumArray) {
-        LinkedHashMap<Long, Integer> appointMap = new LinkedHashMap<Long, Integer>();
-        List<Event> events = getUnassignedEvent(eventId, cabinetId);
+    public void eventAppointSaveAll(Long campaignId, Long cabinetId, Long[] userIdArray, String[] clientNumArray) {
+        LinkedHashMap<Long, Integer> appointMap = new LinkedHashMap();
+        List<Event> events = getUnassignedEvent(campaignId, cabinetId);
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
-        int clientNotAssignedSize = getNotAssignedClients(eventId, cabinetId).size();
+        int clientNotAssignedSize = getNotAssignedClients(campaignId, cabinetId).size();
         int clientCount = 0;
         int summClient = 0;
-
-        for (int i = 0; i < userIdArray.length; i++) {
-            if (clientNumArray.length >= i) {
-                int count = StringAdapter.toInteger(clientNumArray[i]);
-                clientCount += count;
-                appointMap.put(userIdArray[i], count);
-            } else {
-                appointMap.put(userIdArray[i], 0);
-            }
-        }
-
-        ///получить количество нераспределенных сравить с количеством подангых - если поданных больше - ошибка
-        //в цикле для каждогоо элемента appointMap распределить на пользователя пока 
-        //остаются заявки вывести объект который сообщит сколько на кого было распределено
-        for (int i = 0; i < clientNumArray.length; i++) {
-            String df = clientNumArray[i];
-            Integer i2 = Integer.valueOf(df);
-            summClient += i2;
-        }
-        Long eclId = Long.valueOf(0);
-        if (summClient <= clientNotAssignedSize) {
-            for (Long userId : appointMap.keySet()) {
-                Integer clientCn = appointMap.get(userId);
-                User user = userDao.getUserBelongsPk(pk, userId);
-                if (user != null) {
-                    int gaga = 0;
-                    for (Event ecl : events) {
-                        if (gaga < clientCn && eclId < ecl.getEventId()) {
-                            ecl.setUser(user);
-                            if (validate(ecl)) {
-                                eventDao.save(ecl);
-                                eclId = ecl.getEventId();
-                            }
-                            gaga += 1;
-                        }
-                    }
+        if(userIdArray.length>0&&events.size()>0&&clientNumArray.length>0){
+            for (int i = 0; i < userIdArray.length; i++) {
+                if (clientNumArray.length >= i) {
+                    int count = StringAdapter.toInteger(clientNumArray[i]);
+                    clientCount += count;
+                    appointMap.put(userIdArray[i], count);
                 } else {
-                    addError("Ошибка! Пользователь не принадлежит к личному кабинету");
+                    appointMap.put(userIdArray[i], 0);
                 }
             }
-        } else {
-            addError("Количество клиентов " + summClient + " больше не назначенным: " + clientNotAssignedSize);
+
+            ///получить количество нераспределенных сравить с количеством подангых - если поданных больше - ошибка
+            //в цикле для каждогоо элемента appointMap распределить на пользователя пока 
+            //остаются заявки вывести объект который сообщит сколько на кого было распределено
+            for (int i = 0; i < clientNumArray.length; i++) {
+                String df = clientNumArray[i];
+                Integer i2 = Integer.valueOf(df);
+                summClient += i2;
+            }
+            Long eclId = Long.valueOf(0);
+            if (summClient <= clientNotAssignedSize) {
+                for (Long userId : appointMap.keySet()) {
+                    Integer clientCn = appointMap.get(userId);
+                    User user = userDao.getUserBelongsPk(pk, userId);
+                    if (user != null) {
+                        int gaga = 0;
+                        for (Event ecl : events) {
+                            if (gaga < clientCn && eclId < ecl.getEventId()) {
+                                ecl.setUser(user);
+                                if (validate(ecl)) {
+                                    eventDao.save(ecl);
+                                    eclId = ecl.getEventId();
+                                }
+                                gaga += 1;
+                            }
+                        }
+                    } else {
+                        addError("Ошибка! Пользователь не принадлежит к личному кабинету");
+                    }
+                }
+            } else {
+                addError("Количество клиентов " + summClient + " больше не назначенных: " + clientNotAssignedSize);
+            }
         }
     }
 
