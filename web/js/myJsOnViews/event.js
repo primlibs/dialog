@@ -24,10 +24,10 @@ $(function(){
             type: "POST",
             cache: false,
             success: function(json){
-                alert(json)
+                //alert(json)
             },
             error: function(json){
-                alert('fail ');
+                //alert('fail ');
             }
         });
     }
@@ -55,11 +55,15 @@ $(function(){
                         dataType : "json",
                         cache: false,
                         success: function(json){
-                            changebleElem.html(newVal);
+                            if(json==true){
+                                changebleElem.html(newVal);
+                            }else{
+                                changebleElem.html(value);
+                            }
                             //alert(json)
                         },
                         error: function(json){
-                            //alert('fail ');
+                            alert("Что-то пошло не так: "+json);
                             changebleElem.html(value);
                         }
                     });

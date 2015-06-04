@@ -40,13 +40,11 @@ public class StrategyController extends WebController {
     private FailReasonService failReasonService;
 
     @RequestMapping("/show")
-    public String showStrategyListPage(Map<String, Object> model,
-            HttpServletRequest request,
+    public String showStrategyListPage(Map<String, Object> model, HttpServletRequest request,
             @RequestParam(value = "strategyName", required = false) String strategyName,
             String submit) throws Exception {
 
         lk.dataByUserAndCompany(request, model);
-        //  Object cabinetId = request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
         if (submit != null) {
@@ -54,7 +52,6 @@ public class StrategyController extends WebController {
             if (strategyService.getError().isEmpty()) {
                 model.put("message", "Стратегия " + strategyName + " создана");
             }
-
         }
         if (!strategyService.getError().isEmpty()) {
             model.put("errors", strategyService.getError());

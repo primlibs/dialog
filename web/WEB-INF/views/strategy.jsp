@@ -26,20 +26,20 @@
         </div>
         </div>
         <div class="row">
-            <div class="col-md-6"> 
+            <div class="col-md-6">
+                <c:if test="${not empty module}">
                 <div>
-                    Реплика клиента:&nbsp
-                    ${module.moduleName} 
+                    Реплика клиента&nbsp;${module.moduleName} 
                 </div>
-               
+                </c:if>
                 <br>
                 <form action="<c:url value="/Strategy/addBodyModule" />"  method="post"> 
                     <textarea name="bodyText"> ${module.bodyText}   </textarea>
                     <input type="hidden" name="moduleId" value=${module.moduleId}>
                     <input type="hidden" name="strategyId" value=${strategy.strategyId}>
-                    <button type="submit" name="submit" class="btn btn-default"> Сохранить </button>
+                    <button type="submit" name="submit" class="btn btn-primary"> Сохранить </button>
                 </form>
-
+                    
             </div>
 
             <div class="col-md-6">

@@ -27,10 +27,10 @@ public class ModuleDao extends Dao<Module> {
 
     //получить модуль по moduleId 
     public Module getShowModule(Long moduleId, Long cabinetId) {
-        String hql = "from Module as m where m.moduleId= :moduleId and m.cabinet.pkId= :cabinet and m.deleteDate is null";
+        String hql = "from Module as m where m.moduleId= :moduleId and m.cabinet.pkId= :cabinetId and m.deleteDate is null";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("moduleId", moduleId);
-        query.setParameter("cabinet", cabinetId);
+        query.setParameter("cabinetId", cabinetId);
         return (Module) query.uniqueResult();
     }
     
@@ -38,6 +38,14 @@ public class ModuleDao extends Dao<Module> {
         String hql = "select mec.module from ModuleEventClient as mec where mec.event.eventId= :eventId order by mec.insertDate asc";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("eventId", eventId);
+        return query.list();
+    }
+    
+    public List<Module> getActiveModules(Long pkId,Long groupId){
+        String hql = "from Module where group.groupId=:groupId and cabinet.pkId=:pkId and deleteDate is null order by moduleName asc";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("groupId", groupId);
+        query.setParameter("pkId", pkId);
         return query.list();
     }
 

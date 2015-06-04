@@ -54,17 +54,17 @@ public class StrategyService extends PrimService {
 
     public void saveStrategy(String strategyName, Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
-        List<Strategy> strategyList = strategyList(cabinetId);
+        List<Strategy> strategyList = getActiveStrategyList(cabinetId);
 
         boolean existName = false;
         for (Strategy stretagy : strategyList) {
-            existName = stretagy.getStrategyName().equals(strategyName);
+            existName = stretagy.getStrategyName().equalsIgnoreCase(strategyName);
             if (existName == true) {
                 break;
             }
         }
 
-        if (strategyName != null & existName == false) {
+        if (strategyName != null && existName == false) {
             Strategy strategy = new Strategy();
             strategy.setStrategyName(strategyName);
             strategy.setCabinet(pk);
@@ -92,51 +92,12 @@ public class StrategyService extends PrimService {
         }
     }
 
-    public List<Strategy> strategyList(Long cabinetId) {
-        PersonalCabinet pk = personalCabinetDao.find(cabinetId);
-        if (pk != null) {
-            return pk.getStrategyList();
-        } else {
-            addError("Кабинет не найден по ид " + cabinetId);
-        }
-        return new ArrayList();
-    }
-
     public List<Strategy> getActiveStrategyList(Long cabinetId) {
-        PersonalCabinet pk = personalCabinetDao.find(cabinetId);
-        if (pk != null) {
-            List<Strategy> listStrategy = pk.getStrategyList();
-            List<Strategy> activeStrategyList = new ArrayList<>();
-            for (Strategy strategy : listStrategy) {
-                if (strategy.getDeleteDate() == null) {
-                    activeStrategyList.add(strategy);
-                }
-            }
-            return activeStrategyList;
-
-        } else {
-            addError("Кабинет не найден по ид " + cabinetId);
-        }
-        return new ArrayList();
+        return strategyDao.getActiveStrategies(cabinetId);
     }
-
-    /*public List<Group> getGroupList(Long strategyId) {
-     Strategy stg = strategyDao.find(strategyId);
-     if (stg != null) {
-     return stg.getActiveGroupList();
-     } else {
-     addError("Стратегия не найдена по ид " + strategyId);
-     }
-     return new ArrayList();
-     }*/
-    public List<Module> moduleList(Long groupId) {
-        Group gr = groupDao.find(groupId);
-        if (gr != null) {
-            return gr.getActiveModuleList();
-        } else {
-            addError("Группа не найден по ид " + groupId);
-        }
-        return new ArrayList();
+    
+    public List<Module> getActiveModules(Long groupId,Long pkId) {
+        return moduleDao.getActiveModules(pkId, groupId);
     }
 
     public void saveGroup(Long strategyId,
@@ -182,7 +143,7 @@ public class StrategyService extends PrimService {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         Group gp = groupDao.find(groupId);
 
-        List<Module> moduleList = moduleList(groupId);
+        List<Module> moduleList = getActiveModules(groupId,cabinetId);
         List<String> nameList = new ArrayList<>();
 
         for (Module modul : moduleList) {

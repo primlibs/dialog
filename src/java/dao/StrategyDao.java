@@ -7,6 +7,8 @@ package dao;
 
 import dao.parent.Dao;
 import entities.Strategy;
+import java.util.List;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -19,6 +21,13 @@ public class StrategyDao extends Dao<Strategy> {
     @Override
     public Class getSupportedClass() {
        return Strategy.class;
+    }
+    
+    public List<Strategy> getActiveStrategies(Long pkId){
+        String hql="from Strategy where cabinet.pkId=:pkId and deleteDate is null order by strategyName asc";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("pkId", pkId);
+        return query.list();
     }
     
 }

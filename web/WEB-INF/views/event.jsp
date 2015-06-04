@@ -41,8 +41,8 @@
                             <th>Компания: </th>
                             <th>Адрес: </th>
                             <th>Секретарь: </th>
-                            <th>ЛПР: </th>
                             <th>Телефон секретаря: </th>
+                            <th>ЛПР: </th>
                             <th>Телефон ЛПР: </th>
                             <th>Комментарий: </th>
                         </tr>
@@ -50,8 +50,8 @@
                             <td>${event.client.nameCompany} </td>
                             <td class="changebleParam" id="adress">${event.client.address} </td>
                             <td class="changebleParam" id="nameSecretary">${event.client.nameSecretary} </td>
-                            <td class="changebleParam" id="nameLpr">${event.client.nameLpr} </td>
                             <td class="changebleParam" id="phoneSecretary">${event.client.phoneSecretary} </td>
+                            <td class="changebleParam" id="nameLpr">${event.client.nameLpr} </td>
                             <td class="changebleParam" id="phoneLpr">${event.client.phoneLpr} </td>
                             <td class="changebleParam" id="comment">${event.client.comment} </td>
                         </tr>

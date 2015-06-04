@@ -24,5 +24,12 @@ public class GroupDao extends Dao<Group>{
        return Group.class;
     }
     
-   
+    public List<Group> getActiveGroups(Long pkId,Long strategyId){
+        String hql = "from Group where strategy.strategyId=:strategyId and cabinet.pkId=:pkId and deleteDate is null order by groupName asc";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("strategyId", strategyId);
+        query.setParameter("pkId", pkId);
+        return query.list();
+    }
+    
 }
