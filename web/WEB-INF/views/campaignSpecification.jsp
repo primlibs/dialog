@@ -30,7 +30,7 @@
                         <span class='label label-info' id="upload-file-info"></span>
                     </div>
                     <div class="form-group">
-                       Обновлять клиентов: <input  type="checkbox" name="checkbox" value="agree">  
+                       <input  type="checkbox" name="checkbox" value="agree"> &nbsp;обновлять клиентов 
                     </div>
                     <div class="form-group">
                         <input type="hidden" name="campaignId" value=${param.campaignId}>

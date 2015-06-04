@@ -16,41 +16,40 @@
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
         <%@include file="/WEB-INF/jsp/error.jsp" %> 
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
+        
+        
 
         <div class="row ">
-            <div class="col-md-6"> 
-                <div class=" btn-group">
-                    <a href="<c:url value="/Strategy/strategy?strategyId=${param.strategyId}"/>" class="btn btn-large btn-primary" role="button">вернуться к стратегии</a>
+            <h4>Причины отказа</h4>
+            
+                <div class="form-group btn-group">
+                    <a href="<c:url value="/Strategy/strategy?strategyId=${param.strategyId}"/>" class="btn btn-large" role="button"><= стратегия</a>
                     <input type="hidden" name="strategyId" value=${strategy.strategyId}>
 
                 </div>
-            </div>
-            <div class="col-md-6"> 
 
-                <div class=" input-append pull-right btn-group">
-                    <form action="<c:url value="/Strategy/createFailReason" />"  method="post"> 
-                        <input class="span5" id="appendedInputButton" name="failReasonName" style="width: 376px " size="16" type="text">
+                <div class="form-group input-append btn-group">
+                    <form class="form-inline" action="<c:url value="/Strategy/createFailReason" />"  method="post"> 
+                        <input class="span5" id="appendedInputButton" name="failReasonName" style="width: 256px " size="16" type="text">
                         <input type="hidden" name="strategyId" value=${param.strategyId}>
-                        <button type="submit" name="submit" class="btn btn-default">  Добавить  </button>
+                        <button type="submit" name="submit" class="btn btn-primary">  Добавить  </button>
                     </form>
                 </div>
                 <table class="table table-bordered table-hover">
                     <tr>
                         <td>${myIndex.index}#</td>
-                        <td>имя</td>
-                        <td>удалить</td>
+                        <td>Причина</td>
+                        <td>Удалить</td>
                     </tr>
                     <c:forEach var="failReason" items="${actualReasons}" varStatus="myIndex">
 
                         <tr>
                             <td>${myIndex.count}</td>
-                            <td > ${failReason.name} </td>
-                            <td onClick="location = '<c:url value="/Strategy/deleteFailReason?failReasonId=${failReason.failReasonId}"/>'"> удалить </td>
+                            <td>${failReason.name}</td>
+                            <td><div style="cursor: pointer;display: inline-block" onClick="location = '<c:url value="/Strategy/deleteFailReason?failReasonId=${failReason.failReasonId}"/>'">удалить</div></td>
                         </tr>
                     </c:forEach>
                 </table>
-
-            </div>
 
 
         </div>

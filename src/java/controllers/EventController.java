@@ -395,4 +395,28 @@ public class EventController extends WebController {
         return "redirect:/Event/campaignSpecification";
     }
     
+    @RequestMapping("/assignOneEvent")
+    public String assignOneEvent(Map<String, Object> model,@RequestParam(value = "userId") Long userId,@RequestParam(value = "campaignId") Long campaignId,
+            @RequestParam(value = "eventId") Long eventId,RedirectAttributes ras,HttpServletRequest request) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        eventService.assignOneEvent(userId,eventId);
+        ras.addAttribute("campaignId", campaignId);
+        ras.addAttribute("assigned", userId);
+        ras.addFlashAttribute("errors", eventService.getError());
+        return "redirect:/Event/eventClient";
+    }
+    
+    @RequestMapping("/showAssigningOneEvent")
+    public String showAssigningOneEvent(Map<String, Object> model,@RequestParam(value = "campaignId") Long campaignId,
+            @RequestParam(value = "eventId") Long eventId,RedirectAttributes ras,HttpServletRequest request) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        model.put("calingUsers", eventService.getActiveMakingCallsUsers(cabinetId));
+        model.put("campaignId", campaignId);
+        model.put("eventId",eventId);
+        model.put("errors", eventService.getError());
+        return "assignOneEvent";
+    }
+    
 }

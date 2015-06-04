@@ -665,4 +665,23 @@ public class EventService extends PrimService {
     /*public List<Campaign> getCampaignsByUserAndCabinet(Long cabinetId, Long userId){
         return eventDao.getCampaignsByUserAndCabinet(cabinetId, userId);
     }*/
+    
+    public boolean assignOneEvent(Long userId,Long eventId){
+        User user = userDao.find(userId);
+        Event ev = eventDao.find(eventId);
+        if(user!=null&&ev!=null){
+            if(ev.getFinalComment()==null){
+                ev.setUser(user);
+                if(validate(ev)){
+                    eventDao.update(ev);
+                    return true;
+                }
+            }else{
+                addError("Взаимодействие с клиентом в рамках данной кампании завершено, контакт нельзя перенести.");
+                return false;
+            }
+        }
+        return false;
+    }
+    
 }

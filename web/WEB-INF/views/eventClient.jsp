@@ -82,12 +82,12 @@
                         <td>${event.client.phoneSecretary} </td>  
                         <td>${event.client.phoneLpr} </td>  
                         <td>${event.client.address} </td>
-                        <td> ${event.user.surname}  ${event.user.name}  </td>
-                        <td>${event.status}   </td>
+                        <td><div style="cursor: pointer;display: inline-block" onClick="location = '<c:url value="/Event/showAssigningOneEvent?eventId=${event.eventId}&campaignId=${campaign.campaignId}"/>'">${event.user.surname}  ${event.user.name}</div></td>
+                        <td>${event.status} </td>
                     </tr>
                 </c:forEach>
             </table>
-
+                    
         
     </body>
 </html>
