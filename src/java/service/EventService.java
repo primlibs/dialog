@@ -349,23 +349,26 @@ public class EventService extends PrimService {
         int clientNotAssigned = getNotAssignedClients(eventId, cabinetId).size();
         int user = getActiveMakingCallsUsers(cabinetId).size();
         List<CabinetUser> cabinetUserList = getActiveMakingCallsUsers(cabinetId);
+        if(user!=0){
+            int clientOneUser = clientNotAssigned / user; //деление
+            int endClientUser = clientNotAssigned % user; // остаток
 
-        int clientOneUser = clientNotAssigned / user; //деление
-        int endClientUser = clientNotAssigned % user; // остаток
+            LinkedHashMap<Long, Integer> residueMap = new LinkedHashMap<>();
 
-        LinkedHashMap<Long, Integer> residueMap = new LinkedHashMap<>();
-
-        for (CabinetUser cabinetUser : cabinetUserList) {
-            Long userId = cabinetUser.getUser().getUserId();
-            int eventPoint = clientOneUser;
-            if (endClientUser > 0) {
-                eventPoint += 1;
-                endClientUser--;
+            for (CabinetUser cabinetUser : cabinetUserList) {
+                Long userId = cabinetUser.getUser().getUserId();
+                int eventPoint = clientOneUser;
+                if (endClientUser > 0) {
+                    eventPoint += 1;
+                    endClientUser--;
+                }
+                residueMap.put(userId, eventPoint);
             }
-            residueMap.put(userId, eventPoint);
+            return residueMap;
+        }else{
+            addError("Нет доступных пользователей");
+            return null;
         }
-        return residueMap;
-
     }
 
 //сохранение распределения

@@ -179,9 +179,10 @@ public class EventController extends WebController {
 
         model.put("campaign", eventService.getCampaign(campaignId));
         model.put("cabinetUserList", eventService.getActiveMakingCallsUsers(cabinetId));
-        ras.addAttribute("campaignId", campaignId);
+        model.put("errors",eventService.getError());
+        /*ras.addAttribute("campaignId", campaignId);
         ras.addFlashAttribute("errors", eventService.getError());
-        ras.addFlashAttribute("campaign", eventService.getCampaign(campaignId));
+        ras.addFlashAttribute("campaign", eventService.getCampaign(campaignId));*/
         return "eventAppointAll";
     }
 
