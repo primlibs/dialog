@@ -68,7 +68,7 @@ public class ClientController extends WebController {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         
         model.put("client",clientService.getClient(clientId));
-        model.put("possibleTagsToAdd",tagService.getNotLinkedTags(clientId));
+        model.put("possibleTagsToAdd",tagService.getNotLinkedTags(clientId,cabinetId));
         model.put("unfinishedEvents",clientService.getUnfinishedEventsByClient(clientId));
         model.put("finishedEvents",clientService.getFinishedEventsByClient(clientId));
         model.put("dialog",clientService.getHistory(eventId));

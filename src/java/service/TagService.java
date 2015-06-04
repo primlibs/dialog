@@ -151,8 +151,8 @@ public class TagService extends PrimService {
         return false;
     }
     
-    public List<Tag> getNotLinkedTags(Long ClientId){
-        return clientTagLinkDao.getNotLinkedTags(ClientId);
+    public List<Tag> getNotLinkedTags(Long ClientId,Long pkId){
+        return clientTagLinkDao.getNotLinkedTags(ClientId,pkId);
     }
     
     public List<Tag> getDeletedTags(Long pkId){

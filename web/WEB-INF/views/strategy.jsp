@@ -22,7 +22,7 @@
         <div class="row">
         <div class="form-group">  
             <a href="<c:url value="/Strategy/show"/>" class="btn btn-large" role="button"><= Стратегии</a>
-             <a href="<c:url value="/Strategy/failReasonEditor?strategyId=${strategy.strategyId} "/>" class="btn btn-large btn-primary" role="button">Редактор сливов</a> 
+             <a href="<c:url value="/Strategy/failReasonEditor?strategyId=${strategy.strategyId} "/>" class="btn btn-large btn-primary" role="button">Словарь отказов</a> 
         </div>
         </div>
         <div class="row">

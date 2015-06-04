@@ -25,10 +25,11 @@ public class ClientTagLinkDao extends Dao<ClientTagLink> {
         return ClientTagLink.class; 
     }
     
-    public List<Tag> getNotLinkedTags(Long clientId){
-        String hql="select t from Tag t where t.deleteDate is null and t.tagId not in(select ctl.tag.tagId from ClientTagLink ctl where ctl.client.clientId=:clientId)";
+    public List<Tag> getNotLinkedTags(Long clientId,Long pkId){
+        String hql="select t from Tag t where t.deleteDate is null and t.cabinet.pkId=:pkId and t.tagId not in(select ctl.tag.tagId from ClientTagLink ctl where ctl.client.clientId=:clientId)";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("clientId", clientId);
+        query.setParameter("pkId", pkId);
         return query.list();
     }
     
