@@ -56,10 +56,10 @@ $(function(){
                         cache: false,
                         success: function(json){
                             changebleElem.html(newVal);
-                            alert(json)
+                            //alert(json)
                         },
                         error: function(json){
-                            alert('fail ');
+                            //alert('fail ');
                             changebleElem.html(value);
                         }
                     });

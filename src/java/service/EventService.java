@@ -37,6 +37,7 @@ import java.util.List;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -214,15 +215,27 @@ public class EventService extends PrimService {
                         cl.setNameCompany(StringAdapter.getString(rw.getCell(1)));
                         cl.setNameSecretary(StringAdapter.getString(rw.getCell(2)));
                         cl.setNameLpr(StringAdapter.getString(rw.getCell(3)));
-                        Long secretaryPhone = StringAdapter.toLong(rw.getCell(4));
-                        Long lprPhone = StringAdapter.toLong(rw.getCell(5));
+                        Long secretaryPhone = null;
+                        Cell spc = rw.getCell(4);
+                        if(spc!=null){
+                            if(spc.getCellType()==Cell.CELL_TYPE_NUMERIC){
+                                secretaryPhone=StringAdapter.toLong(StringAdapter.getString(spc.getNumericCellValue()));
+                            }
+                        }
+                        Long lprPhone = null;
+                        Cell lpc = rw.getCell(5);
+                        if(lpc!=null){
+                            if(lpc.getCellType()==Cell.CELL_TYPE_NUMERIC){
+                                lprPhone=StringAdapter.toLong(StringAdapter.getString(lpc.getNumericCellValue()));
+                            }
+                        }
                         cl.setPhoneSecretary(secretaryPhone);
                         cl.setPhoneLpr(lprPhone);
                         cl.setAddress(StringAdapter.getString(rw.getCell(6)));
                         cl.setComment(StringAdapter.getString(rw.getCell(7)));
                         cl.setCabinet(pk);
                         if (validate(cl)) {
-                            if(!secretaryPhone.equals((long)0)||!lprPhone.equals((long)0)){
+                            if((secretaryPhone!=null||!secretaryPhone.equals((long)0))||(lprPhone!=null||!lprPhone.equals((long)0))){
                                 clientsListForSave.add(cl);
                             }else{
                                 noContactList.add(cl);
@@ -230,7 +243,7 @@ public class EventService extends PrimService {
                         }
                     }
 
-                    if (getError().isEmpty()) {
+                    /*if (getError().isEmpty()) {
                         Event ecl = eventDao.getEvent(cl, pk, campaign);
                         if (ecl == null) {
                             Event event = new Event();
@@ -243,16 +256,23 @@ public class EventService extends PrimService {
                             }
 
                         }
-                    }
+                    }*/
                 }
             }
         }
         if(noContactList.isEmpty()){
             for(Client cl:clientsListForSave){
                 clientDao.save(cl);
-            }
-            for(Event ev:eventsListForSave){
-                eventDao.save(ev);
+                Event ecl = eventDao.getEvent(cl, pk, campaign);
+                if (ecl == null) {
+                    Event event = new Event();
+                    event.setCabinet(pk);
+                    event.setClient(cl);
+                    event.setEvent(campaign);
+                    if (validate(event)) {
+                        eventDao.save(event);
+                    }
+                }
             }
         }else{
             String err = "Не указаны контакты клиентов с УИД: ";

@@ -397,13 +397,14 @@ public class EventController extends WebController {
     
     @RequestMapping("/assignOneEvent")
     public String assignOneEvent(Map<String, Object> model,@RequestParam(value = "userId") Long userId,@RequestParam(value = "campaignId") Long campaignId,
-            @RequestParam(value = "eventId") Long eventId,RedirectAttributes ras,HttpServletRequest request) throws Exception {
+            @RequestParam(value = "eventId") Long eventId,@RequestParam(value = "errors",required = false) List<String> errors,RedirectAttributes ras,HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         eventService.assignOneEvent(userId,eventId);
         ras.addAttribute("campaignId", campaignId);
         ras.addAttribute("assigned", userId);
-        ras.addFlashAttribute("errors", eventService.getError());
+        errors.addAll(eventService.getError());
+        ras.addFlashAttribute("errors", errors);
         return "redirect:/Event/eventClient";
     }
     
