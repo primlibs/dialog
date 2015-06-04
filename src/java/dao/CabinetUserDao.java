@@ -49,6 +49,13 @@ public class CabinetUserDao extends Dao<CabinetUser> {
         query.setParameter("cabinet", cabinet);
         return query.list();
     }
+    
+    public List<CabinetUser> getMakingCallsCabUsers(Long pkId){
+        String hql = "from CabinetUser as cu where cu.cabinet.pkId=:pkId and cu.makesCalls=1";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("pkId", pkId);
+        return query.list();
+    }
 
 
 }

@@ -7,6 +7,8 @@ package dao;
 
 import dao.parent.Dao;
 import entities.Campaign;
+import java.util.List;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -19,6 +21,13 @@ public class CampaignDao extends Dao<Campaign> {
     @Override
     public Class getSupportedClass() {
        return Campaign.class;
+    }
+    
+    public List<Campaign> getAllCampaigns(Long pkId){
+        String hql = "from Campaign where cabinet.pkId=:pkId order by creationDate";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("pkId", pkId);
+        return query.list();
     }
     
 }

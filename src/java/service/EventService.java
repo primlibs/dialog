@@ -5,11 +5,11 @@
  */
 package service;
 
+import dao.CabinetUserDao;
 import dao.ClientDao;
 import dao.EventDao;
 import dao.CampaignDao;
 import dao.FailReasonDao;
-import dao.GroupDao;
 import dao.ModuleDao;
 import dao.ModuleEventClientDao;
 import dao.PersonalCabinetDao;
@@ -66,7 +66,7 @@ public class EventService extends PrimService {
     private UserDao userDao;
 
     @Autowired
-    private GroupDao groupDao;
+    private CabinetUserDao cabinetUserDao;
 
     @Autowired
     private ModuleDao moduleDao;
@@ -116,16 +116,18 @@ public class EventService extends PrimService {
         return new ArrayList();
     }
 
-    public LinkedHashMap<Campaign, HashMap<String,String>> getCampaignsAndFinishedCallsInCabinet(Long cabinetId) {
+    public LinkedHashMap<Campaign, HashMap<String,String>> getCampaignsWithCountInfos(Long cabinetId) {
         LinkedHashMap<Campaign, HashMap<String,String>> res = new LinkedHashMap();
-        for (Object[] ecl : personalCabinetDao.getCampaignsAndFinishedCallsInCabinet(cabinetId)) {
-            HashMap<String,String> infomap = new HashMap();
-            infomap.put("assignedCount",StringAdapter.getString(ecl[1]));
-            infomap.put("notAssignedCount",StringAdapter.getString(ecl[2]));
-            infomap.put("finishedCount",StringAdapter.getString(ecl[3]));
-            res.put((Campaign)ecl[0], infomap);
+        HashMap<Long,HashMap<String,String>> countMap = eventDao.getFinishedAndUnassignedEventCountsInCampaignsAsMap(cabinetId);
+        for(Campaign c:campaignDao.getAllCampaigns(cabinetId)){
+            HashMap<String,String> InfoMap = countMap.get(c.getId());
+            if(InfoMap==null){
+                InfoMap = new HashMap();
+                InfoMap.put("finishedCount", "0");
+                InfoMap.put("unassignedCount", "0");
+            }
+            res.put(c, InfoMap);
         }
-        
         return res;
     }
 
@@ -157,10 +159,13 @@ public class EventService extends PrimService {
 
     }
 
-    public List<CabinetUser> listRoleUserActiveCabinetUser(Long cabinetId) {
+    public List<CabinetUser> getActiveMakingCallsUsers(Long cabinetId) {
+        return cabinetUserDao.getMakingCallsCabUsers(cabinetId);
+        /*
+        
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         List<CabinetUser> listRoleUser = pk.getRoleUserActiveCabinetUserList();
-        return listRoleUser;
+        return listRoleUser;*/
     }
 
     public HSSFWorkbook getXls() throws IOException {
@@ -296,8 +301,8 @@ public class EventService extends PrimService {
     //распределить всех клиентов по юзерам
     public LinkedHashMap<Long, Integer> eventAppointAll(Long eventId, Long cabinetId) {
         int clientNotAssigned = getNotAssignedClients(eventId, cabinetId).size();
-        int user = listRoleUserActiveCabinetUser(cabinetId).size();
-        List<CabinetUser> cabinetUserList = listRoleUserActiveCabinetUser(cabinetId);
+        int user = getActiveMakingCallsUsers(cabinetId).size();
+        List<CabinetUser> cabinetUserList = getActiveMakingCallsUsers(cabinetId);
 
         int clientOneUser = clientNotAssigned / user; //деление
         int endClientUser = clientNotAssigned % user; // остаток
@@ -371,7 +376,7 @@ public class EventService extends PrimService {
     }
 
     public HashMap<Long, String> userAssignedClient(Long campaignId, Long cabinetId) {
-        HashMap<Long, String> userAssignedClient = getUserMap(cabinetId);
+        HashMap<Long, String> userAssignedClient = getUserCountMap(cabinetId);
         for (Object[] ecl : eventDao.getUserAssignedClient(campaignId, cabinetId)) {
             userAssignedClient.put(StringAdapter.toLong(ecl[1]), getStringNumber(ecl[0]));
         }
@@ -460,7 +465,7 @@ public class EventService extends PrimService {
 
     //клиенты назначение юзерам не обработанные
     public HashMap<Long, String> userAssignedClientNotProcessed(Long campaignId, Long cabinetId) {
-        HashMap<Long, String> userAssignedClientNotProcessed = getUserMap(cabinetId);
+        HashMap<Long, String> userAssignedClientNotProcessed = getUserCountMap(cabinetId);
         for (Object[] ecl : eventDao.getAssignedNotProcessedClientsByUserId(campaignId, cabinetId)) {
             userAssignedClientNotProcessed.put(StringAdapter.toLong(ecl[1]), getStringNumber(ecl[0]));
         }
@@ -469,7 +474,7 @@ public class EventService extends PrimService {
 
     //клиенты назначение юзерам обработанные
     public HashMap<Long, String> userAssignedClientProcessed(Long campaignId, Long cabinetId) {
-        HashMap<Long, String> userAssignedClientProcessed = getUserMap(cabinetId);
+        HashMap<Long, String> userAssignedClientProcessed = getUserCountMap(cabinetId);
         for (Object[] ecl : eventDao.getAssignedProcessedClientsByUserId(campaignId, cabinetId)) {
             userAssignedClientProcessed.put(StringAdapter.toLong(ecl[1]), getStringNumber(ecl[0]));
         }
@@ -478,8 +483,8 @@ public class EventService extends PrimService {
 
     //клиенты назначение юзерам обработанные Успешно
     public HashMap<Long, String> userAssignedClientProcessedSuccess(Long campaignId, Long cabinetId) {
-        HashMap<Long, String> userAssignedClientProcessedSuccess = getUserMap(cabinetId);
-        for (Object[] ecl : eventDao.getAssignedProcessedSuccessClientsByUserId(campaignId, cabinetId)) {
+        HashMap<Long, String> userAssignedClientProcessedSuccess = getUserCountMap(cabinetId);
+        for (Object[] ecl : eventDao.getUserIdListWithCountedAssignedProcessedSuccessClients(campaignId, cabinetId)) {
             userAssignedClientProcessedSuccess.put(StringAdapter.toLong(ecl[1]), getStringNumber(ecl[0]));
         }
         return userAssignedClientProcessedSuccess;
@@ -487,8 +492,8 @@ public class EventService extends PrimService {
 
     //клиенты назначение юзерам обработанные НЕ успешно
     public HashMap<Long, String> userAssignedClientProcessedFails(Long campaignId, Long cabinetId) {
-        HashMap<Long, String> userAssignedClientProcessedFails = getUserMap(cabinetId);
-        for (Object[] ecl : eventDao.getAssignedProcessedFailedClientsByUserId(campaignId, cabinetId)) {
+        HashMap<Long, String> userAssignedClientProcessedFails = getUserCountMap(cabinetId);
+        for (Object[] ecl : eventDao.getUserIdListWithCountedAssignedProcessedFailedClients(campaignId, cabinetId)) {
             userAssignedClientProcessedFails.put(StringAdapter.toLong(ecl[1]), getStringNumber(ecl[0]));
         }
         return userAssignedClientProcessedFails;
@@ -510,9 +515,9 @@ public class EventService extends PrimService {
         return count;
     }
 
-    private HashMap<Long, String> getUserMap(Long cabinetId) {
+    private HashMap<Long, String> getUserCountMap(Long cabinetId) {
         HashMap<Long, String> userMap = new HashMap();
-        for (CabinetUser user : listRoleUserActiveCabinetUser(cabinetId)) {
+        for (CabinetUser user : getActiveMakingCallsUsers(cabinetId)) {
             userMap.put(user.getId(), "0");
         }
         return userMap;
@@ -521,6 +526,9 @@ public class EventService extends PrimService {
     //лист Ссылкок event по campaignId НЕ ОБРАБОТАНЫХ по userId
     public Event getEvenByUserByCampaign(Long campaignId, Long cabinetId, Long userId) {
         List<Event> events = eventDao.getEventListByUserByCampaign(campaignId, cabinetId, userId);
+        if(events.isEmpty()){
+            return null;
+        }
         java.util.Random rng = new java.util.Random();
         Event ev = events.get(rng.nextInt(events.size()));
         if (ev.getPostponedDate() != null) {

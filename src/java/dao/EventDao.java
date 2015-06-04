@@ -11,9 +11,11 @@ import entities.Campaign;
 import entities.Event;
 import entities.PersonalCabinet;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
+import support.StringAdapter;
 
 /**
  *
@@ -237,17 +239,17 @@ public class EventDao extends Dao<Event> {
     }
 
     //клиенты назначение юзерам обработанные Успешно
-    public List<Object[]> getAssignedProcessedSuccessClientsByUserId(Long campaignId, Long cabinetId) {
-        String hql = "select count(ev.eventId) , ev.user.userId  from Event ev where ev.campaign.campaignId= :campaignId and ev.cabinet.pkId= :cabinet and ev.user is not null and ev.successDate is not null group by user.userId";
+    public List<Object[]> getUserIdListWithCountedAssignedProcessedSuccessClients(Long campaignId, Long cabinetId) {
+        String hql = "select count(ev.eventId) , ev.user.userId  from Event ev where ev.campaign.campaignId= :campaignId and ev.cabinet.pkId= :cabinetId and ev.user is not null and ev.successDate is not null group by ev.user.userId";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
-        query.setParameter("cabinet", cabinetId);
+        query.setParameter("cabinetId", cabinetId);
         List<Object[]> clist = query.list();
         return clist;
     }
 
     //клиенты назначение юзерам обработанные Не успешно
-    public List<Object[]> getAssignedProcessedFailedClientsByUserId(Long campaignId, Long cabinetId) {
+    public List<Object[]> getUserIdListWithCountedAssignedProcessedFailedClients(Long campaignId, Long cabinetId) {
         String hql = "select count(ev.eventId) , ev.user.userId  from Event ev where ev.campaign.campaignId= :campaignId and ev.cabinet.pkId= :cabinet and ev.user is not null and ev.failReason is not null group by user.userId";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
@@ -305,5 +307,30 @@ public class EventDao extends Dao<Event> {
         query.setParameter("pkId", pkId);
         return query.list();
     }
+    
+    public HashMap<Long,HashMap<String,String>> getFinishedAndUnassignedEventCountsInCampaignsAsMap(Long cabinetId){
+        String hql="select ev.campaign,sum(case when ev.user is not null then 1 else 0 end),sum(case when ev.finalComment is not null then 1 else 0 end) from Event ev where ev.cabinet.pkId=:cabinetId group by ev.campaign";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("cabinetId", cabinetId);
+        HashMap<Long,HashMap<String,String>> res=new HashMap();
+        List<Object[]> list = query.list();
+        for(Object[] o:list){
+            Campaign c = (Campaign)o[0];
+            HashMap<String,String> infoMap = new HashMap();
+            infoMap.put("unassignedCount",StringAdapter.getString(c.getEvents().size()-Integer.valueOf(StringAdapter.getString(o[1]))));
+            infoMap.put("finishedCount",StringAdapter.getString(Integer.valueOf(StringAdapter.getString(o[2]))));
+            res.put(c.getId(), infoMap);
+        }
+        return res;
+    }
+    
+    // получить лист не обработанных эвентов юзера
+    public List<Event> getNotProcessedUserEvents(Long userId, Long cabinetId) {
+        String hql = "from Event as ev where ev.user.userId=:userId and ev.cabinet.pkId= :cabinetId";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("userId", userId);
+        query.setParameter("cabinetId", cabinetId);
+        return query.list();
+    }  
     
 }

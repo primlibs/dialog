@@ -31,21 +31,19 @@
                     <td> Название </td>
                     <td> Стратегия </td>
                     <td> Клиенты </td>
-                    <td> Назначены </td>
-                    <td> Не назначены </td>
+                    <td> Не назначено </td>
                     <td> Завершено </td>
                     <td> Дата создания </td>
                     <td> Дата окончания </td>
                     <td> Статус </td>
                 </tr>
-                <c:forEach var="entry" items="${campaignFinishedCallMap}">
+                <c:forEach var="entry" items="${campaignsWithCountInfosMap}">
 
                     <tr>
                         <td onClick="location = '<c:url value="/Event/campaignSpecification?campaignId=${entry.key.campaignId}"/>'" >${entry.key.name}</td>
                         <td onClick="location = '<c:url value="/Event/campaignSpecification?campaignId=${entry.key.campaignId}"/>'" >${entry.key.strategy.strategyName}</td>
                         <td>${entry.key.events.size()}</td>
-                        <td>${entry.value.get("assignedCount")}</td>
-                        <td>${entry.value.get("notAssignedCount")}</td>
+                        <td>${entry.value.get("unassignedCount")}</td>
                         <td>${entry.value.get("finishedCount")}</td>
                         <td><fmt:formatDate type="date" value="${entry.key.creationDate}"/></td>
                         <td><fmt:formatDate type="date" value="${entry.key.endDate}"/></td>

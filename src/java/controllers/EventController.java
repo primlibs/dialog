@@ -66,7 +66,7 @@ public class EventController extends WebController {
 
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
-        model.put("campaignFinishedCallMap", eventService.getCampaignsAndFinishedCallsInCabinet(cabinetId));
+        model.put("campaignsWithCountInfosMap", eventService.getCampaignsWithCountInfos(cabinetId));
         model.put("errors", eventService.getError());
         return "campaignList";
     }
@@ -104,13 +104,13 @@ public class EventController extends WebController {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
         model.put("errors", eventService.getError());
-        model.put("cabinetUserList", eventService.listRoleUserActiveCabinetUser(cabinetId));
+        model.put("cabinetUserList", eventService.getActiveMakingCallsUsers(cabinetId));
         model.put("userAssignedClient", eventService.userAssignedClient(campaignId, cabinetId));
 
-        model.put("userAssignedClientNotProcessed", eventService.userAssignedClientNotProcessed(campaignId, cabinetId));
-        model.put("userAssignedClientProcessed", eventService.userAssignedClientProcessed(campaignId, cabinetId));
         model.put("userAssignedClientProcessedSuccess", eventService.userAssignedClientProcessedSuccess(campaignId, cabinetId));
         model.put("userAssignedClientProcessedFails", eventService.userAssignedClientProcessedFails(campaignId, cabinetId));
+        model.put("userAssignedClientProcessed", eventService.userAssignedClientProcessed(campaignId, cabinetId));
+        model.put("userAssignedClientNotProcessed", eventService.userAssignedClientNotProcessed(campaignId, cabinetId));
 
         model.put("eventList", eventService.getEventList(campaignId, cabinetId));
         model.put("unassignedEventList", eventService.getUnassignedEvent(campaignId, cabinetId));
@@ -160,7 +160,7 @@ public class EventController extends WebController {
         eventService.eventAppointSave(arrayClientIdUserId, cabinetId, campaignId);
         model.put("clientList", eventService.getClientList(campaignId, cabinetId));
         model.put("campaign", eventService.getCampaign(campaignId));
-        model.put("cabinetUserList", eventService.listRoleUserActiveCabinetUser(cabinetId));
+        model.put("cabinetUserList", eventService.getActiveMakingCallsUsers(cabinetId));
         ras.addAttribute("campaignId", campaignId);
         ras.addFlashAttribute("errors", eventService.getError());
         ras.addFlashAttribute("campaign", eventService.getCampaign(campaignId));
@@ -178,7 +178,7 @@ public class EventController extends WebController {
         model.put("eventAllAppoint", eventService.eventAppointAll(campaignId, cabinetId));
 
         model.put("campaign", eventService.getCampaign(campaignId));
-        model.put("cabinetUserList", eventService.listRoleUserActiveCabinetUser(cabinetId));
+        model.put("cabinetUserList", eventService.getActiveMakingCallsUsers(cabinetId));
         ras.addAttribute("campaignId", campaignId);
         ras.addFlashAttribute("errors", eventService.getError());
         ras.addFlashAttribute("campaign", eventService.getCampaign(campaignId));
@@ -197,7 +197,7 @@ public class EventController extends WebController {
 
         eventService.eventAppointSaveAll(campaignId, cabinetId, userIdArray, clientNumArray);
 
-        model.put("cabinetUserList", eventService.listRoleUserActiveCabinetUser(cabinetId));
+        model.put("cabinetUserList", eventService.getActiveMakingCallsUsers(cabinetId));
         model.put("campaign", eventService.getCampaign(campaignId));
         ras.addAttribute("campaignId", campaignId);
         ras.addFlashAttribute("errors", eventService.getError());
@@ -221,8 +221,8 @@ public class EventController extends WebController {
 
         model.put("events", eventService.getEventFilter(campaignId, cabinetId, assigned, processed));
         model.put("campaign", eventService.getCampaign(campaignId));
-        model.put("cabinetUserList", eventService.listRoleUserActiveCabinetUser(cabinetId));
-        model.put("assignedMap", getAssignedMap(eventService.listRoleUserActiveCabinetUser(cabinetId)));
+        model.put("cabinetUserList", eventService.getActiveMakingCallsUsers(cabinetId));
+        model.put("assignedMap", getAssignedMap(eventService.getActiveMakingCallsUsers(cabinetId)));
         model.put("proceededMap", getProceededMap());
         ras.addAttribute("campaignId", campaignId);
         ras.addFlashAttribute("errors", eventService.getError());
@@ -254,8 +254,8 @@ public class EventController extends WebController {
     public String eventPage(Map<String, Object> model,
             @RequestParam(value = "campaignId") Long campaignId,
             @RequestParam(value = "eventId", required = false) Long eventId,
-            HttpServletRequest request/*,
-            RedirectAttributes ras*/) throws Exception {
+            HttpServletRequest request,
+            RedirectAttributes ras) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         User user = authManager.getCurrentUser();
@@ -263,7 +263,11 @@ public class EventController extends WebController {
         Long strategyId = eventService.getStrategyId(campaignId);
 
         if (eventId == null) {
-            model.put("event", eventService.getEvenByUserByCampaign(campaignId, cabinetId, userId));
+            Event ev = eventService.getEvenByUserByCampaign(campaignId, cabinetId, userId);
+            if(ev==null){
+                return "redirect:/Event/campaign";
+            }
+            model.put("event", ev);
         } else {
             model.put("event", eventService.getEventById(eventId));
         }
@@ -272,11 +276,6 @@ public class EventController extends WebController {
         model.put("errors", eventService.getError());
         model.put("strategy", strategyService.getStrategy(strategyId));
         model.put("аctiveMap", groupService.getActiveMap(strategyId));
-        /*ras.addFlashAttribute("eventId", eventId);
-        ras.addFlashAttribute("campaignId", campaignId);
-        ras.addFlashAttribute("strategyId", strategyId);
-        ras.addFlashAttribute("userId", userId);
-        ras.addFlashAttribute("cabinetId", cabinetId);*/
         return "event";
     }
 
@@ -377,4 +376,7 @@ public class EventController extends WebController {
         model.put("errors", eventService.getError());
         return "postponedEvents";
     }
+    
+    
+    
 }

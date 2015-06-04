@@ -6,9 +6,11 @@
 package service;
 
 import dao.CabinetUserDao;
+import dao.EventDao;
 import dao.PersonalCabinetDao;
 import dao.UserDao;
 import entities.CabinetUser;
+import entities.Event;
 import entities.PersonalCabinet;
 import entities.User;
 import java.util.ArrayList;
@@ -39,6 +41,8 @@ public class UserService extends PrimService {
 
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private EventDao eventDao;
 
     @Autowired
     private CabinetUserDao cabinetUserDao;
@@ -254,12 +258,18 @@ public class UserService extends PrimService {
 
     public void deleteUser(Long cabinetUserId) {
         CabinetUser cabinenUser = cabinetUserDao.find(cabinetUserId);
-      
+        
         Date date = new Date();
         if (cabinenUser != null ) {
+            User user = cabinenUser.getUser();
+            for(Event ev:eventDao.getNotProcessedUserEvents(user.getId(), cabinenUser.getCabinet().getId())){
+                ev.setUser(null);
+                if(validate(ev)){
+                    eventDao.update(ev);
+                }
+            }
             cabinenUser.setDeleteDate(date);
             cabinetUserDao.update(cabinenUser);
-
         } else {
             addError("Юзер не найден по: " + cabinetUserId );
         }

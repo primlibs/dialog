@@ -48,7 +48,7 @@
                     <c:if test="${cabinetUser.userRole=='admin'}"><c:set var="rusRole" value="Администратор" /></c:if>
                     <c:if test="${cabinetUser.userRole=='user'}"><c:set var="rusRole" value="Пользователь" /></c:if>
                     <td>${rusRole}</td>
-                    <c:if test="${cabinetUser.makesCalls==null}"><c:set var="makesCalls" value="Да" /></c:if>
+                    <c:if test="${cabinetUser.makesCalls==1}"><c:set var="makesCalls" value="Да" /></c:if>
                     <c:if test="${cabinetUser.makesCalls==null}"><c:set var="makesCalls" value="Нет" /></c:if>
                     <td>${makesCalls}</td>
                     <td><div style="cursor: pointer;display: inline;" onClick="location = '<c:url value="/User/deleteUser?cabinetUserId=${cabinetUser.cabinetUserId}&userId=${cabinetUser.user.userId}"/>'" >Удалить</div></td>

@@ -154,7 +154,7 @@ public class PersonalCabinet extends PrimEntity {
     }
 
     public List<CabinetUser> getActiveCabinetUserList() {
-        List<CabinetUser> activeCabinetUserList = new ArrayList<>();
+        List<CabinetUser> activeCabinetUserList = new ArrayList();
         for (CabinetUser cabinetUser : cabinetUserList) {
             if (cabinetUser.getDeleteDate() == null) {
                 activeCabinetUserList.add(cabinetUser);
@@ -165,7 +165,7 @@ public class PersonalCabinet extends PrimEntity {
 
     public List<CabinetUser> getRoleUserActiveCabinetUserList() {
         List<CabinetUser> activeCabinetUserList = getActiveCabinetUserList();
-        List<CabinetUser> roleUserActiveCabinetUserList = new ArrayList<>();
+        List<CabinetUser> roleUserActiveCabinetUserList = new ArrayList();
         for (CabinetUser cabinetUser : activeCabinetUserList) {
             if (cabinetUser.getUserRole().equals("user")) {
                 roleUserActiveCabinetUserList.add(cabinetUser);
