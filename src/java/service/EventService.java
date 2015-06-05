@@ -345,13 +345,13 @@ public class EventService extends PrimService {
     }
 
     //распределить всех клиентов по юзерам
-    public LinkedHashMap<Long, Integer> eventAppointAll(Long eventId, Long cabinetId) {
-        int clientNotAssigned = getNotAssignedClients(eventId, cabinetId).size();
-        int user = getActiveMakingCallsUsers(cabinetId).size();
+    public LinkedHashMap<Long, Integer> eventAppointAll(Long campaignId, Long cabinetId) {
+        int clientNotAssigned = getNotAssignedClients(campaignId, cabinetId).size();
+        int users = getActiveMakingCallsUsers(cabinetId).size();
         List<CabinetUser> cabinetUserList = getActiveMakingCallsUsers(cabinetId);
-        if(user!=0){
-            int clientOneUser = clientNotAssigned / user; //деление
-            int endClientUser = clientNotAssigned % user; // остаток
+        if(users!=0){
+            int clientOneUser = clientNotAssigned / users; //деление
+            int endClientUser = clientNotAssigned % users; // остаток
 
             LinkedHashMap<Long, Integer> residueMap = new LinkedHashMap<>();
 

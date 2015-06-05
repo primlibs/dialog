@@ -14,7 +14,8 @@
     </head>
     <body class="container" >
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
-        <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
+        <%@include file="/WEB-INF/jsp/error.jsp" %> 
+        <%@include file="/WEB-INF/jsp/message.jsp" %> 
         <div class="row">
             <h4>  Кампания:  ${campaign.name} &nbsp Стратегия: ${campaign.strategy.strategyName} </h4>
             <input type="hidden" name="campaignId" value=${param['campaignId']}>
@@ -26,7 +27,6 @@
 
             <form  action="<c:url value="/Event/eventAppointSaveAll" />" method="post">
                 <table class="table table-bordered table-hover">
-                    <c:if test="${eventAllAppoint.get(cabinetUser.getUser().getUserId())!=null && eventAllAppoint.get(cabinetUser.getUser().getUserId())!=0}">
                     <c:forEach var="cabinetUser"  items="${cabinetUserList}" varStatus="myIndex">
                             <tr>
                                 <td >${cabinetUser.user.surname} &nbsp ${cabinetUser.user.name} </td>
@@ -36,7 +36,6 @@
                                 </td>
                             </tr>
                     </c:forEach>
-                    </c:if>
                 </table>
                 <input type="hidden" name="campaignId" value=${param['campaignId']}>
                 <input class="btn btn-primary" type="submit" value="Отправить">
