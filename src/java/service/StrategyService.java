@@ -137,12 +137,13 @@ public class StrategyService extends PrimService {
         return groupDao.find(groupId);
     }
 
-    public void saveModule(Long groupId,
+    public Long saveModule(Long groupId,
             String moduleName,
             Long cabinetId) {
+        
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         Group gp = groupDao.find(groupId);
-
+        Long moduleId = null;
         List<Module> moduleList = getActiveModules(groupId,cabinetId);
         List<String> nameList = new ArrayList<>();
 
@@ -158,10 +159,11 @@ public class StrategyService extends PrimService {
             if (validate(ml)) {
                 moduleDao.save(ml);
             }
+            moduleId=ml.getId();
         } else {
             addError("Такой модуль уже есть");
         }
-
+        return moduleId;
     }
 
     public void deleteStrategy(Long strategyId) {

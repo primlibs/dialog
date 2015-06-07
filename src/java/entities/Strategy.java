@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
@@ -53,6 +54,7 @@ public class Strategy extends PrimEntity {
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "strategy", orphanRemoval = true)
+    @OrderBy("groupName")
     private List<Group> groupList;
 
     @LazyCollection(LazyCollectionOption.FALSE)

@@ -119,10 +119,11 @@ public class StrategyController extends WebController {
             RedirectAttributes ras) throws Exception {
 
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        strategyService.saveModule(groupId, moduleName, cabinetId);
+        Long moduleId=strategyService.saveModule(groupId, moduleName, cabinetId);
         ras.addFlashAttribute("errors", strategyService.getError());
         ras.addAttribute("strategyId", strategyId);
         ras.addAttribute("groupId", groupId);
+        ras.addAttribute("moduleId", moduleId);
         return "redirect:/Strategy/strategy";
     }
 
