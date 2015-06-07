@@ -165,10 +165,10 @@
                                         data-target="#basicModalPostpone">Перенести</a>
                                 <p>  <a href="#" class="btn btn-large btn-danger"
                                         data-toggle="modal"
-                                        data-target="#basicModal">Слив звонка</a>
+                                        data-target="#basicModal">Отрицательный исход</a>
                                 <p>   <a href="#" class="btn btn-large btn-success"
                                          data-toggle="modal"
-                                         data-target="#basicModalSuccess">Положительный результат</a>
+                                         data-target="#basicModalSuccess">Положительный исход</a>
                                 <p>    <a href="<c:url value="/Event/event?campaignId=${param.campaignId}&strategyId=${campaign.strategy.strategyId}"/>" class="btn btn-large btn-primary" role="button">следующий клиент</a>
 
                             </div>
