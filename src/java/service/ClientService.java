@@ -76,13 +76,10 @@ public class ClientService extends PrimService {
                     break;
                 case "phoneSecretary":
                     //++filtr++validation?
-                    Long phoneSec=StringAdapter.toLong(newVal);
-                    client.setPhoneSecretary(phoneSec);
+                    client.setPhoneSecretary(newVal);
                     break;
                 case "phoneLpr":
-                    //same
-                    Long phoneLpr=StringAdapter.toLong(newVal);
-                    client.setPhoneLpr(phoneLpr);
+                    client.setPhoneLpr(newVal);
                     break;
                 case "comment":
                     client.setComment(newVal);

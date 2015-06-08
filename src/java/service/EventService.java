@@ -230,27 +230,17 @@ public class EventService extends PrimService {
                         cl.setNameCompany(StringAdapter.getString(rw.getCell(1)));
                         cl.setNameSecretary(StringAdapter.getString(rw.getCell(2)));
                         cl.setNameLpr(StringAdapter.getString(rw.getCell(3)));
-                        Long secretaryPhone = null;
-                        Cell spc = rw.getCell(4);
-                        if(spc!=null){
-                            if(spc.getCellType()==Cell.CELL_TYPE_NUMERIC){
-                                secretaryPhone=StringAdapter.toLong(StringAdapter.getString(spc.getNumericCellValue()));
-                            }
-                        }
-                        Long lprPhone = null;
-                        Cell lpc = rw.getCell(5);
-                        if(lpc!=null){
-                            if(lpc.getCellType()==Cell.CELL_TYPE_NUMERIC){
-                                lprPhone=StringAdapter.toLong(StringAdapter.getString(lpc.getNumericCellValue()));
-                            }
-                        }
+                        String secretaryPhone = StringAdapter.HSSFSellValue(rw.getCell(4));
+                        String lprPhone = StringAdapter.HSSFSellValue(rw.getCell(5));
+  
+
                         cl.setPhoneSecretary(secretaryPhone);
                         cl.setPhoneLpr(lprPhone);
                         cl.setAddress(StringAdapter.getString(rw.getCell(6)));
                         cl.setComment(StringAdapter.getString(rw.getCell(7)));
                         cl.setCabinet(pk);
                         if (validate(cl)) {
-                            if((secretaryPhone!=null||!secretaryPhone.equals((long)0))||(lprPhone!=null||!lprPhone.equals((long)0))){
+                            if((secretaryPhone!=null)||(lprPhone!=null)){
                                 clientsListForSave.add(cl);
                             }else{
                                 noContactList.add(cl);

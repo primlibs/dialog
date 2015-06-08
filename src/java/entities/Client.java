@@ -19,6 +19,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import support.StringAdapter;
+import support.enums.ValidatorTypes;
+import support.filterValidator.ChainValidator;
 
 /**
  *
@@ -47,10 +50,10 @@ public class Client extends PrimEntity {
     private String nameCompany;
 
     @Column(name = "phone_secretary")
-    private Long phoneSecretary;
+    private String phoneSecretary;
 
     @Column(name = "phone_lpr")
-    private Long phoneLpr;
+    private String phoneLpr;
 
     @Column(name = "address")
     private String address;
@@ -61,14 +64,14 @@ public class Client extends PrimEntity {
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "client")
     private List<Event> events;
-    
+
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "client")
     private List<ClientTagLink> tagLinks;
 
     @Column(name = "unique_id")
     private String uniqueId;
-    
+
     @Override
     public Long getId() {
         return clientId;
@@ -114,20 +117,20 @@ public class Client extends PrimEntity {
         this.nameCompany = nameCompany;
     }
 
-    public Long getPhoneSecretary() {
+    public String getPhoneSecretary() {
         return phoneSecretary;
     }
 
-    public void setPhoneSecretary(Long phoneSecretary) {
-        this.phoneSecretary = phoneSecretary;
+    public void setPhoneSecretary(String phoneSecretary) {
+        this.phoneSecretary = Client.getPhone(phoneSecretary);
     }
 
-    public Long getPhoneLpr() {
+    public String getPhoneLpr() {
         return phoneLpr;
     }
 
-    public void setPhoneLpr(Long phoneLpr) {
-        this.phoneLpr = phoneLpr;
+    public void setPhoneLpr(String phoneLpr) {
+        this.phoneLpr = Client.getPhone(phoneLpr);
     }
 
     public String getAddress() {
@@ -168,5 +171,11 @@ public class Client extends PrimEntity {
 
     public void setTagLinks(List<ClientTagLink> tagLinks) {
         this.tagLinks = tagLinks;
+    }
+
+    public static String getPhone(Object ob) {
+        ChainValidator ch = ChainValidator.getInstance(ValidatorTypes.PHONEFILTER);
+        ch.execute(ob);
+        return StringAdapter.getString(ch.getData());
     }
 }
