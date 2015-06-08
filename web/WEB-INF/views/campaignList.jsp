@@ -5,6 +5,7 @@
 --%>
 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -37,12 +38,13 @@
                     <td> Дата окончания </td>
                     <td> Статус </td>
                 </tr>
+                <c:if test="${not empty campaignsWithCountInfosMap}">
                 <c:forEach var="entry" items="${campaignsWithCountInfosMap}">
 
                     <tr style="cursor: pointer;" onClick="location = '<c:url value="/Event/campaignSpecification?campaignId=${entry.key.campaignId}"/>'" >
                         <td>${entry.key.name}</td>
                         <td>${entry.key.strategy.strategyName}</td>
-                        <td>${entry.key.events.size()}</td>
+                        <td>${fn:length(entry.key.events)}</td>
                         <td>${entry.value.get("unassignedCount")}</td>
                         <td>${entry.value.get("finishedCount")}</td>
                         <td><fmt:formatDate type="date" value="${entry.key.creationDate}"/></td>
@@ -58,6 +60,7 @@
                         --%>
                     </tr>
                 </c:forEach>
+                </c:if>
             </table>
         </div>
 
