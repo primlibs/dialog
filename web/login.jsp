@@ -13,6 +13,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="./css/bootstrap.min.css" rel="stylesheet" type="text/css" >
         <link rel="shortcut icon" href="./img/icon.png">
+        <%@include file="/WEB-INF/jsp/css_js.jsp" %>
     </head>
     <body >
 
@@ -24,32 +25,12 @@
                         <div class="navbar-header">
                             <a class="navbar-brand" href="#">
                                 <img alt="Brand" src="./img/icon.png" width=22 style="float: left;"/>
-                                <span style="float: left;margin-left: 10px;font-size: 25px;">КусоК</span>
+                                <span style="float: left;margin-left: 10px;font-size: 25px;">Диалог+</span>
 
                             </a>
                         </div>
-                        <p class="navbar-text navbar-right" style="margin-right: 10px;"><a href="#" class="navbar-link">Вход </a> 
-                            или <a href="#" class="navbar-link">Регистрация </a> </p>
-
-                        <form method="post" action="j_spring_security_check" class="login">
-                            <p>
-                                <label for="login">Логин:</label>
-                                <input placeholder="Введите логин" name="j_username" id="login"  type="text">
-                            </p>
-
-                            <p>
-                                <label for="password">Пароль:</label>
-                                <input placeholder="Введите пароль" name="j_password" id="password"  type="password">
-                            </p>
-
-                            <p class="login-submit">
-                                <button type="submit" class="login-button">Войти</button>
-                            </p>
-
-                            <p class="forgot-password"><a href="<c:url value="/User/recoveryPassword" />">Забыл пароль?</a>   
-                                <a href="<c:url value="/Registration/registration" />">Регистрация!!</a></p>
-                        </form>
-
+                        <p class="navbar-text navbar-right" style="margin-right: 10px;"><a href="#" data-toggle="modal" data-target="#entrance" class="navbar-link">Вход </a> 
+                            или <a href="<c:url value="/Registration/registration" />" class="navbar-link">Регистрация </a> </p>
                     </div>
                 </nav>
 
@@ -62,7 +43,7 @@
                     <h3>Увеличить продажи в несколько раз. Обучить специалиста за 1 день.
                         Провести телемаркетинговую компанию по лояльности. Организовать удаленную работу.
                         Сделать прозрачным процесс продаж. Уберечь бизнес от утечки информации.
-                        Все это в здесь.</h3>
+                        Все это здесь.</h3>
                 </div>
                 <h2><a href="<c:url value="/Registration/registration" />" class="label label-danger " style="float: right;">Демо</a></h2>
             </div>
@@ -70,7 +51,7 @@
         <div class="container">
             <div >
                 <div class="page-header"><h3> Как это работает</h3></div>
-                <p>Вы описываете речевые модули которые вам необходимы. Операторы в процессе диалога с
+                <p>Вы описываете речевые модули которые вам необходимы. Оператор в процессе диалога с
                     клиентом получает подсказки  о том, что нужно говорить. При этом история диалогов фиксируется в 
                     отчетах.</p>
                 <p>С программой <strong>Диалог +</strong> менеджеры работают по готовым речевым модулям. Во первых менеджеры  не
@@ -206,6 +187,38 @@
             <nav class="navbar navbar-default navbar-static-bottom" >
                 <p class="navbar-text">&copy ООО Прим 2015 <a href="#" class="navbar-link">Контакты </a></p>
             </nav>
+        </div>
+
+        <div class="modal fade" id="entrance" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title" id="myModalLabel">Авторизация</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="j_spring_security_check" class="login">
+                            <div class="form-group">
+                                <label for="login">Логин:</label>
+                                <input placeholder="Введите логин" class="form-control" name="j_username" id="login"  type="text">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password">Пароль:</label>
+                                <input placeholder="Введите пароль" class="form-control" name="j_password" id="password"  type="password">
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="login-button">Войти</button>
+                            </div>
+
+                            <p class="forgot-password"><a href="<c:url value="/User/recoveryPassword" />">Забыли пароль?</a>   
+                                <a href="<c:url value="/Registration/registration" />">Регистрация!!</a></p>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
 </html>
