@@ -8,8 +8,11 @@
     </head>
     <body class="container" >
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
-        <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
-        <div style="float: right;width: 49%;"><%@include file="/WEB-INF/views/dialog.jsp" %></div>
+        <%@include file="/WEB-INF/jsp/error.jsp" %> 
+        <%@include file="/WEB-INF/jsp/message.jsp" %> 
+        <div style="float: right;width: 49%;">
+            <h4>Диалог: </h4>
+            <%@include file="/WEB-INF/views/dialog.jsp" %></div>
         <div class="row" style="width: 49%;">
 
             <table>
@@ -73,7 +76,7 @@
                                 <c:set var="assigned" value="${event.user.userId}" />
                             </c:if>
                             <tr class="active">
-                                <td style="cursor: pointer;" onClick="location = '<c:url value="/Event/eventClient?campaignId=${event.campaign.campaignId}&assigned=${assigned}"/>'">${event.campaign.name}</td>
+                                <td><div style="cursor: pointer;display: inline-block;" onClick="location = '<c:url value="/Event/eventClient?campaignId=${event.campaign.campaignId}"/>'">${event.campaign.name}</div></td>
                                 <c:if test="${not empty event.user}">
                                     <td>${event.user.surname}</td>
                                 </c:if>
@@ -85,15 +88,17 @@
                         </c:forEach>
 
                         <c:forEach var="event"  items="${finishedEvents}" >
+                            <c:set var="trstyle" value="active" />
                             <c:if test="${ not empty event.failReason}">
                                 <c:set var="trstyle" value="danger" />
                             </c:if>
                             <c:if test="${ not empty event.successDate}">
                                 <c:set var="trstyle" value="success" />
                             </c:if>
-                            <tr class="${trstyle}"><td>${event.campaign.name}</td>
+                            <tr class="${trstyle}">
+                                <td><div style="cursor: pointer;display: inline-block;" onClick="location = '<c:url value="/Event/eventClient?campaignId=${event.campaign.campaignId}"/>'">${event.campaign.name}</div></td>
                                 <td>${event.user.surname}</td>
-                                <td style="cursor: pointer;" onclick="location = '<c:url value="/Client/oneClient?clientId=${client.clientId}&eventId=${event.eventId}"/>'">${event.finalComment}</td>
+                                <td><div style="cursor: pointer;display: inline-block;" onclick="location = '<c:url value="/Client/oneClient?clientId=${client.clientId}&eventId=${event.eventId}"/>'">${event.finalComment}</div></td>
                             </tr>
                         </c:forEach>
                     </table>
