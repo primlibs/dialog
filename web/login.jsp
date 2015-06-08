@@ -13,10 +13,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="./css/bootstrap.min.css" rel="stylesheet" type="text/css" >
         <link rel="shortcut icon" href="./img/icon.png">
-        <%@include file="/WEB-INF/jsp/css_js.jsp" %>
     </head>
     <body >
-
+<script src="<c:url value='/js/jquery-1.11.2.min.js'/>"> </script>
+<script src="<c:url value='/js/bootstrap.js'/>"> </script>
         <div class="jumbotron" style="background-color: #5bc0de;">
             <div class="container">
 

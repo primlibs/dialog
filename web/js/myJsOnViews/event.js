@@ -19,7 +19,7 @@ $(function(){
         var dateObj = new Date();
         var eventId = $('#moduleBufer').attr('data-eventId');
         $.ajax({
-            url:"/CallCentr/Event/writeModuleInHistory?date="+dateObj.valueOf()+"&moduleId="+moduleId+"&eventId="+eventId,
+            url:"../Event/writeModuleInHistory?date="+dateObj.valueOf()+"&moduleId="+moduleId+"&eventId="+eventId,
             dataType : "json",
             type: "POST",
             cache: false,
@@ -51,7 +51,7 @@ $(function(){
                 var cientId = $('#moduleBufer').attr('data-clientid');
                 if (target.attr('name') !== paramType) {
                     $.ajax({
-                        url:"/CallCentr/Event/updateClientFromUser?clientId="+cientId+"&param="+paramType+"&newVal="+newVal,
+                        url:"../Event/updateClientFromUser?clientId="+cientId+"&param="+paramType+"&newVal="+newVal,
                         dataType : "json",
                         cache: false,
                         success: function(json){
