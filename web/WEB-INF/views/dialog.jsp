@@ -6,11 +6,18 @@
 </head>
 <body>
     <c:set var="num" value="0"/>
-    <c:forEach var="module" items="${dialog}">
+    <table class="table table-hover table-striped">
+        <c:forEach var="module" items="${dialog}">
+            <c:set var="num" value="${num+1}"/>
+            <tr style="background-color: #dff0d8;"><td>${num}.</td><td>Клиент: ${module.moduleName}</td></tr>
+            <tr style="background-color: ivory;"><td>${num}.</td><td>Оператор: ${module.bodyText}</td></tr>
+        </c:forEach>
+    </table>
+    <!--<c:forEach var="module" items="${dialog}">
         <c:set var="num" value="${num+1}"/>
-        <div class="sms_bubble">${num} ${module.moduleName}</div>
+        <div class="sms_bubble">${num}. ${module.moduleName}</div>
         <div class="sms_bubble blue-right">${module.bodyText}</div>
-    </c:forEach>
+    </c:forEach>-->
 	<!--<div id="one" class="sms_bubble">
         Hey bro, what's up? Long time no see.
     </div>
