@@ -39,9 +39,9 @@
                 </tr>
                 <c:forEach var="entry" items="${campaignsWithCountInfosMap}">
 
-                    <tr>
-                        <td onClick="location = '<c:url value="/Event/campaignSpecification?campaignId=${entry.key.campaignId}"/>'" >${entry.key.name}</td>
-                        <td onClick="location = '<c:url value="/Event/campaignSpecification?campaignId=${entry.key.campaignId}"/>'" >${entry.key.strategy.strategyName}</td>
+                    <tr style="cursor: pointer;" onClick="location = '<c:url value="/Event/campaignSpecification?campaignId=${entry.key.campaignId}"/>'" >
+                        <td>${entry.key.name}</td>
+                        <td>${entry.key.strategy.strategyName}</td>
                         <td>${entry.key.events.size()}</td>
                         <td>${entry.value.get("unassignedCount")}</td>
                         <td>${entry.value.get("finishedCount")}</td>

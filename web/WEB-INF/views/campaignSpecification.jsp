@@ -21,6 +21,7 @@
         <div class="row ">
             <h4> Кампания: ${campaign.name} </h4>
             <h4> Стратегия: ${campaign.strategy.strategyName} </h4>
+            <div class="row ">
             <form class="form-inline" enctype="multipart/form-data" action="<c:url value="/Event/setXls" />" method="post">
                 <div class="form-group"> 
                     <a href="<c:url value="/Event/getShapeExcel"/>" class="btn btn-large btn-primary" role="button">Получить форму excel</a>
@@ -37,6 +38,10 @@
                         <input class="btn btn-primary" type="submit" value="Отправить">
                     </div>
             </form>
+                        <c:if test="${empty campaign.events}">
+             <a href="<c:url value="/Event/deleteCampaign?campaignId=${campaign.campaignId}"/>" class="btn btn-large btn-primary" role="button">Удалить кампанию</a>           
+                        </c:if>
+                        </div>
 
             <table class="table table-bordered table-hover" style="margin-top: 20px;">
 

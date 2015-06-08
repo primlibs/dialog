@@ -157,7 +157,22 @@ public class EventService extends PrimService {
         } else {
             addError("не найден личный кабинет по id" + cabinetId);
         }
-
+    }
+    
+    public boolean deleteCampaign(Long campaignId){
+        boolean deleted = false;
+        Campaign c =campaignDao.find(campaignId);
+        if(c!=null){
+            if(c.getEvents().isEmpty()){
+                campaignDao.delete(c);
+                deleted=true;
+            }else{
+                addError("В кампании присутствуют эвенты, её нельзя удалять.");
+            }
+        }else{
+            addError("Не найдено кампании с ИД "+campaignId+"; ");
+        }
+        return deleted;
     }
 
     public List<CabinetUser> getActiveMakingCallsUsers(Long cabinetId) {

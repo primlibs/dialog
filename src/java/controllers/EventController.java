@@ -10,6 +10,7 @@ import controllers.parent.WebController;
 import entities.CabinetUser;
 import entities.Event;
 import entities.User;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -92,6 +93,28 @@ public class EventController extends WebController {
         model.put("strategies", eventService.getStrategies(cabinetId));
         model.put("errors", eventService.getError());
         return "createCampaign";
+    }
+    
+    @RequestMapping("/deleteCampaign")
+    public String deleteCampaign(Map<String, Object> model,HttpServletRequest request,
+            @RequestParam(value = "campaignId",required = false) Long campaignId,RedirectAttributes ras) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        
+        if (campaignId != null) {
+            if(eventService.deleteCampaign(campaignId)&&eventService.getError().isEmpty()){
+                return "redirect:/Event/campaignList";
+            }else{
+                ras.addFlashAttribute("errors", eventService.getError());
+                ras.addAttribute("campaignId", campaignId);
+                return "redirect:/Event/campaignSpecification";
+            }
+        }
+        List<String>errors=new ArrayList();
+        errors.addAll(eventService.getError());
+        errors.add("Ид кампании не передан.");
+        ras.addFlashAttribute("errors", errors);
+        return "redirect:/Event/campaignList";
     }
 
     @RequestMapping("/campaignSpecification")
@@ -418,5 +441,7 @@ public class EventController extends WebController {
         model.put("errors", eventService.getError());
         return "assignOneEvent";
     }
+    
+    
     
 }
