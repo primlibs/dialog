@@ -17,15 +17,13 @@
         <%@include file="/WEB-INF/jsp/error.jsp" %> 
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
         
-        <div class="row">
-            <h4>Кампания: ${campaign.name}</h4> 
-            <h4>Стратегия: ${campaign.strategy.strategyName}</h4>
+        <div class="row form-group">
+            <span style="font-size: 18px;font-weight: 500;"><b>Кампания: ${campaign.name}; Стратегия: ${campaign.strategy.strategyName};</b></span>
         </div>    
             <!--<div class="form-group" role="group" >
                 <a href="<c:url value="/Event/campaignSpecification?campaignId=${param['campaignId']}"/>" class="btn btn-large" role="button"><= Кампания</a>
             </div>-->
             <div class="form-group">
-                <a href="<c:url value="/Event/eventShowAllAppoint?campaignId=${param['campaignId']}"/>" class="btn btn-primary" role="button">Назначить всем</a>
             <form enctype="multipart/form-data" class="form-inline btn-group" action="<c:url value="/Event/eventClient" />" method="post">
                 <div class="bootstrap-select">
                     <select class="form-control" name="assigned" data-style="btn-primary">
@@ -63,10 +61,10 @@
                     <td>${myIndex.index}номер по порядку</td>
                     <td>Уникальный номер</td>
                     <td>Название компании</td>
-                    <td>Имя секретаря</td>
-                    <td>Имя лица принимающего решение</td>
-                    <td>Телефон секретаря</td>
-                    <td>Телефон лица принимающего решение</td>
+                    <td>Контактное лицо</td>
+                    <td>Телефон К.Л.</td>
+                    <td>Л.П.Р.</td>
+                    <td>Телефон Л.П.Р.</td>
                     <td>Адрес</td>
                     <td>Пользователь</td>
                     <td>Статус</td>
@@ -77,10 +75,10 @@
                         <td>${myIndex.count}</td>
                         <td>${event.client.uniqueId}</td> 
                         <td>${event.client.nameCompany}</td>
-                        <td>${event.client.nameSecretary}</td>  
-                        <td>${event.client.nameLpr} </td>  
-                        <td>${event.client.phoneSecretary} </td>  
-                        <td>${event.client.phoneLpr} </td>  
+                        <td>${event.client.nameSecretary}</td>   
+                        <td>${event.client.getFormattedPhoneSec()} </td>  
+                        <td>${event.client.nameLpr} </td> 
+                        <td>${event.client.getFormattedPhoneLpr()} </td>  
                         <td>${event.client.address} </td>
                         <td><div style="cursor: pointer;display: inline-block" onClick="location = '<c:url value="/Event/showAssigningOneEvent?eventId=${event.eventId}&campaignId=${campaign.campaignId}"/>'">${event.user.surname}  ${event.user.name}</div></td>
                         <td>${event.status} </td>

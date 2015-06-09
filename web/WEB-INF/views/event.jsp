@@ -40,8 +40,8 @@
                         <tr>
                             <th>Компания: </th>
                             <th>Адрес: </th>
-                            <th>Секретарь: </th>
-                            <th>Телефон секретаря: </th>
+                            <th>Контактное лицо </th>
+                            <th>Телефон К.Л. </th>
                             <th>ЛПР: </th>
                             <th>Телефон ЛПР: </th>
                             <th>Комментарий: </th>
@@ -50,9 +50,9 @@
                             <td>${event.client.nameCompany} </td>
                             <td class="changebleParam" id="adress">${event.client.address} </td>
                             <td class="changebleParam" id="nameSecretary">${event.client.nameSecretary} </td>
-                            <td class="changebleParam" id="phoneSecretary">${event.client.phoneSecretary} </td>
+                            <td class="changebleParam" id="phoneSecretary">${event.client.getFormattedPhoneSec()} </td>
                             <td class="changebleParam" id="nameLpr">${event.client.nameLpr} </td>
-                            <td class="changebleParam" id="phoneLpr">${event.client.phoneLpr} </td>
+                            <td class="changebleParam" id="phoneLpr">${event.client.getFormattedPhoneLpr()} </td>
                             <td class="changebleParam" id="comment">${event.client.comment} </td>
                         </tr>
                     </table>

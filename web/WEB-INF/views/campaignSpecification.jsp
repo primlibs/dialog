@@ -18,10 +18,10 @@
         <%@include file="/WEB-INF/jsp/error.jsp" %>
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
-        <div class="row ">
-            <h4> Кампания: ${campaign.name} </h4>
-            <h4> Стратегия: ${campaign.strategy.strategyName} </h4>
-            <div class="row ">
+        <div class="row form-group">
+            <span style="font-size: 18px;font-weight: 500;"><b>Кампания: ${campaign.name}; Стратегия: ${campaign.strategy.strategyName};</b></span>
+            </div>
+            <div class="row form-group">
                 <form style="float: left;" class="form-inline" enctype="multipart/form-data" action="<c:url value="/Event/setXls" />" method="post">
                 <div class="form-group"> 
                     <a href="<c:url value="/Event/getShapeExcel"/>" class="btn btn-large btn-primary" role="button">Получить форму excel</a>
@@ -35,9 +35,10 @@
                     </div>
                     <div class="form-group">
                         <input type="hidden" name="campaignId" value=${param.campaignId}>
-                        <input class="btn btn-primary" type="submit" value="Отправить">
+                        <input class="btn btn-primary" type="submit" value="Добавить">
                     </div>
             </form>
+                        <a style="margin-left: 10px;" href="<c:url value="/Event/eventShowAllAppoint?campaignId=${campaign.campaignId}"/>" class="btn btn-primary" role="button">Назначить всем</a>
                         <c:if test="${empty campaign.events}">
                             <a style="float: right;" href="<c:url value="/Event/deleteCampaign?campaignId=${campaign.campaignId}"/>" class="btn btn-large btn-danger" role="button">Удалить кампанию</a>           
                         </c:if>
@@ -100,6 +101,6 @@
                     <td><div style="cursor: pointer;display: inline-block;" onClick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&processed=-1"/>'"> ${assignedNotProcessedEventsCount}</div></td>
                 </tr>
             </table>
-        </div>
+        
     </body>
 </html>
