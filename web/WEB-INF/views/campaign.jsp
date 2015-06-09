@@ -31,11 +31,11 @@
                     <th>Количество клиентов</th>
                 </tr>
                 <c:forEach var="camp" items="${campaigns}" varStatus="myIndex">
-                    <tr>
+                    <tr style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/event?campaignId=${camp.key.getCampaignId()}"/>'">
                         <td>${myIndex.count}</td>
-                        <td ondblclick="location = '<c:url value="/Event/event?campaignId=${camp.key.getCampaignId()}"/>'"> ${camp.key.getName()}</td>
-                        <td ondblclick="location = '<c:url value="/Event/event?campaignId=${camp.key.getCampaignId()}"/>'"> ${camp.key.getStrategy().getStrategyName()} </td>
-                        <td ondblclick="location = '<c:url value="/Event/event?campaignId=${camp.key.getCampaignId()}"/>'"> ${camp.value}  </td>
+                        <td> ${camp.key.getName()}</td>
+                        <td> ${camp.key.getStrategy().getStrategyName()} </td>
+                        <td> ${camp.value}  </td>
                     </tr>
                 </c:forEach>
             </table>

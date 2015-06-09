@@ -30,13 +30,12 @@
         <%@include file="/WEB-INF/jsp/error.jsp" %> 
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
-        <div class="row ">
+        <div class="row form-group">
             <h4>   Стратегия: ${strategy.strategyName}</h4>
-
+        </div>
             <div class="row">
-                <div class="col-md-12">
                     <!--<input type="hidden" name="eventId" id="eventId" value=${event.eventId}>-->
-                    <table class="table table-bordered table-hover">
+                    <table class="table table-striped table-hover">
                         <tr>
                             <th>Компания: </th>
                             <th>Адрес: </th>
@@ -58,10 +57,10 @@
                     </table>
 
                     <div class="row">
-                        <div style="float:left;" id="moduleShow"></div>
+                        <div class="col-md-7" style="float:left;" id="moduleShow"></div>
 
-                        <div style="float:right;">
-                            <div class="col-md-6"  data-spy="scroll" style="height: 100vh ;">
+                        <div class="col-md-5" style="float:right;">
+                            <div class="col-md-7"  data-spy="scroll" style="height: 100vh ;">
                                 <c:forEach var="entry"  items="${аctiveMap}" >
                                     <ul> ${entry.key.groupName} 
                                         <c:forEach var="module" items="${entry.value}" >
@@ -75,7 +74,7 @@
 
 
 
-                            <div class="col-md-2"  >
+                            <div class="col-md-5"  >
                                 <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
@@ -187,9 +186,9 @@
                             </c:forEach>
                         </c:forEach>
                     </div>
-                </div>
+                
             </div>
-        </div>
+        
 
     </body>
 </html>
