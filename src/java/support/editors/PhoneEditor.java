@@ -28,7 +28,8 @@ public class PhoneEditor extends PropertyEditorSupport {
             BigDecimal bd = BigDecimal.valueOf((double)ob);
             ob=bd.longValue();
         }*/
-        ChainValidator ch = ChainValidator.getInstance(ValidatorTypes.PHONEFILTER);
+        ChainValidator ch = ChainValidator.getInstance(ValidatorTypes.DIGITSFILTER);
+        ch.addChain(ValidatorTypes.PHONEFILTER);
         ch.execute(ob);
         error.addAll(ch.getErrors());
         return StringAdapter.getString(ch.getData());

@@ -38,7 +38,7 @@ public class ClientController extends WebController {
     @RequestMapping("/clientList")
     public String showClientList(Map<String, Object> model, HttpServletRequest request,@RequestParam(value = "uid", required = false) String uid,
             @RequestParam(value = "adress", required = false) String adress,@RequestParam(value = "nameCompany", required = false) String nameCompany,
-            @RequestParam(value = "name", required = false) String name,@RequestParam(value = "phone", required = false) Long phone,
+            @RequestParam(value = "name", required = false) String name,@RequestParam(value = "phone", required = false) String phone,
             @RequestParam(value = "tags", required = false) Long[] tags) throws Exception {
         lk.dataByUserAndCompany(request, model);
      

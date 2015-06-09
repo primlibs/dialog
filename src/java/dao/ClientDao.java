@@ -94,7 +94,7 @@ public class ClientDao extends Dao<Client> {
         return elist;
     }
 
-    public List<Client> getClientsBySearchRequest(Long pkId, String uid, String adress, String nameCompany, String name, Long phone,Long[] tagIds) {
+    public List<Client> getClientsBySearchRequest(Long pkId, String uid, String adress, String nameCompany, String name, String phone,Long[] tagIds) {
         List<Client> result = new ArrayList();
         HashMap<String, Object> paramMap = new HashMap();
         paramMap.put("pkId", pkId);
@@ -104,18 +104,18 @@ public class ClientDao extends Dao<Client> {
             paramMap.put("uid", uid);
         }
         if (adress != null && !adress.equals("")) {
-            hql += " and с.address=:address";
-            paramMap.put("address", adress);
+            hql += " and lower(с.address) like :address";
+            paramMap.put("address", adress.toLowerCase());
         }
         if (nameCompany != null && !nameCompany.equals("")) {
-            hql += " and с.nameCompany=:nameCompany";
-            paramMap.put("nameCompany", nameCompany);
+            hql += " and lower(с.nameCompany) like :nameCompany";
+            paramMap.put("nameCompany", nameCompany.toLowerCase());
         }
         if (name != null && !name.equals("")) {
-            hql += " and (с.nameSecretary=:name or с.nameLpr=:name)";
-            paramMap.put("name", name);
+            hql += " and (lower(с.nameSecretary)=:name or lower(с.nameLpr) like :name)";
+            paramMap.put("name", name.toLowerCase());
         }
-        if (phone != null) {
+        if (phone != null && !phone.equals("")) {
             hql += " and (с.phoneSecretary=:phone or с.phoneLpr=:phone)";
             paramMap.put("phone", phone);
         }

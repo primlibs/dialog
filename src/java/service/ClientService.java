@@ -51,7 +51,31 @@ public class ClientService extends PrimService {
         return clientDao.getUnfinishedEventsByClient(clientId);
     }
     
-    public List<Client> getClientsBySearchRequest(Long pkId,String uid,String adress,String nameCompany,String name,Long phone,Long[] tags){
+    public List<Client> getClientsBySearchRequest(Long pkId,String uid,String adress,String nameCompany,String name,String phone,Long[] tags){
+        if(adress!=null&&!adress.equals("")){
+            String[] ss = adress.trim().split(" ");
+            adress="";
+            for(String s:ss){
+                adress+="%"+s+"%";
+            }
+        }
+        if(name!=null&&!name.equals("")){
+            String[] ss = name.trim().split(" ");
+            name="";
+            for(String s:ss){
+                name+="%"+s+"%";
+            }
+        }
+        if(nameCompany!=null&&!nameCompany.equals("")){
+            String[] ss = nameCompany.trim().split(" ");
+            nameCompany="";
+            for(String s:ss){
+                nameCompany+="%"+s+"%";
+            }
+        }
+        if(phone!=null&&!phone.equals("")){
+            phone=phone.replaceAll("[^0-9]*", "");
+        }
         return clientDao.getClientsBySearchRequest(pkId,uid, adress, nameCompany, name, phone,tags);
     }
     
