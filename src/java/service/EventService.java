@@ -206,6 +206,7 @@ public class EventService extends PrimService {
         List<Client> clientsListForSave = new ArrayList();
         List<Event> eventsListForSave = new ArrayList();
         List<Client> noContactList = new ArrayList();
+        List<Integer> noUniqueIdList = new ArrayList();
         Boolean newClient = false;
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         List<Client> pkList = pk.getClientList();
@@ -215,57 +216,48 @@ public class EventService extends PrimService {
         int sheetCount = inputWorkbook.getNumberOfSheets();
         for (int i = 0; i < sheetCount; i++) {
             HSSFSheet hss = inputWorkbook.getSheetAt(i);
+                int rowCount = 0;
             Iterator<Row> it = hss.iterator();
             while (it.hasNext()) {
+                rowCount++;
                 Row rw = it.next();
                 if (!(StringAdapter.getString(rw.getCell(0))).trim().equals("Номер уникальный")) {
-                    Client cl = clientDao.getClientByUniqueIdInLk(StringAdapter.getString(rw.getCell(0)), cabinetId);
+                    Client cl = clientDao.getClientByUniqueIdInLk(StringAdapter.HSSFSellValue(rw.getCell(0)), cabinetId);
                     if (cl == null) {
                         cl = new Client();
                         newClient = true;
                     }
                     if (newClient == true || update == true) {
-                        String uid = StringAdapter.getString(rw.getCell(0));
-                        cl.setUniqueId(uid);
-                        cl.setNameCompany(StringAdapter.getString(rw.getCell(1)));
-                        cl.setNameSecretary(StringAdapter.getString(rw.getCell(2)));
-                        cl.setNameLpr(StringAdapter.getString(rw.getCell(3)));
-                        String secretaryPhone = StringAdapter.HSSFSellValue(rw.getCell(4));
-                        String lprPhone = StringAdapter.HSSFSellValue(rw.getCell(5));
-  
+                        String uid = StringAdapter.HSSFSellValue(rw.getCell(0));
+                        if(!uid.equals("")){
+                            cl.setUniqueId(uid);
+                            cl.setNameCompany(StringAdapter.HSSFSellValue(rw.getCell(1)));
+                            cl.setNameSecretary(StringAdapter.HSSFSellValue(rw.getCell(2)));
+                            cl.setNameLpr(StringAdapter.HSSFSellValue(rw.getCell(3)));
+                            String secretaryPhone = StringAdapter.HSSFSellValue(rw.getCell(4));
+                            String lprPhone = StringAdapter.HSSFSellValue(rw.getCell(5));
 
-                        cl.setPhoneSecretary(secretaryPhone);
-                        cl.setPhoneLpr(lprPhone);
-                        cl.setAddress(StringAdapter.getString(rw.getCell(6)));
-                        cl.setComment(StringAdapter.getString(rw.getCell(7)));
-                        cl.setCabinet(pk);
-                        if (validate(cl)) {
-                            if((secretaryPhone!=null)||(lprPhone!=null)){
-                                clientsListForSave.add(cl);
-                            }else{
-                                noContactList.add(cl);
+
+                            cl.setPhoneSecretary(secretaryPhone);
+                            cl.setPhoneLpr(lprPhone);
+                            cl.setAddress(StringAdapter.HSSFSellValue(rw.getCell(6)));
+                            cl.setComment(StringAdapter.HSSFSellValue(rw.getCell(7)));
+                            cl.setCabinet(pk);
+                            if (validate(cl)) {
+                                if((secretaryPhone!=null)||(lprPhone!=null)){
+                                    clientsListForSave.add(cl);
+                                }else{
+                                    noContactList.add(cl);
+                                }
                             }
+                        }else{
+                            noUniqueIdList.add(rowCount);
                         }
                     }
-
-                    /*if (getError().isEmpty()) {
-                        Event ecl = eventDao.getEvent(cl, pk, campaign);
-                        if (ecl == null) {
-                            Event event = new Event();
-                            event.setCabinet(pk);
-                            event.setClient(cl);
-                            event.setEvent(campaign);
-                            if (validate(event)) {
-                                eventsListForSave.add(event);
-                                //eventDao.save(event);
-                            }
-
-                        }
-                    }*/
                 }
             }
         }
-        if(noContactList.isEmpty()){
+        if(noContactList.isEmpty()&&noUniqueIdList.isEmpty()){
             for(Client cl:clientsListForSave){
                 clientDao.save(cl);
                 Event ecl = eventDao.getEvent(cl, pk, campaign);
@@ -280,14 +272,21 @@ public class EventService extends PrimService {
                 }
             }
         }else{
-            String err = "Не указаны контакты клиентов с УИД: ";
-            for(Client cl:noContactList){
-                err+=cl.getUniqueId()+"; ";
+            if(!noContactList.isEmpty()){
+                String err = "Не указаны контакты клиентов с УИД: ";
+                for(Client cl:noContactList){
+                    err+=cl.getUniqueId()+"; ";
+                }
+                addError(err+" для загрузки клиентов необходимо указать хотя бы один контакт.");
             }
-            addError(err+" для загрузки клиентов необходимо указать хотя бы один контакт.");
+            if(!noUniqueIdList.isEmpty()){
+                String err = "Не указан УИД клиентов в следующих строках: ";
+                for(Integer rc:noUniqueIdList){
+                    err+=rc+"; ";
+                }
+                addError(err);
+            }
         }
-        
-
     }
 
     public Campaign getCampaign(Long campaignId) {

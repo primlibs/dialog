@@ -17,11 +17,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import support.StringAdapter;
-import support.enums.ValidatorTypes;
-import support.filterValidator.ChainValidator;
+import support.editors.PhoneEditor;
 
 /**
  *
@@ -70,6 +69,7 @@ public class Client extends PrimEntity {
     private List<ClientTagLink> tagLinks;
 
     @Column(name = "unique_id")
+    @NotNull
     private String uniqueId;
 
     @Override
@@ -122,7 +122,7 @@ public class Client extends PrimEntity {
     }
 
     public void setPhoneSecretary(String phoneSecretary) {
-        this.phoneSecretary = Client.getPhone(phoneSecretary);
+        this.phoneSecretary = PhoneEditor.getPhone(phoneSecretary);
     }
 
     public String getPhoneLpr() {
@@ -130,7 +130,7 @@ public class Client extends PrimEntity {
     }
 
     public void setPhoneLpr(String phoneLpr) {
-        this.phoneLpr = Client.getPhone(phoneLpr);
+        this.phoneLpr = PhoneEditor.getPhone(phoneLpr);
     }
 
     public String getAddress() {
@@ -173,9 +173,9 @@ public class Client extends PrimEntity {
         this.tagLinks = tagLinks;
     }
 
-    public static String getPhone(Object ob) {
+    /*public static String getPhone(Object ob) {
         ChainValidator ch = ChainValidator.getInstance(ValidatorTypes.PHONEFILTER);
         ch.execute(ob);
         return StringAdapter.getString(ch.getData());
-    }
+    }*/
 }

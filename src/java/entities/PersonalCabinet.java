@@ -8,7 +8,6 @@ package entities;
 import entities.parent.PrimEntity;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,6 +20,8 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+import support.editors.PhoneEditor;
+import support.filterValidator.entity.PhoneFilter;
 
 /**
  *
@@ -145,7 +146,7 @@ public class PersonalCabinet extends PrimEntity {
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        this.phone = PhoneEditor.getPhone(phone);
     }
 
     @Override

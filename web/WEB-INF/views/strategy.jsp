@@ -17,17 +17,10 @@
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
         <%@include file="/WEB-INF/jsp/error.jsp" %> 
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
-        <div class="form-group">  
-            <a href="<c:url value="/Strategy/show"/>" class="btn btn-large btn-primary" role="button"><= Вернуться к стратегиям</a>
-        </div>
 
-        <div class="row"><h4>Стратегия: ${strategy.strategyName}</h4></div>
-        <div class="row">
-            <div class="form-group">    
+        <div class="row form-group"><span style="font-size: 18px;vertical-align: middle;"><b>Стратегия: ${strategy.strategyName}</b></span> <span class="form-group">    
                 <a href="<c:url value="/Strategy/failReasonEditor?strategyId=${strategy.strategyId} "/>" class="btn btn-large btn-primary" role="button">Словарь отказов</a> 
-            </div>
-
-        </div>
+            </span></div>
         <div class="row">
             <div class="col-md-6">
                 <c:if test="${not empty module}">
