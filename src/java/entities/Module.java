@@ -48,7 +48,7 @@ public class Module extends PrimEntity {
     @NotBlank(message = "Поле Название модуля не может быть пустым")
     private String moduleName;
 
-    @Column(name = "body")
+    @Column(name = "body", columnDefinition="TEXT")
     private String bodyText;
 
     @Column(name = "delete_date")

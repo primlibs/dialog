@@ -64,8 +64,10 @@ public class UserService extends PrimService {
         User existingUser = userDao.getUserByLogin(email);
         PersonalCabinet existingEmailCompany = personalCabinetDao.getCabinetByLogin(emailCompany);
 
-        if (existingUser != null || existingEmailCompany != null) {
-            addError("Ошибка email личного | компании");
+        if (existingUser != null){ 
+            addError("Пользователь с такой почтой уже зарегистрирован, выберите другую");
+        } else if(existingEmailCompany != null) {
+            addError("Укажите другую почту, на данный адрес уже зарегистрирована компания");
         } else {
             User user = new User();
             user.setEmail(email);
@@ -74,19 +76,14 @@ public class UserService extends PrimService {
             user.setSurname(surname);
             user.setPatronymic(patronymic);
             if (validate(user)) {
-                userDao.save(user);
-            }
-
-            if (getError().isEmpty()) {
+                
                 PersonalCabinet cabinet = new PersonalCabinet();
                 cabinet.setEmail(emailCompany);
                 cabinet.setPhone(phone);
                 cabinet.setCompany(company);
                 if (validate(cabinet)) {
+                    userDao.save(user);
                     personalCabinetDao.save(cabinet);
-                }
-
-                if (getError().isEmpty()) {
                     CabinetUser link = new CabinetUser();
                     link.setCabinet(cabinet);
                     link.setUser(user);
@@ -96,7 +93,6 @@ public class UserService extends PrimService {
                     }
                 }
             }
-
         }
 
     }

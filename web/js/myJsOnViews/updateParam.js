@@ -1,18 +1,19 @@
 $('.changebleParam').dblclick(function(){
         var changebleElem = $(this);
+        var elemClone = changebleElem.clone();
         var paramType = $(this).attr('name');
         
         var value = $(this).text();
-        var input = "<input type=text id='input' class='inp' name='" + paramType + "' value='" + value + "'/>";
+        var input = "<input type=text id='inputForChangebleElem' class='inp' name='" + paramType + "' value='" + value + "'/>";
         
         changebleElem.html(input);
         
         document.addEventListener('click',changeParam);
             
             function changeParam(event){
-                var newVal = $('#input').val();
+                var newVal = $('#inputForChangebleElem').val();
                 var target = $(event.target);
-                var cientId = $('#moduleBufer').attr('data-clientid');
+                var cientId = $('#elemClone').attr('data-clientid');
                 if (target.attr('name') !== paramType) {
                     $.ajax({
                         url:"../Event/updateClientFromUser?clientId="+cientId+"&param="+paramType+"&newVal="+newVal,
