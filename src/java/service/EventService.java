@@ -27,6 +27,7 @@ import entities.Strategy;
 import entities.User;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,6 +48,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import service.parent.PrimService;
 import support.StringAdapter;
+import static support.StringAdapter.getString;
+import support.editors.PhoneEditor;
 
 /**
  *
@@ -234,17 +237,20 @@ public class EventService extends PrimService {
                             cl.setNameCompany(StringAdapter.HSSFSellValue(rw.getCell(1)));
                             cl.setNameSecretary(StringAdapter.HSSFSellValue(rw.getCell(2)));
                             cl.setNameLpr(StringAdapter.HSSFSellValue(rw.getCell(3)));
-                            String secretaryPhone = StringAdapter.HSSFSellValue(rw.getCell(4));
-                            String lprPhone = StringAdapter.HSSFSellValue(rw.getCell(5));
-
-
+                            
+                            String secretaryPhone = HSSFPhoneValue(rw.getCell(4));
+                            
+                            String lprPhone = HSSFPhoneValue(rw.getCell(5));
+                            
                             cl.setPhoneSecretary(secretaryPhone);
+                            
                             cl.setPhoneLpr(lprPhone);
+                            
                             cl.setAddress(StringAdapter.HSSFSellValue(rw.getCell(6)));
                             cl.setComment(StringAdapter.HSSFSellValue(rw.getCell(7)));
                             cl.setCabinet(pk);
                             if (validate(cl)) {
-                                if((secretaryPhone!=null)||(lprPhone!=null)){
+                                if((secretaryPhone!=null&&!secretaryPhone.equals(""))||(lprPhone!=null&&!lprPhone.equals(""))){
                                     clientsListForSave.add(cl);
                                 }else{
                                     noContactList.add(cl);
@@ -287,6 +293,32 @@ public class EventService extends PrimService {
                 addError(err);
             }
         }
+    }
+    
+    public String HSSFPhoneValue(Cell cl) {
+        if(cl==null){
+            return "";
+        }
+        PhoneEditor phe= new PhoneEditor();
+        int cellType = cl.getCellType();
+        String res="";
+        switch (cellType) {
+            case Cell.CELL_TYPE_STRING:
+                res= phe.getPhone(cl.getStringCellValue());
+                addError(phe.error);
+                break;
+            case Cell.CELL_TYPE_NUMERIC:
+                res=  phe.getPhone(getString(BigDecimal.valueOf(cl.getNumericCellValue()).longValue()));
+                addError(phe.error);
+                break;
+            case Cell.CELL_TYPE_FORMULA:
+                res=  phe.getPhone(getString(BigDecimal.valueOf(cl.getNumericCellValue()).longValue()));
+                addError(phe.error);
+                break;
+            default:
+                break;
+        }
+        return res;
     }
 
     public Campaign getCampaign(Long campaignId) {

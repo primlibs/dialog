@@ -146,7 +146,8 @@ public class PersonalCabinet extends PrimEntity {
     }
 
     public void setPhone(String phone) {
-        this.phone = PhoneEditor.getPhone(phone);
+        PhoneEditor phe= new PhoneEditor();
+        this.phone = phe.getPhone(phone);
     }
 
     @Override

@@ -60,9 +60,9 @@
                         <td>${client.nameCompany}</td>
                     <td>${client.address}</td>
                     <td>${client.nameSecretary}</td>
-                    <td>${client.phoneSecretary}</td>
+                    <td>${client.getFormattedPhoneSec()}</td>
                     <td>${client.nameLpr}</td>
-                    <td>${client.phoneLpr}</td>
+                    <td>${client.getFormattedPhoneLpr()}</td>
                 </c:forEach>
             </table>
         </div>

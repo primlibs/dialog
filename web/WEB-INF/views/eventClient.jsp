@@ -21,9 +21,9 @@
             <h4>Кампания: ${campaign.name}</h4> 
             <h4>Стратегия: ${campaign.strategy.strategyName}</h4>
         </div>    
-            <div class="form-group" role="group" >
+            <!--<div class="form-group" role="group" >
                 <a href="<c:url value="/Event/campaignSpecification?campaignId=${param['campaignId']}"/>" class="btn btn-large" role="button"><= Кампания</a>
-            </div>
+            </div>-->
             <div class="form-group">
                 <a href="<c:url value="/Event/eventShowAllAppoint?campaignId=${param['campaignId']}"/>" class="btn btn-primary" role="button">Назначить всем</a>
             <form enctype="multipart/form-data" class="form-inline btn-group" action="<c:url value="/Event/eventClient" />" method="post">

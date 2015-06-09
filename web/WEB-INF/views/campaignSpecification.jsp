@@ -68,7 +68,7 @@
                     <tr>
                         <td>${cabinetUser.user.surname} ${cabinetUser.user.name} </td>
                         <c:if test="${number== 1}">
-                            <td rowspan="${cabinetUserList.size()}" onClick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}"/>'" > ${eventList.size()} </td>
+                            <td><div style="cursor: pointer;display: inline-block;" rowspan="${cabinetUserList.size()}" onClick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}"/>'" > ${eventList.size()} </div></td>
                         </c:if>
                             <td><div style="cursor: pointer;display: inline-block;" onClick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=${cabinetUser.getUser().getUserId()}"/>'"> ${userAssignedClient.get(cabinetUser.getUser().getUserId())}</div></td>
                         <c:if test="${number== 1}">
@@ -90,7 +90,7 @@
 
                 <tr>
                     <td> Итого:</td>
-                    <td>${eventList.size()}  </td>
+                    <td><div style="cursor: pointer;display: inline-block;" onClick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=0"/>'">${eventList.size()}</div></td>
                     <td><div style="cursor: pointer;display: inline-block;" onClick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=-2"/>'">  ${assignedEventsCount}</div></td>
                     <td><div style="cursor: pointer;display: inline-block;" onClick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=-1"/>'">  ${unassignedEventList.size()}</div></td>
 

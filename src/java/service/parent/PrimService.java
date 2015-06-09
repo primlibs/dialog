@@ -104,6 +104,10 @@ public class PrimService {
     public void addError(String error){
         serviceResult.addError(error);
     }
+    
+    public void addError(List<String> error){
+        serviceResult.addErrors(error);
+    }
 
     public List<String> getError(){
         return serviceResult.getErrors();

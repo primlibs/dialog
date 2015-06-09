@@ -122,7 +122,8 @@ public class Client extends PrimEntity {
     }
 
     public void setPhoneSecretary(String phoneSecretary) {
-        this.phoneSecretary = PhoneEditor.getPhone(phoneSecretary);
+        PhoneEditor phe=new PhoneEditor();
+        this.phoneSecretary = phe.getPhone(phoneSecretary);
     }
 
     public String getPhoneLpr() {
@@ -130,7 +131,8 @@ public class Client extends PrimEntity {
     }
 
     public void setPhoneLpr(String phoneLpr) {
-        this.phoneLpr = PhoneEditor.getPhone(phoneLpr);
+        PhoneEditor phe=new PhoneEditor();
+        this.phoneLpr = phe.getPhone(phoneLpr);
     }
 
     public String getAddress() {
@@ -171,6 +173,34 @@ public class Client extends PrimEntity {
 
     public void setTagLinks(List<ClientTagLink> tagLinks) {
         this.tagLinks = tagLinks;
+    }
+    
+    public String getFormattedPhoneLpr(){
+        if(!phoneLpr.equals("")){
+            if(phoneLpr.length()==7){
+                String newStr = phoneLpr.substring(0, 3)+"-"+phoneLpr.substring(3, 5)+"-"+phoneLpr.substring(5, 7);
+                return newStr;
+            }
+            if(phoneLpr.length()==11){
+                String newStr = phoneLpr.substring(0, 1)+"("+phoneLpr.substring(1, 4)+")"+phoneLpr.substring(4, 7)+"-"+phoneLpr.substring(7, 9)+"-"+phoneLpr.substring(9, 11);
+                return newStr;
+            }
+        }
+        return phoneLpr;
+    }
+    
+    public String getFormattedPhoneSec(){
+        if(!phoneSecretary.equals("")){
+            if(phoneSecretary.length()==7){
+                String newStr = phoneSecretary.substring(0, 3)+"-"+phoneSecretary.substring(3, 5)+"-"+phoneSecretary.substring(5, 7);
+                return newStr;
+            }
+            if(phoneSecretary.length()==11){
+                String newStr = phoneSecretary.substring(0, 1)+"("+phoneSecretary.substring(1, 4)+")"+phoneSecretary.substring(4, 7)+"-"+phoneSecretary.substring(7, 9)+"-"+phoneSecretary.substring(9, 11);
+                return newStr;
+            }
+        }
+        return phoneSecretary;
     }
 
     /*public static String getPhone(Object ob) {

@@ -122,11 +122,15 @@ public class EventController extends WebController {
             HttpServletRequest request,
             @RequestParam(value = "campaignId"//, required = false
             ) Long campaignId) throws Exception {
+        
+        List<String>errors = (List<String>)model.get("errors");
+        if(errors==null){
+            errors=new ArrayList();
+        }
         lk.dataByUserAndCompany(request, model);
 
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
-        model.put("errors", eventService.getError());
         model.put("cabinetUserList", eventService.getActiveMakingCallsUsers(cabinetId));
         model.put("userAssignedClient", eventService.userAssignedClient(campaignId, cabinetId));
 
@@ -138,6 +142,8 @@ public class EventController extends WebController {
         model.put("eventList", eventService.getEventList(campaignId, cabinetId));
         model.put("unassignedEventList", eventService.getUnassignedEvent(campaignId, cabinetId));
         model.put("campaign", eventService.getCampaign(campaignId));
+        errors.addAll(eventService.getError());
+        model.put("errors", errors);
         return "campaignSpecification";
     }
 
