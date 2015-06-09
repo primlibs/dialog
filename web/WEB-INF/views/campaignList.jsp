@@ -41,7 +41,7 @@
                 <c:if test="${not empty campaignsWithCountInfosMap}">
                 <c:forEach var="entry" items="${campaignsWithCountInfosMap}">
 
-                    <tr style="cursor: pointer;" onClick="location = '<c:url value="/Event/campaignSpecification?campaignId=${entry.key.campaignId}"/>'" >
+                    <tr style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/campaignSpecification?campaignId=${entry.key.campaignId}"/>'" >
                         <td>${entry.key.name}</td>
                         <td>${entry.key.strategy.strategyName}</td>
                         <td>${fn:length(entry.key.events)}</td>
@@ -56,7 +56,7 @@
                             <td>Активна</td>
                         </c:if>
                         <%--
-                        <td onClick="location = '<c:url value="/User/deleteUser?cabinetUserId=${cabinetUser.cabinetUserId}&userId=${cabinetUser.user.userId}"/>'" >Удалить</td>
+                        <td ondblclick="location = '<c:url value="/User/deleteUser?cabinetUserId=${cabinetUser.cabinetUserId}&userId=${cabinetUser.user.userId}"/>'" >Удалить</td>
                         --%>
                     </tr>
                 </c:forEach>

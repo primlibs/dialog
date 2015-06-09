@@ -162,11 +162,12 @@ public class EventService extends PrimService {
         }
     }
     
-    public boolean deleteCampaign(Long campaignId){
+    public boolean deleteCampaign(Long campaignId,Long cabinetId){
         boolean deleted = false;
         Campaign c =campaignDao.find(campaignId);
         if(c!=null){
-            if(c.getEvents().isEmpty()){
+            if(eventDao.getAssignedEvent(campaignId, cabinetId).isEmpty()){
+            //if(c.getEvents().isEmpty()){
                 campaignDao.delete(c);
                 deleted=true;
             }else{
@@ -185,6 +186,14 @@ public class EventService extends PrimService {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         List<CabinetUser> listRoleUser = pk.getRoleUserActiveCabinetUserList();
         return listRoleUser;*/
+    }
+    
+    public boolean isDeleteble(Long campaignId,Long cabinetId){
+        if(eventDao.getAssignedEventsCount(campaignId, cabinetId)>0){
+            return false;
+        }else{
+            return true;
+        }
     }
 
     public HSSFWorkbook getXls() throws IOException {

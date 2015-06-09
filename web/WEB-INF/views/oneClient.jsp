@@ -26,7 +26,7 @@
                 <tr><td>Инфо: </td><td>${client.comment}</td></tr>
                 <tr><td>Тэги: </td><td>
                         <c:forEach var="ctl" items="${client.tagLinks}">
-                            <div title='Удалить' class="tag" onclick="location = '<c:url value="/Client/deleteTag?ctlId=${ctl.linkId}&eventId=${event.eventId}&clientId=${client.clientId}"/>'">${ctl.tag.name}</div>
+                            <div title='Удалить' class="tag" ondblclick="location = '<c:url value="/Client/deleteTag?ctlId=${ctl.linkId}&eventId=${event.eventId}&clientId=${client.clientId}"/>'">${ctl.tag.name}</div>
                         </c:forEach>
                     </td></tr>
 
@@ -76,7 +76,7 @@
                                 <c:set var="assigned" value="${event.user.userId}" />
                             </c:if>
                             <tr class="active">
-                                <td><div style="cursor: pointer;display: inline-block;" onClick="location = '<c:url value="/Event/eventClient?campaignId=${event.campaign.campaignId}"/>'">${event.campaign.name}</div></td>
+                                <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${event.campaign.campaignId}"/>'">${event.campaign.name}</div></td>
                                 <c:if test="${not empty event.user}">
                                     <td>${event.user.surname}</td>
                                 </c:if>
@@ -96,9 +96,9 @@
                                 <c:set var="trstyle" value="success" />
                             </c:if>
                             <tr class="${trstyle}">
-                                <td><div style="cursor: pointer;display: inline-block;" onClick="location = '<c:url value="/Event/eventClient?campaignId=${event.campaign.campaignId}"/>'">${event.campaign.name}</div></td>
+                                <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${event.campaign.campaignId}"/>'">${event.campaign.name}</div></td>
                                 <td>${event.user.surname}</td>
-                                <td><div style="cursor: pointer;display: inline-block;" onclick="location = '<c:url value="/Client/oneClient?clientId=${client.clientId}&eventId=${event.eventId}"/>'">${event.finalComment}</div></td>
+                                <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Client/oneClient?clientId=${client.clientId}&eventId=${event.eventId}"/>'">${event.finalComment}</div></td>
                             </tr>
                         </c:forEach>
                     </table>

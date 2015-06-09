@@ -43,12 +43,21 @@ public class EventDao extends Dao<Event> {
             return clist.get(0);
         }
     }
-
-    public List<Object[]> getUserAssignedClient(Long campaignId, Long cabinetId) {
-        String hql = "select count(ev.eventId) , ev.user.userId  from Event ev where ev.campaign.campaignId= :campaignId and ev.cabinet.pkId= :cabinet and ev.user is not null group by ev.user.userId";
+    
+    public Integer getAssignedEventsCount(Long campaignId, Long cabinetId){
+        String hql = "select count(ev.eventId) from Event ev where ev.campaign.campaignId=:campaignId and ev.cabinet.pkId=:pkId and ev.user is not null";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
-        query.setParameter("cabinet", cabinetId);
+        query.setParameter("pkId", cabinetId);
+        Long count = (Long)query.uniqueResult();
+        return count.intValue();
+    }
+
+    public List<Object[]> getUserAssignedClient(Long campaignId, Long cabinetId) {
+        String hql = "select count(ev.eventId) , ev.user.userId  from Event ev where ev.campaign.campaignId=:campaignId and ev.cabinet.pkId=:pkId and ev.user is not null group by ev.user.userId";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("campaignId", campaignId);
+        query.setParameter("pkId", cabinetId);
         List<Object[]> clist = query.list();
         return clist;
     }

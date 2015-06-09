@@ -56,7 +56,7 @@
                     <th> Телефон Л.П.Р. </th>
                 </tr>
                 <c:forEach var="client"  items="${clients}" >
-                    <tr style="cursor: pointer;" onclick="location = '<c:url value="/Client/oneClient?clientId=${client.clientId}"/>'"><td>${client.uniqueId}</td>
+                    <tr style="cursor: pointer;" ondblclick="location = '<c:url value="/Client/oneClient?clientId=${client.clientId}"/>'"><td>${client.uniqueId}</td>
                         <td>${client.nameCompany}</td>
                     <td>${client.address}</td>
                     <td>${client.nameSecretary}</td>

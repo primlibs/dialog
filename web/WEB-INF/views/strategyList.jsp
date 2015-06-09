@@ -39,8 +39,8 @@
 
                         <tr>
                             <td>${myIndex.count}</td>
-                            <td><div style="cursor: pointer;display: inline;" onClick="location = '<c:url value="/Strategy/strategy?strategyId=${strategy.strategyId}"/>'"> ${strategy.strategyName} </div></td>
-                            <td><div style="cursor: pointer;display: inline;" onClick="location = '<c:url value="/Strategy/deleteStrategy?strategyId=${strategy.strategyId}"/>'">Удалить</div></td>
+                            <td><div style="cursor: pointer;display: inline;" ondblclick="location = '<c:url value="/Strategy/strategy?strategyId=${strategy.strategyId}"/>'"> ${strategy.strategyName} </div></td>
+                            <td><div style="cursor: pointer;display: inline;" ondblclick="location = '<c:url value="/Strategy/deleteStrategy?strategyId=${strategy.strategyId}"/>'">Удалить</div></td>
                         </tr>
                     </c:forEach>
                 </table>

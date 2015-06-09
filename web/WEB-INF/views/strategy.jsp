@@ -60,7 +60,7 @@
                                 <button type="submit" form="addingModuleForm_${myIndex.count}" name="submit" class="btn btn-primary btn-xs">Добавить модуль</button></td></tr>
 
                         <c:forEach var="module" items="${group.getActiveModuleList()}">
-                            <tr><td><span style="cursor: pointer;" onClick="location = '<c:url value="/Strategy/showModule?moduleId=${module.moduleId}&strategyId=${group.strategy.strategyId}"/>'">${module.moduleName}</span></td>
+                            <tr><td><span style="cursor: pointer;" ondblclick="location = '<c:url value="/Strategy/showModule?moduleId=${module.moduleId}&strategyId=${group.strategy.strategyId}"/>'">${module.moduleName}</span></td>
                                 <td><a class="btn btn-primary btn-xs" role="button" href='<c:url value="/Group/deleteModule?moduleId=${module.moduleId}&groupId=${group.groupId}&strategyId=${group.strategy.strategyId}"/>'>Удалить</a></td></tr>
                         </c:forEach>
 
@@ -76,7 +76,7 @@
                          <button type="submit" name="submit" class="btn btn-primary btn-xs">Добавить модуль</button>
                             </form></li>
                     <c:forEach var="module" items="${group.getActiveModuleList()}" varStatus="myIndex">
-                        <li><span style="cursor: pointer;" onClick="location = '<c:url value="/Strategy/showModule?moduleId=${module.moduleId}&strategyId=${group.strategy.strategyId}"/>'">${module.moduleName}</span> 
+                        <li><span style="cursor: pointer;" ondblclick="location = '<c:url value="/Strategy/showModule?moduleId=${module.moduleId}&strategyId=${group.strategy.strategyId}"/>'">${module.moduleName}</span> 
                             <a class="btn btn-primary btn-xs" role="button" href="'<c:url value="/Group/deleteModule?moduleId=${module.moduleId}&groupId=${group.groupId}&strategyId=${group.strategy.strategyId}"/>'">Удалить</a></li>
                     </c:forEach>
             </ul>

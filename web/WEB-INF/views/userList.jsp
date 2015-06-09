@@ -51,7 +51,7 @@
                     <c:if test="${cabinetUser.makesCalls==1}"><c:set var="makesCalls" value="Да" /></c:if>
                     <c:if test="${cabinetUser.makesCalls==null}"><c:set var="makesCalls" value="Нет" /></c:if>
                     <td>${makesCalls}</td>
-                    <td><div style="cursor: pointer;display: inline;" onClick="location = '<c:url value="/User/deleteUser?cabinetUserId=${cabinetUser.cabinetUserId}&userId=${cabinetUser.user.userId}"/>'" >Удалить</div></td>
+                    <td><div style="cursor: pointer;display: inline;" ondblclick="location = '<c:url value="/User/deleteUser?cabinetUserId=${cabinetUser.cabinetUserId}&userId=${cabinetUser.user.userId}"/>'" >Удалить</div></td>
                 </tr>
             </c:forEach>
         </table>

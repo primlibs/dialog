@@ -102,7 +102,7 @@ public class EventController extends WebController {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         
         if (campaignId != null) {
-            if(eventService.deleteCampaign(campaignId)&&eventService.getError().isEmpty()){
+            if(eventService.deleteCampaign(campaignId,cabinetId)&&eventService.getError().isEmpty()){
                 return "redirect:/Event/campaignList";
             }else{
                 ras.addFlashAttribute("errors", eventService.getError());
@@ -133,6 +133,7 @@ public class EventController extends WebController {
 
         model.put("cabinetUserList", eventService.getActiveMakingCallsUsers(cabinetId));
         model.put("userAssignedClient", eventService.userAssignedClient(campaignId, cabinetId));
+        model.put("deleteble",eventService.isDeleteble(campaignId, cabinetId));
 
         model.put("userAssignedClientProcessedSuccess", eventService.userAssignedClientProcessedSuccess(campaignId, cabinetId));
         model.put("userAssignedClientProcessedFails", eventService.userAssignedClientProcessedFails(campaignId, cabinetId));

@@ -46,7 +46,7 @@
                         <tr>
                             <td>${myIndex.count}</td>
                             <td>${failReason.name}</td>
-                            <td><div style="cursor: pointer;display: inline-block" onClick="location = '<c:url value="/Strategy/deleteFailReason?failReasonId=${failReason.failReasonId}"/>'">удалить</div></td>
+                            <td><div style="cursor: pointer;display: inline-block" ondblclick="location = '<c:url value="/Strategy/deleteFailReason?failReasonId=${failReason.failReasonId}"/>'">удалить</div></td>
                         </tr>
                     </c:forEach>
                 </table>
