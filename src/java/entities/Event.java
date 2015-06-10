@@ -34,7 +34,7 @@ public class Event extends PrimEntity {
     public static int SUCCESSFUL = 3;
     public static int POSTPONED = 2;
     public static int ASSIGNED = 1;
-    public static int ACTIVE = 0;
+    public static int UNASSIGNED = 0;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -191,6 +191,11 @@ public class Event extends PrimEntity {
         this.failReason = failReason;
     }
     
-    
+    public boolean isClosed(){
+        if(status!=null&&status==FAILED||status==SUCCESSFUL){
+            return true;
+        }
+        return false;
+    }
 
 }

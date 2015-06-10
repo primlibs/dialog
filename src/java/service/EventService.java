@@ -281,6 +281,7 @@ public class EventService extends PrimService {
                     event.setCabinet(pk);
                     event.setClient(cl);
                     event.setEvent(campaign);
+                    event.setStatus(Event.UNASSIGNED);
                     if (validate(event)) {
                         eventDao.save(event);
                     }
@@ -382,6 +383,7 @@ public class EventService extends PrimService {
                 User user = userDao.find(userId);
                 Event event = eventDao.getEvent(client, pk, campaign);
                 event.setUser(user);
+                event.setStatus(Event.ASSIGNED);
                 if (validate(event)) {
                     eventDao.save(event);
                 }
@@ -454,6 +456,7 @@ public class EventService extends PrimService {
                             for (Event ecl : events) {
                                 if (gaga < clientCn && eclId < ecl.getEventId()) {
                                     ecl.setUser(user);
+                                    ecl.setStatus(Event.ASSIGNED);
                                     if (validate(ecl)) {
                                         eventDao.save(ecl);
                                         eclId = ecl.getEventId();
@@ -682,6 +685,7 @@ public class EventService extends PrimService {
         FailReason fr = failReasonDao.find(reasonId);
         ev.setFinalComment(comment);
         ev.setFailReason(fr);
+        ev.setStatus(Event.FAILED);
         if(validate(ev)){
             eventDao.update(ev);
         }
@@ -691,6 +695,7 @@ public class EventService extends PrimService {
         Event ev = eventDao.find(eventId);
         ev.setFinalComment(finalComment);
         ev.setSuccessDate(successDate);
+        ev.setStatus(Event.SUCCESSFUL);
         if(validate(ev)){
             eventDao.update(ev);
         }
@@ -712,6 +717,7 @@ public class EventService extends PrimService {
         Event ev = eventDao.find(eventId);
         ev.setComment(Comment);
         ev.setPostponedDate(postponeDate);
+        ev.setStatus(Event.POSTPONED);
         if(validate(ev)){
             eventDao.update(ev);
         }
@@ -740,14 +746,15 @@ public class EventService extends PrimService {
         User user = userDao.find(userId);
         Event ev = eventDao.find(eventId);
         if(user!=null&&ev!=null){
-            if(ev.getFinalComment()==null){
+            //if(ev.getFinalComment()==null){
+            if(!ev.isClosed()){
                 ev.setUser(user);
                 if(validate(ev)){
                     eventDao.update(ev);
                     return true;
                 }
             }else{
-                addError("Взаимодействие с клиентом в рамках данной кампании завершено, контакт нельзя перенести.");
+                addError("Взаимодействие с клиентом в рамках данной кампании завершено, его нельзя переназначить.");
                 return false;
             }
         }
