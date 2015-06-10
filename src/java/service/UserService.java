@@ -105,17 +105,17 @@ public class UserService extends PrimService {
             User user = cu.getUser();
             switch (field){
                 case "makingCalls":
-                    if(newVal.equals("0")){
+                    if(newVal.equals("Нет")){
                         cu.setMakesCalls(null);
-                    }else if(newVal.equals("1")){
+                    }else if(newVal.equals("Да")){
                         cu.setMakesCalls((short)1);
                     }
                     cuRole=true;
                     break;
                 case "userRole":
-                    if(newVal.equals("0")){
+                    if(newVal.equals("Пользователь")){
                         cu.setUserRole("user");
-                    }else if(newVal.equals("1")){
+                    }else if(newVal.equals("Администратор")){
                         cu.setUserRole("admin");
                     }
                     cuRole=true;

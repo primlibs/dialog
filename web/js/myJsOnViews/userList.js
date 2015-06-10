@@ -9,9 +9,9 @@ $('.changebleUserListParam').dblclick(function(){
         var value = $(this).text();
         var input = "<input type=text id='inputForChangebleUserListElem' class='UserListInp' name='" + paramType + "' value='" + value + "'/>";
         if(paramType=='userRole'){
-            input ="<select id='inputForChangebleUserListElem' class='UserListInp' name='userRole'><option value='1'>Администратор</option><option value='0'>Пользователь</option></select>";
+            input ="<select id='inputForChangebleUserListElem' class='UserListInp' name='userRole'><option value='Администратор'>Администратор</option><option value='Пользователь'>Пользователь</option></select>";
         }else if(paramType=='makingCalls'){
-            input ="<select id='inputForChangebleUserListElem' class='UserListInp' name='makingCalls'><option value='1'>Да</option><option value='0'>Нет</option></select>";
+            input ="<select id='inputForChangebleUserListElem' class='UserListInp' name='makingCalls'><option value='Да'>Да</option><option value='Нет'>Нет</option></select>";
         }
         changebleElem.html(input);
         
@@ -28,7 +28,7 @@ $('.changebleUserListParam').dblclick(function(){
                         success: function(json){
                             if(json==true){
                                 if(paramType=='userRole'||paramType=='makingCalls'){
-                                    changebleElem.html(input.text());
+                                    changebleElem.html(newVal);
                                 }else{
                                     changebleElem.html(newVal);
                                 }
@@ -39,8 +39,11 @@ $('.changebleUserListParam').dblclick(function(){
                             //alert(json)
                         },
                         error: function(json){
-                            alert("Что-то пошло не так: "+json);
-                            changebleElem.html(value);
+                            if(paramType=='userRole'||paramType=='makingCalls'){
+                                    changebleElem.html(newVal);
+                                }else{
+                                    changebleElem.html(newVal);
+                                }
                         }
                     });
                     document.removeEventListener('click',arguments.callee);
