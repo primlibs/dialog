@@ -8,7 +8,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title> call assistance </title>
+        <title>Диалог +||Построение телефонных продаж за 1 день</title>
+        <link rel="shortcut icon" href="./img/icon.png">
         <%@include file="/WEB-INF/jsp/css_js.jsp" %>
     </head>
     <body class="container">

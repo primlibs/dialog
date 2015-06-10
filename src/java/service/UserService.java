@@ -96,6 +96,64 @@ public class UserService extends PrimService {
         }
 
     }
+    
+    public boolean updateUserField(String field,Long cabinetUserId,String newVal){
+        boolean performed = false;
+        Boolean cuRole = null;
+        CabinetUser cu = cabinetUserDao.find(cabinetUserId);
+        if(cu!=null){
+            User user = cu.getUser();
+            switch (field){
+                case "makingCalls":
+                    if(newVal.equals("0")){
+                        cu.setMakesCalls(null);
+                    }else if(newVal.equals("1")){
+                        cu.setMakesCalls((short)1);
+                    }
+                    cuRole=true;
+                    break;
+                case "userRole":
+                    if(newVal.equals("0")){
+                        cu.setUserRole("user");
+                    }else if(newVal.equals("1")){
+                        cu.setUserRole("admin");
+                    }
+                    cuRole=true;
+                    break;
+                case "surname":
+                    user.setSurname(newVal);
+                    cuRole=false;
+                    break;
+                case "name":
+                    user.setName(newVal);
+                    cuRole=false;
+                    break;
+                case "patronymic":
+                    user.setPatronymic(newVal);
+                    cuRole=false;
+                    break;
+                default:
+                    cuRole=null;
+                    break;
+            }
+            if(cuRole!=null){
+                if(cuRole){
+                    if(validate(cu)){
+                        cabinetUserDao.update(cu);
+                        performed=true; 
+                    }
+                }else{
+                    if(validate(user)){
+                        userDao.update(user);
+                        performed=true; 
+                    }
+                }
+            }
+        }else{
+            addError("Записи о пользователе в кабинете с ИД:"+cabinetUserId+" не найдено");
+        }
+        return performed;
+    }
 
     public void addUser(
             String email,

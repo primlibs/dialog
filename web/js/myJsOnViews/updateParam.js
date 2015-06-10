@@ -16,7 +16,7 @@ $('.changebleParam').dblclick(function(){
                 var cientId = $('#elemClone').attr('data-clientid');
                 if (target.attr('name') !== paramType) {
                     $.ajax({
-                        url:"../Event/updateClientFromUser?clientId="+cientId+"&param="+paramType+"&newVal="+newVal,
+                        url:"/updateClientFromUser?clientId="+cientId+"&param="+paramType+"&newVal="+newVal,
                         dataType : "json",
                         cache: false,
                         success: function(json){
@@ -24,6 +24,7 @@ $('.changebleParam').dblclick(function(){
                                 changebleElem.html(newVal);
                             }else{
                                 changebleElem.html(value);
+                                alert(json);
                             }
                             //alert(json)
                         },

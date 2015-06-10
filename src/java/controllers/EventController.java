@@ -57,7 +57,7 @@ public class EventController extends WebController {
 
     @Autowired
     private StrategyService strategyService;
-    
+
     @Autowired
     private ClientService clientService;
 
@@ -81,7 +81,7 @@ public class EventController extends WebController {
     ) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        
+
         if (strategyId != null) {
             eventService.createCampaign(name, strategyId, cabinetId);
             if (eventService.getError().isEmpty()) {
@@ -94,23 +94,23 @@ public class EventController extends WebController {
         model.put("errors", eventService.getError());
         return "createCampaign";
     }
-    
+
     @RequestMapping("/deleteCampaign")
-    public String deleteCampaign(Map<String, Object> model,HttpServletRequest request,
-            @RequestParam(value = "campaignId",required = false) Long campaignId,RedirectAttributes ras) throws Exception {
+    public String deleteCampaign(Map<String, Object> model, HttpServletRequest request,
+            @RequestParam(value = "campaignId", required = false) Long campaignId, RedirectAttributes ras) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        
+
         if (campaignId != null) {
-            if(eventService.deleteCampaign(campaignId,cabinetId)&&eventService.getError().isEmpty()){
+            if (eventService.deleteCampaign(campaignId, cabinetId) && eventService.getError().isEmpty()) {
                 return "redirect:/Event/campaignList";
-            }else{
+            } else {
                 ras.addFlashAttribute("errors", eventService.getError());
                 ras.addAttribute("campaignId", campaignId);
                 return "redirect:/Event/campaignSpecification";
             }
         }
-        List<String>errors=new ArrayList();
+        List<String> errors = new ArrayList();
         errors.addAll(eventService.getError());
         errors.add("Ид кампании не передан.");
         ras.addFlashAttribute("errors", errors);
@@ -122,10 +122,10 @@ public class EventController extends WebController {
             HttpServletRequest request,
             @RequestParam(value = "campaignId"//, required = false
             ) Long campaignId) throws Exception {
-        
-        List<String>errors = (List<String>)model.get("errors");
-        if(errors==null){
-            errors=new ArrayList();
+
+        List<String> errors = (List<String>) model.get("errors");
+        if (errors == null) {
+            errors = new ArrayList();
         }
         lk.dataByUserAndCompany(request, model);
 
@@ -133,7 +133,7 @@ public class EventController extends WebController {
 
         model.put("cabinetUserList", eventService.getActiveMakingCallsUsers(cabinetId));
         model.put("userAssignedClient", eventService.userAssignedClient(campaignId, cabinetId));
-        model.put("deleteble",eventService.isDeleteble(campaignId, cabinetId));
+        model.put("deleteble", eventService.isDeleteble(campaignId, cabinetId));
 
         model.put("userAssignedClientProcessedSuccess", eventService.userAssignedClientProcessedSuccess(campaignId, cabinetId));
         model.put("userAssignedClientProcessedFails", eventService.userAssignedClientProcessedFails(campaignId, cabinetId));
@@ -209,7 +209,7 @@ public class EventController extends WebController {
 
         model.put("campaign", eventService.getCampaign(campaignId));
         model.put("cabinetUserList", eventService.getActiveMakingCallsUsers(cabinetId));
-        model.put("errors",eventService.getError());
+        model.put("errors", eventService.getError());
         return "eventAppointAll";
     }
 
@@ -222,7 +222,7 @@ public class EventController extends WebController {
             HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        
+
         eventService.eventAppointSaveAll(campaignId, cabinetId, userIdArray, clientNumArray);
 
         model.put("cabinetUserList", eventService.getActiveMakingCallsUsers(cabinetId));
@@ -293,7 +293,7 @@ public class EventController extends WebController {
 
         if (eventId == null) {
             Event ev = eventService.getEvenByUserByCampaign(campaignId, cabinetId, userId);
-            if(ev==null){
+            if (ev == null) {
                 return "redirect:/Event/campaign";
             }
             model.put("event", ev);
@@ -321,92 +321,100 @@ public class EventController extends WebController {
         model.put("campaigns", eventService.userShowPageEventClientList(cabinetId, userId));
         return "campaign";
     }
-    
+
     @RequestMapping("updateClientFromUser")
     @ResponseBody
-    public String updateClient(Map<String, Object> model,@RequestParam(value = "clientId") Long clientId,@RequestParam(value = "param") String param,@RequestParam(value = "newVal") String newVal, HttpServletRequest request) throws Exception {
+    public String updateClient(Map<String, Object> model, @RequestParam(value = "clientId") Long clientId, @RequestParam(value = "param") String param, @RequestParam(value = "newVal") String newVal, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
-     
+
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        
+
         boolean performed = clientService.updateClientField(param, clientId, newVal);
-        return StringAdapter.getString(performed);
+        if (performed) {
+            return StringAdapter.getString(performed);
+        } else {
+            String err = "";
+            for (String s : clientService.getError()) {
+                err += s + "; ";
+            }
+            return "Ошибка: " + err;
+        }
     }
-    
+
     @RequestMapping("writeModuleInHistory")
     @ResponseBody
-    public String writeModuleInHistory(Map<String, Object> model,@RequestParam(value = "moduleId") Long moduleId,@RequestParam(value = "eventId") Long eventId,@RequestParam(value = "date") Long datelong, HttpServletRequest request) throws Exception{
+    public String writeModuleInHistory(Map<String, Object> model, @RequestParam(value = "moduleId") Long moduleId, @RequestParam(value = "eventId") Long eventId, @RequestParam(value = "date") Long datelong, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         User user = authManager.getCurrentUser();
         Date date = new Date(datelong);
-        boolean performed = eventService.writeModuleInHistory(date, user.getId(), cabinetId, moduleId,eventId);
+        boolean performed = eventService.writeModuleInHistory(date, user.getId(), cabinetId, moduleId, eventId);
         return StringAdapter.getString(date);
     }
-    
+
     @RequestMapping("/badFinish")
-    public String badFinish(Map<String, Object> model,@RequestParam(value = "eventId") Long eventId,@RequestParam(value = "failReasonId") Long failReasonId,
-            @RequestParam(value = "campaignId") Long campaignId,@RequestParam(value = "comment") String comment,RedirectAttributes ras,HttpServletRequest request) throws Exception {
+    public String badFinish(Map<String, Object> model, @RequestParam(value = "eventId") Long eventId, @RequestParam(value = "failReasonId") Long failReasonId,
+            @RequestParam(value = "campaignId") Long campaignId, @RequestParam(value = "comment") String comment, RedirectAttributes ras, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         User user = authManager.getCurrentUser();
-        if(comment.equals("")){
-            comment="Без комментариев";
+        if (comment.equals("")) {
+            comment = "Без комментариев";
         }
         eventService.badFinish(eventId, failReasonId, comment);
 
-        ras.addFlashAttribute("errors",eventService.getError());
+        ras.addFlashAttribute("errors", eventService.getError());
         ras.addAttribute("campaignId", campaignId);
         return "redirect:/Event/event";
     }
-    
+
     @RequestMapping("/goodFinish")
-    public String goodFinish(Map<String, Object> model,@RequestParam(value = "eventId") Long eventId,@RequestParam(value = "successDate") Date successDate,
-            @RequestParam(value = "campaignId") Long campaignId,@RequestParam(value = "comment") String finalComment,RedirectAttributes ras,HttpServletRequest request) throws Exception {
+    public String goodFinish(Map<String, Object> model, @RequestParam(value = "eventId") Long eventId, @RequestParam(value = "successDate") Date successDate,
+            @RequestParam(value = "campaignId") Long campaignId, @RequestParam(value = "comment") String finalComment, RedirectAttributes ras, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         User user = authManager.getCurrentUser();
-        if(finalComment.equals("")){
-            finalComment="Без комментариев";
+        if (finalComment.equals("")) {
+            finalComment = "Без комментариев";
         }
         //Date successDate = new Date(successLongDate);
         eventService.goodFinish(eventId, successDate, finalComment);
 
-        ras.addFlashAttribute("errors",eventService.getError());
+        ras.addFlashAttribute("errors", eventService.getError());
         ras.addAttribute("campaignId", campaignId);
         return "redirect:/Event/event";
     }
-    
+
     @RequestMapping("/postponeEvent")
-    public String postponeEvent(Map<String, Object> model,@RequestParam(value = "eventId") Long eventId,@RequestParam(value = "postponeDate") Date postponeDate,
-            @RequestParam(value = "campaignId") Long campaignId,@RequestParam(value = "comment") String comment,RedirectAttributes ras,HttpServletRequest request) throws Exception {
+    public String postponeEvent(Map<String, Object> model, @RequestParam(value = "eventId") Long eventId, @RequestParam(value = "postponeDate") Date postponeDate,
+            @RequestParam(value = "campaignId") Long campaignId, @RequestParam(value = "comment") String comment, RedirectAttributes ras, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         User user = authManager.getCurrentUser();
-        if(comment.equals("")){
-            comment="Нет комментариев";
+        if (comment.equals("")) {
+            comment = "Нет комментариев";
         }
         //Date successDate = new Date(successLongDate);
         eventService.postponeEvent(eventId, postponeDate, comment);
 
-        ras.addFlashAttribute("errors",eventService.getError());
+        ras.addFlashAttribute("errors", eventService.getError());
         ras.addAttribute("campaignId", campaignId);
         return "redirect:/Event/event";
     }
-    
+
     @RequestMapping("/postponedEvents")
-    public String showPostponedEvents(Map<String, Object> model,@RequestParam(value = "dateTo", required = false) Date dateTo,
-            @RequestParam(value = "dateFrom", required = false) Date dateFrom,HttpServletRequest request) throws Exception {
+    public String showPostponedEvents(Map<String, Object> model, @RequestParam(value = "dateTo", required = false) Date dateTo,
+            @RequestParam(value = "dateFrom", required = false) Date dateFrom, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         List<Event> postponedEvents = eventService.getPostponedEvents(dateFrom, dateTo, cabinetId);
 
-        model.put("postponedEvents",postponedEvents);
+        model.put("postponedEvents", postponedEvents);
         model.put("errors", eventService.getError());
         return "postponedEvents";
     }
-    
-     @RequestMapping("/assignEvent")
+
+    @RequestMapping("/assignEvent")
     public String assignEvent(Map<String, Object> model,
             @RequestParam(value = "campaignId") Long campaignId,
             @RequestParam(value = "arrayClientIdUserId") String[] arrayClientIdUserId,
@@ -423,32 +431,30 @@ public class EventController extends WebController {
         ras.addFlashAttribute("campaign", eventService.getCampaign(campaignId));
         return "redirect:/Event/campaignSpecification";
     }
-    
+
     @RequestMapping("/assignOneEvent")
-    public String assignOneEvent(Map<String, Object> model,@RequestParam(value = "userId") Long userId,@RequestParam(value = "campaignId") Long campaignId,
-            @RequestParam(value = "eventId") Long eventId,@RequestParam(value = "errors",required = false) List<String> errors,RedirectAttributes ras,HttpServletRequest request) throws Exception {
+    public String assignOneEvent(Map<String, Object> model, @RequestParam(value = "userId") Long userId, @RequestParam(value = "campaignId") Long campaignId,
+            @RequestParam(value = "eventId") Long eventId, @RequestParam(value = "errors", required = false) List<String> errors, RedirectAttributes ras, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        eventService.assignOneEvent(userId,eventId);
+        eventService.assignOneEvent(userId, eventId);
         ras.addAttribute("campaignId", campaignId);
         ras.addAttribute("assigned", userId);
         errors.addAll(eventService.getError());
         ras.addFlashAttribute("errors", errors);
         return "redirect:/Event/eventClient";
     }
-    
+
     @RequestMapping("/showAssigningOneEvent")
-    public String showAssigningOneEvent(Map<String, Object> model,@RequestParam(value = "campaignId") Long campaignId,
-            @RequestParam(value = "eventId") Long eventId,RedirectAttributes ras,HttpServletRequest request) throws Exception {
+    public String showAssigningOneEvent(Map<String, Object> model, @RequestParam(value = "campaignId") Long campaignId,
+            @RequestParam(value = "eventId") Long eventId, RedirectAttributes ras, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         model.put("calingUsers", eventService.getActiveMakingCallsUsers(cabinetId));
         model.put("campaignId", campaignId);
-        model.put("eventId",eventId);
+        model.put("eventId", eventId);
         model.put("errors", eventService.getError());
         return "assignOneEvent";
     }
-    
-    
-    
+
 }

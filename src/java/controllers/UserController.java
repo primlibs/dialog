@@ -13,10 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.UserService;
 import support.SendMail;
 import support.ServiceResult;
+import support.StringAdapter;
 
 /**
  *
@@ -138,6 +140,24 @@ public class UserController extends WebController {
         model.put("cabinetUserList", userService.cabinetUserList(cabinetId));
         model.put("errors", userService.getError());
         return "userList";
+    }
+    
+    @RequestMapping("/updateParamInUser")
+    @ResponseBody
+    public String updateParamInUser(Map<String, Object> model,@RequestParam(value = "cabinetUserId") Long cabinetUserId,@RequestParam(value = "param") String paramType,@RequestParam(value = "newVal") String newVal, HttpServletRequest request) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        
+        boolean performed = userService.updateUserField(paramType, cabinetUserId, newVal);
+        if(performed){
+            return StringAdapter.getString(performed);
+        } else{
+            String err = "";
+            for (String s : userService.getError()) {
+                err += s + "; ";
+            }
+            return "Ошибка: " + err;
+        }
     }
 
     @RequestMapping("/deleteUser")

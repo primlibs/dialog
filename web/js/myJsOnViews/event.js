@@ -59,8 +59,9 @@ $(function(){
                                 changebleElem.html(newVal);
                             }else{
                                 changebleElem.html(value);
+                                alert(json)
                             }
-                            //alert(json)
+                            
                         },
                         error: function(json){
                             alert("Что-то пошло не так: "+json);
