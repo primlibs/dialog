@@ -279,7 +279,7 @@ public class EventService extends PrimService {
                     Event event = new Event();
                     event.setCabinet(pk);
                     event.setClient(cl);
-                    event.setEvent(campaign);
+                    event.setCampaign(campaign);
                     event.setStatus(Event.UNASSIGNED);
                     if (validate(event)) {
                         eventDao.save(event);

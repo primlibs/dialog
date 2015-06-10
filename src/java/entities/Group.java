@@ -43,14 +43,14 @@ public class Group extends PrimEntity {
     @JoinColumn(name = "personal_cabinet_id")
     @ManyToOne(fetch = FetchType.EAGER)
     @NotNull
-    //@Index(name="cabinetIndex")
+    @Index(name="cabinetIndex")
     private PersonalCabinet cabinet;
     
 
     @JoinColumn(name = "strategy_id")
     @ManyToOne(fetch = FetchType.EAGER)
     @NotNull
-    //@Index(name="strategyIndex")
+    @Index(name="strategyIndex")
     private Strategy strategy;
 
     @Column(name = "name")

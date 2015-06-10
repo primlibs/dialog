@@ -63,7 +63,6 @@ public class Event extends PrimEntity {
 
     @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.EAGER)
-    @NotNull
     @Index(name="userIndex")
     private User user;
 
@@ -103,14 +102,6 @@ public class Event extends PrimEntity {
 
     public void setCabinet(PersonalCabinet cabinet) {
         this.cabinet = cabinet;
-    }
-
-    public Campaign getEvent() {
-        return campaign;
-    }
-
-    public void setEvent(Campaign event) {
-        this.campaign = event;
     }
 
     public Client getClient() {
