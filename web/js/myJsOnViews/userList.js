@@ -9,9 +9,17 @@ $('.changebleUserListParam').dblclick(function(){
         var value = $(this).text();
         var input = "<input type=text id='inputForChangebleUserListElem' class='UserListInp' name='" + paramType + "' value='" + value + "'/>";
         if(paramType=='userRole'){
-            input ="<select id='inputForChangebleUserListElem' class='UserListInp' name='userRole'><option value='Администратор'>Администратор</option><option value='Пользователь'>Пользователь</option></select>";
+            if(value=='Администратор'){
+                input ="<select id='inputForChangebleUserListElem' class='UserListInp' name='userRole'><option selected value='Администратор'>Администратор</option><option value='Пользователь'>Пользователь</option></select>";
+            }else{
+                input ="<select id='inputForChangebleUserListElem' class='UserListInp' name='userRole'><option value='Администратор'>Администратор</option><option selected value='Пользователь'>Пользователь</option></select>";
+            }
         }else if(paramType=='makingCalls'){
-            input ="<select id='inputForChangebleUserListElem' class='UserListInp' name='makingCalls'><option value='Да'>Да</option><option value='Нет'>Нет</option></select>";
+            if(value=='Да'){
+                input ="<select id='inputForChangebleUserListElem' class='UserListInp' name='makingCalls'><option selected value='Да'>Да</option><option value='Нет'>Нет</option></select>";
+            }else{
+                input ="<select id='inputForChangebleUserListElem' class='UserListInp' name='makingCalls'><option value='Да'>Да</option><option selected value='Нет'>Нет</option></select>";
+            }
         }
         changebleElem.html(input);
         
