@@ -18,7 +18,7 @@ $('.changebleUserListParam').dblclick(function(){
         document.addEventListener('click',changeParam);
             
             function changeParam(event){
-                var newVal = $('inputForChangebleUserListElem').val();
+                var newVal = $('#inputForChangebleUserListElem').val();
                 var target = $(event.target);
                 if (target.attr('name') !== paramType) {
                     $.ajax({
