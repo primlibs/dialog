@@ -152,11 +152,11 @@ public class UserController extends WebController {
         if(performed){
             return StringAdapter.getString(performed);
         } else{
-            String err = "";
+            String err = "Ошибка: ";
             for (String s : userService.getError()) {
                 err += s + "; ";
             }
-            return "Ошибка: " + err;
+            return err;
         }
     }
 

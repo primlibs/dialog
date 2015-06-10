@@ -9,9 +9,9 @@ $('.changebleUserListParam').dblclick(function(){
         var value = $(this).text();
         var input = "<input type=text id='inputForChangebleUserListElem' class='UserListInp' name='" + paramType + "' value='" + value + "'/>";
         if(paramType=='userRole'){
-            input ="<select id='inputForChangebleUserListElem' class='UserListInp' name="+paramType+"><option value='1'>Администратор</option><option value='0'>Пользователь</option></select>";
+            input ="<select id='inputForChangebleUserListElem' class='UserListInp' name='userRole'><option value='1'>Администратор</option><option value='0'>Пользователь</option></select>";
         }else if(paramType=='makingCalls'){
-            input ="<select id='inputForChangebleUserListElem' class='UserListInp' name="+paramType+"><option value='1'>Да</option><option value='0'>Нет</option></select>";
+            input ="<select id='inputForChangebleUserListElem' class='UserListInp' name='makingCalls'><option value='1'>Да</option><option value='0'>Нет</option></select>";
         }
         changebleElem.html(input);
         
@@ -27,7 +27,11 @@ $('.changebleUserListParam').dblclick(function(){
                         cache: false,
                         success: function(json){
                             if(json==true){
-                                changebleElem.html(newVal);
+                                if(paramType=='userRole'||paramType=='makingCalls'){
+                                    changebleElem.html(input.text());
+                                }else{
+                                    changebleElem.html(newVal);
+                                }
                             }else{
                                 changebleElem.html(value);
                                 alert(json);
