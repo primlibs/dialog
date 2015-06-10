@@ -8,7 +8,6 @@ package entities;
 import entities.parent.PrimEntity;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.hibernate.annotations.Index;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.Email;
@@ -40,6 +40,7 @@ public class User extends PrimEntity {
     @Column(name = "email")
     @NotNull(message = "Необходимо указать Email")
     @NotBlank(message = "Необходимо указать Email")
+    @Index(name="emailIndex")
     private String email;
 
     @Size(min = 4, message = "Пароль от 4 символов")

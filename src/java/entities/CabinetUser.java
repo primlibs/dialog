@@ -18,6 +18,7 @@ import java.util.Date;
 import javax.persistence.FetchType;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.Index;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -44,10 +45,14 @@ public class CabinetUser extends PrimEntity {
 
     @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    @Index(name="userIdIndex")
     private User user;
 
     @JoinColumn(name = "personal_cabinet_id")
     @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    @Index(name="cabinetIndex")
     private PersonalCabinet cabinet;
 
     @Column(name = "delete_date")

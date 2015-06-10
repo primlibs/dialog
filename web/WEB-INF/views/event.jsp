@@ -9,7 +9,6 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title> </title>
         <%@include file="/WEB-INF/jsp/css_js.jsp" %>
     </head>
     <body class="container">
@@ -52,7 +51,7 @@
                             <td class="changebleParam" id="phoneSecretary">${event.client.getFormattedPhoneSec()} </td>
                             <td class="changebleParam" id="nameLpr">${event.client.nameLpr} </td>
                             <td class="changebleParam" id="phoneLpr">${event.client.getFormattedPhoneLpr()} </td>
-                            <td class="changebleParam" id="comment">${event.client.comment} </td>
+                            <td class="" id="comment">${event.comment} </td>
                         </tr>
                     </table>
 
@@ -83,7 +82,7 @@
                                                 <h4 class="modal-title" id="myModalLabel">Слив звонка</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <form  action="<c:url value="/Event/badFinish" />" method="post">
+                                                <form id="badFinishForm" action="<c:url value="/Event/badFinish" />" method="post">
                                                     <p> Причина:    <select name="failReasonId">
                                                             <c:forEach var="reason" items="${failReasons}" varStatus="myIndex">
                                                                 <option value="${reason.failReasonId}">${reason.name}</option>
@@ -107,7 +106,7 @@
                                                 <h4 class="modal-title" id="myModalLabel">Положительный результат</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <form  action="<c:url value="/Event/goodFinish" />" method="post">
+                                                <form id="goodFinishForm" action="<c:url value="/Event/goodFinish" />" method="post">
                                                     <p><textarea rows="5" cols="50" name="comment"> </textarea>
 
                                                     <p>    <div class="form-group">
@@ -137,7 +136,7 @@
                                                 <h4 class="modal-title" id="myModalLabel">Перенос звонка</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <form  action="<c:url value="/Event/postponeEvent" />" method="post">
+                                                <form id="postponeForm" action="<c:url value="/Event/postponeEvent" />" method="post">
                                                     <p><textarea rows="5" cols="50" name="comment"> </textarea>
 
                                                     <p>    <div class="form-group">

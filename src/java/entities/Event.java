@@ -19,6 +19,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.Index;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -43,18 +45,26 @@ public class Event extends PrimEntity {
 
     @JoinColumn(name = "personal_cabinet_id")
     @ManyToOne(fetch = FetchType.EAGER)
+    @NotNull
+    @Index(name="cabinetIndex")
     private PersonalCabinet cabinet;
 
     @JoinColumn(name = "campaign_id")
     @ManyToOne(fetch = FetchType.EAGER)
+    @NotNull
+    @Index(name="campaignIndex")
     private Campaign campaign;
 
     @JoinColumn(name = "client_id")
     @ManyToOne(fetch = FetchType.EAGER)
+    @NotNull
+    @Index(name="clientIndex")
     private Client client;
 
     @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.EAGER)
+    @NotNull
+    @Index(name="userIndex")
     private User user;
 
     @Column(name = "status")

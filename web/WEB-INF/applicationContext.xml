@@ -34,9 +34,9 @@
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource"
           p:driverClassName="com.mysql.jdbc.Driver"
-          p:url="jdbc:mysql://localhost:3306/call_centr?useUnicode=true&amp;characterEncoding=UTF-8"
-          p:username="callcentr"
-          p:password="call1234" />
+          p:url="jdbc:mysql://localhost:3306/dialog?useUnicode=true&amp;characterEncoding=UTF-8"
+          p:username="dialog"
+          p:password="nbkbrjv" />
         
     <tx:annotation-driven transaction-manager="transactionManager" />     
         

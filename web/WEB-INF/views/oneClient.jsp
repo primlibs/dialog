@@ -3,7 +3,6 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title> </title>
         <%@include file="/WEB-INF/jsp/css_js.jsp" %>
     </head>
     <body class="container" >
@@ -23,7 +22,6 @@
                 <tr><td>Принимает решения: </td><td>${client.nameLpr}</td></tr>
                 <tr><td>Телефон: </td><td>${client.getFormattedPhoneLpr()}</td></tr>
                 <tr><td>Адрес: </td><td>${client.address}</td></tr>
-                <tr><td>Инфо: </td><td>${client.comment}</td></tr>
                 <tr><td>Тэги: </td><td>
                         <c:forEach var="ctl" items="${client.tagLinks}">
                             <div title='Удалить' class="tag" ondblclick="location = '<c:url value="/Client/deleteTag?ctlId=${ctl.linkId}&eventId=${event.eventId}&clientId=${client.clientId}"/>'">${ctl.tag.name}</div>

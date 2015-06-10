@@ -256,7 +256,6 @@ public class EventService extends PrimService {
                             cl.setPhoneLpr(lprPhone);
 
                             cl.setAddress(StringAdapter.HSSFSellValue(rw.getCell(6)));
-                            cl.setComment(StringAdapter.HSSFSellValue(rw.getCell(7)));
                             cl.setCabinet(pk);
                             if (validate(cl)) {
                                 if ((secretaryPhone != null && !secretaryPhone.equals("")) || (lprPhone != null && !lprPhone.equals(""))) {
@@ -659,11 +658,10 @@ public class EventService extends PrimService {
         return failReasons;
     }
 
-    public boolean writeModuleInHistory(Date date, Long userId, Long cabinetId, Long moduleId, Long eventId) {
+    public boolean writeModuleInHistory(Date date, Long cabinetId, Long moduleId, Long eventId) {
         boolean performed = false;
         Event ev = eventDao.find(eventId);
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
-        User user = userDao.find(userId);
         Module module = moduleDao.find(moduleId);
 
         ModuleEventClient mec = new ModuleEventClient();
@@ -680,34 +678,107 @@ public class EventService extends PrimService {
         return performed;
     }
 
-    public boolean badFinish(Long eventId, Long reasonId, String finalComment) {
+    public boolean badFinish(Long[] moduleIds, Long[] dates, Long eventId, Long reasonId, String finalComment) {
         Event ev = eventDao.find(eventId);
-        if (!ev.isClosed() && finalComment.equals("")) {
-            FailReason fr = failReasonDao.find(reasonId);
-            ev.setFinalComment(finalComment);
-            ev.setFailReason(fr);
-            ev.setStatus(Event.FAILED);
-            if (validate(ev)) {
-                eventDao.update(ev);
-                return true;
+        if (ev != null) {
+            if (!ev.isClosed()) {
+                if (!finalComment.equals("")) {
+                    FailReason fr = failReasonDao.find(reasonId);
+                    ev.setFinalComment(finalComment);
+                    ev.setFailReason(fr);
+                    ev.setStatus(Event.FAILED);
+                    if (validate(ev)) {
+                        writeModulesInHistory(eventId,moduleIds,dates);
+                        eventDao.update(ev);
+                        return true;
+                    }
+                } else {
+                    addError("Необходимо оставить комментарий.");
+                }
+            } else {
+                addError("Информация о контакте с клиентом уже была добавлена.");
+            }
+
+        } else {
+            addError("Эвент " + eventId + " не найден!");
+        }
+        return false;
+    }
+
+    public boolean goodFinish(Long[] moduleIds, Long[] dates, Long eventId, Date successDate, String finalComment) {
+        Event ev = eventDao.find(eventId);
+        if (ev != null) {
+            if (!ev.isClosed()) {
+                if (!finalComment.equals("")) {
+                    ev.setFinalComment(finalComment);
+                    ev.setSuccessDate(successDate);
+                    ev.setStatus(Event.SUCCESSFUL);
+                    if (validate(ev)) {
+                        writeModulesInHistory(eventId,moduleIds,dates);
+                        eventDao.update(ev);
+                        return true;
+                    }
+                } else {
+                    addError("Необходимо оставить комментарий.");
+                }
+            } else {
+                addError("Информация о контакте с клиентом уже была добавлена.");
+            }
+
+        } else {
+            addError("Эвент " + eventId + " не найден!");
+        }
+        return false;
+    }
+    
+
+    public boolean postponeEvent(Long[] moduleIds, Long[] dates, Long eventId, Date postponeDate, String finalComment) {
+        Event ev = eventDao.find(eventId);
+        if (ev != null) {
+            if (!ev.isClosed()) {
+                if (!finalComment.equals("")) {
+                    ev.setComment(finalComment);
+                    ev.setPostponedDate(postponeDate);
+                    ev.setStatus(Event.POSTPONED);
+                    if (validate(ev)) {
+                        writeModulesInHistory(eventId,moduleIds,dates);
+                        eventDao.update(ev);
+                        return true;
+                    }
+                } else {
+                    addError("Необходимо оставить комментарий.");
+                }
+            } else {
+                addError("Информация о контакте с клиентом уже была добавлена.");
+            }
+
+        } else {
+            addError("Эвент " + eventId + " не найден!");
+        }
+        return false;
+    }
+    
+
+    public boolean writeModulesInHistory(Long eventId, Long[] moduleIds,Long[]dates) {
+        if (moduleIds != null && dates != null && dates.length > 0 && moduleIds.length > 0 && dates.length==moduleIds.length) {
+            Event ev = eventDao.find(eventId);
+            if (ev != null && !ev.isClosed()) {
+                
             }
         }
         return false;
     }
 
-    public boolean goodFinish(Long eventId, Date successDate, String finalComment) {
-        Event ev = eventDao.find(eventId);
-        if (!ev.isClosed() && finalComment.equals("")) {
-            ev.setFinalComment(finalComment);
-            ev.setSuccessDate(successDate);
-            ev.setStatus(Event.SUCCESSFUL);
-            if (validate(ev)) {
-                eventDao.update(ev);
-                return true;
-            }
-        }
-        return false;
+    public void clearHistory(Long eventId, Long pkId) {
+        eventDao.clearHistory(eventId, pkId);
+    }
 
+    public boolean isEmptyHistory(Long eventId, Long pkId) {
+        if (eventDao.countReplicas(eventId, pkId) > 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public LinkedHashMap<User, HashMap> getUsersAndSuccessfulFailedPerformancesForReport(Date dateCampaignFrom, Date dateCampaignTo, Long pkId) {
@@ -720,16 +791,6 @@ public class EventService extends PrimService {
             result.put((User) o[0], infoMap);
         }
         return result;
-    }
-
-    public void postponeEvent(Long eventId, Date postponeDate, String Comment) {
-        Event ev = eventDao.find(eventId);
-        ev.setComment(Comment);
-        ev.setPostponedDate(postponeDate);
-        ev.setStatus(Event.POSTPONED);
-        if (validate(ev)) {
-            eventDao.update(ev);
-        }
     }
 
     public List<Event> getPostponedEvents(Date dateFrom, Date dateTo, Long pkId) {
@@ -770,6 +831,14 @@ public class EventService extends PrimService {
             }
         }
         return false;
+    }
+
+    public Event getAvailableEventById(Long eventId) {
+        Event ev = eventDao.find(eventId);
+        if (ev != null && Event.FAILED != ev.getStatus() && Event.SUCCESSFUL != ev.getStatus()) {
+            return ev;
+        }
+        return null;
     }
 
 }

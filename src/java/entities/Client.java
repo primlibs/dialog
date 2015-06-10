@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.Index;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import support.editors.PhoneEditor;
@@ -37,6 +38,8 @@ public class Client extends PrimEntity {
 
     @JoinColumn(name = "personal_cabinet_id")
     @ManyToOne(fetch = FetchType.EAGER)
+    @NotNull
+    @Index(name="cabinetIndex")
     private PersonalCabinet cabinet;
 
     @Column(name = "name_secretary")
@@ -57,9 +60,6 @@ public class Client extends PrimEntity {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "comment")
-    private String comment;
-
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "client")
     private List<Event> events;
@@ -70,6 +70,7 @@ public class Client extends PrimEntity {
 
     @Column(name = "unique_id")
     @NotNull
+    @Index(name="uniqueIdIndex")
     private String uniqueId;
 
     @Override
@@ -141,14 +142,6 @@ public class Client extends PrimEntity {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
     }
 
     public List<Event> getEvents() {

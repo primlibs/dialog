@@ -22,11 +22,11 @@
         <div class="row ">
             <h4>Причины отказа</h4>
             
-                <div class="form-group btn-group">
+                <!--<div class="form-group btn-group">
                     <a href="<c:url value="/Strategy/strategy?strategyId=${param.strategyId}"/>" class="btn btn-large" role="button"><= стратегия</a>
                     <input type="hidden" name="strategyId" value=${strategy.strategyId}>
 
-                </div>
+                </div>-->
 
                 <div class="form-group input-append btn-group">
                     <form class="form-inline" action="<c:url value="/Strategy/createFailReason" />"  method="post"> 

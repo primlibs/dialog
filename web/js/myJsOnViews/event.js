@@ -16,6 +16,18 @@ $(function(){
     }
     
     function writeHistory(moduleId){
+        var dateInp = '<input type="hidden" name="dates" value="'+dateObj.valueOf()+'">';
+        var moduleInp = '<input type="hidden" name="modules" value="'+moduleId+'">';
+        var dateObj = new Date();
+        $('#badFinishForm').append(moduleInp);
+        $('#goodFinishForm').append(moduleInp);
+        $('#postponeForm').append(moduleInp);
+        $('#badFinishForm').append(dateInp);
+        $('#goodFinishForm').append(dateInp);
+        $('#postponeForm').append(dateInp);
+    }
+    
+    /*function writeHistory(moduleId){
         var dateObj = new Date();
         var eventId = $('#moduleBufer').attr('data-eventId');
         $.ajax({
@@ -30,7 +42,7 @@ $(function(){
                 //alert('fail ');
             }
         });
-    }
+    }*/
     
     
     

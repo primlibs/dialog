@@ -9,7 +9,6 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title> </title>
         <%@include file="/WEB-INF/jsp/css_js.jsp" %>
     </head>
     <body class="container" >
@@ -38,7 +37,7 @@
                         <input class="btn btn-primary" type="submit" value="Добавить">
                     </div>
             </form>
-                        <a style="margin-left: 10px;" href="<c:url value="/Event/eventShowAllAppoint?campaignId=${campaign.campaignId}"/>" class="btn btn-primary" role="button">Назначить всем</a>
+                        <a style="margin-left: 10px;" href="<c:url value="/Event/eventShowAllAppoint?campaignId=${campaign.campaignId}"/>" class="btn btn-primary" role="button">Распределить клиентов</a>
                         <c:if test="${deleteble==true}">
                             <a style="float: right;" href="<c:url value="/Event/deleteCampaign?campaignId=${campaign.campaignId}"/>" class="btn btn-large btn-danger" role="button">Удалить кампанию</a>           
                         </c:if>

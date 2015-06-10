@@ -21,10 +21,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.Index;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.NotBlank;
-import static support.StringAdapter.NotNull;
 
 /**
  *
@@ -42,6 +42,7 @@ public class Tag extends PrimEntity {
     @JoinColumn(name = "personal_cabinet_id")
     @ManyToOne(fetch = FetchType.EAGER)
     @NotNull(message = "Необходимо указать ИД кабинета")
+    @Index(name="cabinetIndex")
     private PersonalCabinet cabinet;
     
     @Column(name = "name")

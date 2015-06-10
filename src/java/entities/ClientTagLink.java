@@ -17,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.Index;
 
 /**
  *
@@ -34,11 +35,13 @@ public class ClientTagLink extends PrimEntity {
     @JoinColumn(name = "tag_id")
     @ManyToOne(fetch = FetchType.EAGER)
     @NotNull
+    @Index(name="tagIndex")
     private Tag tag;
     
     @JoinColumn(name = "client_id")
     @ManyToOne(fetch = FetchType.EAGER)
     @NotNull
+    @Index(name="clientIndex")
     private Client client;
     
     @Override
