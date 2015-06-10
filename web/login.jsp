@@ -8,7 +8,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
     <head>
-        <title>Диалог +||Построение телефонных продаж за 1 день</title>
+        <title>Диалог||Построение телефонных продаж за 1 день</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="./css/bootstrap.min.css" rel="stylesheet" type="text/css" >
@@ -25,7 +25,7 @@
                         <div class="navbar-header">
                             <a class="navbar-brand" href="#">
                                 <img alt="Brand" src="./img/icon.png" width=22 style="float: left;"/>
-                                <span style="float: left;margin-left: 10px;font-size: 25px;">Диалог+</span>
+                                <span style="float: left;margin-left: 10px;font-size: 25px;">Диалог</span>
 
                             </a>
                         </div>
@@ -36,7 +36,7 @@
 
 
                 <div class="page-header">
-                    <h1>Диалог+ - это сервис для организации процесса телефонных продаж</h1>
+                    <h1>Диалог - это сервис для организации процесса телефонных продаж</h1>
                 </div>
 
                 <div >
@@ -54,11 +54,11 @@
                 <p>Вы описываете речевые модули которые вам необходимы. Оператор в процессе диалога с
                     клиентом получает подсказки  о том, что нужно говорить. При этом история диалогов фиксируется в 
                     отчетах.</p>
-                <p>С программой <strong>Диалог +</strong> менеджеры работают по готовым речевым модулям. Во первых менеджеры  не
+                <p>С программой <strong>Диалог</strong> менеджеры работают по готовым речевым модулям. Во первых менеджеры  не
                     тратят время на выдумывание и заучивание текста. Во вторых снимается психологический барьер. 
                     Это помогает менеджерам работать с клиентами быстрее на 20%. Новый сотрудник полностью 
                     включиться в работу в течении 2 часов. Таким образом при расширении штата снижаются затраты на 
-                    обучение.Кроме того Диалог + доступен повсюду, где есть интернет. Это позволяет нанять на удаленную работу
+                    обучение.Кроме того Диалог доступен повсюду, где есть интернет. Это позволяет нанять на удаленную работу
                     менее дорогостоящих сотрудников.</p>
 
                 <p>В программе предусмотрено 2 роли: администратор и оператор. Администратору доступна  работа с
@@ -76,7 +76,7 @@
                 <div class="row">
                     <div class="col-sm-3"></div>
                     <div class="col-sm-7">
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/SKhoVD7MhnU" frameborder="0" allowfullscreen></iframe>
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/G0eIbWXek-Q" frameborder="0" allowfullscreen></iframe>
                     </div>
                 </div>
                 <h1><a href="<c:url value="/Registration/registration" />" class="label label-warning">Попробовать</a></h1>
@@ -89,13 +89,13 @@
                 <div class="list-group">
                     <a class="list-group-item">
                         <p class="list-group-item-text">
-                            <strong>Диалог +</strong> позволяет редактировать речевые модули "на лету", то
+                            <strong>Диалог</strong> позволяет редактировать речевые модули "на лету", то
                             есть улучшать процесс телефонных коммуникаций можно 
                             прямо в момент проведения кампании </p>
                     </a>
                     <a class="list-group-item ">
                         <p class="list-group-item-text">
-                            Благодаря <strong>Диалогу +</strong> процесс найма сотрудника стал легче. Плюс со стороны работодателя в том, что 
+                            Благодаря <strong>Диалогу</strong> процесс найма сотрудника стал легче. Плюс со стороны работодателя в том, что 
                             работать с программой может человек без специальной подготовки. Плюс соискателя в том, что 
                             кандидат может начать работать сразу, ему не нужно проходить тесты на профессиональную 
                             пригодность и заучивать большой объем информации. Так как в рабочей области оператора имеются 
@@ -139,7 +139,7 @@
 
                             </div>
                             <p>Строимость: <strong>бесплатно</strong></p>
-                            <p><a href="<c:url value="/Registration/registration" />" class="btn btn-warning" role="button">Получить Диалог +</a></p>
+                            <p><a href="<c:url value="/Registration/registration" />" class="btn btn-warning" role="button">Получить Диалог</a></p>
                         </div>
                     </div>
                 </div>
@@ -155,20 +155,20 @@
 
                             </div>
                             <p>Строимость: <strong>25 000 р.</strong></p>
-                            <p><a href="<c:url value="/Registration/registration" />" class="btn btn-primary" role="button">Получить Диалог +</a></p>
+                            <p><a href="<c:url value="/Registration/registration" />" class="btn btn-primary" role="button">Получить Диалог</a></p>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4">
                     <div class="thumbnail">
                         <div class="caption">
-                            <h3 id="thumbnail-label">Диалог+ навсегда<a class="anchorjs-link" ><span class="anchorjs-icon"></span></a></h3>
+                            <h3 id="thumbnail-label">Диалог навсегда<a class="anchorjs-link" ><span class="anchorjs-icon"></span></a></h3>
                             <div style="height: 160px;">
                                 <p>Установка на свой сервер</p>
 
                             </div>
                             <p>Строимость: <strong>150 000 р.</strong></p>
-                            <p><a href="<c:url value="/Registration/registration" />" class="btn btn-danger" role="button">Получить Диалог +</a> </p>
+                            <p><a href="<c:url value="/Registration/registration" />" class="btn btn-danger" role="button">Получить Диалог</a> </p>
                         </div>
                     </div>
                 </div>

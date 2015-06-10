@@ -358,9 +358,7 @@ public class EventController extends WebController {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         User user = authManager.getCurrentUser();
-        if (comment.equals("")) {
-            comment = "Без комментариев";
-        }
+        
         eventService.badFinish(eventId, failReasonId, comment);
 
         ras.addFlashAttribute("errors", eventService.getError());
@@ -374,9 +372,9 @@ public class EventController extends WebController {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         User user = authManager.getCurrentUser();
-        if (finalComment.equals("")) {
+        /*if (finalComment.equals("")) {
             finalComment = "Без комментариев";
-        }
+        }*/
         //Date successDate = new Date(successLongDate);
         eventService.goodFinish(eventId, successDate, finalComment);
 
