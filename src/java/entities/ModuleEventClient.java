@@ -127,11 +127,11 @@ public class ModuleEventClient extends PrimEntity {
         this.module = module;
     }
 
-    public String getSing() {
+    public String getSign() {
         return sign;
     }
 
-    public void setSing(String sing) {
+    public void setSign(String sign) {
         this.sign = sign;
     }
 
