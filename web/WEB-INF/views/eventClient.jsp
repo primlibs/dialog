@@ -57,7 +57,7 @@
             </div>
             <table class="table table-bordered table-hover">
                 <tr>
-                    <td>${myIndex.index}номер по порядку</td>
+                    <td></td>
                     <td>Уникальный номер</td>
                     <td>Название компании</td>
                     <td>Контактное лицо</td>
@@ -80,7 +80,7 @@
                         <td>${event.client.getFormattedPhoneLpr()} </td>  
                         <td>${event.client.address} </td>
                         <td><div style="cursor: pointer;display: inline-block" ondblclick="location = '<c:url value="/Event/showAssigningOneEvent?eventId=${event.eventId}&campaignId=${campaign.campaignId}"/>'">${event.user.surname}  ${event.user.name}</div></td>
-                        <td>${event.status} </td>
+                        <td>${event.getRusStatus()} </td>
                     </tr>
                 </c:forEach>
             </table>

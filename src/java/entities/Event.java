@@ -198,5 +198,22 @@ public class Event extends PrimEntity {
         }
         return false;
     }
+    
+    public String getRusStatus(){
+        String res = "Не назначено";
+        if(UNASSIGNED==status){
+            return "Не назначено";
+        }else if(ASSIGNED==status){
+            return "Назначено";
+        }else if(POSTPONED==status){
+            return "Перенесено";
+        }else if(SUCCESSFUL==status){
+            return "Успех";
+        }else if(FAILED==status){
+            return "Провал";
+        }else{
+            return "Не определен";
+        }
+    }
 
 }
