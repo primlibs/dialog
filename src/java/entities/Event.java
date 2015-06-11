@@ -63,7 +63,7 @@ public class Event extends PrimEntity {
 
     @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.EAGER)
-    @Index(name="userIndex")
+    //@Index(name="userIndex")
     private User user;
 
     @Column(name = "status")

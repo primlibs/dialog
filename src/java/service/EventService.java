@@ -167,6 +167,10 @@ public class EventService extends PrimService {
         Campaign c = campaignDao.find(campaignId);
         if (c != null) {
             if (eventDao.getAssignedEvent(campaignId, cabinetId).isEmpty()) {
+                List<Event> events = c.getEvents();
+                for(Event ev:events){
+                    eventDao.delete(ev);
+                }
                 //if(c.getEvents().isEmpty()){
                 campaignDao.delete(c);
                 deleted = true;
@@ -246,8 +250,10 @@ public class EventService extends PrimService {
                             cl.setUniqueId(uid);
                             cl.setNameCompany(StringAdapter.HSSFSellValue(rw.getCell(1)));
                             cl.setNameSecretary(StringAdapter.HSSFSellValue(rw.getCell(2)));
+                            
                             String secretaryPhone = HSSFPhoneValue(rw.getCell(3));
                             cl.setNameLpr(StringAdapter.HSSFSellValue(rw.getCell(4)));
+                            
                             String lprPhone = HSSFPhoneValue(rw.getCell(5));
                             cl.setPhoneSecretary(secretaryPhone);
                             cl.setPhoneLpr(lprPhone);

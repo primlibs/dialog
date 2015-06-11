@@ -8,7 +8,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags" %> 
 
-<title>Диалог +||Построение телефонных продаж за 1 день</title>
+<title>Диалог || Построение телефонных продаж за 1 день</title>
 <link rel="shortcut icon" href="/img/icon.png">
 
 <!--    css -->
