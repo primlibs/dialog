@@ -153,6 +153,7 @@ public class StrategyService extends PrimService {
 
         if (!nameList.contains(moduleName) & moduleName != null) {
             Module ml = new Module();
+            ml.setStrategy(gp.getStrategy());
             ml.setCabinet(pk);
             ml.setGroup(gp);
             ml.setModuleName(moduleName);
