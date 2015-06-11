@@ -342,4 +342,20 @@ public class EventDao extends Dao<Event> {
         return query.list();
     }  
     
+    public void clearHistory(Long eventId,Long pkId){
+        String hql = "delete from ModuleEventClient mec where mec.event.eventId=:eventId and mec.cabinet.pkId=:pkId";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("eventId", eventId);
+        query.setParameter("pkId", pkId);
+    }
+    
+    public Integer countReplicas(Long eventId,Long pkId){
+        String hql="select count(*) from ModuleEventClient where event.eventId=:eventId and cabinet.pkId=:pkId";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("eventId", eventId);
+        query.setParameter("pkId", pkId);
+        Long res = (Long)query.uniqueResult();
+        return res.intValue();
+    }
+    
 }

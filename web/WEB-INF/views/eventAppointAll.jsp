@@ -9,7 +9,6 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title> </title>
         <%@include file="/WEB-INF/jsp/css_js.jsp" %>
     </head>
     <body class="container" >

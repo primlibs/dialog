@@ -10,7 +10,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <%@include file="/WEB-INF/jsp/css_js.jsp" %>
-        <title> </title>
         <script  src="<c:url value='/js/tiny_mce/tinymce.min.js'/>" ></script>
     </head>
     <body class="container">

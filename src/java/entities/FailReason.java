@@ -17,6 +17,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.Index;
 
 /**
  *
@@ -41,6 +43,8 @@ public class FailReason extends PrimEntity {
 
     @JoinColumn(name = "strategy_id")
     @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    @Index(name="strategyIndex")
     private Strategy strategy;
 
     @Column(name = "date_delete")

@@ -89,7 +89,7 @@ public class EventService extends PrimService {
 
     @Autowired
     private ClientService clientService;
-    
+
     @Autowired
     private ModuleEventClientDao moduleEventClientDao;
 
@@ -120,12 +120,12 @@ public class EventService extends PrimService {
         return new ArrayList();
     }
 
-    public LinkedHashMap<Campaign, HashMap<String,String>> getCampaignsWithCountInfos(Long cabinetId) {
-        LinkedHashMap<Campaign, HashMap<String,String>> res = new LinkedHashMap();
-        HashMap<Long,HashMap<String,String>> countMap = eventDao.getFinishedAndUnassignedEventCountsInCampaignsAsMap(cabinetId);
-        for(Campaign c:campaignDao.getAllCampaigns(cabinetId)){
-            HashMap<String,String> InfoMap = countMap.get(c.getId());
-            if(InfoMap==null){
+    public LinkedHashMap<Campaign, HashMap<String, String>> getCampaignsWithCountInfos(Long cabinetId) {
+        LinkedHashMap<Campaign, HashMap<String, String>> res = new LinkedHashMap();
+        HashMap<Long, HashMap<String, String>> countMap = eventDao.getFinishedAndUnassignedEventCountsInCampaignsAsMap(cabinetId);
+        for (Campaign c : campaignDao.getAllCampaigns(cabinetId)) {
+            HashMap<String, String> InfoMap = countMap.get(c.getId());
+            if (InfoMap == null) {
                 InfoMap = new HashMap();
                 InfoMap.put("finishedCount", "0");
                 InfoMap.put("unassignedCount", "0");
@@ -161,20 +161,20 @@ public class EventService extends PrimService {
             addError("не найден личный кабинет по id" + cabinetId);
         }
     }
-    
-    public boolean deleteCampaign(Long campaignId,Long cabinetId){
+
+    public boolean deleteCampaign(Long campaignId, Long cabinetId) {
         boolean deleted = false;
-        Campaign c =campaignDao.find(campaignId);
-        if(c!=null){
-            if(eventDao.getAssignedEvent(campaignId, cabinetId).isEmpty()){
-            //if(c.getEvents().isEmpty()){
+        Campaign c = campaignDao.find(campaignId);
+        if (c != null) {
+            if (eventDao.getAssignedEvent(campaignId, cabinetId).isEmpty()) {
+                //if(c.getEvents().isEmpty()){
                 campaignDao.delete(c);
-                deleted=true;
-            }else{
+                deleted = true;
+            } else {
                 addError("В кампании присутствуют эвенты, её нельзя удалять.");
             }
-        }else{
-            addError("Не найдено кампании с ИД "+campaignId+"; ");
+        } else {
+            addError("Не найдено кампании с ИД " + campaignId + "; ");
         }
         return deleted;
     }
@@ -183,15 +183,15 @@ public class EventService extends PrimService {
         return cabinetUserDao.getMakingCallsCabUsers(cabinetId);
         /*
         
-        PersonalCabinet pk = personalCabinetDao.find(cabinetId);
-        List<CabinetUser> listRoleUser = pk.getRoleUserActiveCabinetUserList();
-        return listRoleUser;*/
+         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
+         List<CabinetUser> listRoleUser = pk.getRoleUserActiveCabinetUserList();
+         return listRoleUser;*/
     }
-    
-    public boolean isDeleteble(Long campaignId,Long cabinetId){
-        if(eventDao.getAssignedEventsCount(campaignId, cabinetId)>0){
+
+    public boolean isDeleteble(Long campaignId, Long cabinetId) {
+        if (eventDao.getAssignedEventsCount(campaignId, cabinetId) > 0) {
             return false;
-        }else{
+        } else {
             return true;
         }
     }
@@ -228,7 +228,7 @@ public class EventService extends PrimService {
         int sheetCount = inputWorkbook.getNumberOfSheets();
         for (int i = 0; i < sheetCount; i++) {
             HSSFSheet hss = inputWorkbook.getSheetAt(i);
-                int rowCount = 0;
+            int rowCount = 0;
             Iterator<Row> it = hss.iterator();
             while (it.hasNext()) {
                 rowCount++;
@@ -241,87 +241,87 @@ public class EventService extends PrimService {
                     }
                     if (newClient == true || update == true) {
                         String uid = StringAdapter.HSSFSellValue(rw.getCell(0));
-                        if(!uid.equals("")){
+                        if (!uid.equals("")) {
                             cl.setUniqueId(uid);
                             cl.setNameCompany(StringAdapter.HSSFSellValue(rw.getCell(1)));
                             cl.setNameSecretary(StringAdapter.HSSFSellValue(rw.getCell(2)));
                             cl.setNameLpr(StringAdapter.HSSFSellValue(rw.getCell(3)));
-                            
+
                             String secretaryPhone = HSSFPhoneValue(rw.getCell(4));
-                            
+
                             String lprPhone = HSSFPhoneValue(rw.getCell(5));
-                            
+
                             cl.setPhoneSecretary(secretaryPhone);
-                            
+
                             cl.setPhoneLpr(lprPhone);
-                            
+
                             cl.setAddress(StringAdapter.HSSFSellValue(rw.getCell(6)));
-                            cl.setComment(StringAdapter.HSSFSellValue(rw.getCell(7)));
                             cl.setCabinet(pk);
                             if (validate(cl)) {
-                                if((secretaryPhone!=null&&!secretaryPhone.equals(""))||(lprPhone!=null&&!lprPhone.equals(""))){
+                                if ((secretaryPhone != null && !secretaryPhone.equals("")) || (lprPhone != null && !lprPhone.equals(""))) {
                                     clientsListForSave.add(cl);
-                                }else{
+                                } else {
                                     noContactList.add(cl);
                                 }
                             }
-                        }else{
+                        } else {
                             noUniqueIdList.add(rowCount);
                         }
                     }
                 }
             }
         }
-        if(noContactList.isEmpty()&&noUniqueIdList.isEmpty()){
-            for(Client cl:clientsListForSave){
+        if (noContactList.isEmpty() && noUniqueIdList.isEmpty()) {
+            for (Client cl : clientsListForSave) {
                 clientDao.save(cl);
                 Event ecl = eventDao.getEvent(cl, pk, campaign);
                 if (ecl == null) {
                     Event event = new Event();
                     event.setCabinet(pk);
                     event.setClient(cl);
-                    event.setEvent(campaign);
+                    event.setCampaign(campaign);
+                    event.setStatus(Event.UNASSIGNED);
                     if (validate(event)) {
                         eventDao.save(event);
                     }
                 }
             }
-        }else{
-            if(!noContactList.isEmpty()){
+        } else {
+            if (!noContactList.isEmpty()) {
                 String err = "Не указаны контакты клиентов с УИД: ";
-                for(Client cl:noContactList){
-                    err+=cl.getUniqueId()+"; ";
+                for (Client cl : noContactList) {
+                    err += cl.getUniqueId() + "; ";
                 }
-                addError(err+" для загрузки клиентов необходимо указать хотя бы один контакт.");
+                addError(err + " для загрузки клиентов необходимо указать хотя бы один контакт.");
             }
-            if(!noUniqueIdList.isEmpty()){
+            if (!noUniqueIdList.isEmpty()) {
                 String err = "Не указан УИД клиентов в следующих строках: ";
-                for(Integer rc:noUniqueIdList){
-                    err+=rc+"; ";
+                for (Integer rc : noUniqueIdList) {
+                    err += rc + "; ";
                 }
                 addError(err);
             }
         }
     }
-    
+
     public String HSSFPhoneValue(Cell cl) {
-        if(cl==null){
+        if (cl == null) {
             return "";
         }
-        PhoneEditor phe= new PhoneEditor();
+        PhoneEditor phe = new PhoneEditor();
         int cellType = cl.getCellType();
-        String res="";
+        String res = "";
         switch (cellType) {
             case Cell.CELL_TYPE_STRING:
-                res= phe.getPhone(cl.getStringCellValue());
+                res = phe.getPhone(cl.getStringCellValue());
                 addError(phe.error);
                 break;
             case Cell.CELL_TYPE_NUMERIC:
-                res=  phe.getPhone(getString(BigDecimal.valueOf(cl.getNumericCellValue()).longValue()));
+                res = phe.getPhone(getString(BigDecimal.valueOf(cl.getNumericCellValue()).longValue()));
                 addError(phe.error);
                 break;
             case Cell.CELL_TYPE_FORMULA:
-                res=  phe.getPhone(getString(BigDecimal.valueOf(cl.getNumericCellValue()).longValue()));
+                res = phe.getPhone(getString(BigDecimal.valueOf(cl.getNumericCellValue()).longValue()));
                 addError(phe.error);
                 break;
             default:
@@ -382,6 +382,7 @@ public class EventService extends PrimService {
                 User user = userDao.find(userId);
                 Event event = eventDao.getEvent(client, pk, campaign);
                 event.setUser(user);
+                event.setStatus(Event.ASSIGNED);
                 if (validate(event)) {
                     eventDao.save(event);
                 }
@@ -394,7 +395,7 @@ public class EventService extends PrimService {
         int clientNotAssigned = getNotAssignedClients(campaignId, cabinetId).size();
         int users = getActiveMakingCallsUsers(cabinetId).size();
         List<CabinetUser> cabinetUserList = getActiveMakingCallsUsers(cabinetId);
-        if(users!=0){
+        if (users != 0) {
             int clientOneUser = clientNotAssigned / users; //деление
             int endClientUser = clientNotAssigned % users; // остаток
 
@@ -410,7 +411,7 @@ public class EventService extends PrimService {
                 residueMap.put(userId, eventPoint);
             }
             return residueMap;
-        }else{
+        } else {
             addError("Нет доступных пользователей");
             return null;
         }
@@ -418,14 +419,14 @@ public class EventService extends PrimService {
 
 //сохранение распределения
     public void eventAppointSaveAll(Long campaignId, Long cabinetId, Long[] userIdArray, String[] clientNumArray) {
-        if(userIdArray!=null&&clientNumArray!=null){
+        if (userIdArray != null && clientNumArray != null) {
             LinkedHashMap<Long, Integer> appointMap = new LinkedHashMap();
             List<Event> events = getUnassignedEvent(campaignId, cabinetId);
             PersonalCabinet pk = personalCabinetDao.find(cabinetId);
             int clientNotAssignedSize = getNotAssignedClients(campaignId, cabinetId).size();
             int clientCount = 0;
             int summClient = 0;
-            if(userIdArray.length>0&&events.size()>0&&clientNumArray.length>0){
+            if (userIdArray.length > 0 && events.size() > 0 && clientNumArray.length > 0) {
                 for (int i = 0; i < userIdArray.length; i++) {
                     if (clientNumArray.length >= i) {
                         int count = StringAdapter.toInteger(clientNumArray[i]);
@@ -454,6 +455,7 @@ public class EventService extends PrimService {
                             for (Event ecl : events) {
                                 if (gaga < clientCn && eclId < ecl.getEventId()) {
                                     ecl.setUser(user);
+                                    ecl.setStatus(Event.ASSIGNED);
                                     if (validate(ecl)) {
                                         eventDao.save(ecl);
                                         eclId = ecl.getEventId();
@@ -603,7 +605,7 @@ public class EventService extends PrimService {
         }
         return result;
     }
-    
+
     private String getStringNumber(Object ob) {
         String count = "0";
         if (ob != null && !ob.equals("") && !ob.equals("null")) {
@@ -623,7 +625,7 @@ public class EventService extends PrimService {
     //лист Ссылкок event по campaignId НЕ ОБРАБОТАНЫХ по userId
     public Event getEvenByUserByCampaign(Long campaignId, Long cabinetId, Long userId) {
         List<Event> events = eventDao.getEventListByUserByCampaign(campaignId, cabinetId, userId);
-        if(events.isEmpty()){
+        if (events.isEmpty()) {
             return null;
         }
         java.util.Random rng = new java.util.Random();
@@ -650,108 +652,193 @@ public class EventService extends PrimService {
         return event;
     }
 
-    public List<FailReason> getAllFailReasons(Long strategyId){
+    public List<FailReason> getAllFailReasons(Long strategyId) {
         Strategy str = strategyDao.find(strategyId);
         List<FailReason> failReasons = str.getFailReasons();
         return failReasons;
     }
-    
-    public boolean writeModuleInHistory(Date date,Long userId,Long cabinetId,Long moduleId,Long eventId){
+
+    public boolean writeModuleInHistory(Date date, Long cabinetId, Long moduleId, Long eventId) {
         boolean performed = false;
         Event ev = eventDao.find(eventId);
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
-        User user = userDao.find(userId);
         Module module = moduleDao.find(moduleId);
-        
+
         ModuleEventClient mec = new ModuleEventClient();
-        
+
         mec.setEvent(ev);
         mec.setCabinet(pk);
         mec.setModule(module);
         mec.setGroup(module.getGroup());
         mec.setInsertDate(date);
         mec.setStrategy(ev.getCampaign().getStrategy());
-        if(validate(mec)){
+        if (validate(mec)) {
             moduleEventClientDao.save(mec);
         }
         return performed;
     }
-    
-    public void badFinish(Long eventId,Long reasonId,String comment){
+
+    public boolean badFinish(Long[] moduleIds, Long[] dates, Long eventId, Long reasonId, String finalComment) {
         Event ev = eventDao.find(eventId);
-        FailReason fr = failReasonDao.find(reasonId);
-        ev.setFinalComment(comment);
-        ev.setFailReason(fr);
-        if(validate(ev)){
-            eventDao.update(ev);
+        if (ev != null) {
+            if (!ev.isClosed()) {
+                if (!finalComment.equals("")) {
+                    FailReason fr = failReasonDao.find(reasonId);
+                    ev.setFinalComment(finalComment);
+                    ev.setFailReason(fr);
+                    ev.setStatus(Event.FAILED);
+                    if (validate(ev)) {
+                        writeModulesInHistory(eventId,moduleIds,dates);
+                        eventDao.update(ev);
+                        return true;
+                    }
+                } else {
+                    addError("Необходимо оставить комментарий.");
+                }
+            } else {
+                addError("Информация о контакте с клиентом уже была добавлена.");
+            }
+
+        } else {
+            addError("Эвент " + eventId + " не найден!");
         }
+        return false;
+    }
+
+    public boolean goodFinish(Long[] moduleIds, Long[] dates, Long eventId, Date successDate, String finalComment) {
+        Event ev = eventDao.find(eventId);
+        if (ev != null) {
+            if (!ev.isClosed()) {
+                if (!finalComment.equals("")) {
+                    ev.setFinalComment(finalComment);
+                    ev.setSuccessDate(successDate);
+                    ev.setStatus(Event.SUCCESSFUL);
+                    if (validate(ev)) {
+                        writeModulesInHistory(eventId,moduleIds,dates);
+                        eventDao.update(ev);
+                        return true;
+                    }
+                } else {
+                    addError("Необходимо оставить комментарий.");
+                }
+            } else {
+                addError("Информация о контакте с клиентом уже была добавлена.");
+            }
+
+        } else {
+            addError("Эвент " + eventId + " не найден!");
+        }
+        return false;
     }
     
-    public void goodFinish(Long eventId,Date successDate,String finalComment){
+
+    public boolean postponeEvent(Long[] moduleIds, Long[] dates, Long eventId, Date postponeDate, String finalComment) {
         Event ev = eventDao.find(eventId);
-        ev.setFinalComment(finalComment);
-        ev.setSuccessDate(successDate);
-        if(validate(ev)){
-            eventDao.update(ev);
+        if (ev != null) {
+            if (!ev.isClosed()) {
+                if (!finalComment.equals("")) {
+                    ev.setComment(finalComment);
+                    ev.setPostponedDate(postponeDate);
+                    ev.setStatus(Event.POSTPONED);
+                    if (validate(ev)) {
+                        writeModulesInHistory(eventId,moduleIds,dates);
+                        eventDao.update(ev);
+                        return true;
+                    }
+                } else {
+                    addError("Необходимо оставить комментарий.");
+                }
+            } else {
+                addError("Информация о контакте с клиентом уже была добавлена.");
+            }
+
+        } else {
+            addError("Эвент " + eventId + " не найден!");
         }
+        return false;
     }
     
-    public LinkedHashMap<User,HashMap> getUsersAndSuccessfulFailedPerformancesForReport(Date dateCampaignFrom,Date dateCampaignTo,Long pkId){
-        LinkedHashMap<User,HashMap>result = new LinkedHashMap();
-        for(Object[] o:eventDao.getUsersAndSuccessfulFailedPerformancesForReport(dateCampaignFrom,dateCampaignTo,pkId)){
-            HashMap<String,String> infoMap = new HashMap();
-            infoMap.put("successful",StringAdapter.getString(o[1]));
-            infoMap.put("failed",StringAdapter.getString(o[2]));
-            infoMap.put("all",StringAdapter.getString(o[3]));
-            result.put((User)o[0],infoMap);
+
+    public boolean writeModulesInHistory(Long eventId, Long[] moduleIds,Long[]dates) {
+        if (moduleIds != null && dates != null && dates.length > 0 && moduleIds.length > 0 && dates.length==moduleIds.length) {
+            Event ev = eventDao.find(eventId);
+            if (ev != null && !ev.isClosed()) {
+                
+            }
+        }
+        return false;
+    }
+
+    public void clearHistory(Long eventId, Long pkId) {
+        eventDao.clearHistory(eventId, pkId);
+    }
+
+    public boolean isEmptyHistory(Long eventId, Long pkId) {
+        if (eventDao.countReplicas(eventId, pkId) > 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public LinkedHashMap<User, HashMap> getUsersAndSuccessfulFailedPerformancesForReport(Date dateCampaignFrom, Date dateCampaignTo, Long pkId) {
+        LinkedHashMap<User, HashMap> result = new LinkedHashMap();
+        for (Object[] o : eventDao.getUsersAndSuccessfulFailedPerformancesForReport(dateCampaignFrom, dateCampaignTo, pkId)) {
+            HashMap<String, String> infoMap = new HashMap();
+            infoMap.put("successful", StringAdapter.getString(o[1]));
+            infoMap.put("failed", StringAdapter.getString(o[2]));
+            infoMap.put("all", StringAdapter.getString(o[3]));
+            result.put((User) o[0], infoMap);
         }
         return result;
     }
-    
-    public void postponeEvent(Long eventId,Date postponeDate,String Comment){
-        Event ev = eventDao.find(eventId);
-        ev.setComment(Comment);
-        ev.setPostponedDate(postponeDate);
-        if(validate(ev)){
-            eventDao.update(ev);
-        }
-    }
-    
-    public List<Event> getPostponedEvents(Date dateFrom,Date dateTo,Long pkId){
-        if(dateTo==null){
+
+    public List<Event> getPostponedEvents(Date dateFrom, Date dateTo, Long pkId) {
+        if (dateTo == null) {
             Calendar cl = Calendar.getInstance();
-            cl.set(Calendar.DATE,cl.getActualMaximum(Calendar.DATE));
-            dateTo=cl.getTime();
+            cl.set(Calendar.DATE, cl.getActualMaximum(Calendar.DATE));
+            dateTo = cl.getTime();
         }
-        if(dateFrom==null){
+        if (dateFrom == null) {
             Calendar cl = Calendar.getInstance();
             cl.set(2000, 0, 1);
-            dateFrom=cl.getTime();
+            dateFrom = cl.getTime();
         }
         //addError("from "+dateFrom.toString()+" to "+dateTo.toString());
         return eventDao.getPostponedEvents(dateFrom, dateTo, pkId);
     }
-    
+
     /*public List<Campaign> getCampaignsByUserAndCabinet(Long cabinetId, Long userId){
-        return eventDao.getCampaignsByUserAndCabinet(cabinetId, userId);
-    }*/
-    
-    public boolean assignOneEvent(Long userId,Long eventId){
+     return eventDao.getCampaignsByUserAndCabinet(cabinetId, userId);
+     }*/
+    public boolean assignOneEvent(Long userId, Long eventId) {
         User user = userDao.find(userId);
         Event ev = eventDao.find(eventId);
-        if(user!=null&&ev!=null){
-            if(ev.getFinalComment()==null){
+        if (user != null && ev != null) {
+            //if(ev.getFinalComment()==null){
+            if (!ev.isClosed()) {
                 ev.setUser(user);
-                if(validate(ev)){
+                if (ev.getStatus() == null || Event.UNASSIGNED == ev.getStatus()) {
+                    ev.setStatus(Event.ASSIGNED);
+                }
+                if (validate(ev)) {
                     eventDao.update(ev);
                     return true;
                 }
-            }else{
-                addError("Взаимодействие с клиентом в рамках данной кампании завершено, контакт нельзя перенести.");
+            } else {
+                addError("Взаимодействие с клиентом в рамках данной кампании завершено, его нельзя переназначить.");
                 return false;
             }
         }
         return false;
     }
-    
+
+    public Event getAvailableEventById(Long eventId) {
+        Event ev = eventDao.find(eventId);
+        if (ev != null && Event.FAILED != ev.getStatus() && Event.SUCCESSFUL != ev.getStatus()) {
+            return ev;
+        }
+        return null;
+    }
+
 }

@@ -105,9 +105,6 @@ public class ClientService extends PrimService {
                 case "phoneLpr":
                     client.setPhoneLpr(newVal);
                     break;
-                case "comment":
-                    client.setComment(newVal);
-                    break;
                 default:client=null;
                     break;
             }

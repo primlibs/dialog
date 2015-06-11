@@ -17,6 +17,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.Index;
 
 /**
  *
@@ -33,6 +35,8 @@ public class ModuleEventClient extends PrimEntity {
 
     @JoinColumn(name = "event_id")
     @ManyToOne(fetch = FetchType.EAGER)
+    @NotNull
+    @Index(name="eventIndex")
     private Event event;
 
     @Column(name = "insert_date")
@@ -41,6 +45,8 @@ public class ModuleEventClient extends PrimEntity {
 
     @JoinColumn(name = "personal_cabinet_id")
     @ManyToOne(fetch = FetchType.EAGER)
+    @NotNull
+    @Index(name="cabinetIndex")
     private PersonalCabinet cabinet;
 
     @JoinColumn(name = "strategy_id")
@@ -53,6 +59,8 @@ public class ModuleEventClient extends PrimEntity {
 
     @JoinColumn(name = "module_id")
     @ManyToOne(fetch = FetchType.EAGER)
+    @NotNull
+    @Index(name="moduleIndex")
     private Module module;
 
     @Column(name = "sign")

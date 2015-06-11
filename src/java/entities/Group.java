@@ -21,6 +21,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.Index;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.NotBlank;
@@ -40,10 +42,15 @@ public class Group extends PrimEntity {
 
     @JoinColumn(name = "personal_cabinet_id")
     @ManyToOne(fetch = FetchType.EAGER)
+    @NotNull
+    @Index(name="cabinetIndex")
     private PersonalCabinet cabinet;
+    
 
     @JoinColumn(name = "strategy_id")
     @ManyToOne(fetch = FetchType.EAGER)
+    @NotNull
+    @Index(name="strategyIndex")
     private Strategy strategy;
 
     @Column(name = "name")

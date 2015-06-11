@@ -19,6 +19,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.Index;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -34,7 +36,7 @@ public class Event extends PrimEntity {
     public static int SUCCESSFUL = 3;
     public static int POSTPONED = 2;
     public static int ASSIGNED = 1;
-    public static int ACTIVE = 0;
+    public static int UNASSIGNED = 0;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,18 +45,25 @@ public class Event extends PrimEntity {
 
     @JoinColumn(name = "personal_cabinet_id")
     @ManyToOne(fetch = FetchType.EAGER)
+    @NotNull
+    @Index(name="cabinetIndex")
     private PersonalCabinet cabinet;
 
     @JoinColumn(name = "campaign_id")
     @ManyToOne(fetch = FetchType.EAGER)
+    @NotNull
+    @Index(name="campaignIndex")
     private Campaign campaign;
 
     @JoinColumn(name = "client_id")
     @ManyToOne(fetch = FetchType.EAGER)
+    @NotNull
+    @Index(name="clientIndex")
     private Client client;
 
     @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.EAGER)
+    @Index(name="userIndex")
     private User user;
 
     @Column(name = "status")
@@ -93,14 +102,6 @@ public class Event extends PrimEntity {
 
     public void setCabinet(PersonalCabinet cabinet) {
         this.cabinet = cabinet;
-    }
-
-    public Campaign getEvent() {
-        return campaign;
-    }
-
-    public void setEvent(Campaign event) {
-        this.campaign = event;
     }
 
     public Client getClient() {
@@ -191,6 +192,11 @@ public class Event extends PrimEntity {
         this.failReason = failReason;
     }
     
-    
+    public boolean isClosed(){
+        if(status!=null&&status==FAILED||status==SUCCESSFUL){
+            return true;
+        }
+        return false;
+    }
 
 }

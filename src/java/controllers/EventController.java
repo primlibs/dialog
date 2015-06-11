@@ -296,9 +296,12 @@ public class EventController extends WebController {
             if (ev == null) {
                 return "redirect:/Event/campaign";
             }
+            //eventService.clearHistory(ev.getEventId(),cabinetId);
             model.put("event", ev);
         } else {
-            model.put("event", eventService.getEventById(eventId));
+            Event ev = eventService.getAvailableEventById(eventId);
+            model.put("event", ev);
+            //eventService.clearHistory(ev.getEventId(),cabinetId);
         }
         model.put("failReasons", eventService.getAllFailReasons(strategyId));
         model.put("campaign", eventService.getCampaign(campaignId));
@@ -341,7 +344,7 @@ public class EventController extends WebController {
         }
     }
 
-    @RequestMapping("writeModuleInHistory")
+    /*@RequestMapping("writeModuleInHistory")
     @ResponseBody
     public String writeModuleInHistory(Map<String, Object> model, @RequestParam(value = "moduleId") Long moduleId, @RequestParam(value = "eventId") Long eventId, @RequestParam(value = "date") Long datelong, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
@@ -350,18 +353,18 @@ public class EventController extends WebController {
         Date date = new Date(datelong);
         boolean performed = eventService.writeModuleInHistory(date, user.getId(), cabinetId, moduleId, eventId);
         return StringAdapter.getString(date);
-    }
+    }*/
 
     @RequestMapping("/badFinish")
-    public String badFinish(Map<String, Object> model, @RequestParam(value = "eventId") Long eventId, @RequestParam(value = "failReasonId") Long failReasonId,
-            @RequestParam(value = "campaignId") Long campaignId, @RequestParam(value = "comment") String comment, RedirectAttributes ras, HttpServletRequest request) throws Exception {
+    public String badFinish(Map<String, Object> model, @RequestParam(value = "eventId") Long eventId,
+            @RequestParam(value = "failReasonId") Long failReasonId,@RequestParam(value = "campaignId") Long campaignId,
+            @RequestParam(value = "comment") String finalComment,@RequestParam(value = "modules") Long[] modules,
+            @RequestParam(value = "dates") Long[] dates,RedirectAttributes ras, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         User user = authManager.getCurrentUser();
-        if (comment.equals("")) {
-            comment = "Без комментариев";
-        }
-        eventService.badFinish(eventId, failReasonId, comment);
+        
+        eventService.badFinish(modules,dates,eventId, failReasonId, finalComment);
 
         ras.addFlashAttribute("errors", eventService.getError());
         ras.addAttribute("campaignId", campaignId);
@@ -369,16 +372,18 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/goodFinish")
-    public String goodFinish(Map<String, Object> model, @RequestParam(value = "eventId") Long eventId, @RequestParam(value = "successDate") Date successDate,
-            @RequestParam(value = "campaignId") Long campaignId, @RequestParam(value = "comment") String finalComment, RedirectAttributes ras, HttpServletRequest request) throws Exception {
+    public String goodFinish(Map<String, Object> model, @RequestParam(value = "eventId") Long eventId,
+            @RequestParam(value = "successDate") Date successDate,@RequestParam(value = "campaignId") Long campaignId,
+            @RequestParam(value = "comment") String finalComment,@RequestParam(value = "modules") Long[] modules,
+            @RequestParam(value = "dates") Long[] dates,RedirectAttributes ras, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         User user = authManager.getCurrentUser();
-        if (finalComment.equals("")) {
+        /*if (finalComment.equals("")) {
             finalComment = "Без комментариев";
-        }
+        }*/
         //Date successDate = new Date(successLongDate);
-        eventService.goodFinish(eventId, successDate, finalComment);
+        eventService.goodFinish(modules,dates,eventId, successDate, finalComment);
 
         ras.addFlashAttribute("errors", eventService.getError());
         ras.addAttribute("campaignId", campaignId);
@@ -386,16 +391,14 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/postponeEvent")
-    public String postponeEvent(Map<String, Object> model, @RequestParam(value = "eventId") Long eventId, @RequestParam(value = "postponeDate") Date postponeDate,
-            @RequestParam(value = "campaignId") Long campaignId, @RequestParam(value = "comment") String comment, RedirectAttributes ras, HttpServletRequest request) throws Exception {
+    public String postponeEvent(Map<String, Object> model, @RequestParam(value = "eventId") Long eventId,
+            @RequestParam(value = "postponeDate") Date postponeDate,@RequestParam(value = "campaignId") Long campaignId,
+            @RequestParam(value = "comment") String finalComment,@RequestParam(value = "modules") Long[] modules,
+            @RequestParam(value = "dates") Long[] dates,RedirectAttributes ras, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        User user = authManager.getCurrentUser();
-        if (comment.equals("")) {
-            comment = "Нет комментариев";
-        }
         //Date successDate = new Date(successLongDate);
-        eventService.postponeEvent(eventId, postponeDate, comment);
+        eventService.postponeEvent(modules,dates,eventId, postponeDate, finalComment);
 
         ras.addFlashAttribute("errors", eventService.getError());
         ras.addAttribute("campaignId", campaignId);
