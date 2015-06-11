@@ -203,13 +203,19 @@ public class EventController extends WebController {
             RedirectAttributes ras,
             HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
+        List<String> errors = (List<String>) model.get("errors");
+        if (errors == null) {
+            errors = new ArrayList();
+        }
+        
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
         model.put("eventAllAppoint", eventService.eventAppointAll(campaignId, cabinetId));
 
         model.put("campaign", eventService.getCampaign(campaignId));
         model.put("cabinetUserList", eventService.getActiveMakingCallsUsers(cabinetId));
-        model.put("errors", eventService.getError());
+        errors.addAll(eventService.getError());
+        model.put("errors", errors);
         return "eventAppointAll";
     }
 
@@ -436,7 +442,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/assignOneEvent")
-    public String assignOneEvent(Map<String, Object> model, @RequestParam(value = "userId") Long userId, @RequestParam(value = "campaignId") Long campaignId,
+    public String assignOneEvent(Map<String, Object> model, @RequestParam(value = "userId", required = false) Long userId, @RequestParam(value = "campaignId") Long campaignId,
             @RequestParam(value = "eventId") Long eventId, @RequestParam(value = "errors", required = false) List<String> errors, RedirectAttributes ras, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);

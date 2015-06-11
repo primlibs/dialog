@@ -439,15 +439,18 @@ public class EventService extends PrimService {
                     }
                 }
 
-                ///получить количество нераспределенных сравить с количеством подангых - если поданных больше - ошибка
+                ///получить количество нераспределенных сравить с количеством поданных - если поданных больше - ошибка
                 //в цикле для каждогоо элемента appointMap распределить на пользователя пока 
                 //остаются заявки вывести объект который сообщит сколько на кого было распределено
                 for (int i = 0; i < clientNumArray.length; i++) {
                     String df = clientNumArray[i];
+                    if(df.equals("")||!df.matches("[0-9]*")){
+                        df="0";
+                    }
                     Integer i2 = Integer.valueOf(df);
                     summClient += i2;
                 }
-                Long eclId = Long.valueOf(0);
+                Long eclId = (long)0;
                 if (summClient <= clientNotAssignedSize) {
                     for (Long userId : appointMap.keySet()) {
                         Integer clientCn = appointMap.get(userId);
@@ -470,7 +473,7 @@ public class EventService extends PrimService {
                         }
                     }
                 } else {
-                    addError("Количество клиентов " + summClient + " больше не назначенных: " + clientNotAssignedSize);
+                    addError("Количество клиентов " + summClient + " больше количества не назначенных: " + clientNotAssignedSize);
                 }
             }
         }
@@ -839,12 +842,17 @@ public class EventService extends PrimService {
     public boolean assignOneEvent(Long userId, Long eventId) {
         User user = userDao.find(userId);
         Event ev = eventDao.find(eventId);
-        if (user != null && ev != null) {
+        if (ev != null) {
             //if(ev.getFinalComment()==null){
             if (!ev.isClosed()) {
                 ev.setUser(user);
-                if (ev.getStatus() == null || Event.UNASSIGNED == ev.getStatus()) {
+                if ((ev.getStatus() == null || Event.UNASSIGNED == ev.getStatus())&&user!=null) {
                     ev.setStatus(Event.ASSIGNED);
+                }else if(Event.POSTPONED==ev.getStatus()&&user==null){
+                    addError("Перенесенный контакт нельзя сделать неназначенным");
+                    return false;
+                }else if(user==null){
+                    ev.setStatus(Event.UNASSIGNED);
                 }
                 if (validate(ev)) {
                     eventDao.update(ev);

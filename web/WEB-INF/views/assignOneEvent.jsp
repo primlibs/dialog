@@ -12,6 +12,7 @@
         
         <form  action="<c:url value="/Event/assignOneEvent" />" method="post">
             <p> Менеджер:   <select name="userId">
+                    <option value="">Снять назначение</option>
                     <c:if test="${not empty calingUsers}">
                     <c:forEach var="cu" items="${calingUsers}">
                         <option value="${cu.user.userId}">${cu.user.email} - ${cu.user.surname} ${cu.user.name}</option>
