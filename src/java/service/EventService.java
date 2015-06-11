@@ -202,14 +202,15 @@ public class EventService extends PrimService {
         int n = 0;
         HSSFSheet sheet = workbook.createSheet("Клиенты");
         HSSFRow rowhead = sheet.createRow((short) n);
-        rowhead.createCell(0).setCellValue("Номер уникальный");
-        rowhead.createCell(1).setCellValue("Название компании");
-        rowhead.createCell(2).setCellValue("Имя секретаря");
-        rowhead.createCell(3).setCellValue("Имя лица принимающего решение");
-        rowhead.createCell(4).setCellValue("Телефон секретаря");
-        rowhead.createCell(5).setCellValue("Телефон лица принимающего решение ");
-        rowhead.createCell(6).setCellValue("Адрес");
-        rowhead.createCell(7).setCellValue("Коментарии");
+        int r=0;
+        rowhead.createCell(r++).setCellValue("Номер уникальный");
+        rowhead.createCell(r++).setCellValue("Название компании");
+        rowhead.createCell(r++).setCellValue("Имя контактного лица");
+        rowhead.createCell(r++).setCellValue("Телефон к.л.");
+        rowhead.createCell(r++).setCellValue("Имя лица принимающего решение");
+        rowhead.createCell(r++).setCellValue("Телефон л.п.р.");
+        rowhead.createCell(r++).setCellValue("Адрес");
+        rowhead.createCell(r++).setCellValue("Коментарии");
         n++;
         return workbook;
     }
@@ -245,16 +246,11 @@ public class EventService extends PrimService {
                             cl.setUniqueId(uid);
                             cl.setNameCompany(StringAdapter.HSSFSellValue(rw.getCell(1)));
                             cl.setNameSecretary(StringAdapter.HSSFSellValue(rw.getCell(2)));
-                            cl.setNameLpr(StringAdapter.HSSFSellValue(rw.getCell(3)));
-
-                            String secretaryPhone = HSSFPhoneValue(rw.getCell(4));
-
+                            String secretaryPhone = HSSFPhoneValue(rw.getCell(3));
+                            cl.setNameLpr(StringAdapter.HSSFSellValue(rw.getCell(4)));
                             String lprPhone = HSSFPhoneValue(rw.getCell(5));
-
                             cl.setPhoneSecretary(secretaryPhone);
-
                             cl.setPhoneLpr(lprPhone);
-
                             cl.setAddress(StringAdapter.HSSFSellValue(rw.getCell(6)));
                             cl.setCabinet(pk);
                             if (validate(cl)) {
