@@ -364,7 +364,7 @@ public class EventController extends WebController {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         User user = authManager.getCurrentUser();
         
-        eventService.badFinish(modules,dates,eventId, failReasonId, finalComment);
+        eventService.badFinish(modules,dates,cabinetId,eventId, failReasonId, finalComment);
 
         ras.addFlashAttribute("errors", eventService.getError());
         ras.addAttribute("campaignId", campaignId);
@@ -383,7 +383,7 @@ public class EventController extends WebController {
             finalComment = "Без комментариев";
         }*/
         //Date successDate = new Date(successLongDate);
-        eventService.goodFinish(modules,dates,eventId, successDate, finalComment);
+        eventService.goodFinish(modules,dates,cabinetId,eventId, successDate, finalComment);
 
         ras.addFlashAttribute("errors", eventService.getError());
         ras.addAttribute("campaignId", campaignId);
@@ -398,7 +398,7 @@ public class EventController extends WebController {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         //Date successDate = new Date(successLongDate);
-        eventService.postponeEvent(modules,dates,eventId, postponeDate, finalComment);
+        eventService.postponeEvent(modules,dates,cabinetId,eventId, postponeDate, finalComment);
 
         ras.addFlashAttribute("errors", eventService.getError());
         ras.addAttribute("campaignId", campaignId);

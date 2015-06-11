@@ -678,7 +678,7 @@ public class EventService extends PrimService {
         return performed;
     }
 
-    public boolean badFinish(Long[] moduleIds, Long[] dates, Long eventId, Long reasonId, String finalComment) {
+    public boolean badFinish(Long[] moduleIds, Long[] dates,Long pkId, Long eventId, Long reasonId, String finalComment) {
         Event ev = eventDao.find(eventId);
         if (ev != null) {
             if (!ev.isClosed()) {
@@ -688,7 +688,7 @@ public class EventService extends PrimService {
                     ev.setFailReason(fr);
                     ev.setStatus(Event.FAILED);
                     if (validate(ev)) {
-                        writeModulesInHistory(eventId,moduleIds,dates);
+                        writeModulesInHistory(pkId,eventId,moduleIds,dates);
                         eventDao.update(ev);
                         return true;
                     }
@@ -705,7 +705,7 @@ public class EventService extends PrimService {
         return false;
     }
 
-    public boolean goodFinish(Long[] moduleIds, Long[] dates, Long eventId, Date successDate, String finalComment) {
+    public boolean goodFinish(Long[] moduleIds, Long[] dates,Long pkId, Long eventId, Date successDate, String finalComment) {
         Event ev = eventDao.find(eventId);
         if (ev != null) {
             if (!ev.isClosed()) {
@@ -714,7 +714,7 @@ public class EventService extends PrimService {
                     ev.setSuccessDate(successDate);
                     ev.setStatus(Event.SUCCESSFUL);
                     if (validate(ev)) {
-                        writeModulesInHistory(eventId,moduleIds,dates);
+                        writeModulesInHistory(pkId,eventId,moduleIds,dates);
                         eventDao.update(ev);
                         return true;
                     }
@@ -732,7 +732,7 @@ public class EventService extends PrimService {
     }
     
 
-    public boolean postponeEvent(Long[] moduleIds, Long[] dates, Long eventId, Date postponeDate, String finalComment) {
+    public boolean postponeEvent(Long[] moduleIds, Long[] dates,Long pkId, Long eventId, Date postponeDate, String finalComment) {
         Event ev = eventDao.find(eventId);
         if (ev != null) {
             if (!ev.isClosed()) {
@@ -741,7 +741,7 @@ public class EventService extends PrimService {
                     ev.setPostponedDate(postponeDate);
                     ev.setStatus(Event.POSTPONED);
                     if (validate(ev)) {
-                        writeModulesInHistory(eventId,moduleIds,dates);
+                        writeModulesInHistory(pkId,eventId,moduleIds,dates);
                         eventDao.update(ev);
                         return true;
                     }
@@ -759,12 +759,35 @@ public class EventService extends PrimService {
     }
     
 
-    public boolean writeModulesInHistory(Long eventId, Long[] moduleIds,Long[]dates) {
-        if (moduleIds != null && dates != null && dates.length > 0 && moduleIds.length > 0 && dates.length==moduleIds.length) {
-            Event ev = eventDao.find(eventId);
-            if (ev != null && !ev.isClosed()) {
-                
+    public boolean writeModulesInHistory(Long pkId,Long eventId, Long[] moduleIds,Long[]dates) {
+        Event ev = eventDao.find(eventId);
+        if (ev != null && moduleIds != null && dates != null && dates.length > 0 && moduleIds.length > 0 && dates.length==moduleIds.length) {
+            List<ModuleEventClient> history = new ArrayList();
+            Strategy strat = ev.getCampaign().getStrategy();
+            PersonalCabinet pk = personalCabinetDao.find(pkId);
+            if ( !ev.isClosed()&& pk!=null && strat!=null) {
+                for(int i=0;i<dates.length;i++){
+                    Date date = new Date(dates[i]);
+                    Module mod = moduleDao.find(moduleIds[i]);
+                    if(mod!=null){
+                        ModuleEventClient mec = new ModuleEventClient();
+                        mec.setCabinet(pk);
+                        mec.setEvent(ev);
+                        mec.setStrategy(strat);
+                        mec.setInsertDate(date);
+                        mec.setModule(mod);
+                        mec.setGroup(mod.getGroup());
+                        if(validate(mec)){
+                            history.add(mec);
+                        }
+                        //??mec.setSign(null);
+                    }
+                }
             }
+            for(ModuleEventClient mec:history){
+                moduleEventClientDao.save(mec);
+            }
+            return true;
         }
         return false;
     }
