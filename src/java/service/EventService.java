@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -228,6 +229,12 @@ public class EventService extends PrimService {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         List<Client> pkList = pk.getClientList();
         Campaign campaign = campaignDao.find(campaignId);
+        HashSet<Long>addedClientIds = new HashSet();
+        for(Event ev:campaign.getEvents()){
+            addedClientIds.add(ev.getClient().getId());
+        }
+        List<Client>ClientsToCreateEventsList = new ArrayList();
+        
         InputStream fis = fileXls.getInputStream();
         HSSFWorkbook inputWorkbook = new HSSFWorkbook(fis);
         int sheetCount = inputWorkbook.getNumberOfSheets();
@@ -243,6 +250,8 @@ public class EventService extends PrimService {
                     if (cl == null) {
                         cl = new Client();
                         newClient = true;
+                    }else{
+                        ClientsToCreateEventsList.add(cl);
                     }
                     if (newClient == true || update == true) {
                         String uid = StringAdapter.HSSFSellValue(rw.getCell(0));
@@ -276,8 +285,10 @@ public class EventService extends PrimService {
         if (noContactList.isEmpty() && noUniqueIdList.isEmpty()) {
             for (Client cl : clientsListForSave) {
                 clientDao.save(cl);
-                Event ecl = eventDao.getEvent(cl, pk, campaign);
-                if (ecl == null) {
+                ClientsToCreateEventsList.add(cl);
+            }
+            for(Client cl:ClientsToCreateEventsList){
+                if(!addedClientIds.contains(cl.getClientId())){
                     Event event = new Event();
                     event.setCabinet(pk);
                     event.setClient(cl);
@@ -422,7 +433,7 @@ public class EventService extends PrimService {
 //сохранение распределения
     public void eventAppointSaveAll(Long campaignId, Long cabinetId, Long[] userIdArray, String[] clientNumArray) {
         if (userIdArray != null && clientNumArray != null) {
-            LinkedHashMap<Long, Integer> appointMap = new LinkedHashMap();
+            LinkedHashMap<Long, Integer> userCountAssignedMap = new LinkedHashMap();
             List<Event> events = getUnassignedEvent(campaignId, cabinetId);
             PersonalCabinet pk = personalCabinetDao.find(cabinetId);
             int clientNotAssignedSize = getNotAssignedClients(campaignId, cabinetId).size();
@@ -433,9 +444,9 @@ public class EventService extends PrimService {
                     if (clientNumArray.length >= i) {
                         int count = StringAdapter.toInteger(clientNumArray[i]);
                         clientCount += count;
-                        appointMap.put(userIdArray[i], count);
+                        userCountAssignedMap.put(userIdArray[i], count);
                     } else {
-                        appointMap.put(userIdArray[i], 0);
+                        userCountAssignedMap.put(userIdArray[i], 0);
                     }
                 }
 
@@ -452,20 +463,20 @@ public class EventService extends PrimService {
                 }
                 Long eclId = (long)0;
                 if (summClient <= clientNotAssignedSize) {
-                    for (Long userId : appointMap.keySet()) {
-                        Integer clientCn = appointMap.get(userId);
+                    for (Long userId : userCountAssignedMap.keySet()) {
+                        Integer clientCn = userCountAssignedMap.get(userId);
                         User user = userDao.getUserBelongsPk(pk, userId);
                         if (user != null) {
                             int gaga = 0;
-                            for (Event ecl : events) {
-                                if (gaga < clientCn && eclId < ecl.getEventId()) {
-                                    ecl.setUser(user);
-                                    ecl.setStatus(Event.ASSIGNED);
-                                    if (validate(ecl)) {
-                                        eventDao.save(ecl);
-                                        eclId = ecl.getEventId();
+                            for (Event ev : events) {
+                                if (gaga < clientCn && eclId < ev.getEventId()) {
+                                    ev.setUser(user);
+                                    ev.setStatus(Event.ASSIGNED);
+                                    if (validate(ev)) {
+                                        eventDao.save(ev);
+                                        eclId = ev.getEventId();
                                     }
-                                    gaga += 1;
+                                    gaga++;
                                 }
                             }
                         } else {
