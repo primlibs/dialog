@@ -229,7 +229,7 @@ public class EventController extends WebController {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
-        eventService.eventAppointSaveAll(campaignId, cabinetId, userIdArray, clientNumArray);
+        Boolean success = eventService.eventAppointSaveAll(campaignId, cabinetId, userIdArray, clientNumArray);
 
         model.put("cabinetUserList", eventService.getActiveMakingCallsUsers(cabinetId));
         model.put("campaign", eventService.getCampaign(campaignId));
@@ -238,7 +238,7 @@ public class EventController extends WebController {
         ras.addFlashAttribute("errors", eventService.getError());
         ras.addFlashAttribute("campaign", eventService.getCampaign(campaignId));
 
-        if (eventService.getError().isEmpty()) {
+        if (eventService.getError().isEmpty()&&success) {
             return "redirect:/Event/campaignSpecification";
         }
         return "redirect:/Event/eventShowAllAppoint";
