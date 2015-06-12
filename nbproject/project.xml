@@ -273,7 +273,6 @@
                 </library>
                 <library dirs="200">
                     <file>${file.reference.PrimJavaApi.jar-2}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
                     <file>${file.reference.com.springsource.org.aopalliance-1.0.0.jar}</file>
