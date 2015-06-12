@@ -26,7 +26,7 @@
                         <c:set var="selectSize" value="1"/>
                     </c:if>
             
-            <div style="margin-bottom: 10px;"> 
+                    <div class="row form-group"> 
                 <form role="form" class="form-inline" action="<c:url value="/Client/clientList" />">
                     <input type="text" class="form-control" style="width: 170px;" name="uid" id="uidInput" placeholder="Уникальный ИД" value="${uid}">
                     <input type="text" class="form-control" style="width: 170px;" name="nameCompany" id="nameCompanyInput" placeholder="Компания" value="${nameCompany}">

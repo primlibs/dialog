@@ -99,7 +99,6 @@ public class ClientService extends PrimService {
                     client.setNameLpr(newVal);
                     break;
                 case "phoneSecretary":
-                    //++filtr++validation?
                     client.setPhoneSecretary(newVal);
                     break;
                 case "phoneLpr":

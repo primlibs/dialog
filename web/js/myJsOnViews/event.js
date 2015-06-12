@@ -16,9 +16,10 @@ $(function(){
     }
     
     function writeHistory(moduleId){
+        var dateObj = new Date();
         var dateInp = '<input type="hidden" name="dates" value="'+dateObj.valueOf()+'">';
         var moduleInp = '<input type="hidden" name="modules" value="'+moduleId+'">';
-        var dateObj = new Date();
+        
         $('#badFinishForm').append(moduleInp);
         $('#goodFinishForm').append(moduleInp);
         $('#postponeForm').append(moduleInp);

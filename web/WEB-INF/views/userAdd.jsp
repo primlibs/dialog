@@ -22,9 +22,6 @@
         <form role="form" action="<c:url value="/User/userAdd" />"  method="post">
 
             <div class="form-group">
-                <a href="<c:url value="/User/userList"/>" class="btn btn-large" role="button"> <= Список пользователей</a>
-            </div>
-            <div class="form-group">
                 <label for="lastName">Фамилия*:</label>
                     <input type="text" class="form-control" name="surname" id="lastName" placeholder="Фамилия" value="${surname}">
                 

@@ -32,9 +32,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -167,6 +169,10 @@ public class EventService extends PrimService {
         Campaign c = campaignDao.find(campaignId);
         if (c != null) {
             if (eventDao.getAssignedEvent(campaignId, cabinetId).isEmpty()) {
+                List<Event> events = c.getEvents();
+                for(Event ev:events){
+                    eventDao.delete(ev);
+                }
                 //if(c.getEvents().isEmpty()){
                 campaignDao.delete(c);
                 deleted = true;
@@ -181,11 +187,6 @@ public class EventService extends PrimService {
 
     public List<CabinetUser> getActiveMakingCallsUsers(Long cabinetId) {
         return cabinetUserDao.getMakingCallsCabUsers(cabinetId);
-        /*
-        
-         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
-         List<CabinetUser> listRoleUser = pk.getRoleUserActiveCabinetUserList();
-         return listRoleUser;*/
     }
 
     public boolean isDeleteble(Long campaignId, Long cabinetId) {
@@ -202,14 +203,15 @@ public class EventService extends PrimService {
         int n = 0;
         HSSFSheet sheet = workbook.createSheet("Клиенты");
         HSSFRow rowhead = sheet.createRow((short) n);
-        rowhead.createCell(0).setCellValue("Номер уникальный");
-        rowhead.createCell(1).setCellValue("Название компании");
-        rowhead.createCell(2).setCellValue("Имя секретаря");
-        rowhead.createCell(3).setCellValue("Имя лица принимающего решение");
-        rowhead.createCell(4).setCellValue("Телефон секретаря");
-        rowhead.createCell(5).setCellValue("Телефон лица принимающего решение ");
-        rowhead.createCell(6).setCellValue("Адрес");
-        rowhead.createCell(7).setCellValue("Коментарии");
+        int r=0;
+        rowhead.createCell(r++).setCellValue("Номер уникальный");
+        rowhead.createCell(r++).setCellValue("Название компании");
+        rowhead.createCell(r++).setCellValue("Имя контактного лица");
+        rowhead.createCell(r++).setCellValue("Телефон к.л.");
+        rowhead.createCell(r++).setCellValue("Имя лица принимающего решение");
+        rowhead.createCell(r++).setCellValue("Телефон л.п.р.");
+        rowhead.createCell(r++).setCellValue("Адрес");
+        rowhead.createCell(r++).setCellValue("Коментарии");
         n++;
         return workbook;
     }
@@ -223,6 +225,12 @@ public class EventService extends PrimService {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         List<Client> pkList = pk.getClientList();
         Campaign campaign = campaignDao.find(campaignId);
+        HashSet<Long>addedClientIds = new HashSet();
+        for(Event ev:campaign.getEvents()){
+            addedClientIds.add(ev.getClient().getId());
+        }
+        List<Client>ClientsToCreateEventsList = new ArrayList();
+        
         InputStream fis = fileXls.getInputStream();
         HSSFWorkbook inputWorkbook = new HSSFWorkbook(fis);
         int sheetCount = inputWorkbook.getNumberOfSheets();
@@ -238,6 +246,8 @@ public class EventService extends PrimService {
                     if (cl == null) {
                         cl = new Client();
                         newClient = true;
+                    }else{
+                        ClientsToCreateEventsList.add(cl);
                     }
                     if (newClient == true || update == true) {
                         String uid = StringAdapter.HSSFSellValue(rw.getCell(0));
@@ -245,16 +255,13 @@ public class EventService extends PrimService {
                             cl.setUniqueId(uid);
                             cl.setNameCompany(StringAdapter.HSSFSellValue(rw.getCell(1)));
                             cl.setNameSecretary(StringAdapter.HSSFSellValue(rw.getCell(2)));
-                            cl.setNameLpr(StringAdapter.HSSFSellValue(rw.getCell(3)));
-
-                            String secretaryPhone = HSSFPhoneValue(rw.getCell(4));
-
+                            
+                            String secretaryPhone = HSSFPhoneValue(rw.getCell(3));
+                            cl.setNameLpr(StringAdapter.HSSFSellValue(rw.getCell(4)));
+                            
                             String lprPhone = HSSFPhoneValue(rw.getCell(5));
-
                             cl.setPhoneSecretary(secretaryPhone);
-
                             cl.setPhoneLpr(lprPhone);
-
                             cl.setAddress(StringAdapter.HSSFSellValue(rw.getCell(6)));
                             cl.setCabinet(pk);
                             if (validate(cl)) {
@@ -274,8 +281,10 @@ public class EventService extends PrimService {
         if (noContactList.isEmpty() && noUniqueIdList.isEmpty()) {
             for (Client cl : clientsListForSave) {
                 clientDao.save(cl);
-                Event ecl = eventDao.getEvent(cl, pk, campaign);
-                if (ecl == null) {
+                ClientsToCreateEventsList.add(cl);
+            }
+            for(Client cl:ClientsToCreateEventsList){
+                if(!addedClientIds.contains(cl.getClientId())){
                     Event event = new Event();
                     event.setCabinet(pk);
                     event.setClient(cl);
@@ -359,11 +368,7 @@ public class EventService extends PrimService {
 
 // получить лист клиентов не назначеных
     public List<Client> getNotAssignedClients(Long campaignId, Long cabinetId) {
-        PersonalCabinet pk = personalCabinetDao.find(cabinetId);
-        Campaign campaign = campaignDao.find(campaignId);
-        List<Client> clList = clientDao.getNotAssignedClientsByCampaign(pk.getId(), campaign.getId());
-        return clList;
-
+        return  clientDao.getNotAssignedClientsByCampaign(cabinetId, campaignId);
     }
 
     public void eventAppointSave(String[] arrayClientIdUserId, Long cabinetId, Long campaignId) {
@@ -418,60 +423,88 @@ public class EventService extends PrimService {
     }
 
 //сохранение распределения
-    public void eventAppointSaveAll(Long campaignId, Long cabinetId, Long[] userIdArray, String[] clientNumArray) {
+    public boolean eventAppointSaveAll(Long campaignId, Long cabinetId, Long[] userIdArray, String[] clientNumArray) {
         if (userIdArray != null && clientNumArray != null) {
-            LinkedHashMap<Long, Integer> appointMap = new LinkedHashMap();
+            LinkedHashMap<Long, Integer> userIdCountAssignedMap = new LinkedHashMap();
             List<Event> events = getUnassignedEvent(campaignId, cabinetId);
+            List<Event>eventsForUpdate = new ArrayList();
             PersonalCabinet pk = personalCabinetDao.find(cabinetId);
-            int clientNotAssignedSize = getNotAssignedClients(campaignId, cabinetId).size();
-            int clientCount = 0;
+            //int clientCount = 0;
             int summClient = 0;
             if (userIdArray.length > 0 && events.size() > 0 && clientNumArray.length > 0) {
                 for (int i = 0; i < userIdArray.length; i++) {
                     if (clientNumArray.length >= i) {
                         int count = StringAdapter.toInteger(clientNumArray[i]);
-                        clientCount += count;
-                        appointMap.put(userIdArray[i], count);
+                        summClient += count;
+                        userIdCountAssignedMap.put(userIdArray[i], count);
                     } else {
-                        appointMap.put(userIdArray[i], 0);
+                        userIdCountAssignedMap.put(userIdArray[i], 0);
                     }
                 }
 
-                ///получить количество нераспределенных сравить с количеством подангых - если поданных больше - ошибка
+                ///получить количество нераспределенных, сравить с количеством поданных - если поданных больше - ошибка
                 //в цикле для каждогоо элемента appointMap распределить на пользователя пока 
                 //остаются заявки вывести объект который сообщит сколько на кого было распределено
-                for (int i = 0; i < clientNumArray.length; i++) {
+                /*for (int i = 0; i < clientNumArray.length; i++) {
                     String df = clientNumArray[i];
+                    if(df.equals("")||!df.matches("[0-9]*")){
+                        df="0";
+                    }
                     Integer i2 = Integer.valueOf(df);
                     summClient += i2;
-                }
-                Long eclId = Long.valueOf(0);
-                if (summClient <= clientNotAssignedSize) {
-                    for (Long userId : appointMap.keySet()) {
-                        Integer clientCn = appointMap.get(userId);
+                }*/
+                //Long eclId = (long)0;
+                int sindx=0;
+                if (summClient <= events.size()) {
+                    for (Long userId : userIdCountAssignedMap.keySet()) {
+                        Integer eventsCountToAssign = userIdCountAssignedMap.get(userId);
                         User user = userDao.getUserBelongsPk(pk, userId);
                         if (user != null) {
-                            int gaga = 0;
-                            for (Event ecl : events) {
-                                if (gaga < clientCn && eclId < ecl.getEventId()) {
-                                    ecl.setUser(user);
-                                    ecl.setStatus(Event.ASSIGNED);
-                                    if (validate(ecl)) {
-                                        eventDao.save(ecl);
-                                        eclId = ecl.getEventId();
+                            //int supCount = 0;
+                            for(int supCount = 0;supCount<eventsCountToAssign;supCount++){
+                                Event ev = events.get(sindx);
+                                if (ev!=null&&supCount < eventsCountToAssign){
+                                    ev.setUser(user);
+                                    ev.setStatus(Event.ASSIGNED);
+                                    if(validate(ev)){
+                                        eventsForUpdate.add(ev);
+                                        //supCount++;
+                                        sindx++;
                                     }
-                                    gaga += 1;
                                 }
                             }
+                            
+                            /*for (Event ev : events) {
+                                if (supCount < eventsCountToAssign && eclId < ev.getEventId()) {
+                                    ev.setUser(user);
+                                    ev.setStatus(Event.ASSIGNED);
+                                    if (validate(ev)) {
+                                        eventDao.save(ev);
+                                        eclId = ev.getEventId();
+                                    }
+                                    supCount++;
+                                }
+                            }*/
                         } else {
-                            addError("Ошибка! Пользователь не принадлежит к личному кабинету");
+                            addError("Ошибка! Пользователь id:"+userId+" не принадлежит к личному кабинету!");
+                            return false;
                         }
                     }
+                    for(Event ev:eventsForUpdate){
+                        eventDao.update(ev);
+                    }
+                    /*String str = "";
+                    for(Map.Entry<Long,Integer> entry:userIdCountAssignedMap.entrySet()){
+                        str+=entry.getKey()+"-"+entry.getValue()+"; ";
+                    }
+                    addError(str);*/
+                    return true;
                 } else {
-                    addError("Количество клиентов " + summClient + " больше не назначенных: " + clientNotAssignedSize);
+                    addError("Количество клиентов " + summClient + " больше количества не назначенных: " + events.size());
                 }
             }
         }
+        return false;
     }
 
     public HashMap<Long, String> userAssignedClient(Long campaignId, Long cabinetId) {
@@ -837,12 +870,17 @@ public class EventService extends PrimService {
     public boolean assignOneEvent(Long userId, Long eventId) {
         User user = userDao.find(userId);
         Event ev = eventDao.find(eventId);
-        if (user != null && ev != null) {
+        if (ev != null) {
             //if(ev.getFinalComment()==null){
             if (!ev.isClosed()) {
                 ev.setUser(user);
-                if (ev.getStatus() == null || Event.UNASSIGNED == ev.getStatus()) {
+                if ((ev.getStatus() == null || Event.UNASSIGNED == ev.getStatus())&&user!=null) {
                     ev.setStatus(Event.ASSIGNED);
+                }else if(Event.POSTPONED==ev.getStatus()&&user==null){
+                    addError("Перенесенный контакт нельзя сделать неназначенным");
+                    return false;
+                }else if(user==null){
+                    ev.setStatus(Event.UNASSIGNED);
                 }
                 if (validate(ev)) {
                     eventDao.update(ev);
