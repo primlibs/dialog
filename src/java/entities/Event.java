@@ -193,7 +193,7 @@ public class Event extends PrimEntity {
     }
     
     public boolean isClosed(){
-        if(status!=null&&status==FAILED||status==SUCCESSFUL){
+        if(status!=null&&(status==FAILED||status==SUCCESSFUL)){
             return true;
         }
         return false;

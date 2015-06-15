@@ -46,17 +46,18 @@
             <table class="table table-bordered table-hover" style="margin-top: 20px;">
 
                 <tr>
-                    <td rowspan="2">Менеджеры </td>
-                    <td rowspan="2">Клиенты </td>
-                    <td rowspan="2">Назначено</td>
-                    <td rowspan="2">Не назначено</td>
-                    <td colspan="3">Обработано</td>
-                    <td rowspan="2">Не обработано</td>
+                    <th rowspan="2">Менеджеры </th>
+                    <th rowspan="2">Клиенты </th>
+                    <th rowspan="2">Назначено</th>
+                    <th rowspan="2">Не назначено</th>
+                    <th colspan="3">Обработано</th>
+                    <th rowspan="2">Не обработано</th>
+                    <th rowspan="2">Изменить назначение</th>
                 </tr>
                 <tr>
-                    <td>Успешно </td>
-                    <td>Не успешно </td>
-                    <td>Всего</td>
+                    <th>Успешно </th>
+                    <th>Не успешно </th>
+                    <th>Всего</th>
                 </tr>
                 <c:set var="number" value="1" />
                 <c:set var="assignedEventsCount" value="0" />
@@ -78,6 +79,9 @@
                             <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-3"/>'" > ${userAssignedClientProcessedFails.get(cabinetUser.getUser().getUserId())}</div></td>
                         <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-4"/>'"> ${userAssignedClientProcessed.get(cabinetUser.getUser().getUserId())}</div></td>
                         <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-1"/>'" > ${userAssignedClientNotProcessed.get(cabinetUser.getUser().getUserId())}</div></td>
+                        <td><a href="#" class="btn btn-large btn-warning"
+                                        data-toggle="modal"
+                                        data-target="#basicModalChangeAssign">Изменить</a></td>
                         <c:set var="assignedEventsCount" value="${assignedEventsCount+userAssignedClient.get(cabinetUser.getUser().getUserId())}" />
                         <c:set var="assignedNotProcessedEventsCount" value="${assignedNotProcessedEventsCount+userAssignedClientNotProcessed.get(cabinetUser.getUser().getUserId())}" />
                         <c:set var="assignedProcessedEventsCount" value="${assignedProcessedEventsCount+userAssignedClientProcessed.get(cabinetUser.getUser().getUserId())}" />
@@ -98,8 +102,34 @@
                     <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&processed=-3"/>'"> ${assignedProcessedFailedEventsCount}</div></td>
                     <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&processed=-4"/>'"> ${assignedProcessedEventsCount}</div></td>
                     <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&processed=-1"/>'"> ${assignedNotProcessedEventsCount}</div></td>
+                    <td><a href="#" class="btn btn-large btn-warning" id="changeAssignFromSpec"
+                                        data-userId=""
+                                        data-campaignId="${campaign.campaignId}"
+                                        data-toggle="modal"
+                                        data-target="#basicModalChangeAssign">Изменить</a></td>
                 </tr>
             </table>
+                    
+                    
+                    <div class="modal fade" id="basicModalChangeAssign" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                                <h4 class="modal-title" id="myModalLabel">Назначение</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form id="reassignEvents" action="<c:url value="/Event/postponeEvent" />" method="post">
+                                                    
+                                                    <input type="hidden" name="campaignId" value=${param.campaignId}>
+                                                    <input type="hidden" name="eventId" value=${event.eventId}>
+                                                    <p>    <input class="btn btn-primary" type="submit" value="Изменить">
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
         
     </body>
 </html>

@@ -6,7 +6,9 @@
 package controllers.parent;
 
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,13 +80,21 @@ public class WebController {
 
  
 
-    protected void addErrors(Map<String, Object> model, ServiceResult res) {
-        model.put(ERRORS_LIST_NAME, res.getErrors());
+    protected void addErrors(Map<String, Object> model, List<String>newErrors) {
+        List<String> errors = (List<String>)model.get(ERRORS_LIST_NAME);
+        if(errors==null){
+            errors=new ArrayList();
+        }
+        errors.addAll(newErrors);
+        model.put(ERRORS_LIST_NAME, errors);
     }
 
     protected void addErrors(RedirectAttributes ra, ServiceResult res) {
         ra.addFlashAttribute(ERRORS_LIST_NAME, res.getErrors());
     }
 
+    protected void addErrors(Map<String, Object> model, ServiceResult res) {
+        model.put(ERRORS_LIST_NAME, res.getErrors());
+    }
 
 }

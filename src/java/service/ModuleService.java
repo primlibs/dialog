@@ -36,13 +36,17 @@ public class ModuleService extends PrimService {
     private GroupDao groupDao;
     
     public void deleteModule(Long moduleId) {
-        Module modul = moduleDao.find(moduleId);
-        if (moduleId != null) {
-            Date date = new Date();
-            modul.setDeleteDate(date);
-            moduleDao.update(modul);
+        Module module = moduleDao.find(moduleId);
+        if (module != null) {
+            if(!module.getModuleEventClientList().isEmpty()){
+                Date date = new Date();
+                module.setDeleteDate(date);
+                moduleDao.update(module);
+            }else{
+                moduleDao.delete(module);
+            }
         } else {
-            addError("Модуль не найден по: " + moduleId);
+            addError("Модуль не найден по ИД: " + moduleId);
         }
         
     }
@@ -78,7 +82,6 @@ public class ModuleService extends PrimService {
                     moduleDao.update(module);
                 }*/
                 if(validate(nm)){
-
                     deleteModule(moduleId);
                     moduleDao.save(nm);
                     return nm.getId();

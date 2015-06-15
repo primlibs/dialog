@@ -719,9 +719,9 @@ public class EventService extends PrimService {
                     FailReason fr = failReasonDao.find(reasonId);
                     ev.setFinalComment(finalComment);
                     ev.setFailReason(fr);
-                    ev.setStatus(Event.FAILED);
                     if (validate(ev)) {
                         writeModulesInHistory(pkId,eventId,moduleIds,dates);
+                        ev.setStatus(Event.FAILED);
                         eventDao.update(ev);
                         return true;
                     }
@@ -745,9 +745,9 @@ public class EventService extends PrimService {
                 if (!finalComment.equals("")) {
                     ev.setFinalComment(finalComment);
                     ev.setSuccessDate(successDate);
-                    ev.setStatus(Event.SUCCESSFUL);
                     if (validate(ev)) {
                         writeModulesInHistory(pkId,eventId,moduleIds,dates);
+                        ev.setStatus(Event.SUCCESSFUL);
                         eventDao.update(ev);
                         return true;
                     }
@@ -794,6 +794,14 @@ public class EventService extends PrimService {
 
     public boolean writeModulesInHistory(Long pkId,Long eventId, Long[] moduleIds,Long[]dates) {
         Event ev = eventDao.find(eventId);
+        String ms = "ids:";
+        for(Long id:moduleIds){
+            ms+=id+"; ";
+        }
+        ms+="dates: ";
+        for(Long d:dates){
+            ms+=d+"; ";
+        }
         if (ev != null && moduleIds != null && dates != null && dates.length > 0 && moduleIds.length > 0 && dates.length==moduleIds.length) {
             List<ModuleEventClient> history = new ArrayList();
             Strategy strat = ev.getCampaign().getStrategy();
@@ -803,6 +811,7 @@ public class EventService extends PrimService {
                     Date date = new Date(dates[i]);
                     Module mod = moduleDao.find(moduleIds[i]);
                     if(mod!=null){
+                        addError(ms);
                         ModuleEventClient mec = new ModuleEventClient();
                         mec.setCabinet(pk);
                         mec.setEvent(ev);
@@ -816,6 +825,8 @@ public class EventService extends PrimService {
                         //??mec.setSign(null);
                     }
                 }
+            }else{
+                addError("ev:"+ev.isClosed()+"; "+pkId+"; str="+strat);
             }
             for(ModuleEventClient mec:history){
                 moduleEventClientDao.save(mec);
@@ -901,5 +912,11 @@ public class EventService extends PrimService {
         }
         return null;
     }
+    
+    /*public void setEventsUnassigned(Long pkId,Long userId){
+        List<Event> assignedEvents
+    }*/
+    
+ 
 
 }
