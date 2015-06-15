@@ -12,6 +12,7 @@ import entities.Event;
 import entities.PersonalCabinet;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
@@ -317,11 +318,11 @@ public class EventDao extends Dao<Event> {
         return query.list();
     }
     
-    public HashMap<Long,HashMap<String,String>> getFinishedAndUnassignedEventCountsInCampaignsAsMap(Long cabinetId){
-        String hql="select ev.campaign,sum(case when ev.user is not null then 1 else 0 end),sum(case when ev.finalComment is not null then 1 else 0 end) from Event ev where ev.cabinet.pkId=:cabinetId group by ev.campaign";
+    public LinkedHashMap<Long,HashMap<String,String>> getFinishedAndUnassignedEventCountsInCampaignsAsMap(Long cabinetId){
+        String hql="select ev.campaign,sum(case when ev.user is not null then 1 else 0 end),sum(case when ev.finalComment is not null then 1 else 0 end) from Event ev where ev.cabinet.pkId=:cabinetId group by ev.campaign order by ev.campaign.creationDate,ev.campaign.status desc";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("cabinetId", cabinetId);
-        HashMap<Long,HashMap<String,String>> res=new HashMap();
+        LinkedHashMap<Long,HashMap<String,String>> res=new LinkedHashMap();
         List<Object[]> list = query.list();
         for(Object[] o:list){
             Campaign c = (Campaign)o[0];

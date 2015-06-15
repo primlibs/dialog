@@ -124,7 +124,7 @@ public class EventService extends PrimService {
 
     public LinkedHashMap<Campaign, HashMap<String, String>> getCampaignsWithCountInfos(Long cabinetId) {
         LinkedHashMap<Campaign, HashMap<String, String>> res = new LinkedHashMap();
-        HashMap<Long, HashMap<String, String>> countMap = eventDao.getFinishedAndUnassignedEventCountsInCampaignsAsMap(cabinetId);
+        LinkedHashMap<Long, HashMap<String, String>> countMap = eventDao.getFinishedAndUnassignedEventCountsInCampaignsAsMap(cabinetId);
         for (Campaign c : campaignDao.getAllCampaigns(cabinetId)) {
             HashMap<String, String> InfoMap = countMap.get(c.getId());
             if (InfoMap == null) {

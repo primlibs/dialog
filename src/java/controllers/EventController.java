@@ -291,6 +291,10 @@ public class EventController extends WebController {
             @RequestParam(value = "eventId", required = false) Long eventId,
             HttpServletRequest request,
             RedirectAttributes ras) throws Exception {
+        List<String>errors = (List<String>)model.get("errors");
+        if(errors==null){
+            errors = new ArrayList();
+        }
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         User user = authManager.getCurrentUser();
@@ -314,7 +318,8 @@ public class EventController extends WebController {
         //model.put("errors", eventService.getError());
         model.put("strategy", strategyService.getStrategy(strategyId));
         model.put("аctiveMap", groupService.getActiveMap(strategyId));
-        addErrors(model, eventService.getError());
+        errors.addAll(eventService.getError());
+        model.put("errors", errors);
         return "event";
     }
 

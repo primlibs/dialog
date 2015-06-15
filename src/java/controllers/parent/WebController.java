@@ -80,7 +80,7 @@ public class WebController {
 
  
 
-    protected void addErrors(Map<String, Object> model, List<String>newErrors) {
+    /*protected void addErrors(Map<String, Object> model, List<String>newErrors) {
         List<String> errors = (List<String>)model.get(ERRORS_LIST_NAME);
         if(errors==null){
             errors=new ArrayList();
@@ -88,7 +88,7 @@ public class WebController {
         errors.addAll(newErrors);
         model.put(ERRORS_LIST_NAME, errors);
     }
-
+*/
     protected void addErrors(RedirectAttributes ra, ServiceResult res) {
         ra.addFlashAttribute(ERRORS_LIST_NAME, res.getErrors());
     }

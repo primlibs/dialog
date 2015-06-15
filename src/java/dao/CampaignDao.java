@@ -24,7 +24,7 @@ public class CampaignDao extends Dao<Campaign> {
     }
     
     public List<Campaign> getAllCampaigns(Long pkId){
-        String hql = "from Campaign where cabinet.pkId=:pkId order by creationDate";
+        String hql = "from Campaign where cabinet.pkId=:pkId order by creationDate desc,status desc";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("pkId", pkId);
         return query.list();
