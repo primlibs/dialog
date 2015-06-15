@@ -64,22 +64,31 @@ public class ModuleService extends PrimService {
         Module module = moduleDao.find(moduleId);
         
         if (module != null) {
-            Module nm=new Module();
-            nm.setBodyText(bodyText);
-            nm.setCabinet(module.getCabinet());
-            nm.setGroup(module.getGroup());
-            nm.setStrategy(module.getStrategy());
-            nm.setModuleName(module.getModuleName());
-            
-            
-            /*module.setBodyText(bodyText);
-            if (validate(module)) {
-                moduleDao.update(module);
-            }*/
-            if(validate(nm)){
-                deleteModule(moduleId);
-                moduleDao.save(nm);
-                return nm.getId();
+            if(!module.getModuleEventClientList().isEmpty()){
+                Module nm=new Module();
+                nm.setBodyText(bodyText);
+                nm.setCabinet(module.getCabinet());
+                nm.setGroup(module.getGroup());
+                nm.setStrategy(module.getStrategy());
+                nm.setModuleName(module.getModuleName());
+
+
+                /*module.setBodyText(bodyText);
+                if (validate(module)) {
+                    moduleDao.update(module);
+                }*/
+                if(validate(nm)){
+
+                    deleteModule(moduleId);
+                    moduleDao.save(nm);
+                    return nm.getId();
+                }
+            }else{
+                module.setBodyText(bodyText);
+                if (validate(module)) {
+                    moduleDao.update(module);
+                    //return moduleId;
+                }
             }
             
         } else {
