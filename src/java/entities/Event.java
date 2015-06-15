@@ -200,7 +200,6 @@ public class Event extends PrimEntity {
     }
     
     public String getRusStatus(){
-        String res = "Не назначено";
         if(UNASSIGNED==status){
             return "Не назначено";
         }else if(ASSIGNED==status){

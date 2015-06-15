@@ -104,7 +104,6 @@
                     <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&processed=-1"/>'"> ${assignedNotProcessedEventsCount}</div></td>
                     <td><a href="#" class="btn btn-large btn-warning" id="changeAssignFromSpec"
                                         data-userId=""
-                                        data-campaignId="${campaign.campaignId}"
                                         data-toggle="modal"
                                         data-target="#basicModalChangeAssign">Изменить</a></td>
                 </tr>
@@ -121,8 +120,8 @@
                                             <div class="modal-body">
                                                 <form id="reassignEvents" action="<c:url value="/Event/postponeEvent" />" method="post">
                                                     
-                                                    <input type="hidden" name="campaignId" value=${param.campaignId}>
-                                                    <input type="hidden" name="eventId" value=${event.eventId}>
+                                                    <input type="hidden" name="campaignId" value=${campaign.campaignId}>
+                                                    <input type="hidden" name="userId" value="">
                                                     <p>    <input class="btn btn-primary" type="submit" value="Изменить">
                                                 </form>
 

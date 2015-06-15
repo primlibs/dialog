@@ -365,8 +365,8 @@ public class EventController extends WebController {
     @RequestMapping("/badFinish")
     public String badFinish(Map<String, Object> model, @RequestParam(value = "eventId") Long eventId,
             @RequestParam(value = "failReasonId") Long failReasonId,@RequestParam(value = "campaignId") Long campaignId,
-            @RequestParam(value = "comment") String finalComment,@RequestParam(value = "modules") Long[] modules,
-            @RequestParam(value = "dates") Long[] dates,RedirectAttributes ras, HttpServletRequest request) throws Exception {
+            @RequestParam(value = "comment") String finalComment,@RequestParam(value = "modules",required = false) Long[] modules,
+            @RequestParam(value = "dates",required = false) Long[] dates,RedirectAttributes ras, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         User user = authManager.getCurrentUser();
