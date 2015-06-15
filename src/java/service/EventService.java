@@ -794,14 +794,6 @@ public class EventService extends PrimService {
 
     public boolean writeModulesInHistory(Long pkId,Long eventId, Long[] moduleIds,Long[]dates) {
         Event ev = eventDao.find(eventId);
-        String ms = "ids:";
-        for(Long id:moduleIds){
-            ms+=id+"; ";
-        }
-        ms+="dates: ";
-        for(Long d:dates){
-            ms+=d+"; ";
-        }
         if (ev != null && moduleIds != null && dates != null && dates.length > 0 && moduleIds.length > 0 && dates.length==moduleIds.length) {
             List<ModuleEventClient> history = new ArrayList();
             Strategy strat = ev.getCampaign().getStrategy();
@@ -811,7 +803,6 @@ public class EventService extends PrimService {
                     Date date = new Date(dates[i]);
                     Module mod = moduleDao.find(moduleIds[i]);
                     if(mod!=null){
-                        addError(ms);
                         ModuleEventClient mec = new ModuleEventClient();
                         mec.setCabinet(pk);
                         mec.setEvent(ev);
@@ -826,7 +817,7 @@ public class EventService extends PrimService {
                     }
                 }
             }else{
-                addError("ev:"+ev.isClosed()+"; "+pkId+"; str="+strat);
+                //addError("ev:"+ev.isClosed()+"; "+pkId+"; str="+strat);
             }
             for(ModuleEventClient mec:history){
                 moduleEventClientDao.save(mec);
