@@ -8,8 +8,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Диалог +||Построение телефонных продаж за 1 день</title>
-        <link rel="shortcut icon" href="./img/icon.png">
+        <title>Диалог||Построение телефонных продаж за 1 день</title>
+        <link rel="shortcut icon" href="./img/icon(D).png">
         <%@include file="/WEB-INF/jsp/css_js.jsp" %>
     </head>
     <body class="container">

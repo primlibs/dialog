@@ -8,9 +8,7 @@ package service;
 import dao.GroupDao;
 import dao.ModuleDao;
 import dao.PersonalCabinetDao;
-import entities.Group;
 import entities.Module;
-import entities.PersonalCabinet;
 import java.util.Date;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +35,7 @@ public class ModuleService extends PrimService {
     @Autowired
     private GroupDao groupDao;
     
-    public void deletModule(Long moduleId) {
+    public void deleteModule(Long moduleId) {
         Module modul = moduleDao.find(moduleId);
         if (moduleId != null) {
             Date date = new Date();
@@ -60,20 +58,34 @@ public class ModuleService extends PrimService {
         }
     }
     
-    public void addBodyText(Long moduleId,
+    public Long addBodyText(Long moduleId,
             String bodyText) {
-        
+        //TO DO check for links if null - delete
         Module module = moduleDao.find(moduleId);
         
-        if (moduleId != null) {
-            module.setBodyText(bodyText);
+        if (module != null) {
+            Module nm=new Module();
+            nm.setBodyText(bodyText);
+            nm.setCabinet(module.getCabinet());
+            nm.setGroup(module.getGroup());
+            nm.setStrategy(module.getStrategy());
+            nm.setModuleName(module.getModuleName());
+            
+            
+            /*module.setBodyText(bodyText);
             if (validate(module)) {
                 moduleDao.update(module);
+            }*/
+            if(validate(nm)){
+                deleteModule(moduleId);
+                moduleDao.save(nm);
+                return nm.getId();
             }
             
         } else {
             addError("Ошибка модуль не найден по id " + moduleId);
         }
+        return moduleId;
         
     }
 

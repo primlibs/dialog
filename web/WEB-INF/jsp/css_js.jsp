@@ -9,7 +9,7 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags" %> 
 
 <title>Диалог || Построение телефонных продаж за 1 день</title>
-<link rel="shortcut icon" href="/img/icon.png">
+<link rel="shortcut icon" href="/img/icon(D).png">
 
 <!--    css -->
 <link href="<c:url value='/css/bootstrap.css'/>" rel="stylesheet" media="screen">

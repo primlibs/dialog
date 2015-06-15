@@ -12,7 +12,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="./css/bootstrap.min.css" rel="stylesheet" type="text/css" >
-        <link rel="shortcut icon" href="./img/icon.png">
+        <link rel="shortcut icon" href="./img/icon(D).png">
     </head>
     <body >
 <script src="<c:url value='/js/jquery-1.11.2.min.js'/>"> </script>
@@ -23,9 +23,9 @@
                 <nav class="navbar navbar-default navbar-fixed-top">
                     <div class="container-fluid">
                         <div class="navbar-header">
-                            <a class="navbar-brand" href="#">
-                                <img alt="Brand" src="./img/icon.png" width=22 style="float: left;"/>
-                                <span style="float: left;margin-left: 10px;font-size: 25px;">Диалог</span>
+                            <a class="navbar-brand" style="padding:10px 15px;" href="#">
+                                <img alt="Brand" src="./img/icon.png" style="float: left;width: 150px;"/>
+                                <!--<span style="float: left;margin-left: 10px;font-size: 25px;">Диалог</span>-->
 
                             </a>
                         </div>

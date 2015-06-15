@@ -164,7 +164,7 @@ public class StrategyController extends WebController {
             RedirectAttributes ras) {
 
         if (moduleId != null) {
-            moduleService.addBodyText(moduleId, bodyText);
+            moduleId = moduleService.addBodyText(moduleId, bodyText);
         } else {
             ras.addFlashAttribute("errors", "Выберите модуль");
         }
