@@ -161,17 +161,21 @@ public class UserController extends WebController {
     }
 
     @RequestMapping("/deleteUser")
-    public String deleteUser(Map<String, Object> model, HttpServletRequest request,
-            @RequestParam(value = "cabinetUserId") Long cabinetUserId) throws Exception {
+    public String deleteUser(Map<String, Object> model, HttpServletRequest request,@RequestParam(value = "cabinetUserIdtoDelete") Long cabinetUserIdtoDelete,
+            @RequestParam(value = "cabinetUserIdtoAssign",required = false) Long cabinetUserIdtoAssign,RedirectAttributes ras) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
-        if (cabinetUserId != null ) {
+        /*if (cabinetUserId != null ) {
             userService.deleteUser(cabinetUserId);
-        }
+        }*/
+        
+        userService.deleteUser(cabinetUserIdtoDelete,cabinetUserIdtoAssign,cabinetId);
 
-        model.put("cabinetUserList", userService.cabinetUserList(cabinetId));
+        /*model.put("cabinetUserList", userService.cabinetUserList(cabinetId));
         model.put("errors", userService.getError());
-        return "userList";
+        return "userList";*/
+        ras.addFlashAttribute(ERRORS_LIST_NAME, userService.getError());
+        return "redirect:/User/userList";
     }
 }

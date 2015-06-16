@@ -56,6 +56,14 @@ public class CabinetUserDao extends Dao<CabinetUser> {
         query.setParameter("pkId", pkId);
         return query.list();
     }
+    
+    public CabinetUser getCUByIdAndCabinet(Long cabinetUserId,Long pkId){
+        String hql = "from CabinetUser cu where cu.cabinet.pkId=:pkId and cu.cabinetUserId=cuId and cu.deleteDate is null";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("pkId", pkId);
+        query.setParameter("cuId", cabinetUserId);
+        return (CabinetUser)query.uniqueResult();
+    }
 
 
 }

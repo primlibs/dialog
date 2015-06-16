@@ -199,6 +199,14 @@ public class Event extends PrimEntity {
         return false;
     }
     
+    public void setUnassignedUnPostponed(){
+        if(!isClosed()){
+            this.status=UNASSIGNED;
+            this.user=null;
+            this.postponedDate=null;
+        }
+    }
+    
     public String getRusStatus(){
         if(UNASSIGNED==status){
             return "Не назначено";

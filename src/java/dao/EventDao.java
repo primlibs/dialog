@@ -45,6 +45,14 @@ public class EventDao extends Dao<Event> {
         }
     }
     
+    public List<Event> getActiveEvents(Long userId,Long pkId){
+        String hql = "from Event ev where ev.user.userId=:userId and ev.cabinet.pkId=:pkId and ev.status!=4 and ev.status!=3";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("userId", userId);
+        query.setParameter("pkId", pkId);
+        return query.list();
+    }
+    
     public Integer getAssignedEventsCount(Long campaignId, Long cabinetId){
         String hql = "select count(ev.eventId) from Event ev where ev.campaign.campaignId=:campaignId and ev.cabinet.pkId=:pkId and ev.user is not null";
         Query query = getCurrentSession().createQuery(hql);

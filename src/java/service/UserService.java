@@ -310,7 +310,7 @@ public class UserService extends PrimService {
 
     }
 
-    public void deleteUser(Long cabinetUserId) {
+    /*public void deleteUser(Long cabinetUserId) {
         CabinetUser cabinenUser = cabinetUserDao.find(cabinetUserId);
         
         Date date = new Date();
@@ -326,6 +326,41 @@ public class UserService extends PrimService {
             cabinetUserDao.update(cabinenUser);
         } else {
             addError("Юзер не найден по: " + cabinetUserId );
+        }
+
+    }*/
+    
+    public void deleteUser(Long cabinetUserIdtoDelete,Long cabinetUserIdtoAssign,Long pkId) {
+        CabinetUser deletingCu = cabinetUserDao.getCUByIdAndCabinet(cabinetUserIdtoDelete,pkId);
+        CabinetUser assigningCu = cabinetUserDao.getCUByIdAndCabinet(cabinetUserIdtoAssign,pkId);
+        
+        List<Event>eventsForUpdate = new ArrayList();
+        
+        Date date = new Date();
+        if (deletingCu != null) {
+            User user = deletingCu.getUser();
+            if(assigningCu!=null){
+                for(Event ev:eventDao.getActiveEvents(user.getId(), pkId)){
+                    ev.setUser(assigningCu.getUser());
+                    if(validate(ev)){
+                        eventsForUpdate.add(ev);
+                    }
+                }
+            }else{
+                for(Event ev:eventDao.getActiveEvents(user.getId(), pkId)){
+                    ev.setUnassignedUnPostponed();
+                    if(validate(ev)){
+                        eventsForUpdate.add(ev);
+                    }
+                }
+            }
+            deletingCu.setDeleteDate(date);
+            cabinetUserDao.update(deletingCu);
+            for(Event ev:eventsForUpdate){
+                eventDao.update(ev);
+            }
+        } else {
+            addError("Пользователь не найден по ИД: " + cabinetUserIdtoDelete );
         }
 
     }

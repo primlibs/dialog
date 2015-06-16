@@ -38,7 +38,7 @@
             </tr>
             <c:forEach var="cabinetUser" items="${cabinetUserList}" varStatus="myIndex">
 
-                <tr>
+                <tr id="${cabinetUser.cabinetUserId}">
                     <td>${myIndex.count}</td>
                     <td>${cabinetUser.user.email}</td>
                     <td class="changebleUserListParam" name="surname" data-cabinetUserId="${cabinetUser.cabinetUserId}">${cabinetUser.user.surname}</td>
@@ -50,11 +50,38 @@
                     <c:if test="${cabinetUser.makesCalls==1}"><c:set var="makesCalls" value="Да" /></c:if>
                     <c:if test="${cabinetUser.makesCalls==null}"><c:set var="makesCalls" value="Нет" /></c:if>
                     <td class="${updatebleClass}" name="makingCalls" data-cabinetUserId="${cabinetUser.cabinetUserId}">${makesCalls}</td>
-                    <td><div style="cursor: pointer;display: inline;" ondblclick="location = '<c:url value="/User/deleteUser?cabinetUserId=${cabinetUser.cabinetUserId}&userId=${cabinetUser.user.userId}"/>'" >Удалить</div></td>
+                    <!--<td><div style="cursor: pointer;display: inline;" ondblclick="location = '<c:url value="/User/deleteUser?cabinetUserId=${cabinetUser.cabinetUserId}&userId=${cabinetUser.user.userId}"/>'" >Удалить</div></td>-->
+                    <td><a href="#" id="${cabinetUser.cabinetUserId}" class="btn btn-danger deletinghref"
+                                        data-cuid="${cabinetUser.cabinetUserId}"
+                                        data-toggle="modal"
+                                        data-target="#deleteWindow">Удалить</a></td>
                 </tr>
             </c:forEach>
         </table>
+<div class="modal fade" id="deleteWindow" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                                <h4 class="modal-title" id="myModalLabel">Удаление пользователя</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form id="deleteUserWindow" action="<c:url value="/User/deleteUser?cabinetUserId=${cabinetUser.cabinetUserId}&userId=${cabinetUser.user.userId}"/>" method="post">
+                                                    <p>Что сделть с назначенными клиентами?
+                                                    <p><select name="cabinetUserIdtoAssign">
+                                                        <option vlaue="">Снять назначения и удалить информацию о переносах</option>
+                                                    <c:forEach var="cabinetUser" items="${cabinetUserList}" varStatus="myIndex">
+                                                        <option value="${cabinetUser.cabinetUserId}">Назначить на ${cabinetUser.user.surname} ${cabinetUser.user.name} - ${cabinetUser.user.email}</option>
+                                                    </c:forEach>
+                                                        </select>
+                                                        <input type="hidden" name="cabinetUserIdtoDelete" value="">
+                                                    <p>     <input class="btn btn-danger" type="submit" value="Удалить">
+                                                </form>
 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
 
     </body>
