@@ -188,22 +188,25 @@ public class StrategyService extends PrimService {
 
     }
 
-    public void reanameStrategy(Long strategyId, String name) {
+    public void renameStrategy(Long strategyId, String name) {
         Strategy str = strategyDao.find(strategyId);
-
-        Boolean exists = false;
-        for (Strategy strat : str.getCabinet().getActiveStrategyList()) {
-            if (strat.getStrategyName().equalsIgnoreCase(name)) {
-                exists = true;
-                break;
+        if(!name.equals("")){
+            Boolean exists = false;
+            for (Strategy strat : str.getCabinet().getActiveStrategyList()) {
+                if (strat.getStrategyName().equalsIgnoreCase(name)) {
+                    exists = true;
+                    break;
+                }
             }
-        }
 
-        if (!exists) {
-            str.setStrategyName(name);
-            updateStrategy(str);
-        } else {
-            addError("Cтратегия с названием " + name + " уже существует");
+            if (!exists) {
+                str.setStrategyName(name);
+                if(validate(str)){
+                    updateStrategy(str);
+                }
+            } else {
+                addError("Cтратегия с названием " + name + " уже существует");
+            }
         }
     }
 

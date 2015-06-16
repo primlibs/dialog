@@ -14,10 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.FailReasonService;
 import service.ModuleService;
 import service.StrategyService;
+import support.StringAdapter;
 
 /**
  *
@@ -85,11 +87,15 @@ public class StrategyController extends WebController {
     }
 
     @RequestMapping("/renameStrategy")
+    @ResponseBody
     public String renameStrategy(Map<String, Object> model, HttpServletRequest request, @RequestParam(value = "strategyId") Long strategyId,
             @RequestParam(value = "name") String name, RedirectAttributes ras) {
-        strategyService.reanameStrategy(strategyId, name);
-        ras.addFlashAttribute("errors", strategyService.getError());
-        return "redirect:/Strategy/show";
+        strategyService.renameStrategy(strategyId, name);
+        Boolean result = false;
+        if(strategyService.getError().isEmpty()){
+            result=true;
+        }
+        return StringAdapter.getString(result);
     }
 
     @RequestMapping("/addGroup")
