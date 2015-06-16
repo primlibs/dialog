@@ -148,7 +148,7 @@ public class UserController extends WebController {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         
-        boolean performed = userService.updateUserField(paramType, cabinetUserId, newVal);
+        boolean performed = userService.updateUserField(paramType, cabinetUserId, newVal,cabinetId);
         if(performed){
             return StringAdapter.getString(performed);
         } else{

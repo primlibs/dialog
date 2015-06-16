@@ -904,6 +904,10 @@ public class EventService extends PrimService {
         return null;
     }
     
+    public List<Event> getPostponedEvents(Long userId,Long pkId){
+        return eventDao.getPostponedEvents(userId, pkId);
+    }
+    
     /*public void setEventsUnassigned(Long pkId,Long userId){
         List<Event> assignedEvents
     }*/

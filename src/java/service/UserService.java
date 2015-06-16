@@ -97,7 +97,7 @@ public class UserService extends PrimService {
 
     }
     
-    public boolean updateUserField(String field,Long cabinetUserId,String newVal){
+    public boolean updateUserField(String field,Long cabinetUserId,String newVal,Long pkId){
         boolean performed = false;
         Boolean cuRole = null;
         CabinetUser cu = cabinetUserDao.find(cabinetUserId);
@@ -106,7 +106,18 @@ public class UserService extends PrimService {
             switch (field){
                 case "makingCalls":
                     if(newVal.equals("Нет")){
-                        cu.setMakesCalls(null);
+                        if(eventDao.getPostponedEvents(user.getId(), pkId).isEmpty()){
+                            for(Event ev:eventDao.getActiveEvents(pkId, pkId)){
+                                ev.setUser(null);
+                                ev.setStatus(Event.UNASSIGNED);
+                                if(validate(ev)){
+                                    eventDao.update(ev);
+                                }
+                            }
+                            cu.setMakesCalls(null);
+                        }else{
+                            addError("У пользователя есть отложенные контакты с клиентами.");
+                        }
                     }else if(newVal.equals("Да")){
                         cu.setMakesCalls((short)1);
                     }
@@ -115,6 +126,7 @@ public class UserService extends PrimService {
                 case "userRole":
                     if(newVal.equals("Пользователь")){
                         cu.setUserRole("user");
+                        cu.setMakesCalls((short)1);
                     }else if(newVal.equals("Администратор")){
                         cu.setUserRole("admin");
                     }
