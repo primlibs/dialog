@@ -67,7 +67,7 @@
                                             </div>
                                             <div class="modal-body">
                                                 <form id="deleteUserWindow" action="<c:url value="/User/deleteUser?cabinetUserId=${cabinetUser.cabinetUserId}&userId=${cabinetUser.user.userId}"/>" method="post">
-                                                    <p>Что сделть с назначенными клиентами?
+                                                    <p>Что сделать с назначенными клиентами?
                                                     <p><select name="cabinetUserIdtoAssign">
                                                         <option vlaue="">Снять назначения и удалить информацию о переносах</option>
                                                     <c:forEach var="cabinetUser" items="${cabinetUserList}" varStatus="myIndex">

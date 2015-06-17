@@ -4,6 +4,7 @@
     Author     : Юрий
 --%>
 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -30,7 +31,9 @@
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
         <div class="row form-group">
-            <h4>   Стратегия: ${strategy.strategyName}</h4>
+            <span style="font-size: 18px;">   Стратегия: ${strategy.strategyName}</span><c:if test="${not empty event.postponedDate}">
+                <span> Контакт был перенесен на <fmt:formatDate type="both" value="${event.postponedDate}"/></span>
+                            </c:if>
         </div>
             <div class="row">
                     <!--<input type="hidden" name="eventId" id="eventId" value=${event.eventId}>-->
@@ -51,10 +54,10 @@
                             <td class="changebleParam" id="phoneSecretary">${event.client.getFormattedPhoneSec()} </td>
                             <td class="changebleParam" id="nameLpr">${event.client.nameLpr} </td>
                             <td class="changebleParam" id="phoneLpr">${event.client.getFormattedPhoneLpr()} </td>
-                            <td class="" id="comment">${event.comment} </td>
+                            <td class="changebleParam" id="comment" data-eventId="${event.eventId}">${event.comment} </td>
                         </tr>
                     </table>
-
+                            
                     <div class="row">
                         <div class="col-md-7" style="float:left;" id="moduleShow"></div>
 

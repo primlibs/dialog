@@ -62,9 +62,10 @@ $(function(){
                 var newVal = $('#input').val();
                 var target = $(event.target);
                 var cientId = $('#moduleBufer').attr('data-clientid');
+                var eventId = changebleElem.attr('data-eventId')
                 if (target.attr('name') !== paramType) {
                     $.ajax({
-                        url:"../Event/updateClientFromUser?clientId="+cientId+"&param="+paramType+"&newVal="+newVal,
+                        url:"../Event/updateClientFromUser?clientId="+cientId+"&param="+paramType+"&newVal="+newVal+"&eventId="+eventId,
                         dataType : "json",
                         cache: false,
                         success: function(json){

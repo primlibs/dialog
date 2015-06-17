@@ -7,11 +7,11 @@ package service;
 
 
 import dao.ClientDao;
+import dao.EventDao;
 import dao.ModuleDao;
 import entities.Client;
 import entities.Event;
 import entities.Module;
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -19,7 +19,6 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.parent.PrimService;
-import support.StringAdapter;
 
 /**
  *
@@ -34,6 +33,8 @@ public class ClientService extends PrimService {
     private ClientDao clientDao;
     @Autowired
     private ModuleDao moduleDao;
+    @Autowired
+    private EventDao eventDao;
     
     public List<Client> getCabinetClients(Long pkId){
         return clientDao.getCabinetClients(pkId);
@@ -84,9 +85,11 @@ public class ClientService extends PrimService {
         return dialog;
     }
     
-    public boolean updateClientField(String field,Long clientId,String newVal){
-        boolean performed=false;
+    public void updateClientField(String field,Long clientId,Long eventId,String newVal){
+        //boolean performed=false;
         Client client = clientDao.find(clientId);
+        Event ev = eventDao.find(eventId);
+        boolean inEvent = false;
         if(client!=null){
             switch (field){
                 case "adress":
@@ -104,19 +107,33 @@ public class ClientService extends PrimService {
                 case "phoneLpr":
                     client.setPhoneLpr(newVal);
                     break;
+                case "comment":
+                    ev.setComment(newVal);
+                    inEvent=true;
+                    break;
                 default:client=null;
                     break;
             }
         }else{
             addError("Клиент с ИД:"+clientId+" не найден");
         }
-        if(client!=null){
-            if(validate(client)){
-                clientDao.update(client);
-                performed=true;
+        if(inEvent){
+            if(ev!=null){
+                if(validate(ev)){
+                    eventDao.update(ev);
+                }
+            }else{
+                addError("Эвент не найден");
+            }
+        }else{
+            if(client!=null){
+                if(validate(client)){
+                    clientDao.update(client);
+                }
+            }else{
+                addError("Клиент не найден");
             }
         }
-        return performed;
     }
     
 }

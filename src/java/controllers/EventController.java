@@ -339,17 +339,29 @@ public class EventController extends WebController {
 
     @RequestMapping("updateClientFromUser")
     @ResponseBody
-    public String updateClient(Map<String, Object> model, @RequestParam(value = "clientId") Long clientId, @RequestParam(value = "param") String param, @RequestParam(value = "newVal") String newVal, HttpServletRequest request) throws Exception {
+    public String updateClientOrEvent(Map<String, Object> model, @RequestParam(value = "eventId",required = false) Long eventId,
+            @RequestParam(value = "clientId") Long clientId, @RequestParam(value = "param") String param, 
+            @RequestParam(value = "newVal") String newVal, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
 
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
-        boolean performed = clientService.updateClientField(param, clientId, newVal);
-        if (performed) {
-            return StringAdapter.getString(performed);
+        clientService.updateClientField(param, clientId,eventId, newVal);
+        List<String>errs=(List<String>)model.get("errors");
+        if(errs==null){
+            errs=new ArrayList();
+        }
+        List<String>serviceErrs=clientService.getError();
+        if(serviceErrs==null){
+            serviceErrs=new ArrayList();
+        }
+        errs.addAll(serviceErrs);
+        
+        if (errs.isEmpty()) {
+            return StringAdapter.getString(true);
         } else {
             String err = "";
-            for (String s : clientService.getError()) {
+            for (String s : errs) {
                 err += s + "; ";
             }
             return "Ошибка: " + err;
