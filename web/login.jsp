@@ -73,9 +73,9 @@
             <div >
                 <div class="row">
                     <div class="col-sm-3"></div>
-                    <div class="col-sm-7">
+                    <!--<div class="col-sm-7">
                         <iframe width="560" height="315" src="https://www.youtube.com/embed/G0eIbWXek-Q" frameborder="0" allowfullscreen></iframe>
-                    </div>
+                    </div>-->
                 </div>
                 <h1><a href="<c:url value="/Registration/registration" />" class="label label-warning">Попробовать</a></h1>
 

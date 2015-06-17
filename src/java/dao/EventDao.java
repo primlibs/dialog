@@ -296,16 +296,16 @@ public class EventDao extends Dao<Event> {
         return query.list();
     }
     
-     // ДОПИСАТЬ ЗАПРОС лист Ссылкок event по campaignId НЕ ОБРАБОТАНЫХ по userId
+     // Лист для выбора эвента с выводом оператору
     public List<Event> getEventListByUserByCampaign(Long campaignId, Long cabinetId, Long userId) {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MINUTE, 10);
-        String hql = "from Event ev where ev.campaign.campaignId=:campaignId and ev.cabinet.pkId=:cabinet and ev.user.userId=:userId and ev.postponedDate<=:dt (ev.status=1 or ev.status=2) order by ev.postponedDate";
+        String hql = "from Event ev where ev.campaign.campaignId=:campaignId and ev.cabinet.pkId=:cabinet and ev.user.userId=:userId and ev.postponedDate<=:dt and (ev.status=1 or ev.status=2) order by ev.postponedDate";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
         query.setParameter("cabinet", cabinetId);
         query.setParameter("userId", userId);
-        query.setParameter("date", cal.getTime());
+        query.setParameter("dt", cal.getTime());
         List<Event> ev = query.list();
         return ev;
     }
