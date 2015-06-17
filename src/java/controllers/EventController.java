@@ -386,8 +386,8 @@ public class EventController extends WebController {
     @RequestMapping("/goodFinish")
     public String goodFinish(Map<String, Object> model, @RequestParam(value = "eventId") Long eventId,
             @RequestParam(value = "successDate") Date successDate,@RequestParam(value = "campaignId") Long campaignId,
-            @RequestParam(value = "comment") String finalComment,@RequestParam(value = "modules") Long[] modules,
-            @RequestParam(value = "dates") Long[] dates,RedirectAttributes ras, HttpServletRequest request) throws Exception {
+            @RequestParam(value = "comment") String finalComment,@RequestParam(value = "modules",required = false) Long[] modules,
+            @RequestParam(value = "dates",required = false) Long[] dates,RedirectAttributes ras, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         User user = authManager.getCurrentUser();
@@ -405,8 +405,8 @@ public class EventController extends WebController {
     @RequestMapping("/postponeEvent")
     public String postponeEvent(Map<String, Object> model, @RequestParam(value = "eventId") Long eventId,
             @RequestParam(value = "postponeDate") Date postponeDate,@RequestParam(value = "campaignId") Long campaignId,
-            @RequestParam(value = "comment") String finalComment,@RequestParam(value = "modules") Long[] modules,
-            @RequestParam(value = "dates") Long[] dates,RedirectAttributes ras, HttpServletRequest request) throws Exception {
+            @RequestParam(value = "comment") String finalComment,@RequestParam(value = "modules",required = false) Long[] modules,
+            @RequestParam(value = "dates",required = false) Long[] dates,RedirectAttributes ras, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         //Date successDate = new Date(successLongDate);
