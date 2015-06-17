@@ -302,7 +302,7 @@ public class EventController extends WebController {
         Long strategyId = eventService.getStrategyId(campaignId);
 
         if (eventId == null) {
-            Event ev = eventService.getEvenByUserByCampaign(campaignId, cabinetId, userId);
+            Event ev = eventService.getEventByUserByCampaign(campaignId, cabinetId, userId);
             if (ev == null) {
                 return "redirect:/Event/campaign";
             }

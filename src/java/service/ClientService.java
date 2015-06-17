@@ -88,8 +88,11 @@ public class ClientService extends PrimService {
     public void updateClientField(String field,Long clientId,Long eventId,String newVal){
         //boolean performed=false;
         Client client = clientDao.find(clientId);
-        Event ev = eventDao.find(eventId);
+        Event ev = null;
         boolean inEvent = false;
+        if(eventId!=null){
+            ev = eventDao.find(eventId);
+        }
         if(client!=null){
             switch (field){
                 case "adress":

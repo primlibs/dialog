@@ -656,7 +656,7 @@ public class EventService extends PrimService {
     }
 
     //лист Ссылкок event по campaignId НЕ ОБРАБОТАНЫХ по userId
-    public Event getEvenByUserByCampaign(Long campaignId, Long cabinetId, Long userId) {
+    public Event getEventByUserByCampaign(Long campaignId, Long cabinetId, Long userId) {
         List<Event> events = eventDao.getEventListByUserByCampaign(campaignId, cabinetId, userId);
         if (events.isEmpty()) {
             return null;

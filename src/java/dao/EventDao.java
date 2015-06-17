@@ -10,6 +10,7 @@ import entities.Client;
 import entities.Campaign;
 import entities.Event;
 import entities.PersonalCabinet;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -297,13 +298,14 @@ public class EventDao extends Dao<Event> {
     
      // ДОПИСАТЬ ЗАПРОС лист Ссылкок event по campaignId НЕ ОБРАБОТАНЫХ по userId
     public List<Event> getEventListByUserByCampaign(Long campaignId, Long cabinetId, Long userId) {
-        Date dt = new Date();
-        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.cabinet.pkId= :cabinet and ev.user.userId= :userId and ev.finalComment is null order by ev.postponedDate";
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MINUTE, 10);
+        String hql = "from Event ev where ev.campaign.campaignId=:campaignId and ev.cabinet.pkId=:cabinet and ev.user.userId=:userId and ev.postponedDate<=:dt (ev.status=1 or ev.status=2) order by ev.postponedDate";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
         query.setParameter("cabinet", cabinetId);
         query.setParameter("userId", userId);
-        // query.setParameter("date", dt);
+        query.setParameter("date", cal.getTime());
         List<Event> ev = query.list();
         return ev;
     }
