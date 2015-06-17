@@ -161,6 +161,7 @@ public class UserService extends PrimService {
                     }
                 }
             }
+            addError(field);
         }else{
             addError("Записи о пользователе в кабинете с ИД:"+cabinetUserId+" не найдено");
         }

@@ -368,7 +368,7 @@ public class EventDao extends Dao<Event> {
     }
     
     public List<Event> getPostponedEvents(Long userId,Long pkId){
-        String hql="from Event ev where ev.userId=:userId and ev.cabinet.pkId=:pkId and ev.status=2";
+        String hql="from Event ev where ev.user.userId=:userId and ev.cabinet.pkId=:pkId and ev.status=2";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("userId", userId);
         query.setParameter("pkId", pkId);

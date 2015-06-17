@@ -7,6 +7,7 @@ package controllers;
 
 import static controllers.LkController.CABINET_ID_SESSION_NAME;
 import controllers.parent.WebController;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -148,12 +149,13 @@ public class UserController extends WebController {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         
-        boolean performed = userService.updateUserField(paramType, cabinetUserId, newVal,cabinetId);
-        if(performed){
-            return StringAdapter.getString(performed);
+        userService.updateUserField(paramType, cabinetUserId, newVal,cabinetId);
+        List<String>serviceErrs=userService.getError();
+        if(serviceErrs.isEmpty()){
+            return StringAdapter.getString(true);
         } else{
             String err = "Ошибка: ";
-            for (String s : userService.getError()) {
+            for (String s : serviceErrs) {
                 err += s + "; ";
             }
             return err;
