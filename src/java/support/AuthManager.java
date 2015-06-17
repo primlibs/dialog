@@ -8,6 +8,7 @@ package support;
 import dao.UserDao;
 import entities.User;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,7 @@ public class AuthManager {
     try {
         messageDigest = MessageDigest.getInstance("MD5");
         messageDigest.reset();
-        messageDigest.update(st.getBytes());
+        messageDigest.update(st.getBytes(StandardCharsets.UTF_8));
         digest = messageDigest.digest();
     } catch (NoSuchAlgorithmException e) {
         e.printStackTrace();
