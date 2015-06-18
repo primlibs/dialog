@@ -658,15 +658,28 @@ public class EventService extends PrimService {
     //лист Ссылкок event по campaignId НЕ ОБРАБОТАНЫХ по userId
     public Event getEventByUserByCampaign(Long campaignId, Long cabinetId, Long userId) {
         List<Event> events = eventDao.getEventListByUserByCampaign(campaignId, cabinetId, userId);
+        //List<Event> pevents = eventDao.getPostponedEvents(campaignId, cabinetId, userId);
+        String err = "";
+        int i=0;
+        /*for(Event ev:events){
+            String date = "no";
+            i++;
+            if(ev.getPostponedDate()!=null){
+                date=ev.getPostponedDate().toString();
+            }
+            addError(i+"client:"+ev.getClient().getNameCompany()+"; ppd:"+date+"; user="+ev.getUser().getEmail()+"; ");
+        }*/
         if (events.isEmpty()) {
             return null;
+        }else{
+            Event pevent = events.get(0);
+            if(pevent.getPostponedDate()!=null){
+                return pevent;
+            }
         }
+        
         java.util.Random rng = new java.util.Random();
         Event ev = events.get(rng.nextInt(events.size()));
-        if (ev.getPostponedDate() != null) {
-            return ev;
-        }
-        ev = events.get(rng.nextInt(events.size()));
         return ev;
     }
 
