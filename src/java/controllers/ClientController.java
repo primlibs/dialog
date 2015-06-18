@@ -52,6 +52,11 @@ public class ClientController extends WebController {
         model.put("adress",adress);
         model.put("name",name);
         model.put("phone",phone);
+        List<Long> selectedTags = new ArrayList();
+        for (Long tag: tags) {
+            selectedTags.add(tag);
+        }
+        model.put("selectedTags", selectedTags);
         
         List<String> clientErrors = clientService.getError();
         if(model.get("errors")!=null){
@@ -59,6 +64,23 @@ public class ClientController extends WebController {
         }
         model.put("errors",clientErrors);
         return "clientList";
+    }
+    
+    @RequestMapping("/getXls")
+    public void getXls(Map<String, Object> model, HttpServletRequest request,@RequestParam(value = "uid", required = false) String uid,
+            @RequestParam(value = "adress", required = false) String adress,@RequestParam(value = "nameCompany", required = false) String nameCompany,
+            @RequestParam(value = "name", required = false) String name,@RequestParam(value = "phone", required = false) String phone,
+            @RequestParam(value = "tags", required = false) Long[] tags) {
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        
+        HSSFWorkbook workbook = clientService.getXls(pkId, uid, adress, nameCompany, name, phone, tags);
+        getXls(response, workbook);
+    }
+    
+    public void getXls(HttpServletResponse response, HSSFWorkbook workbook) {
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; filename=Clients.xls");
+        workbook.write(response.getOutputStream());
     }
     
     @RequestMapping("/oneClient")
