@@ -17,6 +17,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
+import support.DateAdapter;
 import support.StringAdapter;
 
 /**
@@ -305,7 +306,7 @@ public class EventDao extends Dao<Event> {
         query.setParameter("campaignId", campaignId);
         query.setParameter("cabinetId", cabinetId);
         query.setParameter("userId", userId);
-        query.setParameter("dt", cal.getTime());
+        query.setParameter("dt", DateAdapter.getDateFromString(DateAdapter.getDateInMysql(cal)));
         List<Event> ev = query.list();
         return ev;
     }

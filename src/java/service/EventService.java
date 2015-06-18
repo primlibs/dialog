@@ -661,14 +661,14 @@ public class EventService extends PrimService {
         //List<Event> pevents = eventDao.getPostponedEvents(campaignId, cabinetId, userId);
         String err = "";
         int i=0;
-        /*for(Event ev:events){
+        for(Event ev:events){
             String date = "no";
             i++;
             if(ev.getPostponedDate()!=null){
                 date=ev.getPostponedDate().toString();
             }
             addError(i+"client:"+ev.getClient().getNameCompany()+"; ppd:"+date+"; user="+ev.getUser().getEmail()+"; ");
-        }*/
+        }
         if (events.isEmpty()) {
             return null;
         }else{
