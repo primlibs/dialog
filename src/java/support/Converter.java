@@ -15,7 +15,7 @@ import java.util.Date;
  */
 public class Converter {
 
-    private final static String[] formats = {"dd.MM.yyyy hh:mm","dd.MM.yyyy", "yyyy-MM-dd"};
+    private final static String[] formats = {"dd.MM.yyyy HH:mm","dd.MM.yyyy", "yyyy-MM-dd"};
 
     public static Date getDate(String text) throws IllegalArgumentException {
         Date date = null;

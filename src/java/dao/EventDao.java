@@ -17,6 +17,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
+import support.DateAdapter;
 import support.StringAdapter;
 
 /**
@@ -300,12 +301,12 @@ public class EventDao extends Dao<Event> {
     public List<Event> getEventListByUserByCampaign(Long campaignId, Long cabinetId, Long userId) {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MINUTE, 10);
-        String hql = "from Event ev where ev.campaign.campaignId=:campaignId and ev.cabinet.pkId=:cabinet and ev.user.userId=:userId and ev.postponedDate<=:dt and (ev.status=1 or ev.status=2) order by ev.postponedDate";
+        String hql = "from Event ev where ev.campaign.campaignId=:campaignId and ev.cabinet.pkId=:cabinetId and ev.user.userId=:userId and (ev.postponedDate<=:dt or ev.postponedDate is null) and (ev.status=1 or ev.status=2) order by ev.postponedDate desc";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
-        query.setParameter("cabinet", cabinetId);
+        query.setParameter("cabinetId", cabinetId);
         query.setParameter("userId", userId);
-        query.setParameter("dt", cal.getTime());
+        query.setParameter("dt", DateAdapter.getDateFromString(DateAdapter.getDateInMysql(cal)));
         List<Event> ev = query.list();
         return ev;
     }
@@ -372,6 +373,15 @@ public class EventDao extends Dao<Event> {
     public List<Event> getPostponedEvents(Long userId,Long pkId){
         String hql="from Event ev where ev.user.userId=:userId and ev.cabinet.pkId=:pkId and ev.status=2";
         Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("userId", userId);
+        query.setParameter("pkId", pkId);
+        return query.list();
+    }
+    
+    public List<Event> getPostponedEvents(Long campaignId,Long userId,Long pkId){
+        String hql="from Event ev where ev.user.userId=:userId and ev.cabinet.pkId=:pkId and ev.status=2 and ev.campaign.campaignId=:campaignId order by ev.postponedDate desc";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("campaignId", campaignId);
         query.setParameter("userId", userId);
         query.setParameter("pkId", pkId);
         return query.list();

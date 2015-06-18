@@ -49,11 +49,11 @@
                         </tr>
                         <tr>
                             <td>${event.client.nameCompany} </td>
-                            <td class="changebleParam" id="adress">${event.client.address} </td>
-                            <td class="changebleParam" id="nameSecretary">${event.client.nameSecretary} </td>
-                            <td class="changebleParam" id="phoneSecretary">${event.client.getFormattedPhoneSec()} </td>
-                            <td class="changebleParam" id="nameLpr">${event.client.nameLpr} </td>
-                            <td class="changebleParam" id="phoneLpr">${event.client.getFormattedPhoneLpr()} </td>
+                            <td class="changebleParam" id="adress" data-eventId="${event.eventId}">${event.client.address} </td>
+                            <td class="changebleParam" id="nameSecretary" data-eventId="${event.eventId}">${event.client.nameSecretary} </td>
+                            <td class="changebleParam" id="phoneSecretary" data-eventId="${event.eventId}">${event.client.getFormattedPhoneSec()} </td>
+                            <td class="changebleParam" id="nameLpr" data-eventId="${event.eventId}">${event.client.nameLpr} </td>
+                            <td class="changebleParam" id="phoneLpr" data-eventId="${event.eventId}">${event.client.getFormattedPhoneLpr()} </td>
                             <td class="changebleParam" id="comment" data-eventId="${event.eventId}">${event.comment} </td>
                         </tr>
                     </table>
