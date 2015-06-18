@@ -302,8 +302,9 @@ public class EventController extends WebController {
         Long strategyId = eventService.getStrategyId(campaignId);
 
         if (eventId == null) {
-            Event ev = eventService.getEventByUserByCampaign(campaignId, cabinetId, userId);
+            Event ev = eventService.getEventByUserAndCampaign(campaignId, cabinetId, userId);
             if (ev == null) {
+                ras.addFlashAttribute("message", eventService.getMessages());
                 return "redirect:/Event/campaign";
             }
             //eventService.clearHistory(ev.getEventId(),cabinetId);
