@@ -304,7 +304,7 @@ public class EventController extends WebController {
         if (eventId == null) {
             Event ev = eventService.getEventByUserAndCampaign(campaignId, cabinetId, userId);
             if (ev == null) {
-                ras.addFlashAttribute("messages", eventService.getMessages());
+                ras.addFlashAttribute("message", eventService.getMessages());
                 return "redirect:/Event/campaign";
             }
             //eventService.clearHistory(ev.getEventId(),cabinetId);
