@@ -7,10 +7,13 @@ package controllers;
 
 import static controllers.LkController.CABINET_ID_SESSION_NAME;
 import controllers.parent.WebController;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,6 +55,13 @@ public class ClientController extends WebController {
         model.put("adress",adress);
         model.put("name",name);
         model.put("phone",phone);
+        List<Long> selectedTags = new ArrayList();
+        if (tags != null) {
+            for (Long tag: tags) {
+                selectedTags.add(tag);
+            }
+        }
+        model.put("selectedTags", selectedTags);
         
         List<String> clientErrors = clientService.getError();
         if(model.get("errors")!=null){
@@ -59,6 +69,24 @@ public class ClientController extends WebController {
         }
         model.put("errors",clientErrors);
         return "clientList";
+    }
+    
+    @RequestMapping("/getXls")
+    public void getXls(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response,
+            @RequestParam(value = "uid", required = false) String uid,
+            @RequestParam(value = "adress", required = false) String adress,@RequestParam(value = "nameCompany", required = false) String nameCompany,
+            @RequestParam(value = "name", required = false) String name,@RequestParam(value = "phone", required = false) String phone,
+            @RequestParam(value = "tags", required = false) Long[] tags) throws IOException {
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        
+        HSSFWorkbook workbook = clientService.getXls(cabinetId, uid, adress, nameCompany, name, phone, tags);
+        getXls(response, workbook);
+    }
+    
+    public void getXls(HttpServletResponse response, HSSFWorkbook workbook) throws IOException {
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; filename=Clients.xls");
+        workbook.write(response.getOutputStream());
     }
     
     @RequestMapping("/oneClient")
