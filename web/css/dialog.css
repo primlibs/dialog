@@ -58,3 +58,10 @@
 	background-image: -webkit-linear-gradient(bottom, rgba(255, 255, 255, 0.2) 20%, rgba(255,255,255, 0.5) 80%);
 	-webkit-border-bottom-right-radius: 90px 70px;
 }
+.standart_text{
+    color: black;
+}
+.changebleParam{
+    color: #00A1D2;
+    cursor: pointer;
+}
