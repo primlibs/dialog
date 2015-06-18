@@ -57,6 +57,7 @@ public class ClientService extends PrimService {
     public HSSFWorkbook getXls(Long pkId, String uid, String adress, String nameCompany, String name, String phone, Long[] tags) {
         List<Client> clientList = getClientsBySearchRequest(pkId, uid, adress, nameCompany, name, phone, tags);
 
+        HSSFWorkbook workbook = new HSSFWorkbook();
         int n = 0;
         HSSFSheet sheet = workbook.createSheet("Клиенты");
         HSSFRow rowhead = sheet.createRow((short) n);
@@ -74,16 +75,16 @@ public class ClientService extends PrimService {
             HSSFRow row = sheet.createRow((short) n);
             r = 0;
             row.createCell(r++).setCellValue(client.getClientId());
-            row.createCell(r++).setCellValue(client.getNameCompany);
+            row.createCell(r++).setCellValue(client.getNameCompany());
             row.createCell(r++).setCellValue(client.getNameSecretary());
-            row.createCell(r++).setCellValue(client.getPhoneSecretary);
-            row.createCell(r++).setCellValue(client.getNameLpr);
-            row.createCell(r++).setCellValue(client.getPhoneLpr);
-            row.createCell(r++).setCellValue(client.getAddress);
+            row.createCell(r++).setCellValue(client.getPhoneSecretary());
+            row.createCell(r++).setCellValue(client.getNameLpr());
+            row.createCell(r++).setCellValue(client.getPhoneLpr());
+            row.createCell(r++).setCellValue(client.getAddress());
             row.createCell(r++).setCellValue("");
             n++;
         }
-
+        return workbook;
     }
 
     public List<Client> getClientsBySearchRequest(Long pkId, String uid, String adress, String nameCompany, String name, String phone, Long[] tags) {
