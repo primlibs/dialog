@@ -656,7 +656,7 @@ public class EventService extends PrimService {
     }
 
     //лист Ссылкок event по campaignId НЕ ОБРАБОТАНЫХ по userId
-    public Event getEventByUserByCampaign(Long campaignId, Long cabinetId, Long userId) {
+    public Event getEventByUserAndCampaign(Long campaignId, Long cabinetId, Long userId) {
         List<Event> events = eventDao.getEventListByUserByCampaign(campaignId, cabinetId, userId);
         //List<Event> pevents = eventDao.getPostponedEvents(campaignId, cabinetId, userId);
         /*String err = "";
@@ -670,7 +670,15 @@ public class EventService extends PrimService {
             addError(i+"client:"+ev.getClient().getNameCompany()+"; ppd:"+date+"; user="+ev.getUser().getEmail()+"; ");
         }*/
         if (events.isEmpty()) {
-            return null;
+            List<Event> pevents = getPostponedEvents(userId, cabinetId);
+            if(pevents.isEmpty()){
+                addMessage("Список назначенных Вам клиентов пуст!");
+                return null;
+            }else{
+                Event pev = pevents.get(0);
+                addMessage("Список назначенных Вам необработанных клиентов пуст! Ближайший запланированный контакт в рамках кампании: "+pev.getClient().getNameCompany()+" - "+pev.getPostponedDate()+". ");
+                return null;
+            }
         }else{
             Event pevent = events.get(0);
             if(pevent.getPostponedDate()!=null){

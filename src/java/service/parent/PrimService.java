@@ -112,5 +112,17 @@ public class PrimService {
     public List<String> getError(){
         return serviceResult.getErrors();
     }
+    
+    public void addMessage(String message){
+        serviceResult.addMessage(message);
+    }
+    
+    public void addMessages(List<String> messages){
+        serviceResult.addMessages(messages);
+    }
+
+    public List<String> getMessages(){
+        return serviceResult.getMessages();
+    }
 
 }

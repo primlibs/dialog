@@ -19,6 +19,7 @@ public class ServiceResult {
   private Object value = "";
     
   private final List<String> errors = new ArrayList();
+  private final List<String> messages = new ArrayList();
 
   public List<String> getErrors() {
     return errors;
@@ -47,5 +48,25 @@ public class ServiceResult {
     public void setValue(Object value) {
         this.value = value;
     }
+    
+    public List<String> getMessages() {
+    return messages;
+  }
+ 
+  public boolean hasMessages() {
+    return !messages.isEmpty();
+  }
+  
+  public void addMessages(List<String> messages) {
+      this.messages.addAll(errors);
+  }
+  
+  public void addMessage(String message) {
+    messages.add(message);
+  }
+  
+  public void clearMessages() {
+    messages.clear();
+  }
   
 }
