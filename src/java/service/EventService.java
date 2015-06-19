@@ -231,6 +231,8 @@ public class EventService extends PrimService {
         }
         List<Client>ClientsToCreateEventsList = new ArrayList();
         
+        HashMap<String,String> commentMap = new HashMap();
+        
         InputStream fis = fileXls.getInputStream();
         HSSFWorkbook inputWorkbook = new HSSFWorkbook(fis);
         int sheetCount = inputWorkbook.getNumberOfSheets();
@@ -263,6 +265,8 @@ public class EventService extends PrimService {
                             cl.setPhoneSecretary(secretaryPhone);
                             cl.setPhoneLpr(lprPhone);
                             cl.setAddress(StringAdapter.HSSFSellValue(rw.getCell(6)));
+                            String comment = StringAdapter.HSSFSellValue(rw.getCell(7));
+                            commentMap.put(uid,comment);
                             cl.setCabinet(pk);
                             if (validate(cl)) {
                                 if ((secretaryPhone != null && !secretaryPhone.equals("")) || (lprPhone != null && !lprPhone.equals(""))) {
@@ -289,6 +293,7 @@ public class EventService extends PrimService {
                     event.setCabinet(pk);
                     event.setClient(cl);
                     event.setCampaign(campaign);
+                    event.setComment(StringAdapter.getString(commentMap.get(cl.getUniqueId())));
                     event.setStatus(Event.UNASSIGNED);
                     if (validate(event)) {
                         eventDao.save(event);

@@ -41,14 +41,14 @@ public class Group extends PrimEntity {
     private Long groupId;
 
     @JoinColumn(name = "personal_cabinet_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     @Index(name="cabinetIndex")
     private PersonalCabinet cabinet;
     
 
     @JoinColumn(name = "strategy_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     @Index(name="strategyIndex")
     private Strategy strategy;
@@ -66,7 +66,7 @@ public class Group extends PrimEntity {
     @OrderBy("moduleName")
     private List<Module> moduleList;
 
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @LazyCollection(LazyCollectionOption.TRUE)
     @OneToMany(mappedBy = "group")
     private List<ModuleEventClient> moduleEventClientList;
 

@@ -33,13 +33,13 @@ public class ClientTagLink extends PrimEntity {
     private Long linkId;
     
     @JoinColumn(name = "tag_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     @Index(name="tagIndex")
     private Tag tag;
     
     @JoinColumn(name = "client_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     @Index(name="clientIndex")
     private Client client;

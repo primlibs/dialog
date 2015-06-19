@@ -12,9 +12,7 @@
         alert(str);*/
 
 
-function isData( string) {
-   return !!(string.search('data') + 1);
-}
+
 
 
 
@@ -43,16 +41,31 @@ function changeParam(method,newVal,params){
 
 $('.changebleParam').dblclick(function(){
     var changebleElem = $(this);
+    
+    function isData(str) {
+        if (~str.indexOf("data-")){
+            return true;
+        }
+            return false;
+    }
     var params={};
     changebleElem.each(function () {
         $(this.attributes).each(function(){
             if(isData(this.name)){
-                params[this.name]=this.value;
+                params[this.name.substring(5)]=this.value;
             }
         });
     });
-    params.tos
+    var method = params['method'].clone();
+    delete params['method'];
+    /*var str="";
+    $.each(params,function(key,value){
+        str+=key+"-"+value+";";
+    });
+    alert(str);*/
+    
     var elemClone = changebleElem.clone();
+    var name=changebleElem.attr('name');
     var paramType = $(this).attr('data-type');
     var value = $(this).text();
     var input = "<input type=text id='inputForChangebleElem' class='inp' name='" + paramType + "' value='" + value + "'/>";
@@ -61,8 +74,11 @@ $('.changebleParam').dblclick(function(){
     function changesListener(event){
         var newVal = $('#inputForChangebleElem').val();
         var target = $(event.target);
-        var cientId = $('#elemClone').attr('data-clientid');
-        if (target.attr('name') !== paramType) {
+        if (target.attr('name') !== name) {
+            
+            
+            
+            
             $.ajax({
                 url:"/updateClientFromUser?clientId="+cientId+"&param="+paramType+"&newVal="+newVal,
                 dataType : "json",

@@ -44,25 +44,25 @@ public class Event extends PrimEntity {
     private Long eventId;
 
     @JoinColumn(name = "personal_cabinet_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     @Index(name="cabinetIndex")
     private PersonalCabinet cabinet;
 
     @JoinColumn(name = "campaign_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     @Index(name="campaignIndex")
     private Campaign campaign;
 
     @JoinColumn(name = "client_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     @Index(name="clientIndex")
     private Client client;
 
     @JoinColumn(name = "user_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     //@Index(name="userIndex")
     private User user;
 
@@ -84,10 +84,10 @@ public class Event extends PrimEntity {
     private Date postponedDate;
     
     @JoinColumn(name = "fail_reason_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private FailReason failReason;
 
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @LazyCollection(LazyCollectionOption.TRUE)
     @OneToMany(mappedBy = "event")
     private List<ModuleEventClient> moduleEventClientList;
 

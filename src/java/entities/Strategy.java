@@ -41,7 +41,7 @@ public class Strategy extends PrimEntity {
     private Long strategyId;
 
     @JoinColumn(name = "personal_cabinet_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     @Index(name="cabinetIndex")
     private PersonalCabinet cabinet;
@@ -55,16 +55,16 @@ public class Strategy extends PrimEntity {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date deleteDate;
 
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @LazyCollection(LazyCollectionOption.TRUE)
     @OneToMany(mappedBy = "strategy", orphanRemoval = true)
     @OrderBy("groupName")
     private List<Group> groupList;
 
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @LazyCollection(LazyCollectionOption.TRUE)
     @OneToMany(mappedBy = "strategy")
     private List<Campaign> campaigns;
 
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @LazyCollection(LazyCollectionOption.TRUE)
     @OneToMany(mappedBy = "strategy")
     private List<ModuleEventClient> moduleEventClientList;
 

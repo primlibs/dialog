@@ -35,7 +35,7 @@ public class EventComment extends PrimEntity {
     private Long eventCommentId;
     
     @JoinColumn(name = "event_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     @Index(name="eventIndex")
     private Event event;

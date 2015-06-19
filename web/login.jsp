@@ -28,10 +28,13 @@
                                 <!--<span style="float: left;margin-left: 10px;font-size: 25px;">Диалог</span>-->
 
                             </a>
+                            <div style="margin-left: 10px;">+7(342)259-56-57</div>
                         </div>
                         <p class="navbar-text navbar-right" style="margin-right: 10px;"><a href="#" data-toggle="modal" data-target="#entrance" class="navbar-link">Вход </a> 
                             или <a href="<c:url value="/Registration/registration" />" class="navbar-link">Регистрация </a> </p>
+                        
                     </div>
+                    
                 </nav>
 
 

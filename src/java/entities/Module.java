@@ -39,19 +39,19 @@ public class Module extends PrimEntity {
     private Long moduleId;
 
     @JoinColumn(name = "personal_cabinet_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     @Index(name="cabinetIndex")
     private PersonalCabinet cabinet;
     
     @JoinColumn(name = "strategy_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     @Index(name="strategyIndex")
     private Strategy strategy;
 
     @JoinColumn(name = "group_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     @Index(name="groupIndex")
     private Group group;
@@ -67,7 +67,7 @@ public class Module extends PrimEntity {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date deleteDate;
 
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @LazyCollection(LazyCollectionOption.TRUE)
     @OneToMany(mappedBy = "module")
     private List<ModuleEventClient> moduleEventClientList;
 

@@ -42,13 +42,13 @@ public class Campaign extends PrimEntity {
     private Long campaignId;
 
     @JoinColumn(name = "personal_cabinet_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotNull(message = "Необходимо указать ИД кабинета")
     @Index(name="cabinetIndex")
     private PersonalCabinet cabinet;
 
     @JoinColumn(name = "strategy_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     @Index(name="strategyIndex")
     private Strategy strategy;
@@ -70,7 +70,7 @@ public class Campaign extends PrimEntity {
     @Index(name="statusIndex")
     private Long status;
 
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @LazyCollection(LazyCollectionOption.TRUE)
     @OneToMany(mappedBy = "campaign")
     private List<Event> events;
 

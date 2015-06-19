@@ -37,7 +37,7 @@ public class Client extends PrimEntity {
     private Long clientId;
 
     @JoinColumn(name = "personal_cabinet_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     @Index(name="cabinetIndex")
     private PersonalCabinet cabinet;
@@ -60,11 +60,11 @@ public class Client extends PrimEntity {
     @Column(name = "address")
     private String address;
 
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @LazyCollection(LazyCollectionOption.TRUE)
     @OneToMany(mappedBy = "client")
     private List<Event> events;
 
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @LazyCollection(LazyCollectionOption.TRUE)
     @OneToMany(mappedBy = "client")
     private List<ClientTagLink> tagLinks;
 

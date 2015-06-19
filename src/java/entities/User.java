@@ -68,11 +68,11 @@ public class User extends PrimEntity {
     @Column(name = "recoverHash")
     private String recoverHash;
 
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @LazyCollection(LazyCollectionOption.TRUE)
     @OneToMany(mappedBy = "user")
     private List<CabinetUser> cabinetUser;
 
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @LazyCollection(LazyCollectionOption.TRUE)
     @OneToMany(mappedBy = "user")
     private List<Event> events;
 

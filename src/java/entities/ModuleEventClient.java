@@ -34,7 +34,7 @@ public class ModuleEventClient extends PrimEntity {
     private Long moduleEventClientId;
 
     @JoinColumn(name = "event_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     @Index(name="eventIndex")
     private Event event;
@@ -44,21 +44,21 @@ public class ModuleEventClient extends PrimEntity {
     private Date insertDate;
 
     @JoinColumn(name = "personal_cabinet_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     @Index(name="cabinetIndex")
     private PersonalCabinet cabinet;
 
     @JoinColumn(name = "strategy_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Strategy strategy;
 
     @JoinColumn(name = "group_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Group group;
 
     @JoinColumn(name = "module_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     @Index(name="moduleIndex")
     private Module module;
