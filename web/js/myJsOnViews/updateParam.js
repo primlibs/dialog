@@ -1,4 +1,4 @@
-
+$(function(){
 /*var params={};
         changebleElem.each(function () {
             $(this.attributes).each(function(){
@@ -138,3 +138,4 @@ $('.changebleParam').dblclick(function(){
             
             return false;
     });*/
+    });

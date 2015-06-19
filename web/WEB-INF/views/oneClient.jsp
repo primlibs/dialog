@@ -9,13 +9,14 @@
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
         <%@include file="/WEB-INF/jsp/error.jsp" %> 
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
+        <script src="<c:url value="/js/myJsOnViews/updateParam.js" />"></script>
         <div style="float: right;width: 49%;">
             <h4>Диалог: </h4>
             <%@include file="/WEB-INF/views/dialog.jsp" %></div>
         <div class="row" style="width: 49%;">
 
             <table>
-                <tr><td>Наименование: </td><td>${client.nameCompany}</td></tr>
+                <tr><td>Наименование: </td><td><div class="changebleParam" data-method="updateclient" data-clientid="${client.clientId}" name="companyname_${client.clientId}" data-parametr="nameCompany">${client.nameCompany}</div></td></tr>
                 <tr><td>Уникальный ИД: </td><td>${client.uniqueId}</td></tr>
                 <tr><td>Контактное лицо: </td><td>${client.nameSecretary}</td></tr>
                 <tr><td>Телефон: </td><td>${client.getFormattedPhoneSec()}</td></tr>

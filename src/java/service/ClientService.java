@@ -130,6 +130,9 @@ public class ClientService extends PrimService {
         }
         if (client != null) {
             switch (field) {
+                case "nameCompany":
+                    client.setNameCompany(newVal);
+                    break;
                 case "adress":
                     client.setAddress(newVal);
                     break;
@@ -146,7 +149,9 @@ public class ClientService extends PrimService {
                     client.setPhoneLpr(newVal);
                     break;
                 case "comment":
-                    ev.setComment(newVal);
+                    if(ev!=null){
+                        ev.setComment(newVal);
+                    }
                     inEvent = true;
                     break;
                 default:

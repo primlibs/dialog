@@ -18,9 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.ClientService;
 import service.TagService;
+import support.JsonResponce;
 
 /**
  *
@@ -143,6 +145,25 @@ public class ClientController extends WebController {
         ras.addAttribute("eventId", eventId);
         ras.addAttribute("clientId", clientId);
         return "redirect:/Client/oneClient";
+    }
+    
+    @RequestMapping("/updateclient")
+    @ResponseBody
+    public JsonResponce updateClient(Map<String, Object> model,@RequestParam(value = "clientid") Long clientId,@RequestParam(value = "parametr") String parametr,
+            @RequestParam(value = "newval") String newVal,HttpServletRequest request,RedirectAttributes ras) throws Exception {
+        JsonResponce res = JsonResponce.getInstance();
+        clientService.updateClientField(parametr, clientId, null, newVal);
+        if(clientService.getError().isEmpty()){
+            res.setStatus(Boolean.TRUE);
+        }else{
+            String err = "";
+            for(String s:clientService.getError()){
+                err+=s+"; ";
+            }
+            res.setStatus(Boolean.FALSE);
+            res.setMessage(err);
+        }
+        return res;
     }
 
 }
