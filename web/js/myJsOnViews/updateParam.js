@@ -26,15 +26,17 @@ function changeParam(method,newVal,params){
         dataType : "json",
         cache: false,
         success: function(json){
-            if(json==="true"){
+            /*if(json==="true"){
                 return "true";
             }else{
                 return "Ошибка: "+json;
-            }
+            }*/
+            return json;
             //alert(json)
         },
         error: function(json){
-            return "Ошибка: "+json;
+            //return "Ошибка: "+json;
+            return json;
         }
     });
 }
@@ -56,7 +58,7 @@ $('.changebleParam').dblclick(function(){
             }
         });
     });
-    var method = params['method'].clone();
+    var method = params['method'];
     delete params['method'];
     /*var str="";
     $.each(params,function(key,value){
@@ -72,38 +74,30 @@ $('.changebleParam').dblclick(function(){
     changebleElem.html(input);
     document.addEventListener('click',changesListener);
     function changesListener(event){
+        document.removeEventListener('click',arguments.callee);
         var newVal = $('#inputForChangebleElem').val();
         var target = $(event.target);
         if (target.attr('name') !== name) {
-            
-            
-            
-            
-            $.ajax({
-                url:"/updateClientFromUser?clientId="+cientId+"&param="+paramType+"&newVal="+newVal,
-                dataType : "json",
-                cache: false,
-                success: function(json){
-                    if(json==true){
-                        changebleElem.html(newVal);
+            if(method!==undefined){
+                changebleElem.html(newVal);
+                var res = changeParam(method,newVal,params);
+                if(res.status!==true){
+                    if(res.message!=undefined){
+                        alert(res.message);
                     }else{
-                        changebleElem.html(value);
-                        alert(json);
+                        alert("При обновлении параметра возникла ошибка, сервер не вернул ответ. Попробуйте обновить страницу и повторить операцию или обратитесь к системному администратору.");
                     }
-                    //alert(json)
-                },
-                error: function(json){
-                    alert("Что-то пошло не так: "+json);
-                    changebleElem.html(value);
                 }
-            });
-            document.removeEventListener('click',arguments.callee);
+            }else{
+                changebleElem.html(value);
+                alert("Ошибка: Обновить информацию не удалось, попробуйте обновить страницу и повторить операцию или обратитесь к системному администратору.");
+            }
         }
     }
 });
 
 
-$('.changebleParam').dblclick(function(){
+/*$('.changebleParam').dblclick(function(){
         var changebleElem = $(this);
         var elemClone = changebleElem.clone();//?
         var paramType = $(this).attr('name');
@@ -143,4 +137,4 @@ $('.changebleParam').dblclick(function(){
             }
             
             return false;
-    });
+    });*/

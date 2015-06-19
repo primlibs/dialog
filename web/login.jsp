@@ -28,9 +28,9 @@
                                 <!--<span style="float: left;margin-left: 10px;font-size: 25px;">Диалог</span>-->
 
                             </a>
-                            <div style="margin-left: 10px;">+7(342)259-56-57</div>
+                            <div style="margin-left: 10px;">+7(342)<span style="font-size: 17px;"> 259-56-57</span></div>
                         </div>
-                        <p class="navbar-text navbar-right" style="margin-right: 10px;"><a href="#" data-toggle="modal" data-target="#entrance" class="navbar-link">Вход </a> 
+                        <p class="navbar-text navbar-right" style="margin-right: 10px;margin-top: 20px;"><a href="#" data-toggle="modal" data-target="#entrance" class="navbar-link">Вход </a> 
                             или <a href="<c:url value="/Registration/registration" />" class="navbar-link">Регистрация </a> </p>
                         
                     </div>
@@ -177,7 +177,7 @@
         </div>
         <div class="container" style="margin-top: 20px;">
             <nav class="navbar navbar-default navbar-static-bottom" >
-                <p class="navbar-text">&copy ООО Прим 2015 <a href="#" class="navbar-link">Контакты </a></p>
+                <p class="navbar-text">&copy ООО Прим 2015 +7(342)259-56-57<!--<a href="#" class="navbar-link">Контакты </a>--></p>
             </nav>
         </div>
 

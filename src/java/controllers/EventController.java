@@ -30,6 +30,7 @@ import service.GroupService;
 import service.ModuleService;
 import service.StrategyService;
 import support.AuthManager;
+import support.JsonResponce;
 import support.StringAdapter;
 
 /**
@@ -340,12 +341,14 @@ public class EventController extends WebController {
 
     @RequestMapping("updateClientFromUser")
     @ResponseBody
-    public String updateClientOrEvent(Map<String, Object> model, @RequestParam(value = "eventId",required = false) Long eventId,
+    public JsonResponce updateClientOrEvent(Map<String, Object> model, @RequestParam(value = "eventId",required = false) Long eventId,
             @RequestParam(value = "clientId") Long clientId, @RequestParam(value = "param") String param, 
             @RequestParam(value = "newVal") String newVal, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
 
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        
+        JsonResponce res = JsonResponce.getInstance();
 
         clientService.updateClientField(param, clientId,eventId, newVal);
         List<String>errs=(List<String>)model.get("errors");
@@ -359,13 +362,18 @@ public class EventController extends WebController {
         errs.addAll(serviceErrs);
         
         if (errs.isEmpty()) {
-            return StringAdapter.getString(true);
+            res.setStatus(Boolean.TRUE);
+            //return StringAdapter.getString(true);
+            return res;
         } else {
+            res.setStatus(Boolean.FALSE);
             String err = "";
             for (String s : errs) {
                 err += s + "; ";
             }
-            return "Ошибка: " + err;
+            //return "Ошибка: " + err;
+            res.setMessage(err);
+            return res;
         }
     }
 
