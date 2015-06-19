@@ -151,7 +151,10 @@ public class ClientController extends WebController {
     @ResponseBody
     public JsonResponce updateClient(Map<String, Object> model,@RequestParam(value = "clientid") Long clientId,@RequestParam(value = "parametr") String parametr,
             @RequestParam(value = "newval") String newVal,HttpServletRequest request,RedirectAttributes ras) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         JsonResponce res = JsonResponce.getInstance();
+        
         clientService.updateClientField(parametr, clientId, null, newVal);
         if(clientService.getError().isEmpty()){
             res.setStatus(Boolean.TRUE);

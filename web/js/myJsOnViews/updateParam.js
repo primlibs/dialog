@@ -81,12 +81,16 @@ $('.changebleParam').dblclick(function(){
             if(method!==undefined){
                 changebleElem.html(newVal);
                 var res = changeParam(method,newVal,params);
-                if(res.status!==true){
-                    if(res.message!=undefined){
-                        alert(res.message);
-                    }else{
-                        alert("При обновлении параметра возникла ошибка, сервер не вернул ответ. Попробуйте обновить страницу и повторить операцию или обратитесь к системному администратору.");
+                if(res!=undefined){
+                    if(res['status']!==true){
+                        if(res['message']!=undefined){
+                            alert(res.message);
+                        }else{
+                            alert("При обновлении параметра возникла ошибка, сервер не вернул ответ. Попробуйте обновить страницу и повторить операцию или обратитесь к системному администратору.");
+                        }
                     }
+                }else{
+                    alert("При обновлении параметра возникла ошибка, сервер не вернул ответ. Попробуйте обновить страницу и повторить операцию или обратитесь к системному администратору.");
                 }
             }else{
                 changebleElem.html(value);
