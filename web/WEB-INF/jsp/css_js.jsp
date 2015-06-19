@@ -13,9 +13,9 @@
 
 <!--    css -->
 <link href="<c:url value='/css/bootstrap.css'/>" rel="stylesheet" media="screen">
-<!--<link href="<c:url value='/css/bootstrap.css.map'/>" rel="stylesheet" media="screen">-->
 <link href="<c:url value='/css/bootstrap-datetimepicker.min.css'/>" rel="stylesheet" media="screen">
 <link rel="stylesheet" type="text/css" href=<c:url value='/css/body.css'/> >
+<link rel="stylesheet" type="text/css" href=<c:url value='/css/dialog.css'/> >
 
 
 <!--    js -->
@@ -24,7 +24,6 @@
 <script src="<c:url value='/js/moment-with-locales.min.js'/>"> </script>
 <script src="<c:url value='/js/bootstrap-datetimepicker.min.js'/>"> </script>
 <script src="<c:url value='/js/dropdown.js'/>"> </script>
- <!--   <script src="<c:url value='/js/jquery.js'/>"> </script> -->
 
 
 

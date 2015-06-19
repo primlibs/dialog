@@ -1,4 +1,4 @@
-.sms_bubble{
+/*.sms_bubble{
 	float:left;
 	clear:right;
 	display:block;
@@ -20,14 +20,12 @@
 	position:relative;
 	float:right;
 	clear:left;
-	/*background-color: rgba(96,186,226,0.9);*/
 	background-color: rgba(204,204,204,0.9);
 	}
 .blue-right::after{
 	content: "";
 	display: block;
 	right:20px;
-	/*background-color: rgba(96,186,226,0.9);*/
 	background-color: rgba(204,204,204,0.9) !important;
 	-webkit-box-shadow: rgba(0,0,0,0.3) 0px 3px 4px;
 	background-image: -webkit-linear-gradient(bottom, rgba(255, 255, 255, 0.2) 20%, rgba(255,255,255, 0.5) 80%);
@@ -57,9 +55,9 @@
 	-webkit-box-shadow: rgba(0,0,0,0.3) 0px 3px 4px;
 	background-image: -webkit-linear-gradient(bottom, rgba(255, 255, 255, 0.2) 20%, rgba(255,255,255, 0.5) 80%);
 	-webkit-border-bottom-right-radius: 90px 70px;
-}
+}*/
 .standart_text{
-    color: black;
+    color: gray;
 }
 .changebleParam{
     color: #00A1D2;

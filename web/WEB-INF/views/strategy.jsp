@@ -17,8 +17,8 @@
         <%@include file="/WEB-INF/jsp/error.jsp" %> 
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
 <script src="<c:url value="/js/myJsOnViews/strategy.js" />"></script>
-        <div class="row form-group"><span style="font-size: 18px;vertical-align: middle;"><b>Стратегия: <span class="changebleStrategyParam" name="strategyName" id="${strategy.strategyId}" style="cursor: pointer;display: inline-block;">${strategy.strategyName}</span></b></span> <span class="form-group">    
-                <a href="<c:url value="/Strategy/failReasonEditor?strategyId=${strategy.strategyId} "/>" class="btn btn-large btn-danger" role="button">Словарь отказов</a> 
+<div class="row form-group"><span class="standart_text" style="font-size: 18px;vertical-align: middle;"><b>Стратегия: <span class="changebleStrategyParam changebleParam"  name="strategyName" id="${strategy.strategyId}" style="cursor: pointer;display: inline-block;">${strategy.strategyName}</span></b></span> <span class="form-group">    
+                <a style="float: right;" href="<c:url value="/Strategy/failReasonEditor?strategyId=${strategy.strategyId} "/>" class="btn btn-large btn-danger" role="button">Словарь отказов</a> 
             </span></div>
         <div class="row">
             <div class="col-md-6">
