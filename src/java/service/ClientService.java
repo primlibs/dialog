@@ -133,7 +133,7 @@ public class ClientService extends PrimService {
                 case "nameCompany":
                     client.setNameCompany(newVal);
                     break;
-                case "adress":
+                case "address":
                     client.setAddress(newVal);
                     break;
                 case "nameSecretary":

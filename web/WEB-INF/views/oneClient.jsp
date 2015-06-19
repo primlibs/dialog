@@ -16,13 +16,13 @@
         <div class="row" style="width: 49%;">
 
             <table>
-                <tr><td>Наименование: </td><td><div class="changebleParam" data-method="updateclient" data-clientid="${client.clientId}" name="companyname_${client.clientId}" data-parametr="nameCompany">${client.nameCompany}</div></td></tr>
+                <tr><td>Наименование: </td><td class="changebleParam" data-method="updateclient" data-clientid="${client.clientId}" name="companyname_${client.clientId}" data-parametr="nameCompany">${client.nameCompany}</td></tr>
                 <tr><td>Уникальный ИД: </td><td>${client.uniqueId}</td></tr>
-                <tr><td>Контактное лицо: </td><td>${client.nameSecretary}</td></tr>
-                <tr><td>Телефон: </td><td>${client.getFormattedPhoneSec()}</td></tr>
-                <tr><td>Принимает решения: </td><td>${client.nameLpr}</td></tr>
-                <tr><td>Телефон: </td><td>${client.getFormattedPhoneLpr()}</td></tr>
-                <tr><td>Адрес: </td><td>${client.address}</td></tr>
+                <tr><td>Контактное лицо: </td><td class="changebleParam" data-method="updateclient" data-clientid="${client.clientId}" name="nameSecretary_${client.clientId}" data-parametr="nameSecretary">${client.nameSecretary}</td></tr>
+                <tr><td>Телефон: </td><td class="changebleParam" data-method="updateclient" data-clientid="${client.clientId}" name="phoneSecretary_${client.clientId}" data-parametr="phoneSecretary">${client.getFormattedPhoneSec()}</td></tr>
+                <tr><td>Принимает решения: </td><td class="changebleParam" data-method="updateclient" data-clientid="${client.clientId}" name="nameLpr_${client.clientId}" data-parametr="nameLpr">${client.nameLpr}</td></tr>
+                <tr><td>Телефон: </td><td class="changebleParam" data-method="updateclient" data-clientid="${client.clientId}" name="phoneLpr_${client.clientId}" data-parametr="phoneLpr">${client.getFormattedPhoneLpr()}</td></tr>
+                <tr><td>Адрес: </td><td class="changebleParam" data-method="updateclient" data-clientid="${client.clientId}" name="address_${client.clientId}" data-parametr="address">${client.address}</td></tr>
                 <tr><td>Тэги: </td><td>
                         <c:forEach var="ctl" items="${client.tagLinks}">
                             <div title='Удалить' class="tag" ondblclick="location = '<c:url value="/Client/deleteTag?ctlId=${ctl.linkId}&eventId=${event.eventId}&clientId=${client.clientId}"/>'">${ctl.tag.name}</div>

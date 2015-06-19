@@ -49,7 +49,7 @@
                         </tr>
                         <tr>
                             <td>${event.client.nameCompany} </td>
-                            <td class="changebleParam" id="adress" data-eventId="${event.eventId}">${event.client.address} </td>
+                            <td class="changebleParam" id="address" data-eventId="${event.eventId}">${event.client.address} </td>
                             <td class="changebleParam" id="nameSecretary" data-eventId="${event.eventId}">${event.client.nameSecretary} </td>
                             <td class="changebleParam" id="phoneSecretary" data-eventId="${event.eventId}">${event.client.getFormattedPhoneSec()} </td>
                             <td class="changebleParam" id="nameLpr" data-eventId="${event.eventId}">${event.client.nameLpr} </td>

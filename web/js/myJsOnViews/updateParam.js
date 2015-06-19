@@ -96,7 +96,7 @@ $(function() {
                              $(json).each(function(key, value) {
                              str += key + "=" + value + "; ";
                              })*/
-                            if (json['status'] != 'true') {
+                            if (json['status'] != true) {
                                 if (json['message'] != undefined) {
                                     alert(json['message']);
                                 } else {
