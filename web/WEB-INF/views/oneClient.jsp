@@ -13,19 +13,12 @@
         <div style="float: right;width: 49%;">
             
             <c:if test="${not empty dialogEvent}">
-                
-                <!--<c:if test="${not empty dialogEvent.comment}">-->
                     <br>
                     <b>Комментарий:</b> ${dialogEvent.comment}
                     <br>
-                <!--</c:if>-->
-                    
-                <!--<c:if test="${not empty dialogEvent.finalComment}">-->
                     <br>
                     <b>Итог:</b> ${dialogEvent.finalComment}
                     <br>
-                <!--</c:if> -->
-                    
             </c:if>
             <h4>Диалог: </h4>
             
@@ -114,7 +107,7 @@
                             <tr class="${trstyle}">
                                 <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${event.campaign.campaignId}"/>'">${event.campaign.name}</div></td>
                                 <td>${event.user.surname}</td>
-                                <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Client/oneClient?clientId=${client.clientId}&eventId=${event.eventId}"/>'">${event.finalComment}</div></td>
+                                <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Client/oneClient?clientId=${client.clientId}&eventId=${event.eventId}"/>'">${event.getRusStatus()}</div></td>
                             </tr>
                         </c:forEach>
                     </table>
