@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.ClientService;
+import service.EventService;
 import service.TagService;
 import support.JsonResponce;
 
@@ -37,6 +38,8 @@ public class ClientController extends WebController {
     
     @Autowired
     private ClientService clientService;
+    @Autowired
+    private EventService eventService;
     @Autowired
     private TagService tagService;
 
@@ -102,6 +105,7 @@ public class ClientController extends WebController {
         model.put("unfinishedEvents",clientService.getUnfinishedEventsByClient(clientId));
         model.put("finishedEvents",clientService.getFinishedEventsByClient(clientId));
         model.put("dialog",clientService.getHistory(eventId));
+        model.put("dialogEvent",eventService.getEventById(eventId));
         
         List<String> clientErrors = clientService.getErrors();
         if(model.get("errors")!=null){

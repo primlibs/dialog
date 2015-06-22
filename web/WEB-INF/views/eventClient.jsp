@@ -69,18 +69,34 @@
                     <td>Статус</td>
                 </tr>
                 <c:forEach var="event" items="${events}" varStatus="myIndex">
-
-                    <tr>
-                        <td>${myIndex.count}</td>
-                        <td>${event.client.uniqueId}</td> 
-                        <td>${event.client.nameCompany}</td>
-                        <td>${event.client.nameSecretary}</td>   
-                        <td>${event.client.getFormattedPhoneSec()} </td>  
-                        <td>${event.client.nameLpr} </td> 
-                        <td>${event.client.getFormattedPhoneLpr()} </td>  
-                        <td>${event.client.address} </td>
+                    <c:set var="trstyle" value="danger" />
+                            <c:if test="${0==event.status}">
+                                <c:set var="trstyle" value="" />
+                            </c:if>
+                            <c:if test="${1==event.status}">
+                                <c:set var="trstyle" value="active" />
+                            </c:if>
+                            <c:if test="${2==event.status}">
+                                <c:set var="trstyle" value="info" />
+                            </c:if>
+                            <c:if test="${3==event.status}">
+                                <c:set var="trstyle" value="success" />
+                            </c:if>
+                            <c:if test="${4==event.status}">
+                                <c:set var="trstyle" value="danger" />
+                            </c:if>
+                            
+                    <tr class="${trstyle}">
+                        <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}"/>'">${myIndex.count}</td>
+                        <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}"/>'">${event.client.uniqueId}</td> 
+                        <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}"/>'">${event.client.nameCompany}</td>
+                        <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}"/>'">${event.client.nameSecretary}</td>   
+                        <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}"/>'">${event.client.getFormattedPhoneSec()} </td>  
+                        <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}"/>'">${event.client.nameLpr} </td> 
+                        <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}"/>'">${event.client.getFormattedPhoneLpr()} </td>  
+                        <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}"/>'">${event.client.address} </td>
                         <td><div style="cursor: pointer;display: inline-block" ondblclick="location = '<c:url value="/Event/showAssigningOneEvent?eventId=${event.eventId}&campaignId=${campaign.campaignId}"/>'">${event.user.surname}  ${event.user.name}</div></td>
-                        <td>${event.getRusStatus()} </td>
+                        <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}"/>'">${event.getRusStatus()} </td>
                     </tr>
                 </c:forEach>
             </table>

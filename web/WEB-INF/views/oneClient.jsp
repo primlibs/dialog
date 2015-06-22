@@ -11,7 +11,24 @@
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
         <script src="<c:url value="/js/myJsOnViews/updateParam.js" />"></script>
         <div style="float: right;width: 49%;">
+            
+            <c:if test="${not empty dialogEvent}">
+                
+                <!--<c:if test="${not empty dialogEvent.comment}">-->
+                    <br>
+                    <b>Комментарий:</b> ${dialogEvent.comment}
+                    <br>
+                <!--</c:if>-->
+                    
+                <!--<c:if test="${not empty dialogEvent.finalComment}">-->
+                    <br>
+                    <b>Итог:</b> ${dialogEvent.finalComment}
+                    <br>
+                <!--</c:if> -->
+                    
+            </c:if>
             <h4>Диалог: </h4>
+            
             <%@include file="/WEB-INF/views/dialog.jsp" %></div>
         <div class="row" style="width: 49%;">
 
@@ -77,12 +94,12 @@
                             <tr class="active">
                                 <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${event.campaign.campaignId}"/>'">${event.campaign.name}</div></td>
                                 <c:if test="${not empty event.user}">
-                                    <td>${event.user.surname}</td>
+                                    <td>${event.user.surname} ${event.user.name} - ${event.user.email}</td>
                                 </c:if>
                                 <c:if test="${empty event.user}">
                                     <td>Не назначен</td>
                                 </c:if>
-                                <td>Не завершено</td>
+                                    <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Client/oneClient?clientId=${client.clientId}&eventId=${event.eventId}"/>'">Не завершено</div></td>
                             </tr>
                         </c:forEach>
 

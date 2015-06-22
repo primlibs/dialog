@@ -718,6 +718,9 @@ public class EventService extends PrimService {
     }
 
     public Event getEventById(Long eventId) {
+        if(eventId==null){
+            return null;
+        }
         Event event = eventDao.find(eventId);
         return event;
     }
