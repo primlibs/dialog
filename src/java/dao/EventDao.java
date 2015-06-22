@@ -10,6 +10,7 @@ import entities.Client;
 import entities.Campaign;
 import entities.Event;
 import entities.PersonalCabinet;
+import entities.User;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -397,6 +398,14 @@ public class EventDao extends Dao<Event> {
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
         query.setParameter("userId", userId);
+        query.setParameter("pkId", pkId);
+        return query.list();
+    }
+    
+    public List<User> getParticipatedUsers(Long campaignId,Long pkId){
+        String hql = "select distinct ev.user from Event ev where ev.cabinet.pkId=:pkId and ev.campaign.campaignId=:campaignId";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("campaignId", campaignId);
         query.setParameter("pkId", pkId);
         return query.list();
     }

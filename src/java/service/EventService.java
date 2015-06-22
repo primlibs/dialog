@@ -30,13 +30,14 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -662,7 +663,9 @@ public class EventService extends PrimService {
 
     private HashMap<Long, String> getUserCountMap(Long cabinetId) {
         HashMap<Long, String> userMap = new HashMap();
-        for (CabinetUser user : getActiveMakingCallsUsers(cabinetId)) {
+        PersonalCabinet pk = personalCabinetDao.find(cabinetId);
+        List<CabinetUser> CUsers = pk.getCabinetUserList();
+        for (CabinetUser user : CUsers) {
             userMap.put(user.getId(), "0");
         }
         return userMap;
@@ -971,4 +974,44 @@ public class EventService extends PrimService {
     /*public void setEventsUnassigned(Long pkId,Long userId){
      List<Event> assignedEvents
      }*/
+    public HashSet<CabinetUser> getParticipatedUsers(Long campaignId, Long pkId) {
+        List<User> users = eventDao.getParticipatedUsers(campaignId, pkId);
+
+        HashSet<CabinetUser> cus = new HashSet();
+        for (User u : users) {
+            CabinetUser cu = cabinetUserDao.getByUserAndCabinet(u, personalCabinetDao.find(pkId)).get(0);
+            cus.add(cu);
+        }
+        return cus;
+    }
+
+    public List<CabinetUser> getCUListForCampaignSpecification(Long campaignId, Long pkId) {
+        List<CabinetUser> mclist = getActiveMakingCallsUsers(pkId);
+        HashSet<CabinetUser> pset = getParticipatedUsers(campaignId, pkId);
+        HashSet<Long> idset = new HashSet();
+        for (CabinetUser cu : mclist) {
+            idset.add(cu.getId());
+        }
+        for (CabinetUser cu : pset) {
+            if (!idset.contains(cu.getId())) {
+                mclist.add(cu);
+            }
+        }
+        return mclist;
+    }
+    
+    public List<CabinetUser>getSortedCUListForCampaignSpecification(Long campaignId, Long pkId){
+        List<CabinetUser>cusers = getCUListForCampaignSpecification(campaignId,pkId);
+        Collections.sort(cusers, new CUComparator());
+        return cusers;
+    }
+
+    class CUComparator implements Comparator<CabinetUser> {
+
+        @Override
+        public int compare(CabinetUser a, CabinetUser b) {
+            return a.getUser().getSurname().compareToIgnoreCase(b.getUser().getSurname());
+        }
+    }
+
 }

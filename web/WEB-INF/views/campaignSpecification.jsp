@@ -50,8 +50,8 @@
                     <th rowspan="2">Клиенты </th>
                     <th rowspan="2">Назначено</th>
                     <th rowspan="2">Не назначено</th>
-                    <th colspan="3">Обработано</th>
-                    <th rowspan="2">Не обработано</th>
+                    <th colspan="3">Завершено</th>
+                    <th rowspan="2">Не завершено</th>
                     <th rowspan="2">Изменить назначение</th>
                 </tr>
                 <tr>
@@ -65,15 +65,15 @@
                 <c:set var="assignedProcessedEventsCount" value="0" />
                 <c:set var="assignedProcessedSuccessEventsCount" value="0" />
                 <c:set var="assignedProcessedFailedEventsCount" value="0" />
-                <c:forEach var="cabinetUser"  items="${cabinetUserList}" >
+                <c:forEach var="cabinetUser"  items="${participatedCUsers}" >
                     <tr>
                         <td>${cabinetUser.user.surname} ${cabinetUser.user.name} </td>
                         <c:if test="${number== 1}">
-                            <td rowspan="${cabinetUserList.size()}"><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}"/>'" > ${eventList.size()} </div></td>
+                            <td class ="for" rowspan="${participatedCUsers.size()}"><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}"/>'" > ${eventList.size()} </div></td>
                         </c:if>
                             <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=${cabinetUser.getUser().getUserId()}"/>'"> ${userAssignedClient.get(cabinetUser.getUser().getUserId())}</div></td>
                         <c:if test="${number== 1}">
-                            <td rowspan="${cabinetUserList.size()}"><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=-1"/>'" >${unassignedEventList.size()}</div></td>
+                            <td rowspan="${participatedCUsers.size()}"><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=-1"/>'" >${unassignedEventList.size()}</div></td>
                         </c:if>
                             <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-2"/>'"> ${userAssignedClientProcessedSuccess.get(cabinetUser.getUser().getUserId())}</div></td>
                             <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-3"/>'" > ${userAssignedClientProcessedFails.get(cabinetUser.getUser().getUserId())}</div></td>
