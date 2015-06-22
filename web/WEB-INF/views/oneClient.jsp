@@ -16,7 +16,6 @@
                     <br>
                     <b>Комментарий:</b> ${dialogEvent.comment}
                     <br>
-                    <br>
                     <b>Итог:</b> ${dialogEvent.finalComment}
                     <br>
             </c:if>
