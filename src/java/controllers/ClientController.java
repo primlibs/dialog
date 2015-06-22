@@ -65,7 +65,7 @@ public class ClientController extends WebController {
         }
         model.put("selectedTags", selectedTags);
         
-        List<String> clientErrors = clientService.getError();
+        List<String> clientErrors = clientService.getErrors();
         if(model.get("errors")!=null){
             clientErrors.addAll((List<String>)model.get("errors"));
         }
@@ -103,7 +103,7 @@ public class ClientController extends WebController {
         model.put("finishedEvents",clientService.getFinishedEventsByClient(clientId));
         model.put("dialog",clientService.getHistory(eventId));
         
-        List<String> clientErrors = clientService.getError();
+        List<String> clientErrors = clientService.getErrors();
         if(model.get("errors")!=null){
             clientErrors.addAll((List<String>)model.get("errors"));
         }
@@ -122,7 +122,7 @@ public class ClientController extends WebController {
         }else{
             errors.add("Нужно выбрать хотябы один тэг");
         }
-        errors.addAll(tagService.getError());
+        errors.addAll(tagService.getErrors());
         
         model.put("errors",errors);
         ras.addFlashAttribute("errors",errors);
@@ -138,7 +138,7 @@ public class ClientController extends WebController {
             errors=new ArrayList();
         }
         tagService.deleteClientTagLink(ctlId);
-        errors.addAll(tagService.getError());
+        errors.addAll(tagService.getErrors());
         
         model.put("errors",errors);
         ras.addFlashAttribute("errors",errors);
@@ -156,11 +156,11 @@ public class ClientController extends WebController {
         JsonResponce res = JsonResponce.getInstance();
         
         clientService.updateClientField(parametr, clientId, null, newVal);
-        if(clientService.getError().isEmpty()){
+        if(clientService.getErrors().isEmpty()){
             res.setStatus(Boolean.TRUE);
         }else{
             String err = "";
-            for(String s:clientService.getError()){
+            for(String s:clientService.getErrors()){
                 err+=s+"; ";
             }
             res.setStatus(Boolean.FALSE);

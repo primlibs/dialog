@@ -73,7 +73,7 @@ public class StrategyService extends PrimService {
             if (validate(strategy)) {
                 strategyDao.save(strategy);
             }
-            if (getError().isEmpty()) {
+            if (getErrors().isEmpty()) {
                 ArrayList<String> failReasons = new ArrayList<>();
                 failReasons.add(0, "Нет потребности");
                 failReasons.add(1, "Нет средств");

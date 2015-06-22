@@ -109,7 +109,7 @@ public class PrimService {
         serviceResult.addErrors(error);
     }
 
-    public List<String> getError(){
+    public List<String> getErrors(){
         return serviceResult.getErrors();
     }
     

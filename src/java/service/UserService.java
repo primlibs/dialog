@@ -212,7 +212,7 @@ public class UserService extends PrimService {
                 userDao.save(user);
             }
 
-            if (getError().isEmpty()) {
+            if (getErrors().isEmpty()) {
                 CabinetUser link = new CabinetUser();
                 link.setCabinet(cabinet);
                 link.setUserRole(role);

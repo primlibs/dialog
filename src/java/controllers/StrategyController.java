@@ -51,12 +51,12 @@ public class StrategyController extends WebController {
 
         if (submit != null) {
             strategyService.saveStrategy(strategyName, cabinetId);
-            if (strategyService.getError().isEmpty()) {
+            if (strategyService.getErrors().isEmpty()) {
                 model.put("message", "Стратегия " + strategyName + " создана");
             }
         }
-        if (!strategyService.getError().isEmpty()) {
-            model.put("errors", strategyService.getError());
+        if (!strategyService.getErrors().isEmpty()) {
+            model.put("errors", strategyService.getErrors());
             model.put("strategyName",strategyName);
         }
         model.put("StrategyList", strategyService.getActiveStrategyList(cabinetId));
@@ -76,8 +76,8 @@ public class StrategyController extends WebController {
 
         model.put("module", moduleService.showModule(moduleId));
         model.put("moduleId", moduleId);
-        if (!strategyService.getError().isEmpty()) {
-            model.put("errors", strategyService.getError());
+        if (!strategyService.getErrors().isEmpty()) {
+            model.put("errors", strategyService.getErrors());
         }
         //model.put("GroupList", strategyService.getGroupList(strategyId));
         //model.put("strategyId", strategyId);
@@ -92,7 +92,7 @@ public class StrategyController extends WebController {
             @RequestParam(value = "name") String name, RedirectAttributes ras) {
         strategyService.renameStrategy(strategyId, name);
         Boolean result = false;
-        if(strategyService.getError().isEmpty()){
+        if(strategyService.getErrors().isEmpty()){
             result=true;
         }
         return StringAdapter.getString(result);
@@ -108,7 +108,7 @@ public class StrategyController extends WebController {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
         strategyService.saveGroup(strategyId, groupName, cabinetId);
-        if (strategyService.getError().isEmpty()) {
+        if (strategyService.getErrors().isEmpty()) {
             ras.addFlashAttribute("message", "Группа " + groupName + " создана");
         }
 
@@ -126,7 +126,7 @@ public class StrategyController extends WebController {
 
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         Long moduleId=strategyService.saveModule(groupId, moduleName, cabinetId);
-        ras.addFlashAttribute("errors", strategyService.getError());
+        ras.addFlashAttribute("errors", strategyService.getErrors());
         ras.addAttribute("strategyId", strategyId);
         ras.addAttribute("groupId", groupId);
         ras.addAttribute("moduleId", moduleId);
@@ -142,7 +142,7 @@ public class StrategyController extends WebController {
 
         strategyService.deleteStrategy(strategyId);
 
-        ras.addFlashAttribute("errors", strategyService.getError());
+        ras.addFlashAttribute("errors", strategyService.getErrors());
 
         return "redirect:/Strategy/show";
     }
@@ -157,7 +157,7 @@ public class StrategyController extends WebController {
         ras.addFlashAttribute("module", moduleService.showModule(moduleId));
         ras.addAttribute("strategyId", strategyId);
         ras.addAttribute("moduleId", moduleId);
-        ras.addFlashAttribute("errors", moduleService.getError());
+        ras.addFlashAttribute("errors", moduleService.getErrors());
         return "redirect:/Strategy/strategy";
     }
 
@@ -178,7 +178,7 @@ public class StrategyController extends WebController {
         ras.addFlashAttribute("module", moduleService.showModule(moduleId));
         ras.addAttribute("strategyId", strategyId);
         ras.addAttribute("moduleId", moduleId);
-        ras.addFlashAttribute("errors", moduleService.getError());
+        ras.addFlashAttribute("errors", moduleService.getErrors());
         return "redirect:/Strategy/strategy";
     }
 
@@ -194,7 +194,7 @@ public class StrategyController extends WebController {
         Strategy strategy = strategyService.findStrategy(strategyId);
 
         model.put("actualReasons", failReasonService.getActiveFailReasonsByStrategy(strategyId));
-        model.put("errors", failReasonService.getError());
+        model.put("errors", failReasonService.getErrors());
         model.put("strategyId", strategyId);
 
         return "failReasons";
@@ -212,12 +212,12 @@ public class StrategyController extends WebController {
 
         failReasonService.saveFailReason(failReasonName, strategyId);
         
-        if (failReasonService.getError().isEmpty()) {
+        if (failReasonService.getErrors().isEmpty()) {
             model.put("message", "Модуль отказа " + failReasonName + " создан");
         }
 
         model.put("actualReasons", failReasonService.getActiveFailReasonsByStrategy(strategyId));
-        model.put("errors", failReasonService.getError());
+        model.put("errors", failReasonService.getErrors());
         model.put("strategyId", strategyId);
         return "failReasons";
     }
@@ -232,11 +232,11 @@ public class StrategyController extends WebController {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         Strategy strategy = strategyService.findStrategy(strategyId);
         failReasonService.delete(failReasonId);
-          if (failReasonService.getError().isEmpty()) {
+          if (failReasonService.getErrors().isEmpty()) {
             model.put("message", "Модуль отказа " + failReasonService.getFailReasons(failReasonId) + " удален");
         }
         model.put("actualReasons", failReasonService.getActiveFailReasonsByStrategy(strategyId));
-        model.put("errors", failReasonService.getError());
+        model.put("errors", failReasonService.getErrors());
         model.put("strategyId", strategyId);
         return "failReasons";
     }

@@ -72,8 +72,8 @@ $(function(){
                             if(json==true){
                                 changebleElem.html(newVal);
                             }else{
-                                changebleElem.html(value);
-                                alert(json)
+                                changebleElem.html(newVal);
+                                /*alert(json)*/
                             }
                             
                         },

@@ -16,7 +16,7 @@
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
         <%@include file="/WEB-INF/jsp/error.jsp" %>
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
-
+<script src="<c:url value="/js/myJsOnViews/campaignSpecification.js" />"></script>
         <div class="row form-group">
             <span style="font-size: 18px;font-weight: 500;"><b>Кампания: ${campaign.name}; Стратегия: ${campaign.strategy.strategyName};</b></span>
             </div>
@@ -79,7 +79,8 @@
                             <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-3"/>'" > ${userAssignedClientProcessedFails.get(cabinetUser.getUser().getUserId())}</div></td>
                         <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-4"/>'"> ${userAssignedClientProcessed.get(cabinetUser.getUser().getUserId())}</div></td>
                         <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-1"/>'" > ${userAssignedClientNotProcessed.get(cabinetUser.getUser().getUserId())}</div></td>
-                        <td><a href="#" class="btn btn-large btn-warning"
+                        <td><a href="#" class="btn btn-large btn-warning changeAssignFromSpec" id="changeAssignFromSpec" 
+                                        data-userid="${cabinetUser.user.userId}"
                                         data-toggle="modal"
                                         data-target="#basicModalChangeAssign">Изменить</a></td>
                         <c:set var="assignedEventsCount" value="${assignedEventsCount+userAssignedClient.get(cabinetUser.getUser().getUserId())}" />
@@ -102,8 +103,8 @@
                     <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&processed=-3"/>'"> ${assignedProcessedFailedEventsCount}</div></td>
                     <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&processed=-4"/>'"> ${assignedProcessedEventsCount}</div></td>
                     <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&processed=-1"/>'"> ${assignedNotProcessedEventsCount}</div></td>
-                    <td><a href="#" class="btn btn-large btn-warning" id="changeAssignFromSpec"
-                                        data-userId=""
+                    <td><a href="#" class="btn btn-large btn-warning changeAssignFromSpec" id="changeAssignFromSpec" 
+                                        data-userid=""
                                         data-toggle="modal"
                                         data-target="#basicModalChangeAssign">Изменить</a></td>
                 </tr>
@@ -118,10 +119,15 @@
                                                 <h4 class="modal-title" id="myModalLabel">Назначение</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <form id="reassignEvents" action="<c:url value="/Event/postponeEvent" />" method="post">
-                                                    
+                                                <form id="reassignEvents" action="<c:url value="/Event/changeUserCampaignAssignation" />" method="post">
+                                                    <select name="userToId">
+                                                        <option value="">Снять назначения с удалением информации о переносах</option>
+                                                        <c:forEach var="cabinetUser"  items="${cabinetUserList}" >
+                                                            <option value="${cabinetUser.user.userId}">${cabinetUser.user.surname} ${cabinetUser.user.name} - ${cabinetUser.user.email}</option>
+                                                        </c:forEach>
+                                                    </select>
                                                     <input type="hidden" name="campaignId" value=${campaign.campaignId}>
-                                                    <input type="hidden" name="userId" value="">
+                                                    <input type="hidden" id="userFromId" name="userFromId" value="">
                                                     <p>    <input class="btn btn-primary" type="submit" value="Изменить">
                                                 </form>
 

@@ -36,21 +36,21 @@ public class RegistrationController extends WebController {
             if (checkbox != null) {
                 if (password.equals(confirmPassword)) {
                     userService.save(company, email, phone, password, name, surname, patronymic, emailCompany);
-                    if (userService.getError().isEmpty()) {
+                    if (userService.getErrors().isEmpty()) {
                         return "redirect:/Registration/successRegistration";
                     } else {
-                        model.put("errors", userService.getError());
+                        model.put("errors", userService.getErrors());
                     }
                 } else {
                     userService.addError("Пароли не совпадают");
-                    model.put("errors", userService.getError());
+                    model.put("errors", userService.getErrors());
 
                 }
             } else {
                 model.put("errors", "Ознакомтесь и согласитесь с условиями");
             }
         } else {
-            model.put("errors", userService.getError());
+            model.put("errors", userService.getErrors());
         }
 
         return "registration";

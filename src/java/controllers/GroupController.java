@@ -46,7 +46,7 @@ public class GroupController extends WebController {
 
         moduleService.deleteModule(moduleId);
 
-        ras.addAttribute("errors", moduleService.getError());
+        ras.addAttribute("errors", moduleService.getErrors());
         ras.addAttribute("strategyId", strategyId);
         ras.addAttribute("groupId", groupId);
         return "redirect:/Strategy/strategy";
@@ -62,7 +62,7 @@ public class GroupController extends WebController {
 
         groupService.deleteGroup(groupId);
 
-        ras.addAttribute("errors", moduleService.getError());
+        ras.addAttribute("errors", moduleService.getErrors());
         ras.addAttribute("strategyId", strategyId);
       // ras.addAttribute("groupId", groupId);
         return "redirect:/Strategy/strategy";

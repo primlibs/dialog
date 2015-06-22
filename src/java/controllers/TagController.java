@@ -41,7 +41,7 @@ public class TagController extends WebController {
     public String createTag(Map<String, Object> model,HttpServletRequest request,@RequestParam(value = "name") String name,RedirectAttributes ras) throws Exception {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         tagService.create(name, cabinetId);
-        ras.addFlashAttribute("errors", tagService.getError());
+        ras.addFlashAttribute("errors", tagService.getErrors());
         ras.addFlashAttribute("name", name);
         return "redirect:/Tag/show";
     }
@@ -53,7 +53,7 @@ public class TagController extends WebController {
             deleteLinks=false;
         }
         tagService.delete(tagId,deleteLinks);
-        ras.addAttribute("errors", tagService.getError());
+        ras.addAttribute("errors", tagService.getErrors());
         
         return "redirect:/Tag/show";
     }

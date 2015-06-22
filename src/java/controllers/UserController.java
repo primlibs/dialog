@@ -48,15 +48,15 @@ public class UserController extends WebController {
 
             Object cabinetId = request.getSession().getAttribute(LkController.CABINET_ID_SESSION_NAME);
             userService.addUser(email, phone, name, surname, patronymic, role, cabinetId);
-            if (userService.getError().isEmpty()) {
+            if (userService.getErrors().isEmpty()) {
                 model.put("message", "Пользователь добавлен");
                 return "redirect:/User/userList";
             } else {
-                model.put("errors", userService.getError());
+                model.put("errors", userService.getErrors());
             }
 
         } else {
-            model.put("errors", userService.getError());
+            model.put("errors", userService.getErrors());
         }
         model.put("email", email);
         model.put("name", name);
@@ -95,13 +95,13 @@ public class UserController extends WebController {
 
         if (submit != null) {
             String recoverHash = userService.recoveryPassword(email);
-            if (userService.getError().isEmpty()) {
+            if (userService.getErrors().isEmpty()) {
                 String link = "http://62.76.41.244/CallCentr/recoverPassword";
                 String text = "Вы восcтнавливаите пароль от CallAssistent. Пройдите по ссылке для восстановления: " + link + "?hash=" + recoverHash;
                 sendMail.sendMail(email, text);
                 model.put("message", "Ссылка с востановлением отправлена на почту");
             }
-            model.put("errors", userService.getError());
+            model.put("errors", userService.getErrors());
         }
         return "recoveryPassword";
 
@@ -122,10 +122,10 @@ public class UserController extends WebController {
          */
         if (submit != null) {
             userService.recoverPassword(hash, password, confirmPassword);
-            if (userService.getError().isEmpty()) {
+            if (userService.getErrors().isEmpty()) {
                 return "redirect:/login";
             }
-            model.put("errors", userService.getError());
+            model.put("errors", userService.getErrors());
 
         }
 
@@ -139,7 +139,7 @@ public class UserController extends WebController {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
         model.put("cabinetUserList", userService.cabinetUserList(cabinetId));
-        model.put("errors", userService.getError());
+        model.put("errors", userService.getErrors());
         return "userList";
     }
     
@@ -150,7 +150,7 @@ public class UserController extends WebController {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         
         userService.updateUserField(paramType, cabinetUserId, newVal,cabinetId);
-        List<String>serviceErrs=userService.getError();
+        List<String>serviceErrs=userService.getErrors();
         if(serviceErrs.isEmpty()){
             return StringAdapter.getString(true);
         } else{
@@ -175,9 +175,9 @@ public class UserController extends WebController {
         userService.deleteUser(cabinetUserIdtoDelete,cabinetUserIdtoAssign,cabinetId);
 
         /*model.put("cabinetUserList", userService.cabinetUserList(cabinetId));
-        model.put("errors", userService.getError());
+        model.put("errors", userService.getErrors());
         return "userList";*/
-        ras.addFlashAttribute(ERRORS_LIST_NAME, userService.getError());
+        ras.addFlashAttribute(ERRORS_LIST_NAME, userService.getErrors());
         return "redirect:/User/userList";
     }
 }

@@ -82,13 +82,14 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <!--<div class="form-group">
             <div class="col-xs-offset-3 col-xs-9">
                 <label class="checkbox-inline">
                     <input type="checkbox" name="checkbox" value="agree">  Я согласен с <a href="#">условиями</a>.
                 </label>
             </div>
-        </div>
+        </div>-->
+        <input type="hidden" name="checkbox" value="agree">
         <br />
         <div class="form-group">
             <div class="col-xs-offset-3 col-xs-9">

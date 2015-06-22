@@ -94,11 +94,12 @@ public class EventDao extends Dao<Event> {
     }
 
     // получить лист назначенных ссылок ECL 
-    public List<Event> getAssignedEvent(Long campaignId, Long cabinetId) {
-        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.user is not null and ev.cabinet.pkId= :cabinetId order by ev.client.nameCompany,ev.client.address";
+    public List<Event> getAssignedEvents(Long campaignId, Long cabinetId) {
+        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.cabinet.pkId= :cabinetId and ev.status=:assigned order by ev.client.nameCompany,ev.client.address";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
         query.setParameter("cabinetId", cabinetId);
+        query.setParameter("assigned", Event.ASSIGNED);
         List<Event> ev = query.list();
         return ev;
     }
@@ -144,11 +145,22 @@ public class EventDao extends Dao<Event> {
     }
 
     // получить лист назначенных ссылок ECL , не обработанных
-    public List<Event> getAssignedEventNotProcessed(Long campaignId, Long cabinetId) {
+    public List<Event> getAssignedNotClosedEvents(Long campaignId, Long cabinetId) {
         String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.user is not null and ev.cabinet.pkId= :cabinet and ev.finalComment is null order by ev.client.nameCompany,ev.client.address";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
         query.setParameter("cabinet", cabinetId);
+        List<Event> ev = query.list();
+        return ev;
+    }
+    
+    // получить лист назначенных ссылок ECL , не обработанных
+    public List<Event> getAssignedNotClosedUserEvents(Long campaignId, Long userId, Long cabinetId) {
+        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.user.userId=:userId and ev.cabinet.pkId= :cabinetId and ev.status!="+Event.FAILED+" and ev.status!="+Event.SUCCESSFUL+" order by ev.client.nameCompany,ev.client.address";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("campaignId", campaignId);
+        query.setParameter("cabinetId", cabinetId);
+        query.setParameter("userId", userId);
         List<Event> ev = query.list();
         return ev;
     }

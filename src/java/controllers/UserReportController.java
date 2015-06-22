@@ -49,7 +49,7 @@ public class UserReportController extends WebController {
         LinkedHashMap<User,HashMap> reportMap = eventService.getUsersAndSuccessfulFailedPerformancesForReport(dateCampaignFrom, dateCampaignTo, cabinetId);
         
         model.put("reportMap", reportMap);
-        model.put("errors", eventService.getError());
+        model.put("errors", eventService.getErrors());
         return "summarizedUserReport";
     }
     
