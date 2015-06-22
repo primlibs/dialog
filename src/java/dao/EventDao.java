@@ -146,7 +146,7 @@ public class EventDao extends Dao<Event> {
 
     // получить лист назначенных ссылок ECL , не обработанных
     public List<Event> getAssignedNotClosedEvents(Long campaignId, Long cabinetId) {
-        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.user is not null and ev.cabinet.pkId= :cabinet and ev.finalComment is null order by ev.client.nameCompany,ev.client.address";
+        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.user is not null and ev.cabinet.pkId=:cabinet and ev.finalComment is null order by ev.client.nameCompany,ev.client.address";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
         query.setParameter("cabinet", cabinetId);
@@ -156,11 +156,13 @@ public class EventDao extends Dao<Event> {
     
     // получить лист назначенных ссылок ECL , не обработанных
     public List<Event> getAssignedNotClosedUserEvents(Long campaignId, Long userId, Long cabinetId) {
-        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.user.userId=:userId and ev.cabinet.pkId= :cabinetId and ev.status!="+Event.FAILED+" and ev.status!="+Event.SUCCESSFUL+" order by ev.client.nameCompany,ev.client.address";
+        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.user.userId=:userId and ev.cabinet.pkId=:cabinetId and ev.status!=:failed and ev.status!=:succsesseful order by ev.client.nameCompany,ev.client.address";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
         query.setParameter("cabinetId", cabinetId);
         query.setParameter("userId", userId);
+        query.setParameter("failed", Event.FAILED);
+        query.setParameter("succsesseful", Event.SUCCESSFUL);
         List<Event> ev = query.list();
         return ev;
     }
