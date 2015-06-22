@@ -10,6 +10,8 @@ import dao.GroupDao;
 import dao.ModuleDao;
 import dao.PersonalCabinetDao;
 import dao.StrategyDao;
+import entities.Client;
+import entities.Event;
 import entities.FailReason;
 import entities.Group;
 import entities.Module;
@@ -220,4 +222,65 @@ public class StrategyService extends PrimService {
         Strategy str = strategyDao.find(strategyId);
         return str;
     }
+    
+    /*public void updateField(String field, Long clientId, Long eventId, String newVal) {
+        //boolean performed=false;
+        Client client = clientDao.find(clientId);
+        Event ev = null;
+        boolean inEvent = false;
+        if (eventId != null) {
+            ev = eventDao.find(eventId);
+        }
+        if (client != null) {
+            switch (field) {
+                case "nameCompany":
+                    client.setNameCompany(newVal);
+                    break;
+                case "address":
+                    client.setAddress(newVal);
+                    break;
+                case "nameSecretary":
+                    client.setNameSecretary(newVal);
+                    break;
+                case "nameLpr":
+                    client.setNameLpr(newVal);
+                    break;
+                case "phoneSecretary":
+                    client.setPhoneSecretary(newVal);
+                    break;
+                case "phoneLpr":
+                    client.setPhoneLpr(newVal);
+                    break;
+                case "comment":
+                    if(ev!=null){
+                        ev.setComment(newVal);
+                    }
+                    inEvent = true;
+                    break;
+                default:
+                    client = null;
+                    break;
+            }
+        } else {
+            addError("Клиент с ИД:" + clientId + " не найден");
+        }
+        if (inEvent) {
+            if (ev != null) {
+                if (validate(ev)) {
+                    eventDao.update(ev);
+                }
+            } else {
+                addError("Эвент не найден");
+            }
+        } else {
+            if (client != null) {
+                if (validate(client)) {
+                    clientDao.update(client);
+                }
+            } else {
+                addError("Клиент не найден");
+            }
+        }
+    }*/
+    
 }

@@ -126,53 +126,86 @@
         <div class="container" style="margin-top: 20px;">
             <div class="page-header"><h3>Стоимость</h3></div>
             <div class="row">
-                <div class="col-sm-6 col-md-4">
+                <div class="col-sm-6 col-md-3">
                     <div class="thumbnail">
 
                         <div class="caption">
-                            <h3 id="thumbnail-label">Пробная подписка<a class="anchorjs-link" href="#thumbnail-label"><span class="anchorjs-icon"></span></a></h3>
-                            <div style="height: 160px;">
+                            <h3 id="thumbnail-label" style="height: 50px;">Пробная подписка<a class="anchorjs-link" href="#thumbnail-label"><span class="anchorjs-icon"></span></a></h3>
+                            <div style="height: 180px;">
                                 <p>Подписка на 14 дней.</p>
-                                <p>Количество пользователей до 3</p>
+                                <p>Количество пользователей <b>до 3</b></p>
                                 <p>Количество телемаркетинговых кампаний до 5</p>
                                 <p>Количество клиентов до 500</p>
 
                             </div>
                             <p>Строимость: <strong>бесплатно</strong></p>
-                            <p><a href="<c:url value="/Registration/registration" />" class="btn btn-warning" role="button">Получить Диалог</a></p>
+                            <p><a href="<c:url value="/Registration/registration" />" class="btn btn-default" style="background-color: #ccc;" role="button">Получить Диалог</a></p>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-4">
+                <div class="col-sm-6 col-md-3">
                     <div class="thumbnail">
                         <div class="caption">
-                            <h3 id="thumbnail-label">Годовая подписка<a class="anchorjs-link" href="#thumbnail-label"><span class="anchorjs-icon"></span></a></h3>
-                            <div style="height: 160px;">
-                                <p>Подписка на год.</p>
-                                <p>Количество пользователей неограниченно</p>
+                            <h3 id="thumbnail-label" style="height: 50px;">Тариф базовый<a class="anchorjs-link" href="#thumbnail-label"><span class="anchorjs-icon"></span></a></h3>
+                            <div style="height: 180px;">
+                                <p>Подписка на 12 месяцев</p>
+                                <p>Количество пользователей <b>до 10</b></p>
                                 <p>Количество телемаркетинговых кампаний неограниченно</p>
-                                <p>Количество клиентов до неограниченно</p>
+                                <p>Количество клиентов неограниченно</p>
 
                             </div>
                             <p>Строимость: <strong>25 000 р.</strong></p>
+                            <p><a href="<c:url value="/Registration/registration" />" class="btn btn-success" role="button">Получить Диалог</a></p>
+                        </div>
+                    </div>
+                </div>
+                        
+                        <div class="col-sm-6 col-md-3">
+                    <div class="thumbnail">
+                        <div class="caption">
+                            <h3 id="thumbnail-label" style="height: 50px;">Тариф продвинутый<a class="anchorjs-link" href="#thumbnail-label"><span class="anchorjs-icon"></span></a></h3>
+                            <div style="height: 180px;">
+                                <p>Подписка на 12 месяцев</p>
+                                <p>Количество пользователей <b>до 30</b></p>
+                                <p>Количество телемаркетинговых кампаний неограниченно</p>
+                                <p>Количество клиентов неограниченно</p>
+
+                            </div>
+                            <p>Строимость: <strong>70 000 р.</strong></p>
                             <p><a href="<c:url value="/Registration/registration" />" class="btn btn-primary" role="button">Получить Диалог</a></p>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-4">
+                        
+                        <div class="col-sm-6 col-md-3">
                     <div class="thumbnail">
                         <div class="caption">
-                            <h3 id="thumbnail-label">Диалог навсегда<a class="anchorjs-link" ><span class="anchorjs-icon"></span></a></h3>
-                            <div style="height: 160px;">
-                                <p>Установка на свой сервер</p>
+                            <h3 id="thumbnail-label" style="height: 50px;">Тариф максимальный<a class="anchorjs-link" href="#thumbnail-label"><span class="anchorjs-icon"></span></a></h3>
+                            <div style="height: 180px;">
+                                <p>Подписка на 12 месяцев</p>
+                                <p>Количество пользователей <b>не ограничено</b></p>
+                                <p>Количество телемаркетинговых кампаний неограниченно</p>
+                                <p>Количество клиентов неограниченно</p>
 
                             </div>
-                            <p>Строимость: <strong>150 000 р.</strong></p>
-                            <p><a href="<c:url value="/Registration/registration" />" class="btn btn-danger" role="button">Получить Диалог</a> </p>
+                            <p>Строимость: <strong>120 000 р.</strong></p>
+                            <p><a href="<c:url value="/Registration/registration" />" class="btn btn-warning" role="button">Получить Диалог</a></p>
                         </div>
                     </div>
                 </div>
+                
             </div>
+                        
+                        <div class="">
+                    <div class="thumbnail">
+                        <div class="caption">
+                            <h3 id="thumbnail-label" style="text-align: center;">Диалог навсегда<a class="anchorjs-link" ><span class="anchorjs-icon"></span></a></h3>
+                                <p  style="text-align: center;">Установка на свой сервер</p>
+                            <p  style="text-align: center;">Строимость: <strong>150 000 р.</strong></p>
+                            <p><a href="<c:url value="/Registration/registration" />" class="btn btn-danger btn-block" role="button">Получить Диалог</a> </p>
+                        </div>
+                    </div>
+                </div>
 
         </div>
         <div class="container" style="margin-top: 20px;">
