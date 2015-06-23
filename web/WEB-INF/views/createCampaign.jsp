@@ -21,7 +21,7 @@
                 <div class="form-group">
                     <label class="control-label col-xs-3" for="firstName">Название кампании:</label>
                     <div class="col-xs-9">
-                        <input type="text" class="form-control" name="name" id="firstName" value="${numericName}" placeholder="Название эвента">
+                        <input type="text" class="form-control" name="name" id="firstName" value="${numericName}" placeholder="Название кампании">
                     </div>
                 </div>
                 <div class="form-group">

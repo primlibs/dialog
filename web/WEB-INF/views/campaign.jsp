@@ -18,7 +18,7 @@
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
         
         <div class="row ">
-            <h3>Эвенты</h3>
+            <h3>Мои звонки</h3>
         </div>
 
         <div class="row ">

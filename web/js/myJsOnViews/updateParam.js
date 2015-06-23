@@ -12,8 +12,8 @@ $(function() {
      alert(str);*/
     $('.changingbtn').click(function() {
         var targetName = $(this).attr('id');
-        var target = $('['+targetName+']');
-        alert(target.attr('id'));
+        var changebleElem = $('[name = '+targetName+']');
+        prepareAndChange(changebleElem);
     });
 
 
@@ -51,37 +51,34 @@ $(function() {
 
     $('.changebleParam').dblclick(function() {
         var changebleElem = $(this);
-
-        
+        prepareAndChange(changebleElem);
+    });
+    
+    function prepareAndChange(elem){
         var params = {};
-        changebleElem.each(function() {
-            $(this.attributes).each(function() {
-                if (isData(this.name)) {
-                    params[this.name.substring(5)] = this.value;
+        elem.each(function() {
+            $(elem.attributes).each(function() {
+                if (isData(elem.name)) {
+                    params[elem.name.substring(5)] = elem.value;
                 }
             });
         });
         var method = params['method'];
         delete params['method'];
-        /*var str="";
-         $.each(params,function(key,value){
-         str+=key+"-"+value+";";
-         });
-         alert(str);*/
 
-        var elemClone = changebleElem.clone();
-        var name = changebleElem.attr('name');
-        var paramType = $(this).attr('data-type');
-        var value = $(this).text();
+        var elemClone = elem.clone();
+        var name = elem.attr('name');
+        var paramType = $(elem).attr('data-type');
+        var value = $(elem).text();
         var input = "<input type=text id='inputForChangebleElem' class='inp' name='" + name + "' value='" + value + "'/>";
-        changebleElem.html(input);
+        elem.html(input);
         document.addEventListener('click', changesListener);
         function changesListener(event) {
             var newVal = $('#inputForChangebleElem').val();
             var target = $(event.target);
             if (target.attr('name') !== name) {
                 if (method !== undefined) {
-                    changebleElem.html(newVal);
+                    elem.html(newVal);
                     var supurl = "";
                     for (var key in params) {
                         supurl += "&" + key + "=" + params[key];
@@ -91,10 +88,6 @@ $(function() {
                         dataType: "json",
                         cache: false,
                         success: function(json) {
-                            /*var str;
-                             $(json).each(function(key, value) {
-                             str += key + "=" + value + "; ";
-                             })*/
                             if (json['status'] != true) {
                                 if (json['message'] != undefined) {
                                     alert(json['message']);
@@ -104,7 +97,7 @@ $(function() {
                             }
                         },
                         error: function(json) {
-                            changebleElem.html(value);
+                            elem.html(value);
                             alert("Ошибка: Обновить информацию не удалось, попробуйте обновить страницу и повторить операцию или обратитесь к системному администратору: "+json);
                         }
                     });
@@ -115,7 +108,7 @@ $(function() {
             }
 
         }
-    });
+    }
 
 function isData(str) {
             if (~str.indexOf("data-")) {
