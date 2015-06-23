@@ -19,7 +19,7 @@
                         <th></th>
                         <th>Дата</th>
                         <th>Кампания</th>
-                        <th>Стратегия</th>
+                        <th>Сценарий</th>
                     </tr>
                     <c:forEach var="event" items="${postponedEvents}" varStatus="myIndex">
                         <tr>

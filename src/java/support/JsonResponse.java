@@ -10,15 +10,15 @@ package support;
  *
  * @author bezdatiuzer
  */
-public class JsonResponce {
+public class JsonResponse {
     private Boolean status = null;
     private String message = "";
-    /*private JsonResponce JsonResponce(){
-        return JsonResponce();
+    /*private JsonResponse JsonResponse(){
+        return JsonResponse();
     }*/
     
-    public static JsonResponce getInstance(){
-        return new JsonResponce();
+    public static JsonResponse getInstance(){
+        return new JsonResponse();
     }
 
     public Boolean isStatus() {

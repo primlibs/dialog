@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.FailReasonService;
+import service.GroupService;
 import service.ModuleService;
 import service.StrategyService;
+import support.JsonResponse;
 import support.StringAdapter;
 
 /**
@@ -40,6 +42,8 @@ public class StrategyController extends WebController {
 
     @Autowired
     private FailReasonService failReasonService;
+    @Autowired
+    private GroupService groupService;
 
     @RequestMapping("/show")
     public String showStrategyListPage(Map<String, Object> model, HttpServletRequest request,
@@ -52,7 +56,7 @@ public class StrategyController extends WebController {
         if (submit != null) {
             strategyService.saveStrategy(strategyName, cabinetId);
             if (strategyService.getErrors().isEmpty()) {
-                model.put("message", "Стратегия " + strategyName + " создана");
+                model.put("message", "Сценарий " + strategyName + " создан");
             }
         }
         if (!strategyService.getErrors().isEmpty()) {
@@ -104,7 +108,7 @@ public class StrategyController extends WebController {
             @RequestParam(value = "strategyId") Long strategyId,
             @RequestParam(value = "groupName") String groupName,
             RedirectAttributes ras) throws Exception {
-
+        lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
         strategyService.saveGroup(strategyId, groupName, cabinetId);
@@ -124,6 +128,7 @@ public class StrategyController extends WebController {
             @RequestParam(value = "moduleName") String moduleName,
             RedirectAttributes ras) throws Exception {
 
+        lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         Long moduleId=strategyService.saveModule(groupId, moduleName, cabinetId);
         ras.addFlashAttribute("errors", strategyService.getErrors());
@@ -139,7 +144,8 @@ public class StrategyController extends WebController {
             @RequestParam(value = "strategyId") Long strategyId,
             RedirectAttributes ras) throws Exception {
         //Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         strategyService.deleteStrategy(strategyId);
 
         ras.addFlashAttribute("errors", strategyService.getErrors());
@@ -152,8 +158,9 @@ public class StrategyController extends WebController {
             HttpServletRequest request,
             @RequestParam(value = "moduleId") Long moduleId,
             @RequestParam(value = "strategyId") Long strategyId,
-            RedirectAttributes ras) {
-
+            RedirectAttributes ras) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         ras.addFlashAttribute("module", moduleService.showModule(moduleId));
         ras.addAttribute("strategyId", strategyId);
         ras.addAttribute("moduleId", moduleId);
@@ -167,10 +174,11 @@ public class StrategyController extends WebController {
             @RequestParam(value = "moduleId") Long moduleId,
             @RequestParam(value = "strategyId") Long strategyId,
             @RequestParam(value = "bodyText") String bodyText,
-            RedirectAttributes ras) {
-
+            RedirectAttributes ras) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         if (moduleId != null) {
-            moduleId = moduleService.addBodyText(moduleId, bodyText);
+            moduleId = moduleService.addBodyText(moduleId, bodyText, cabinetId);
         } else {
             ras.addFlashAttribute("errors", "Выберите модуль");
         }
@@ -240,4 +248,37 @@ public class StrategyController extends WebController {
         model.put("strategyId", strategyId);
         return "failReasons";
     }
+    
+    @RequestMapping("/changegroupname")
+    @ResponseBody
+    public JsonResponse changeGroupName(Map<String, Object> model,HttpServletRequest request,
+            @RequestParam(value = "groupid") Long groupId, @RequestParam(value = "newval",required = false) String newVal) throws Exception{
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        groupService.updateName(newVal, groupId, cabinetId);
+        JsonResponse res = new JsonResponse();
+        res.setStatus(Boolean.TRUE);
+        if(!groupService.getErrors().isEmpty()){
+            res.setMessage(groupService.getErrorsAsString());
+            res.setStatus(Boolean.FALSE);
+        }
+        return res;
+    }
+    
+    @RequestMapping("/changemodulename")
+    @ResponseBody
+    public JsonResponse changeModuleName(Map<String, Object> model,HttpServletRequest request,
+            @RequestParam(value = "moduleid") Long moduleId, @RequestParam(value = "newval",required = false) String newVal) throws Exception{
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        moduleService.updateName(newVal, moduleId, cabinetId);
+        JsonResponse res = new JsonResponse();
+        res.setStatus(Boolean.TRUE);
+        if(!moduleService.getErrors().isEmpty()){
+            res.setMessage(moduleService.getErrorsAsString());
+            res.setStatus(Boolean.FALSE);
+        }
+        return res;
+    }
+    
 }

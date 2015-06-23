@@ -17,7 +17,7 @@
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
         
         <div class="row form-group">
-            <span style="font-size: 18px;font-weight: 500;"><b>Кампания: ${campaign.name}; Стратегия: ${campaign.strategy.strategyName};</b></span>
+            <span style="font-size: 18px;font-weight: 500;"><b>Кампания: ${campaign.name}; Сценарий: ${campaign.strategy.strategyName};</b></span>
         </div>    
             <!--<div class="form-group" role="group" >
                 <a href="<c:url value="/Event/campaignSpecification?campaignId=${param['campaignId']}"/>" class="btn btn-large" role="button"><= Кампания</a>

@@ -19,7 +19,7 @@
 
 
         <div class="row">
-                <h3>Стратегии</h3>
+                <h3>Сценарий</h3>
         </div>            
                 <div class="form-group">
                     <form action="<c:url value="/Strategy/show" />"  method="post"> 

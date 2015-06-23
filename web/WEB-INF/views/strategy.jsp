@@ -17,7 +17,8 @@
         <%@include file="/WEB-INF/jsp/error.jsp" %> 
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
 <script src="<c:url value="/js/myJsOnViews/strategy.js" />"></script>
-<div class="row form-group"><span class="standart_text" style="font-size: 18px;vertical-align: middle;"><b>Стратегия: <span class="changebleStrategyParam changebleParam"  name="strategyName" id="${strategy.strategyId}" style="cursor: pointer;display: inline-block;">${strategy.strategyName}</span></b></span> <span class="form-group">    
+<script src="<c:url value="/js/myJsOnViews/updateParam.js" />"></script>
+<div class="row form-group"><span class="standart_text" style="font-size: 18px;vertical-align: middle;"><b>Сценарий: <span class="changebleStrategyParam changebleParam"  name="strategyName" id="${strategy.strategyId}" style="cursor: pointer;display: inline-block;">${strategy.strategyName}</span></b></span> <span class="form-group">    
                 <a style="float: right;" href="<c:url value="/Strategy/failReasonEditor?strategyId=${strategy.strategyId} "/>" class="btn btn-large btn-danger" role="button">Словарь отказов</a> 
             </span></div>
         <div class="row">
@@ -50,16 +51,20 @@
                 <table class="table table-hover table-striped">
                     <c:forEach var="group" items="${strategy.getActiveGroupList()}" varStatus="myIndex">
 
-                        <tr style="background: moccasin;"><td>Группа: <ins>${group.groupName}</ins></td><td><a class="btn btn-primary btn-xs" role="button" href='<c:url value="/Group/deleteGroup?groupId=${group.groupId}&strategyId=${group.strategy.strategyId}"/>'>Удалить</a></td></tr>
+                        <tr style="background: moccasin;"><td data-groupid="${group.groupId}">Группа: <ins><span data-method="changegroupname" name="groupname_${group.groupId}" id="${group.groupId}">${group.groupName}</span></ins></td> 
+                            <td><a class="btn btn-warning btn-xs changingbtn" id="groupname_${group.groupId}" href="#">Изменить</a></td> 
+                            <td><a class="btn btn-primary btn-xs" role="button" href='<c:url value="/Group/deleteGroup?groupId=${group.groupId}&strategyId=${group.strategy.strategyId}"/>'>Удалить</a></td></tr>
 
                         <tr><td><form class="form-inline" id="addingModuleForm_${myIndex.count}" action='<c:url value="/Strategy/addModule" />'  method="post"></form>
                                 <input class="span5" form="addingModuleForm_${myIndex.count}" id="appendedInputButton" name="moduleName" style="width: 128px " size="16" type="text" placeholder="Новый модуль"></td>
+                            <td></td>
                             <td><input type="hidden" form="addingModuleForm_${myIndex.count}" name="groupId" value=${group.groupId}>
                                 <input type="hidden" form="addingModuleForm_${myIndex.count}" name="strategyId" value=${group.strategy.strategyId}>
                                 <button type="submit" form="addingModuleForm_${myIndex.count}" name="submit" class="btn btn-primary btn-xs">Добавить модуль</button></td></tr>
 
                         <c:forEach var="module" items="${group.getActiveModuleList()}">
-                            <tr><td><span style="cursor: pointer;" ondblclick="location = '<c:url value="/Strategy/showModule?moduleId=${module.moduleId}&strategyId=${group.strategy.strategyId}"/>'">${module.moduleName}</span></td>
+                            <tr><td><span style="cursor: pointer;" ondblclick="location = '<c:url value="/Strategy/showModule?moduleId=${module.moduleId}&strategyId=${group.strategy.strategyId}"/>'"><span data-method="changemodulename" name="modulename_${module.moduleId}" id="${module.moduleId}">${module.moduleName}</span></span></td>
+                                 <td><a class="btn btn-warning btn-xs changingbtn" id="modulename_${module.moduleId}" href="#">Изменить</a></td> 
                                 <td><a class="btn btn-primary btn-xs" role="button" href='<c:url value="/Group/deleteModule?moduleId=${module.moduleId}&groupId=${group.groupId}&strategyId=${group.strategy.strategyId}"/>'>Удалить</a></td></tr>
                         </c:forEach>
 

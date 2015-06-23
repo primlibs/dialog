@@ -185,7 +185,7 @@ public class StrategyService extends PrimService {
             strategyDao.update(strategy);
 
         } else {
-            addError("Стратегия не найдена по: " + strategyId);
+            addError("Сценарий не найден по ИД: " + strategyId);
         }
 
     }

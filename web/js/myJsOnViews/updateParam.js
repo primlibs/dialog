@@ -10,7 +10,11 @@ $(function() {
      str+= key + ": " + value+";";
      });
      alert(str);*/
-
+    $('.changingbtn').click(function() {
+        var targetName = $(this).attr('id');
+        var target = $('['+targetName+']');
+        alert(target.attr('id'));
+    });
 
 
 
@@ -48,12 +52,7 @@ $(function() {
     $('.changebleParam').dblclick(function() {
         var changebleElem = $(this);
 
-        function isData(str) {
-            if (~str.indexOf("data-")) {
-                return true;
-            }
-            return false;
-        }
+        
         var params = {};
         changebleElem.each(function() {
             $(this.attributes).each(function() {
@@ -118,7 +117,12 @@ $(function() {
         }
     });
 
-
+function isData(str) {
+            if (~str.indexOf("data-")) {
+                return true;
+            }
+            return false;
+        }
     /*$('.changebleParam').dblclick(function(){
      var changebleElem = $(this);
      var elemClone = changebleElem.clone();//?

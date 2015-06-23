@@ -32,4 +32,13 @@ public class GroupDao extends Dao<Group>{
         return query.list();
     }
     
+    public Group getActiveGroup(Long groupId,Long pkId){
+        String hql = "from Group where groupId=:groupId and cabinet.pkId=:pkId and deleteDate is null";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("pkId", pkId);
+        query.setParameter("groupId", groupId);
+        Group res =(Group)query.uniqueResult();
+        return res;
+    }
+    
 }

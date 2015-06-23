@@ -131,7 +131,7 @@
 
                         <div class="caption">
                             <h3 id="thumbnail-label" style="height: 50px;">Пробная подписка<a class="anchorjs-link" href="#thumbnail-label"><span class="anchorjs-icon"></span></a></h3>
-                            <div style="height: 180px;">
+                            <div style="height: 200px;">
                                 <p>Подписка на 14 дней.</p>
                                 <p>Количество пользователей <b>до 3</b></p>
                                 <p>Количество телемаркетинговых кампаний до 5</p>
@@ -139,7 +139,7 @@
 
                             </div>
                             <p>Строимость: <strong>бесплатно</strong></p>
-                            <p><a href="<c:url value="/Registration/registration" />" class="btn btn-default" style="background-color: #ccc;" role="button">Получить Диалог</a></p>
+                            <p><a href="<c:url value="/Registration/registration" />" class="btn btn-default" id="dialogfreebtn" style="background-color: #ccc;" role="button">Получить Диалог</a></p>
                         </div>
                     </div>
                 </div>
@@ -147,7 +147,7 @@
                     <div class="thumbnail">
                         <div class="caption">
                             <h3 id="thumbnail-label" style="height: 50px;">Тариф базовый<a class="anchorjs-link" href="#thumbnail-label"><span class="anchorjs-icon"></span></a></h3>
-                            <div style="height: 180px;">
+                            <div style="height: 200px;">
                                 <p>Подписка на 12 месяцев</p>
                                 <p>Количество пользователей <b>до 10</b></p>
                                 <p>Количество телемаркетинговых кампаний неограниченно</p>
@@ -164,7 +164,7 @@
                     <div class="thumbnail">
                         <div class="caption">
                             <h3 id="thumbnail-label" style="height: 50px;">Тариф продвинутый<a class="anchorjs-link" href="#thumbnail-label"><span class="anchorjs-icon"></span></a></h3>
-                            <div style="height: 180px;">
+                            <div style="height: 200px;">
                                 <p>Подписка на 12 месяцев</p>
                                 <p>Количество пользователей <b>до 30</b></p>
                                 <p>Количество телемаркетинговых кампаний неограниченно</p>
@@ -181,7 +181,7 @@
                     <div class="thumbnail">
                         <div class="caption">
                             <h3 id="thumbnail-label" style="height: 50px;">Тариф максимальный<a class="anchorjs-link" href="#thumbnail-label"><span class="anchorjs-icon"></span></a></h3>
-                            <div style="height: 180px;">
+                            <div style="height: 200px;">
                                 <p>Подписка на 12 месяцев</p>
                                 <p>Количество пользователей <b>не ограничено</b></p>
                                 <p>Количество телемаркетинговых кампаний неограниченно</p>
@@ -196,7 +196,7 @@
                 
             </div>
                         
-                        <div class="">
+                        <!--<div class="">
                     <div class="thumbnail">
                         <div class="caption">
                             <h3 id="thumbnail-label" style="text-align: center;">Диалог навсегда<a class="anchorjs-link" ><span class="anchorjs-icon"></span></a></h3>
@@ -205,7 +205,7 @@
                             <p><a href="<c:url value="/Registration/registration" />" class="btn btn-danger btn-block" role="button">Получить Диалог</a> </p>
                         </div>
                     </div>
-                </div>
+                </div>-->
 
         </div>
         <div class="container" style="margin-top: 20px;">

@@ -9,7 +9,9 @@ import dao.GroupDao;
 import dao.ModuleDao;
 import dao.PersonalCabinetDao;
 import entities.Module;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -35,20 +37,39 @@ public class ModuleService extends PrimService {
     @Autowired
     private GroupDao groupDao;
     
-    public void deleteModule(Long moduleId) {
-        Module module = moduleDao.find(moduleId);
-        if (module != null) {
-            if(!module.getModuleEventClientList().isEmpty()){
-                Date date = new Date();
-                module.setDeleteDate(date);
-                moduleDao.update(module);
-            }else{
-                moduleDao.delete(module);
+    private final String deleteMarkBegin = " (редакция ";
+    private final String dmb = deleteMarkBegin;
+    private final String deleteMarkEnd = ")";
+    private final String dme = deleteMarkEnd;
+    
+    public void deleteModule(Long moduleId,Long pkId) {
+        if(moduleId!=null){
+            Module module = moduleDao.find(moduleId);
+            if (module != null) {
+                if(!module.getModuleEventClientList().isEmpty()){
+                    List<String>names= getExistingModuleNames(module.getGroup().getId(),pkId);
+                    Date date = new Date();
+                    String name = module.getModuleName();
+                    boolean valid = false;
+                    String newName="";
+                    for(int i=0;valid==true;i++){
+                        newName = name+dmb+i+dme;
+                        valid = !names.contains(newName);
+                    }
+                    module.setModuleName(newName);
+                    module.setDeleteDate(date);
+                    if(validate(module)){
+                        moduleDao.update(module);
+                    }
+                }else{
+                    moduleDao.delete(module);
+                }
+            } else {
+                addError("Модуль не найден по ИД: " + moduleId);
             }
-        } else {
-            addError("Модуль не найден по ИД: " + moduleId);
+        }else{
+            addError("Ид модуля не передан");
         }
-        
     }
     
     public Module showModule(Long moduleId) {
@@ -62,8 +83,7 @@ public class ModuleService extends PrimService {
         }
     }
     
-    public Long addBodyText(Long moduleId,
-            String bodyText) {
+    public Long addBodyText(Long moduleId, String bodyText,Long pkId) {
         //TO DO check for links if null - delete
         Module module = moduleDao.find(moduleId);
         
@@ -82,7 +102,7 @@ public class ModuleService extends PrimService {
                     moduleDao.update(module);
                 }*/
                 if(validate(nm)){
-                    deleteModule(moduleId);
+                    deleteModule(moduleId,pkId);
                     moduleDao.save(nm);
                     return nm.getId();
                 }
@@ -111,5 +131,63 @@ public class ModuleService extends PrimService {
         }
         return null;
     }
+    
+    public void updateName(String newName,Long moduleId,Long pkId){
+        if(newName!=null){
+            if(!newName.equals("")){
+                Module m = moduleDao.getActiveModule(moduleId, pkId);
+                if(m!=null){
+                    if(isUniqueName(newName, m.getStrategy().getId(), pkId)){
+                        if(m.getModuleEventClientList().isEmpty()){
+                            m.setModuleName(newName);
+                            if(validate(m)){
+                                moduleDao.update(m);
+                            }
+                        }else{
+                            Module newm = new Module();
+                            newm.setBodyText(m.getBodyText());
+                            newm.setCabinet(m.getCabinet());
+                            newm.setGroup(m.getGroup());
+                            newm.setStrategy(m.getStrategy());
+                            newm.setModuleName(newName);
+                            if(validate(newm)){
+                                deleteModule(moduleId, pkId);
+                                moduleDao.save(newm);
+                            }
+                        }
+                    }else{
+                        addError("модуль с таким наименованием уже существует в этой группе.");
+                    }
+                }else{
+                    addError("Модуль не найден!");
+                }
+            }else{
+                addError("Нужно ввести новое наименование модуля.");
+            }
+        }else{
+            addError("Наименование модуля не передано.");
+        }
+    }
+    
+    public boolean isUniqueName(String newName,Long groupId,Long pkId){
+        List<Module> ms = moduleDao.getActiveModules(pkId, groupId);
+        for(Module m:ms){
+            if(newName.equalsIgnoreCase(m.getModuleName())){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    private List<String> getExistingModuleNames(Long groupId,Long pkId){
+        List<Module> mods=moduleDao.getModules(groupId,pkId);
+        List<String> names = new ArrayList();
+        for(Module m:mods){
+            names.add(m.getModuleName());
+        }
+        return names;
+    }
+    
+    
     
 }

@@ -30,7 +30,7 @@ import service.GroupService;
 import service.ModuleService;
 import service.StrategyService;
 import support.AuthManager;
-import support.JsonResponce;
+import support.JsonResponse;
 import support.StringAdapter;
 
 /**
@@ -342,14 +342,14 @@ public class EventController extends WebController {
 
     @RequestMapping("updateClientFromUser")
     @ResponseBody
-    public JsonResponce updateClientOrEvent(Map<String, Object> model, @RequestParam(value = "eventId",required = false) Long eventId,
+    public JsonResponse updateClientOrEvent(Map<String, Object> model, @RequestParam(value = "eventId",required = false) Long eventId,
             @RequestParam(value = "clientId") Long clientId, @RequestParam(value = "param") String param, 
             @RequestParam(value = "newVal") String newVal, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
 
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         
-        JsonResponce res = JsonResponce.getInstance();
+        JsonResponse res = JsonResponse.getInstance();
 
         clientService.updateClientField(param, clientId,eventId, newVal);
         List<String>errs=(List<String>)model.get("errors");

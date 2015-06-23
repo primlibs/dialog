@@ -26,7 +26,7 @@
                 <tr>
                     <th></th>
                     <th>Кампания</th>
-                    <th>Стратегия</th>
+                    <th>Сценарий</th>
                     <th>Количество клиентов</th>
                 </tr>
                 <c:forEach var="camp" items="${campaigns}" varStatus="myIndex">

@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-xs-3" for="selectRole">Выбрать стратегию:</label>
+                    <label class="control-label col-xs-3" for="selectRole">Выбрать сценарий</label>
                     <div class="col-xs-9">
                         <select name="strategyId">
                             <c:forEach var="strategy" items="${strategies}" varStatus="myIndex">

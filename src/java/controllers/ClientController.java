@@ -23,7 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.ClientService;
 import service.EventService;
 import service.TagService;
-import support.JsonResponce;
+import support.JsonResponse;
 
 /**
  *
@@ -81,7 +81,9 @@ public class ClientController extends WebController {
             @RequestParam(value = "uid", required = false) String uid,
             @RequestParam(value = "adress", required = false) String adress,@RequestParam(value = "nameCompany", required = false) String nameCompany,
             @RequestParam(value = "name", required = false) String name,@RequestParam(value = "phone", required = false) String phone,
-            @RequestParam(value = "tags", required = false) Long[] tags) throws IOException {
+            @RequestParam(value = "tags", required = false) Long[] tags) throws IOException, Exception {
+        lk.dataByUserAndCompany(request, model);
+     
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         
         HSSFWorkbook workbook = clientService.getXls(cabinetId, uid, adress, nameCompany, name, phone, tags);
@@ -153,11 +155,11 @@ public class ClientController extends WebController {
     
     @RequestMapping("/updateclient")
     @ResponseBody
-    public JsonResponce updateClient(Map<String, Object> model,@RequestParam(value = "clientid") Long clientId,@RequestParam(value = "parametr") String parametr,
+    public JsonResponse updateClient(Map<String, Object> model,@RequestParam(value = "clientid") Long clientId,@RequestParam(value = "parametr") String parametr,
             @RequestParam(value = "newval") String newVal,HttpServletRequest request,RedirectAttributes ras) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        JsonResponce res = JsonResponce.getInstance();
+        JsonResponse res = JsonResponse.getInstance();
         
         clientService.updateClientField(parametr, clientId, null, newVal);
         if(clientService.getErrors().isEmpty()){

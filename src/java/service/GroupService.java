@@ -105,5 +105,40 @@ public class GroupService extends PrimService {
         }
         return activeModeleList;
     }
+    
+    public void updateName(String newName,Long groupId,Long pkId){
+        if(newName!=null){
+            if(!newName.equals("")){
+                Group g = groupDao.getActiveGroup(groupId, pkId);
+                if(g!=null){
+                    if(isUniqueName(newName, g.getStrategy().getId(), pkId)){
+                        g.setGroupName(newName);
+                        if(validate(g)){
+                            groupDao.update(g);
+                        }
+                    }else{
+                        addError("Группа с таким наименованием уже существует в этом сценарии.");
+                    }
+                }else{
+                    addError("Группа не найдена!");
+                }
+            }else{
+                addError("Нужно ввести новое наименование группы.");
+            }
+        }else{
+            addError("Наименование группы не передано.");
+        }
+    }
+    
+    public boolean isUniqueName(String newName,Long StrategyId,Long pkId){
+        List<Group> gs = groupDao.getActiveGroups(pkId, StrategyId);
+        for(Group g:gs){
+            if(newName.equalsIgnoreCase(g.getGroupName())){
+                return false;
+            }
+        }
+        return true;
+    }
+    
 
 }

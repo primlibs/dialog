@@ -31,7 +31,7 @@
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
         <div class="row form-group">
-            <span style="font-size: 18px;">   Стратегия: ${strategy.strategyName}</span><c:if test="${not empty event.postponedDate}">
+            <span style="font-size: 18px;">   Сценарий: ${strategy.strategyName}</span><c:if test="${not empty event.postponedDate}">
                 <span> Контакт был перенесен на <fmt:formatDate type="both" value="${event.postponedDate}"/></span>
                             </c:if>
         </div>

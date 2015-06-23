@@ -31,7 +31,7 @@ public class CampaignDao extends Dao<Campaign> {
     }
     
     public List<String> getUniqs(Long campaignId,Long pkId){
-        String hql = "select event.client.uniqueId from Event where cabinet.pkId=:pkId campaign.campaignId=:campaignId";
+        String hql = "select ev.client.uniqueId from Event ev where ev.cabinet.pkId=:pkId and ev.campaign.campaignId=:campaignId";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
         query.setParameter("pkId", pkId);

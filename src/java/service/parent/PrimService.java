@@ -113,6 +113,14 @@ public class PrimService {
         return serviceResult.getErrors();
     }
     
+    public String getErrorsAsString(){
+        String err="";
+        for(String e:serviceResult.getErrors()){
+            err+=e+"; ";
+        }
+        return err;
+    }
+    
     public void addMessage(String message){
         serviceResult.addMessage(message);
     }

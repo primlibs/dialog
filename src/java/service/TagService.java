@@ -97,7 +97,7 @@ public class TagService extends PrimService {
         }
     }
     
-    public boolean changeName(Long tagId,String newName){
+    public boolean changeName(Long tagId,String newName,Long pkId){
         Tag tag = tagDao.find(tagId);
         if(tag!=null){
             tag.setName(newName);

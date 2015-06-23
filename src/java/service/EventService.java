@@ -118,7 +118,7 @@ public class EventService extends PrimService {
         if (pk != null) {
             return pk.getStrategyList();
         } else {
-            addError("Стратегия не найдена по id " + cabinetId);
+            addError("Сценарий не найден по id " + cabinetId);
         }
         return new ArrayList();
     }
@@ -158,7 +158,7 @@ public class EventService extends PrimService {
                     addError("наименование кампании не может быть пустым");
                 }
             } else {
-                addError("не найдена стратегия по id" + strategyId);
+                addError("не найдена сценарий по id" + strategyId);
             }
         } else {
             addError("не найден личный кабинет по id" + cabinetId);

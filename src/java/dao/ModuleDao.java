@@ -48,6 +48,23 @@ public class ModuleDao extends Dao<Module> {
         query.setParameter("pkId", pkId);
         return query.list();
     }
+    
+    public Module getActiveModule(Long moduleId,Long pkId){
+        String hql = "from Module where moduleId=:moduleId and cabinet.pkId=:pkId and deleteDate is null";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("pkId", pkId);
+        query.setParameter("moduleId", moduleId);
+        Module res =(Module)query.uniqueResult();
+        return res;
+    }
+    
+    public List<Module> getModules(Long groupId,Long pkId){
+        String hql = "from Module where group.groupId=:groupId and cabinet.pkId=:pkId";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("groupId", groupId);
+        query.setParameter("pkId", pkId);
+        return query.list();
+    }
 
  
 }

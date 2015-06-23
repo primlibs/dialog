@@ -47,8 +47,8 @@ public class Strategy extends PrimEntity {
     private PersonalCabinet cabinet;
 
     @Column(name = "name")
-    @NotNull(message = "Наименование стратегии не указано")
-    @NotBlank(message = "Наименование стратегии не указано")
+    @NotNull(message = "Наименование сценария не указано")
+    @NotBlank(message = "Наименование сценария не указано")
     private String strategyName;
 
     @Column(name = "delete_date")

@@ -18,7 +18,7 @@
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
 <script src="<c:url value="/js/myJsOnViews/campaignSpecification.js" />"></script>
         <div class="row form-group">
-            <span style="font-size: 18px;font-weight: 500;"><b>Кампания: ${campaign.name}; Стратегия: ${campaign.strategy.strategyName};</b></span>
+            <span style="font-size: 18px;font-weight: 500;"><b>Кампания: ${campaign.name}; Сценарий ${campaign.strategy.strategyName};</b></span>
             </div>
             <div class="row form-group">
                 <form style="float: left;" class="form-inline" enctype="multipart/form-data" action="<c:url value="/Event/setXls" />" method="post">
