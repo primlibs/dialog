@@ -140,7 +140,7 @@
                                             </div>
                                             <div class="modal-body">
                                                 <form id="postponeForm" action="<c:url value="/Event/postponeEvent" />" method="post">
-                                                    <p><textarea rows="5" cols="50" name="comment"> </textarea>
+                                                    <p><textarea rows="5" cols="50" name="comment">${event.comment} </textarea>
 
                                                     <p>    <div class="form-group">
                                                         <div class="input-group date" id="datetimepicker1">

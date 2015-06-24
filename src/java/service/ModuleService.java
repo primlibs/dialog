@@ -137,7 +137,7 @@ public class ModuleService extends PrimService {
             if(!newName.equals("")){
                 Module m = moduleDao.getActiveModule(moduleId, pkId);
                 if(m!=null){
-                    if(isUniqueName(newName, m.getStrategy().getId(), pkId)){
+                    if(isUniqueName(newName, m.getGroup().getId(), pkId)){
                         if(m.getModuleEventClientList().isEmpty()){
                             m.setModuleName(newName);
                             if(validate(m)){
@@ -171,11 +171,14 @@ public class ModuleService extends PrimService {
     
     public boolean isUniqueName(String newName,Long groupId,Long pkId){
         List<Module> ms = moduleDao.getActiveModules(pkId, groupId);
+        String err="";
         for(Module m:ms){
+            //err+=m.getModuleName()+"; ";
             if(newName.equalsIgnoreCase(m.getModuleName())){
                 return false;
             }
         }
+        //addError(err);
         return true;
     }
     

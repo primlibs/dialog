@@ -51,7 +51,7 @@
                 <table class="table table-hover table-striped">
                     <c:forEach var="group" items="${strategy.getActiveGroupList()}" varStatus="myIndex">
 
-                        <tr style="background: moccasin;"><td data-groupid="${group.groupId}">Группа: <ins><span data-method="changegroupname" name="groupname_${group.groupId}" id="${group.groupId}">${group.groupName}</span></ins></td> 
+                        <tr style="background: moccasin;"><td data-groupid="${group.groupId}">Группа: <ins><span data-method="changegroupname" name="groupname_${group.groupId}" data-groupid="${group.groupId}" id="${group.groupId}" data-method="changegroupname">${group.groupName}</span></ins></td> 
                             <td><a class="btn btn-warning btn-xs changingbtn" id="groupname_${group.groupId}" href="#">Изменить</a></td> 
                             <td><a class="btn btn-primary btn-xs" role="button" href='<c:url value="/Group/deleteGroup?groupId=${group.groupId}&strategyId=${group.strategy.strategyId}"/>'>Удалить</a></td></tr>
 
@@ -63,7 +63,7 @@
                                 <button type="submit" form="addingModuleForm_${myIndex.count}" name="submit" class="btn btn-primary btn-xs">Добавить модуль</button></td></tr>
 
                         <c:forEach var="module" items="${group.getActiveModuleList()}">
-                            <tr><td><span style="cursor: pointer;" ondblclick="location = '<c:url value="/Strategy/showModule?moduleId=${module.moduleId}&strategyId=${group.strategy.strategyId}"/>'"><span data-method="changemodulename" name="modulename_${module.moduleId}" id="${module.moduleId}">${module.moduleName}</span></span></td>
+                            <tr><td><span style="cursor: pointer;" ondblclick="location = '<c:url value="/Strategy/showModule?moduleId=${module.moduleId}&strategyId=${group.strategy.strategyId}"/>'"><span data-method="changemodulename" data-moduleid="${module.moduleId}" name="modulename_${module.moduleId}" id="${module.moduleId}">${module.moduleName}</span></span></td>
                                  <td><a class="btn btn-warning btn-xs changingbtn" id="modulename_${module.moduleId}" href="#">Изменить</a></td> 
                                 <td><a class="btn btn-primary btn-xs" role="button" href='<c:url value="/Group/deleteModule?moduleId=${module.moduleId}&groupId=${group.groupId}&strategyId=${group.strategy.strategyId}"/>'>Удалить</a></td></tr>
                         </c:forEach>
