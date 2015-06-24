@@ -51,7 +51,7 @@ public class ModuleService extends PrimService {
                     Date date = new Date();
                     String name = module.getModuleName();
                     boolean valid = false;
-                    String newName="";
+                    String newName=name+dmb+0+dme;
                     for(int i=0;valid==true;i++){
                         newName = name+dmb+i+dme;
                         valid = !names.contains(newName);

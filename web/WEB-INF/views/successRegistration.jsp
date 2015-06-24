@@ -21,10 +21,11 @@
 
 
     <center style="margin-top: 114px;">
-        <form>
+        <form method="post" action="j_spring_security_check" class="login">
             <h2 >Регистрация посетителя успешно завершена</h2> <br>
-
-            <a href="<c:url value="/login"/>" class="btn btn-primary" role="button">Войти</a>
+            <input type="hidden" name="j_username" value="${username}">
+            <input type="hidden" name="j_password" value="${password}">
+            <button type="submit" class="btn btn-primary">Войти</button>
         </form>
     </center>
 
