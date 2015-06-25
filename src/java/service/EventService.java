@@ -1003,18 +1003,24 @@ public class EventService extends PrimService {
         return mclist;
     }
     
-    public List<CabinetUser>getSortedCUListForCampaignSpecification(Long campaignId, Long pkId){
+    public List<CabinetUser>getSurnameSortedCUListForCampaignSpecification(Long campaignId, Long pkId){
         List<CabinetUser>cusers = getCUListForCampaignSpecification(campaignId,pkId);
-        Collections.sort(cusers, new CUComparator());
+        Collections.sort(cusers, new CUSurnameComparator());
         return cusers;
     }
 
-    class CUComparator implements Comparator<CabinetUser> {
-
+    private class CUSurnameComparator implements Comparator<CabinetUser> {
         @Override
         public int compare(CabinetUser a, CabinetUser b) {
             return a.getUser().getSurname().compareToIgnoreCase(b.getUser().getSurname());
         }
     }
+    
+    /*public LinkedHashMap<Long,HashMap<String,String>>GetCampaignResultReportData(List<Long> campaignIds,Long PkId){
+        List<Object> daoRes = eventDao.getUserAndAssignedAndSuccAndFailedByaDateAndCampaign(campaignIds, PkId);
+        for(Object o:daoRes){
+            
+        }
+    }*/
 
 }

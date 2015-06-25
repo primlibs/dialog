@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 import support.DateAdapter;
@@ -406,6 +407,30 @@ public class EventDao extends Dao<Event> {
         String hql = "select distinct ev.user from Event ev where ev.cabinet.pkId=:pkId and ev.campaign.campaignId=:campaignId";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
+        query.setParameter("pkId", pkId);
+        return query.list();
+    }
+    
+    public List<User> getParticipatedUsers(Long pkId){
+        String hql = "select distinct ev.user from Event ev where ev.cabinet.pkId=:pkId";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("pkId", pkId);
+        return query.list();
+    }
+    
+    public List<Object> getUserAndAssignedAndSuccAndFailedByaDateAndCampaign(List<Long>campaignIds,Long pkId){
+        HashMap<String,Object>paramMap=new HashMap();
+        
+        String hql = "select distinct(ev.user),sum(case when ev.status=:succsessful then 1 else 0 end),sum(case when ev.status=:failed then 1 else 0 end) from Event ev "
+                + "where ev.cabinet.pkId=:pkId";
+        if(campaignIds!=null&&!campaignIds.isEmpty()){
+            paramMap.put("campaignIds",campaignIds);
+            hql+=" and ev.campaignId in (:campaignIds)";
+        }
+        Query query = getCurrentSession().createQuery(hql);
+        for(Map.Entry<String,Object> entry:paramMap.entrySet()){
+            query.setParameterList(entry.getKey(), (List<Long>)entry.getValue());
+        }
         query.setParameter("pkId", pkId);
         return query.list();
     }

@@ -24,7 +24,7 @@
             <h4> Отчет по операторам </h4>
         </div>
             <div class="row">
-            <form role="form" class="form-inline" action="<c:url value="/UserReport/summarizedReport" />">
+            <form role="form" class="form-inline form-group" action="<c:url value="/UserReport/summarizedReport" />">
                 <div class="form-group">
                     Дата начала периода
                     <div class="input-group date" id="datetimepicker3"><input type="text" name="dateCampaignFrom" id="dateCampaignFrom" class="form-control" />
