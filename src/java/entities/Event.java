@@ -65,6 +65,11 @@ public class Event extends PrimEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     //@Index(name="userIndex")
     private User user;
+    
+    @JoinColumn(name = "cabinet_user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    //@Index(name="userIndex")
+    private CabinetUser cabinetUser;
 
     @Column(name = "status")
     private Integer status;
@@ -222,5 +227,15 @@ public class Event extends PrimEntity {
             return "Не определен";
         }
     }
+
+    public CabinetUser getCabinetUser() {
+        return cabinetUser;
+    }
+
+    public void setCabinetUser(CabinetUser cabinetUser) {
+        this.cabinetUser = cabinetUser;
+    }
+    
+    
 
 }

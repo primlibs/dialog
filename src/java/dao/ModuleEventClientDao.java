@@ -7,6 +7,8 @@ package dao;
 
 import dao.parent.Dao;
 import entities.ModuleEventClient;
+import java.util.List;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -19,6 +21,13 @@ public class ModuleEventClientDao extends Dao<ModuleEventClient>   {
     @Override
     public Class getSupportedClass() {
        return ModuleEventClient.class;
+    }
+    
+    public List<Object> getDataForfailReport(Long campaignId,Long pkId){
+        String hql="select mec.module from ModuleEventClient mec where mec.event.status=:failed and mec.event.campaign.campaignId=:campaignId and mec.cabinet.pkId=:pkId";
+        
+        Query query = getCurrentSession().createQuery(hql);
+        return query.list();
     }
     
 }
