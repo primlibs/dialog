@@ -8,6 +8,8 @@ package dao;
 import dao.parent.Dao;
 import entities.PersonalCabinet;
 import entities.User;
+import java.util.HashSet;
+import java.util.List;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
@@ -49,4 +51,29 @@ public class UserDao extends Dao<User> {
       
     return (User) query.uniqueResult();
     }
+       
+       public List<User> getParticipatedUsers(Long campaignId,Long pkId){
+        String hql = "select distinct ev.user from Event ev where ev.cabinet.pkId=:pkId and ev.campaign.campaignId=:campaignId";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("campaignId", campaignId);
+        query.setParameter("pkId", pkId);
+        return query.list();
+    }
+    
+    public List<User> getParticipatedUsers(Long pkId){
+        String hql = "select distinct ev.user from Event ev where ev.cabinet.pkId=:pkId";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("pkId", pkId);
+        return query.list();
+    }
+    
+    public List<User> getMakingCallsUsers(Long pkId){
+        String hql = "select cu.user from CabinetUser cu where cu.cabinet.pkId=:pkId and cu.makesCalls=1 and cu.deleteDate is null";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("pkId", pkId);
+        return query.list();
+    }
+    
+    
+       
 }

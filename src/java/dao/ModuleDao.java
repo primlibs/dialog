@@ -65,6 +65,13 @@ public class ModuleDao extends Dao<Module> {
         query.setParameter("pkId", pkId);
         return query.list();
     }
+    
+    public List<Module> getAllModules(Long pkId){
+        String hql = "from Module where cabinet.pkId=:pkId";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("pkId", pkId);
+        return query.list();
+    }
 
  
 }

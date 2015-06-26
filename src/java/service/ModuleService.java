@@ -11,6 +11,7 @@ import dao.PersonalCabinetDao;
 import entities.Module;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -191,6 +192,13 @@ public class ModuleService extends PrimService {
         return names;
     }
     
-    
+    public HashMap<Long,Module>getAllModulesMap(Long pkId){
+        List<Module>modules=moduleDao.getAllModules(pkId);
+        HashMap<Long,Module>res=new HashMap();
+        for(Module m:modules){
+            res.put(m.getId(), m);
+        }
+        return res;
+    }
     
 }

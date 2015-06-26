@@ -403,22 +403,9 @@ public class EventDao extends Dao<Event> {
         return query.list();
     }
     
-    public List<User> getParticipatedUsers(Long campaignId,Long pkId){
-        String hql = "select distinct ev.user from Event ev where ev.cabinet.pkId=:pkId and ev.campaign.campaignId=:campaignId";
-        Query query = getCurrentSession().createQuery(hql);
-        query.setParameter("campaignId", campaignId);
-        query.setParameter("pkId", pkId);
-        return query.list();
-    }
     
-    public List<User> getParticipatedUsers(Long pkId){
-        String hql = "select distinct ev.user from Event ev where ev.cabinet.pkId=:pkId";
-        Query query = getCurrentSession().createQuery(hql);
-        query.setParameter("pkId", pkId);
-        return query.list();
-    }
     
-    public List<Object> getUserAndAssignedAndSuccAndFailedByaDateAndCampaign(List<Long>campaignIds,Long pkId){
+    /*public List<Object> getUserAndAssignedAndSuccAndFailedByaDateAndCampaign(List<Long>campaignIds,Long pkId){
         HashMap<String,Object>paramMap=new HashMap();
         
         String hql = "select distinct(ev.user),sum(case when ev.status=:succsessful then 1 else 0 end),sum(case when ev.status=:failed then 1 else 0 end) from Event ev "
@@ -433,6 +420,6 @@ public class EventDao extends Dao<Event> {
         }
         query.setParameter("pkId", pkId);
         return query.list();
-    }
+    }*/
     
 }

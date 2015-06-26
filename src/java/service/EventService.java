@@ -978,7 +978,7 @@ public class EventService extends PrimService {
      List<Event> assignedEvents
      }*/
     public HashSet<CabinetUser> getParticipatedUsers(Long campaignId, Long pkId) {
-        List<User> users = eventDao.getParticipatedUsers(campaignId, pkId);
+        List<User> users = userDao.getParticipatedUsers(campaignId, pkId);
 
         HashSet<CabinetUser> cus = new HashSet();
         for (User u : users) {

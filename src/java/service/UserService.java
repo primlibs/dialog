@@ -15,7 +15,11 @@ import entities.PersonalCabinet;
 import entities.User;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -376,6 +380,35 @@ public class UserService extends PrimService {
             addError("Пользователь не найден по ИД: " + cabinetUserIdtoDelete );
         }
 
+    }
+    
+    public LinkedHashMap<Long,User> getMakingCallsAndParticipatedUsersMap(Long pkId){
+        LinkedHashMap<Long,User>res=new LinkedHashMap();
+        List<User> participatedUsers = userDao.getParticipatedUsers(pkId);
+        HashSet<Long>ids = new HashSet();
+        for(User u:participatedUsers){
+            ids.add(u.getId());
+        }
+        List<User> makingCallsUsers = userDao.getMakingCallsUsers(pkId);
+        List<User> preResList = new ArrayList();
+        preResList.addAll(participatedUsers);
+        for(User u:makingCallsUsers){
+            if(!ids.contains(u.getId())){
+                preResList.add(u);
+            }
+        }
+        Collections.sort(preResList,new SurnameComparator());
+        for(User u:preResList){
+            res.put(u.getId(),u);
+        }
+        return res;
+    }
+    
+    private class SurnameComparator implements Comparator<User> {
+        @Override
+        public int compare(User a, User b) {
+            return a.getSurname().compareToIgnoreCase(b.getSurname());
+        }
     }
 
 }
