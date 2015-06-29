@@ -160,5 +160,13 @@ public class User extends PrimEntity {
     public void setEventClientList(List<Event> eventClientList) {
         this.events = eventClientList;
     }
+    
+    public String getShortName(){
+        String res = this.surname + this.name.substring(0,1) + ".";
+        if(this.patronymic!=null&&!this.patronymic.equals("")){
+            res+=this.patronymic.substring(0, 1) + ".";
+        }
+        return res;
+    }
 
 }

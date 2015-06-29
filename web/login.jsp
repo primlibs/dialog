@@ -12,6 +12,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="./css/bootstrap.min.css" rel="stylesheet" type="text/css" >
+        <link href="./css/dialog.css" rel="stylesheet" type="text/css" >
         <link rel="shortcut icon" href="./img/icon(D).png">
     </head>
     <body >
@@ -28,109 +29,144 @@
                                 <!--<span style="float: left;margin-left: 10px;font-size: 25px;">Диалог</span>-->
 
                             </a>
-                            <div style="margin-left: 10px;">+7(342)<span style="font-size: 17px;"> 259-56-57</span></div>
+                            
                         </div>
-                        <p class="navbar-text navbar-right" style="margin-right: 10px;margin-top: 20px;"><a href="#" data-toggle="modal" data-target="#entrance" class="navbar-link">Вход </a> 
-                            или <a href="<c:url value="/Registration/registration" />" class="navbar-link">Регистрация </a> </p>
+                        <p class="navbar-text navbar-right" style="margin-right: 10px;margin-top: 20px;">
+						+7(342) <strong>259-56-57</strong><br/>
+						<a href="#" data-toggle="modal" data-target="#entrance" class="navbar-link">Вход </a> 
+                            или <a href="/Registration/registration" class="navbar-link">Регистрация </a> 
+							</p>
+							
                         
                     </div>
                     
                 </nav>
 
 
-                <div class="page-header">
-                    <h1>Диалог - это сервис для организации процесса телефонных продаж</h1>
+                <div class="page-header" style="margin-top:80px;">
+                    <h1>Диалог - это сервис для организации процесса телефонных переговоров с помощью речевых модулей</h1>
                 </div>
 
-                <div >
-                    <h3>Увеличить продажи в несколько раз. Обучить специалиста за 1 день.
+                <div>
+                    <h3>Увеличить продажи. 
                         Провести телемаркетинговую компанию по лояльности. Организовать удаленную работу.
                         Сделать прозрачным процесс продаж. Уберечь бизнес от утечки информации.
-                        Все это здесь.</h3>
+                        </h3>
                 </div>
-                <h2><a href="<c:url value="/Registration/registration" />" class="label label-danger " style="float: right;">Демо</a></h2>
             </div>
         </div>
         <div class="container">
-            <div >
-                <div class="page-header"><h3> Как это работает</h3></div>
-                <p>Вы описываете речевые модули, которые вам необходимы. Оператор в процессе диалога с
-                    клиентом получает подсказки  о том, что нужно говорить. При этом история диалогов фиксируется в 
-                    отчетах.</p>
-                <p>С программой <strong>Диалог</strong> менеджеры работают по готовым речевым модулям. Во первых, менеджеры  не
-                    тратят время на выдумывание и заучивание текста. Во вторых, снимается психологический барьер. 
-                    Это помогает менеджерам работать с клиентами быстрее на 20%. Новый сотрудник полностью включиться в работу в течение 2 часов. 
-                    Таким образом при расширении штата снижаются затраты на обучение.Кроме того Диалог доступен повсюду, где есть интернет. 
-                    Это позволяет нанять на удаленную работу менее дорогостоящих сотрудников.</p>
-
-                <p>В программе предусмотрено 2 роли: администратор и оператор. Администратору доступна работа с клиентской базой и отчетами. 
-                    Оператор в каждый момент времени работает только с одной карточкой клиента, 
-                    то есть у него отсутствует возможность скопировать весь список клиентов. 
-                    Так же оператор не может вернуться к клиентам, которых он обработал. Это практически исключает утечку клиентской базы</p>
-
-
+            <div>
+                <div class="page-header"><h2> Что такое Диалог</h2></div>
+                <h3><p>Онлайн-сервис, представляет из себя личный кабинет, в котором вы создаете сценарии разговора.</p>
+                <p>Ваши сотрудники общаются по заданным сценариям с вашими клиентами, получая на экране монитора подсказки.</p>
+                <p>Вы получаете отчетность по эффективности работы и качеству ваших сценариев </p></h3>
             </div>
         </div>
 
         <div class="container" style="margin-top: 20px;">
-            <div >
+            <div>
                 <div class="row">
                     <div class="col-sm-3"></div>
                     <!--<div class="col-sm-7">
                         <iframe width="560" height="315" src="https://www.youtube.com/embed/G0eIbWXek-Q" frameborder="0" allowfullscreen></iframe>
                     </div>-->
                 </div>
-                <h1><a href="<c:url value="/Registration/registration" />" class="label label-warning">Попробовать</a></h1>
+                <h1><a href="/Registration/registration" class="label label-warning">Протестировать</a></h1>
 
             </div>
         </div>    
-        <div class="container" style="margin-top: 20px;">
-            <div class="page-header"><h3>Плюсы программы</h3></div>
-            <div>
-                <div class="list-group">
-                    <a class="list-group-item">
-                        <p class="list-group-item-text">
-                            <strong>Диалог</strong> позволяет редактировать речевые модули "на лету",
-                            то есть улучшать процесс телефонных коммуникаций можно прямо в момент проведения кампании </p>
-                    </a>
-                    <a class="list-group-item ">
-                        <p class="list-group-item-text">
-                            Благодаря <strong>Диалогу</strong> процесс найма сотрудника стал легче. 
-                            Плюс со стороны работодателя в том, что работать с программой может человек без специальной подготовки. 
-                            Плюс соискателя в том, что кандидат может начать работать сразу,
-                            ему не нужно проходить тесты на профессиональную пригодность и заучивать большой объем информации. 
-                            Так как в рабочей области оператора имеются подсказки, речевые модули.</p>
-                    </a>
-                    <a class="list-group-item ">
-                        <p class="list-group-item-text">
-                            Новый сотрудник быcтро вливается в коллектив. Начать работать проще за счет готовых речевых модулей. 
-                            Таким образом мы снимаем с оператора ответственность, так как он ведет диалог согласно речевым модулям. 
-                            Это снимает психологический барьер, когда оператор разговаривает с клиентом</p>
-                    </a>
-                    <a  class="list-group-item ">
-                        <p class="list-group-item-text">
-                            Все данные о клиентах доступны в вашем  личном кабинете. Только авторизованному пользователю
-                            доступны рабочие области.</p>
-                    </a>
-                    <a class="list-group-item ">
-                        <p class="list-group-item-text">
-                            Наши сервера работают 24 часа в сутки, что обеспечивает постоянную работоспособность. 
-                            На случай чрезвычайной ситуации мы создаем резервную копию, 
-                            что позволяет восстановить рабочее состояние программы.</p>
-                    </a>
-                </div>
-            </div>
-            <h2><a href="<c:url value="/Registration/registration" />" class="label label-danger " style="float: right;">Демо-версия на 14 дней бесплатно</a></h2>
-        </div>
+       
 
-        <div class="container" style="margin-top: 20px;">
-            <div class="page-header"><h3>Стоимость</h3></div>
+		
+		
+		<div class="container" style="margin-top: 20px;">
+            <div class="page-header"><h2>Премущества Длалога перед списком клиентов и распечатанными речевыми модулями</h2></div>
             <div class="row">
                 <div class="col-sm-6 col-md-3">
                     <div class="thumbnail">
 
                         <div class="caption">
-                            <h3 id="thumbnail-label" style="height: 50px;">Пробная подписка<a class="anchorjs-link" href="#thumbnail-label"><span class="anchorjs-icon"></span></a></h3>
+			
+							<img src="\img\121.jpg"  height="180px" width="240px;" class="img-rounded"/>
+							<h4 id="thumbnail-label" style="height: 50px;">Безопасность</h3>
+                            <div style="height: 200px;">
+								<p>Сотрудники, которые звонят, не видят весь список клиентов одновременно и не имеют возможности скачать его.
+								В каждый момент времени звонящий работает только с одним клиентом.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <div class="thumbnail">
+
+                        <div class="caption">
+
+							<img src="\img\122.jpg" height="180px"  width="240px;" class="img-rounded"/>
+
+						   <h4 id="thumbnail-label" style="height: 50px;">Гибкость</h4>
+                            <div style="height: 200px;">
+								<p>Вы получаете возможность редактировать сценарии прямо в процессе проведения обзвона клиентов. Получаете гибкую самообучающуюся систему.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+				<div class="col-sm-6 col-md-3">
+                    <div class="thumbnail">
+
+                        <div class="caption">
+			
+							<img src="\img\123.jpg" height="180px"  width="240px;" class="img-rounded"/>
+   
+						<h4 id="thumbnail-label" style="height: 50px;">Статистика</h4>
+                            <div style="height: 200px;">
+								<p>Вы имеете доступ к статистике звонков, отказов, удачных и неудачных сценариев как по текущим обзвонам, так и за прошлые периоды.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+				<div class="col-sm-6 col-md-3">
+                    <div class="thumbnail">
+
+                        <div class="caption">
+
+							<img src="\img\124.jpg" height="180px"  width="240px;" class="img-rounded"/>
+        
+							<h4 id="thumbnail-label" style="height: 50px;">Масштабируемость и удаленный доступ
+							</h4>
+                            <div style="height: 200px;">
+								<p>Добавить рабочее место нового специалиста очень просто - достаточно 3 щелчков мышью.
+								Благодаря  интернет, вы можете нанимать удаленных сторудников.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+			
+			
+		 <div class="container" style="margin-top: 20px;">
+            <div class="page-header"><h2>Для кого предназначен сервис</h2></div>
+            <div>
+				<h3>
+				<p>Диалог подойдет компаниям, совершающим много типовых телефонных контактов.</p> 
+				<p>Компании, имеющие в штате более 2 специалистов по телефонным переговорам, 
+				смогут по достоинству оценить преимущества Диалога</p>
+					<p>Сферы деятельности, где Диалог может быть востребован: автосалоны, автосервисы, стоматологические кабинеты, медицинские центры, банки,
+					туроператоры, салоны красоты, страховые компании, телекоммуникационные компании, коллекторские агентства</p>
+				</h3>
+			</div>
+            <h1><a href="/Registration/registration" class="label label-danger " style="float: right;">Демо-версия на 14 дней бесплатно</a></h1>
+        </div>
+		
+        <div class="container" style="margin-top: 20px;">
+            <div class="page-header"><h2>Стоимость</h2></div>
+            <div class="row">
+                <div class="col-sm-6 col-md-3">
+                    <div class="thumbnail">
+
+                        <div class="caption">
+                            <h3 id="thumbnail-label" style="height: 50px;">Пробная подписка<a class="anchorjs-link" href="/login.jsp;jsessionid=701118AFAFCA471B4FBDD4EDCB983A29#thumbnail-label"><span class="anchorjs-icon"></span></a></h3>
                             <div style="height: 200px;">
                                 <p>Подписка на 14 дней.</p>
                                 <p>Количество пользователей <b>до 3</b></p>
@@ -139,14 +175,14 @@
 
                             </div>
                             <p>Строимость: <strong>бесплатно</strong></p>
-                            <p><a href="<c:url value="/Registration/registration" />" class="btn btn-default" id="dialogfreebtn" style="background-color: #ccc;" role="button">Получить Диалог</a></p>
+                            <p><a href="/Registration/registration" class="btn btn-default btn-lg" id="dialogfreebtn" style="background-color: #ccc;" role="button">Получить Диалог</a></p>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-3">
                     <div class="thumbnail">
                         <div class="caption">
-                            <h3 id="thumbnail-label" style="height: 50px;">Тариф базовый<a class="anchorjs-link" href="#thumbnail-label"><span class="anchorjs-icon"></span></a></h3>
+                            <h3 id="thumbnail-label" style="height: 50px;">Тариф базовый<a class="anchorjs-link" href="/login.jsp;jsessionid=701118AFAFCA471B4FBDD4EDCB983A29#thumbnail-label"><span class="anchorjs-icon"></span></a></h3>
                             <div style="height: 200px;">
                                 <p>Подписка на 12 месяцев</p>
                                 <p>Количество пользователей <b>до 10</b></p>
@@ -155,7 +191,7 @@
 
                             </div>
                             <p>Строимость: <strong>25 000 р.</strong></p>
-                            <p><a href="<c:url value="/Registration/registration" />" class="btn btn-success" role="button">Получить Диалог</a></p>
+                            <p><a href="/Registration/registration" class="btn btn-success btn-lg" role="button">Получить Диалог</a></p>
                         </div>
                     </div>
                 </div>
@@ -163,7 +199,7 @@
                         <div class="col-sm-6 col-md-3">
                     <div class="thumbnail">
                         <div class="caption">
-                            <h3 id="thumbnail-label" style="height: 50px;">Тариф продвинутый<a class="anchorjs-link" href="#thumbnail-label"><span class="anchorjs-icon"></span></a></h3>
+                            <h3 id="thumbnail-label" style="height: 50px;">Тариф продвинутый<a class="anchorjs-link" href="/login.jsp;jsessionid=701118AFAFCA471B4FBDD4EDCB983A29#thumbnail-label"><span class="anchorjs-icon"></span></a></h3>
                             <div style="height: 200px;">
                                 <p>Подписка на 12 месяцев</p>
                                 <p>Количество пользователей <b>до 30</b></p>
@@ -172,7 +208,7 @@
 
                             </div>
                             <p>Строимость: <strong>70 000 р.</strong></p>
-                            <p><a href="<c:url value="/Registration/registration" />" class="btn btn-primary" role="button">Получить Диалог</a></p>
+                            <p><a href="/Registration/registration" class="btn btn-primary btn-lg" role="button">Получить Диалог</a></p>
                         </div>
                     </div>
                 </div>
@@ -180,7 +216,7 @@
                         <div class="col-sm-6 col-md-3">
                     <div class="thumbnail">
                         <div class="caption">
-                            <h3 id="thumbnail-label" style="height: 50px;">Тариф максимальный<a class="anchorjs-link" href="#thumbnail-label"><span class="anchorjs-icon"></span></a></h3>
+                            <h3 id="thumbnail-label" style="height: 50px;">Тариф максимальный<a class="anchorjs-link" href="/login.jsp;jsessionid=701118AFAFCA471B4FBDD4EDCB983A29#thumbnail-label"><span class="anchorjs-icon"></span></a></h3>
                             <div style="height: 200px;">
                                 <p>Подписка на 12 месяцев</p>
                                 <p>Количество пользователей <b>не ограничено</b></p>
@@ -189,7 +225,7 @@
 
                             </div>
                             <p>Строимость: <strong>120 000 р.</strong></p>
-                            <p><a href="<c:url value="/Registration/registration" />" class="btn btn-warning" role="button">Получить Диалог</a></p>
+                            <p><a href="/Registration/registration" class="btn btn-warning btn-lg" role="button">Получить Диалог</a></p>
                         </div>
                     </div>
                 </div>
@@ -202,15 +238,15 @@
                             <h3 id="thumbnail-label" style="text-align: center;">Диалог навсегда<a class="anchorjs-link" ><span class="anchorjs-icon"></span></a></h3>
                                 <p  style="text-align: center;">Установка на свой сервер</p>
                             <p  style="text-align: center;">Строимость: <strong>150 000 р.</strong></p>
-                            <p><a href="<c:url value="/Registration/registration" />" class="btn btn-danger btn-block" role="button">Получить Диалог</a> </p>
+                            <p><a href="/Registration/registration" class="btn btn-danger btn-block" role="button">Получить Диалог</a> </p>
                         </div>
                     </div>
                 </div>-->
 
         </div>
         <div class="container" style="margin-top: 20px;">
-            <nav class="navbar navbar-default navbar-static-bottom" >
-                <p class="navbar-text">&copy ООО Прим 2015 +7(342)259-56-57<!--<a href="#" class="navbar-link">Контакты </a>--></p>
+            <nav class="navbar navbar-default navbar-static-bottom">
+                <p class="navbar-text">© ООО Прим 2015 +7(342)259-56-57<!--<a href="#" class="navbar-link">Контакты </a>--></p>
             </nav>
         </div>
 
@@ -225,25 +261,26 @@
                         <form method="post" action="j_spring_security_check" class="login">
                             <div class="form-group">
                                 <label for="login">Логин:</label>
-                                <input placeholder="Введите логин" class="form-control" name="j_username" id="login"  type="text">
+                                <input placeholder="Введите логин" class="form-control" name="j_username" id="login" type="text">
                             </div>
 
                             <div class="form-group">
                                 <label for="password">Пароль:</label>
-                                <input placeholder="Введите пароль" class="form-control" name="j_password" id="password"  type="password">
+                                <input placeholder="Введите пароль" class="form-control" name="j_password" id="password" type="password">
                             </div>
 
                             <div class="form-group">
                                 <button type="submit" class="login-button">Войти</button>
                             </div>
 
-                            <p class="forgot-password"><a href="<c:url value="/User/recoveryPassword" />">Забыли пароль?</a>   
-                                <a href="<c:url value="/Registration/registration" />">Регистрация!!</a></p>
+                            <p class="forgot-password"><a href="/User/recoveryPassword">Забыли пароль?</a>   
+                                <a href="/Registration/registration">Регистрация!!</a></p>
                         </form>
 
                     </div>
                 </div>
             </div>
         </div>
-    </body>
-</html>
+    
+
+</body></html>

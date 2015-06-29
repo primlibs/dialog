@@ -72,6 +72,4 @@ public class ModuleDao extends Dao<Module> {
         query.setParameter("pkId", pkId);
         return query.list();
     }
-
- 
 }

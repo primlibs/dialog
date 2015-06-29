@@ -23,48 +23,27 @@
         <div class="row">
             <h4> Отчет по модулям </h4>
         </div>
-            <div class="row">
-            <form role="form" class="form-inline form-group" action="<c:url value="/UserReport/summarizedReport" />">
-                <div class="form-group">
-                    Дата начала периода
-                    <div class="input-group date" id="datetimepicker3"><input type="text" name="dateCampaignFrom" id="dateCampaignFrom" class="form-control" />
-                        <span class="input-group-addon">
-                           <i class="glyphicon glyphicon-calendar glyphicon-nonescaped"></i>
-                        </span>
-                    </div>
-                </div>
-                <div class="form-group">
-                     Дата окончания периода
-                    <div class="input-group date" id="datetimepicker4">
-                        <input type="text" name="dateCampaignTo" id="dateCampaignTo" class="form-control" />
-                        <span class="input-group-addon">
-                           <i class="glyphicon glyphicon-calendar glyphicon-nonescaped"></i>
-                        </span>
-                    </div>
-                </div>
-                <div class="form-group">
-                <input type="submit" name="submit"  class="btn btn-primary" value="Выбрать">
-                </div>
-            </form>
-            </div>
                 <div class="row">
                     <table class="table table-bordered table-hover">
                 <tr>
-                    <th> Менеджер </th>
-                    <th> Завершены отрицательно </th>
-                    <th> Завершены положительно </th>
-                    <th> Всего назначено </th>
+                    <th> Модуль </th>
+                    <th> Отрицательные исходы(%*) </th>
+                    <c:forEach var="userId" items="${userMap.keySet()}">
+                        <th> ${userMap.get(userId).getShortName()} </th>
+                    </c:forEach>
+                    
                 </tr>
-                <c:forEach var="entry" items="${reportMap}">
+                <c:forEach var="moduleId" items="${moduleMap.keySet()}">
                     <tr>
-                        <td>${entry.key.surname}</td>
-                        <td>${entry.value.get('failed')}</td>
-                        <td>${entry.value.get('successful')}</td>
-                        <td>${entry.value.get('all')}</td>
+                        <td>${reportData[moduleId][0][0]}(${reportData[moduleId][0][2]})</td>
+                        <c:forEach var="userId" items="${userMap.keySet()}">
+                            <th> ${reportData[moduleId][userId][0]}(${reportData[moduleId][userId][2]}) </th>
+                        </c:forEach>
                     </tr>
                 </c:forEach>
                     </table>
                 </div>
+        * - % указан от числа контактов в которых модуль использовался хотя бы один раз.
                 
     </body>
 </html>
