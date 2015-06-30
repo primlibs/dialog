@@ -28,10 +28,11 @@ import service.ClientService;
 import service.EventService;
 import service.GroupService;
 import service.ModuleService;
+import service.ReportService;
 import service.StrategyService;
+import service.UserService;
 import support.AuthManager;
 import support.JsonResponse;
-import support.StringAdapter;
 
 /**
  *
@@ -58,6 +59,12 @@ public class EventController extends WebController {
 
     @Autowired
     private StrategyService strategyService;
+    
+    @Autowired
+    private ReportService reportService;
+    
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private ClientService clientService;
@@ -507,6 +514,18 @@ public class EventController extends WebController {
         ras.addFlashAttribute("errors",eventService.getErrors());
         ras.addAttribute("campaignId", campaignId);
         return "redirect:/Event/campaignSpecification";
+    }
+    
+    @RequestMapping("/summarizedModuleReport")
+    public String showModuleReport(Map<String, Object> model, RedirectAttributes ras, HttpServletRequest request) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        
+        model.put("reportData",reportService.getDatabyModules(cabinetId));
+        model.put("users",reportService.getUserList(cabinetId));
+        //model.put("modules", moduleService.getAllModulesMap(cabinetId));
+        model.put("errors", eventService.getErrors());
+        return "moduleReport";
     }
 
 }

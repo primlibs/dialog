@@ -57,11 +57,12 @@ public class ModuleEventClientDao extends Dao<ModuleEventClient>   {
     
     public List<Object[]> getCountedFailedEventsModuleDataByUser(/*Long campaignId,Long strategyId,Date fromdate,Date toDate,*/Long pkId){
         HashMap<String,String>paramMap=new HashMap();
-        String sql = "select mec.module_id,ev.user_id,count(mec.module_id) from module_event_client mec inner join (select event_id,max(insert_date) mid from module_event_client group by event_id) supsel left join event ev on mec.event_id=ev.event_id where mec.event_id=supsel.event_id and supsel.mid=mec.insert_date and ev.status=4 and mec.personal_cabinet_id=:pkId group by ev.user_id,mec.module_id";
+        String sql = "select mec.module_id,ev.user_id,count(mec.module_id) from module_event_client mec inner join (select event_id,max(insert_date) mid from module_event_client group by event_id) supsel left join event ev on mec.event_id=ev.event_id where mec.event_id=supsel.event_id and supsel.mid=mec.insert_date and ev.status=:failed and mec.personal_cabinet_id=:pkId group by ev.user_id,mec.module_id";
         /*if(campaignId!=null){
             sql+=" and ";
         }*/
         Query query = getCurrentSession().createSQLQuery(sql);
+        query.setParameter("failed",Event.FAILED);
         query.setParameter("pkId", pkId);
         return query.list();
     }
@@ -76,9 +77,10 @@ public class ModuleEventClientDao extends Dao<ModuleEventClient>   {
     }
     
     public List<Object[]> getCountedFailedEventsModuleDataByAll(Long pkId){
-        String sql="select mec.module_id,count(distinct mec.event_id) from module_event_client mec inner join (select event_id,max(insert_date) mid from module_event_client group by event_id) supsel left join event ev on mec.event_id=ev.event_id where mec.event_id=supsel.event_id and supsel.mid=mec.insert_date and ev.status=4 and mec.personal_cabinet_id=:pkId group by mec.module_id";
+        String sql="select mec.module_id,count(distinct mec.event_id) from module_event_client mec inner join (select event_id,max(insert_date) mid from module_event_client group by event_id) supsel left join event ev on mec.event_id=ev.event_id where mec.event_id=supsel.event_id and supsel.mid=mec.insert_date and ev.status=:failed and mec.personal_cabinet_id=:pkId group by mec.module_id";
         Query query = getCurrentSession().createSQLQuery(sql);
         query.setParameter("pkId", pkId);
+        query.setParameter("failed",Event.FAILED);
         return query.list();
     }
     

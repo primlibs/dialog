@@ -135,6 +135,8 @@
                                         </div>
                                     </div>
                                 </div>
+                                                    
+                                                    <a href="<c:url value="/Event/summarizedModuleReport"/>">Отчет по операторам</a>
         
     </body>
 </html>

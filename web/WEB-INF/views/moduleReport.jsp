@@ -28,16 +28,16 @@
                 <tr>
                     <th> Модуль </th>
                     <th> Отрицательные исходы(%*) </th>
-                    <c:forEach var="userId" items="${userMap.keySet()}">
-                        <th> ${userMap.get(userId).getShortName()} </th>
+                    <c:forEach var="user" items="${users}">
+                        <th> ${user.getShortName()} </th>
                     </c:forEach>
                     
                 </tr>
-                <c:forEach var="moduleId" items="${moduleMap.keySet()}">
+                <c:forEach var="moduleEntry" items="${reportData.entrySet()}">
                     <tr>
-                        <td>${reportData[moduleId][0][0]}(${reportData[moduleId][0][2]})</td>
-                        <c:forEach var="userId" items="${userMap.keySet()}">
-                            <th> ${reportData[moduleId][userId][0]}(${reportData[moduleId][userId][2]}) </th>
+                        <td>${moduleEntry.getKe().getModuleName()}</td>
+                        <c:forEach var="userEntry" items="${moduleEntry.getValue().entrySet()}">
+                            <td>${userEntry.getValue()}</td>
                         </c:forEach>
                     </tr>
                 </c:forEach>

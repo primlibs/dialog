@@ -162,7 +162,7 @@ public class User extends PrimEntity {
     }
     
     public String getShortName(){
-        String res = this.surname + this.name.substring(0,1) + ".";
+        String res = this.surname+" " + this.name.substring(0,1) + ".";
         if(this.patronymic!=null&&!this.patronymic.equals("")){
             res+=this.patronymic.substring(0, 1) + ".";
         }
