@@ -88,7 +88,7 @@
 
                         <div class="caption">
 			
-							<img src="\img\121.jpg"  height="180px" width="240px;" class="img-rounded"/>
+							<img src="/img/121.jpg"  height="180px" width="240px;" class="img-rounded"/>
 							<h4 id="thumbnail-label" style="height: 50px;">Безопасность</h3>
                             <div style="height: 200px;">
 								<p>Сотрудники, которые звонят, не видят весь список клиентов одновременно и не имеют возможности скачать его.
@@ -102,7 +102,7 @@
 
                         <div class="caption">
 
-							<img src="\img\122.jpg" height="180px"  width="240px;" class="img-rounded"/>
+							<img src="/img/122.jpg" height="180px"  width="240px;" class="img-rounded"/>
 
 						   <h4 id="thumbnail-label" style="height: 50px;">Гибкость</h4>
                             <div style="height: 200px;">
@@ -116,7 +116,7 @@
 
                         <div class="caption">
 			
-							<img src="\img\123.jpg" height="180px"  width="240px;" class="img-rounded"/>
+							<img src="/img/123.jpg" height="180px"  width="240px;" class="img-rounded"/>
    
 						<h4 id="thumbnail-label" style="height: 50px;">Статистика</h4>
                             <div style="height: 200px;">
@@ -130,7 +130,7 @@
 
                         <div class="caption">
 
-							<img src="\img\124.jpg" height="180px"  width="240px;" class="img-rounded"/>
+							<img src="/img/124.jpg" height="180px"  width="240px;" class="img-rounded"/>
         
 							<h4 id="thumbnail-label" style="height: 50px;">Масштабируемость и удаленный доступ
 							</h4>
