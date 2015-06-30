@@ -524,7 +524,7 @@ public class EventController extends WebController {
         model.put("reportData",reportService.getDatabyModules(cabinetId));
         model.put("users",reportService.getUserList(cabinetId));
         //model.put("modules", moduleService.getAllModulesMap(cabinetId));
-        model.put("errors", eventService.getErrors());
+        model.put("errors", reportService.getErrors());
         return "moduleReport";
     }
 

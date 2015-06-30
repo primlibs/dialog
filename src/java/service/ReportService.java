@@ -82,7 +82,10 @@ public class ReportService extends PrimService {
             if(!userMap.isEmpty()){
                 ArrayList users=new ArrayList();
                 for(Long u:userMap.keySet()){
-                    users.add(availUsers.get(u));
+                    User user = availUsers.get(u);
+                    if(user!=null){
+                        users.add(user);
+                    }
                 }
                 return users;
             }
@@ -184,8 +187,10 @@ public class ReportService extends PrimService {
             userResMap.put((long)0,StringAdapter.getString(bdm[0])+"("+bdm[1]+"%)");
             
             HashMap<Long,BigDecimal[]>supMap=rawRes.get(moduleId);
-            for(Map.Entry<Long,BigDecimal[]>entry:supMap.entrySet()){
-                userResMap.put(entry.getKey(), StringAdapter.getString(entry.getValue()[0])+"("+StringAdapter.getString(entry.getValue()[1])+"%)");
+            if(supMap!=null){
+                for(Map.Entry<Long,BigDecimal[]>entry:supMap.entrySet()){
+                    userResMap.put(entry.getKey(), StringAdapter.getString(entry.getValue()[0])+"("+StringAdapter.getString(entry.getValue()[1])+"%)");
+                }
             }
             result.put(m,userResMap);
         }

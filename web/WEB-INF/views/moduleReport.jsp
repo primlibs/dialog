@@ -35,7 +35,7 @@
                 </tr>
                 <c:forEach var="moduleEntry" items="${reportData.entrySet()}">
                     <tr>
-                        <td>${moduleEntry.getKe().getModuleName()}</td>
+                        <td>${moduleEntry.getKey().getModuleName()}</td>
                         <c:forEach var="userEntry" items="${moduleEntry.getValue().entrySet()}">
                             <td>${userEntry.getValue()}</td>
                         </c:forEach>
