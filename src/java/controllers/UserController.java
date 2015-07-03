@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.UserService;
+import support.JsonResponse;
 import support.SendMail;
 import support.ServiceResult;
 import support.StringAdapter;
@@ -164,7 +165,7 @@ public class UserController extends WebController {
 
     @RequestMapping("/deleteUser")
     public String deleteUser(Map<String, Object> model, HttpServletRequest request,@RequestParam(value = "cabinetUserIdtoDelete") Long cabinetUserIdtoDelete,
-            @RequestParam(value = "cabinetUserIdtoAssign",required = false) Long cabinetUserIdtoAssign,RedirectAttributes ras) throws Exception {
+            @RequestParam(value = "cabinetUserIdtoAssign") Long cabinetUserIdtoAssign,RedirectAttributes ras) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
@@ -180,4 +181,31 @@ public class UserController extends WebController {
         ras.addFlashAttribute(ERRORS_LIST_NAME, userService.getErrors());
         return "redirect:/User/userList";
     }
+    
+    
+    
+    @RequestMapping(value = {"/changeOrgName"})
+    @ResponseBody
+    public JsonResponse changeOrgName(HttpServletRequest request, Map<String, Object> model,
+            @RequestParam(value = "newval", required = false)String newName) throws Exception{
+        lk.dataByUserAndCompany(request, model);
+        
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        
+        userService.changeCabinetName(newName, cabinetId);
+        JsonResponse res = JsonResponse.getInstance();
+        if(userService.getErrors().isEmpty()){
+           res.setStatus(Boolean.TRUE);
+        }else{
+            String err = "";
+            for(String s:userService.getErrors()){
+                err+=s+"; ";
+            }
+            res.setStatus(Boolean.FALSE);
+            res.setMessage(err);
+        }
+        return res;
+        
+    }
+    
 }

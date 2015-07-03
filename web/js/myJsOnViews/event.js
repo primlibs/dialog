@@ -47,7 +47,7 @@ $(function(){
     
     
     
-    $('.changebleParam').dblclick(function(){
+    $('.changebleEventParam').dblclick(function(){
         var changebleElem = $(this);
         var paramType = $(this).attr('id');
         

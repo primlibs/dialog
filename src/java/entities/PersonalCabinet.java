@@ -38,8 +38,7 @@ public class PersonalCabinet extends PrimEntity {
 
     @Email
     @Column(name = "email")
-    @NotNull(message = "поле Email не может быть пустым")
-    @NotBlank(message = "поле Email не может быть пустым")
+    //@NotNull(message = "поле Email не может быть пустым")
     private String email;
 
     @Column(name = "company")
@@ -47,8 +46,7 @@ public class PersonalCabinet extends PrimEntity {
     private String company;
 
     @Column(name = "phone")
-    @NotNull(message = "Поле телефон не может быть пустым")
-    @NotBlank(message = "Поле телефон не может быть пустым")
+    //@NotNull(message = "Поле телефон не может быть пустым")
     private String phone;
 
     @LazyCollection(LazyCollectionOption.TRUE)

@@ -66,10 +66,10 @@
                                                 <h4 class="modal-title" id="myModalLabel">Удаление пользователя</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <form id="deleteUserWindow" action="<c:url value="/User/deleteUser?cabinetUserId=${cabinetUser.cabinetUserId}&userId=${cabinetUser.user.userId}"/>" method="post">
+                                                <form id="deleteUserWindow" action="<c:url value="/User/deleteUser"/>" method="get">
                                                     <p>Что сделать с назначенными клиентами?
                                                     <p><select name="cabinetUserIdtoAssign">
-                                                        <option vlaue="">Снять назначения и удалить информацию о переносах</option>
+                                                        <option value="0">Снять назначения и удалить информацию о переносах</option>
                                                     <c:forEach var="cabinetUser" items="${cabinetUserList}" varStatus="myIndex">
                                                         <option value="${cabinetUser.cabinetUserId}">Назначить на ${cabinetUser.user.surname} ${cabinetUser.user.name} - ${cabinetUser.user.email}</option>
                                                     </c:forEach>

@@ -116,6 +116,11 @@ $(function() {
         });
         var method = params['method'];
         delete params['method'];
+        var controller = params['controller'];
+        delete params['controller'];
+        if(controller===undefined){
+            controller=".";
+        }
         /*var str="";
          $.each(params,function(key,value){
          str+=key+"-"+value+";";
@@ -134,13 +139,15 @@ $(function() {
             var target = $(event.target);
             if (target.attr('name') !== name) {
                 if (method !== undefined) {
-                    changebleElem.html(newVal);
+                    
                     var supurl = "";
                     for (var key in params) {
                         supurl += "&" + key + "=" + params[key];
                     }
+                    var urlbody = controller+"/"+method + "?newval=" + newVal + supurl;
                     $.ajax({
-                        url: "./" + method + "?newval=" + newVal + supurl,
+                        //url: "./" + method + "?newval=" + newVal + supurl,
+                        url: urlbody,
                         dataType: "json",
                         cache: false,
                         success: function(json) {
@@ -154,6 +161,9 @@ $(function() {
                                 } else {
                                     alert("При обновлении параметра возникла ошибка, ответ сервера не удалось разобрать. Попробуйте обновить страницу и повторить операцию или обратитесь к системному администратору.");
                                 }
+                                changebleElem.html(value);
+                            }else{
+                                changebleElem.html(newVal);
                             }
                         },
                         error: function(json) {

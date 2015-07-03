@@ -66,13 +66,19 @@ public class UserService extends PrimService {
     ) {
 
         User existingUser = userDao.getUserByLogin(email);
-        PersonalCabinet existingEmailCompany = personalCabinetDao.getCabinetByLogin(emailCompany);
+        //PersonalCabinet existingEmailCompany = personalCabinetDao.getCabinetByLogin(emailCompany);
 
         if (existingUser != null){ 
             addError("Пользователь с такой почтой уже зарегистрирован, выберите другую");
-        } else if(existingEmailCompany != null) {
+        } /*else if(existingEmailCompany != null) {
             addError("Укажите другую почту, на данный адрес уже зарегистрирована компания");
-        } else {
+        }*/ else {
+            if(name==null||name.equals("")){
+                name="Пользователь";
+            }
+            if(surname==null||surname.equals("")){
+                surname="Новый";
+            }
             User user = new User();
             user.setEmail(email);
             user.setPassword(AuthManager.md5Custom(password));
@@ -80,10 +86,12 @@ public class UserService extends PrimService {
             user.setSurname(surname);
             user.setPatronymic(patronymic);
             if (validate(user)) {
-                
+                if(company==null||company.equals("")){
+                    company="Новая компания";
+                }
                 PersonalCabinet cabinet = new PersonalCabinet();
-                cabinet.setEmail(emailCompany);
-                cabinet.setPhone(phone);
+                //cabinet.setEmail(emailCompany);
+                //cabinet.setPhone(phone);
                 cabinet.setCompany(company);
                 if (validate(cabinet)) {
                     userDao.save(user);
@@ -349,14 +357,14 @@ public class UserService extends PrimService {
     
     public void deleteUser(Long cabinetUserIdtoDelete,Long cabinetUserIdtoAssign,Long pkId) {
         CabinetUser deletingCu = cabinetUserDao.getCUByIdAndCabinet(cabinetUserIdtoDelete,pkId);
-        CabinetUser assigningCu = cabinetUserDao.getCUByIdAndCabinet(cabinetUserIdtoAssign,pkId);
         
         List<Event>eventsForUpdate = new ArrayList();
         
         Date date = new Date();
         if (deletingCu != null) {
             User user = deletingCu.getUser();
-            if(assigningCu!=null){
+            if(!cabinetUserIdtoAssign.equals((long)0)){
+                CabinetUser assigningCu = cabinetUserDao.getCUByIdAndCabinet(cabinetUserIdtoAssign,pkId);
                 for(Event ev:eventDao.getActiveEvents(user.getId(), pkId)){
                     ev.setUser(assigningCu.getUser());
                     if(validate(ev)){
@@ -408,6 +416,18 @@ public class UserService extends PrimService {
         @Override
         public int compare(User a, User b) {
             return a.getSurname().compareToIgnoreCase(b.getSurname());
+        }
+    }
+    
+    public void changeCabinetName(String newName,Long pkId){
+        PersonalCabinet pk = personalCabinetDao.find(pkId);
+        if(newName!=null&&newName.length()>0){
+            pk.setCompany(newName);
+            if(validate(pk)){
+                personalCabinetDao.update(pk);
+            }
+        }else{ 
+            addError("Новое название компании не передано.");
         }
     }
 

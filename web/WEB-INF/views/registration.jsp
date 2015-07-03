@@ -21,7 +21,7 @@
     <%@include file="/WEB-INF/jsp/error.jsp" %> 
 
     <form class="form-horizontal" action="<c:url value="/Registration/registration" />" method="post">
-        <h3>   Данные компании:</h3>
+       <!-- <h3>   Данные компании:</h3>
 
         <div class="form-group">
             <label class="control-label col-xs-3" for="lastName">Название компании:</label>
@@ -62,7 +62,7 @@
             <div class="col-xs-9">
                 <input type="text" class="form-control ntSaveForms" name="patronymic" id="firstName" placeholder="Введите отчество" value="${param['patronymic']}">
             </div>
-        </div>
+        </div>-->
         <div class="form-group">
             <label class="control-label col-xs-3"  for="inputEmail">Email:</label>
             <div class="col-xs-9">
@@ -76,7 +76,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-xs-3" for="confirmPassword">Подтвердите пароль:</label>
+            <label class="control-label col-xs-3" for="confirmPassword">Подтверждение пароля:</label>
             <div class="col-xs-9">
                 <input type="password" class="form-control" name="confirmPassword"  id="confirmPassword" placeholder="Введите пароль ещё раз" value="${param['confirmPassword']}">
             </div>

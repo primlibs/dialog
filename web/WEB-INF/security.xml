@@ -42,6 +42,7 @@
         <intercept-url pattern="/Client/updateclient" access="hasAnyRole('user', 'admin')" />
         <intercept-url pattern="/Strategy/changegroupname" access="hasAnyRole('user', 'admin')" />
         <intercept-url pattern="/Strategy/changemodulename" access="hasAnyRole('user', 'admin')" />
+        <intercept-url pattern="/Lk/changeOrgName" access="hasAnyRole('admin')" />
         
         <intercept-url pattern="/**" access="hasRole('admin')" />
         
