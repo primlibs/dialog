@@ -7,6 +7,7 @@ package controllers;
 
 import static controllers.LkController.CABINET_ID_SESSION_NAME;
 import controllers.parent.WebController;
+import entities.User;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -168,12 +169,14 @@ public class UserController extends WebController {
             @RequestParam(value = "cabinetUserIdtoAssign") Long cabinetUserIdtoAssign,RedirectAttributes ras) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-
+        
+        User thisUser = authManager.getCurrentUser();
+        
         /*if (cabinetUserId != null ) {
             userService.deleteUser(cabinetUserId);
         }*/
         
-        userService.deleteUser(cabinetUserIdtoDelete,cabinetUserIdtoAssign,cabinetId);
+        userService.deleteUser(cabinetUserIdtoDelete,cabinetUserIdtoAssign,thisUser.getId(),cabinetId);
 
         /*model.put("cabinetUserList", userService.cabinetUserList(cabinetId));
         model.put("errors", userService.getErrors());

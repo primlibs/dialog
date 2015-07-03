@@ -6,7 +6,7 @@
 package dao;
 
 import dao.parent.Dao;
-import entities.Campaign;
+import entities.CabinetUser;
 import entities.PersonalCabinet;
 import java.util.List;
 import org.hibernate.Query;
@@ -32,6 +32,12 @@ public class PersonalCabinetDao extends Dao<PersonalCabinet> {
         return (PersonalCabinet) query.uniqueResult();
     }
     
-    
+    public List<CabinetUser>getAdmins(Long pkId){
+        String queryString = "from CabinetUser cu where cu.cabinet.pkId=:pkId and cu.deleteDate is null and cu.userRole=admin";
+        Query query = getCurrentSession().createQuery(queryString);
+        query.setParameter("pkId", pkId);
+
+        return query.list();
+    }
 
 }

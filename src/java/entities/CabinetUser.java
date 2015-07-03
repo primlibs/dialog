@@ -36,7 +36,6 @@ public class CabinetUser extends PrimEntity {
 
     @Column(name = "user_role")
     @NotNull(message = "Роль не может быть пустой")
-    @NotBlank(message = "поле РОЛЬ не может быть пустым")
     private String userRole;
     
     //null - ne makes, 1 - makes

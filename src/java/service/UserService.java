@@ -68,16 +68,16 @@ public class UserService extends PrimService {
         User existingUser = userDao.getUserByLogin(email);
         //PersonalCabinet existingEmailCompany = personalCabinetDao.getCabinetByLogin(emailCompany);
 
-        if (existingUser != null){ 
+        if (existingUser != null) {
             addError("Пользователь с такой почтой уже зарегистрирован, выберите другую");
         } /*else if(existingEmailCompany != null) {
-            addError("Укажите другую почту, на данный адрес уже зарегистрирована компания");
-        }*/ else {
-            if(name==null||name.equals("")){
-                name="Пользователь";
+         addError("Укажите другую почту, на данный адрес уже зарегистрирована компания");
+         }*/ else {
+            if (name == null || name.equals("")) {
+                name = "Пользователь";
             }
-            if(surname==null||surname.equals("")){
-                surname="Новый";
+            if (surname == null || surname.equals("")) {
+                surname = "Новый";
             }
             User user = new User();
             user.setEmail(email);
@@ -86,8 +86,8 @@ public class UserService extends PrimService {
             user.setSurname(surname);
             user.setPatronymic(patronymic);
             if (validate(user)) {
-                if(company==null||company.equals("")){
-                    company="Новая компания";
+                if (company == null || company.equals("")) {
+                    company = "Новая компания";
                 }
                 PersonalCabinet cabinet = new PersonalCabinet();
                 //cabinet.setEmail(emailCompany);
@@ -108,74 +108,78 @@ public class UserService extends PrimService {
         }
 
     }
-    
-    public boolean updateUserField(String field,Long cabinetUserId,String newVal,Long pkId){
+
+    public boolean updateUserField(String field, Long cabinetUserId, String newVal, Long pkId) {
         boolean performed = false;
         Boolean cuRole = null;
         CabinetUser cu = cabinetUserDao.find(cabinetUserId);
-        if(cu!=null){
+        if (cu != null) {
             User user = cu.getUser();
-            switch (field){
+            switch (field) {
                 case "makingCalls":
-                    if(newVal.equals("Нет")){
-                        if(eventDao.getPostponedEvents(user.getId(), pkId).isEmpty()){
-                            for(Event ev:eventDao.getActiveEvents(pkId, pkId)){
+                    if (newVal.equals("Нет")) {
+                        if (eventDao.getPostponedEvents(user.getId(), pkId).isEmpty()) {
+                            for (Event ev : eventDao.getActiveEvents(pkId, pkId)) {
                                 ev.setUser(null);
                                 ev.setStatus(Event.UNASSIGNED);
-                                if(validate(ev)){
+                                if (validate(ev)) {
                                     eventDao.update(ev);
                                 }
                             }
                             cu.setMakesCalls(null);
-                        }else{
+                        } else {
                             addError("У пользователя есть отложенные контакты с клиентами.");
                         }
-                    }else if(newVal.equals("Да")){
-                        cu.setMakesCalls((short)1);
+                    } else if (newVal.equals("Да")) {
+                        cu.setMakesCalls((short) 1);
                     }
-                    cuRole=true;
+                    cuRole = true;
                     break;
                 case "userRole":
-                    if(newVal.equals("Пользователь")){
-                        cu.setUserRole("user");
-                        cu.setMakesCalls((short)1);
-                    }else if(newVal.equals("Администратор")){
+                    if (newVal.equals("Пользователь")) {
+                        if(isThisUserNotTheLastAdmin(cu, pkId)){
+                            cu.setUserRole("user");
+                            cu.setMakesCalls((short) 1);
+                        }else{
+                            addError("В кабинете должен остаться хотя бы один администратор.");
+                        }
+                    } else if (newVal.equals("Администратор")) {
                         cu.setUserRole("admin");
                     }
-                    cuRole=true;
+                    cuRole = true;
                     break;
                 case "surname":
                     user.setSurname(newVal);
-                    cuRole=false;
+                    cuRole = false;
                     break;
                 case "name":
                     user.setName(newVal);
-                    cuRole=false;
+                    cuRole = false;
                     break;
                 case "patronymic":
                     user.setPatronymic(newVal);
-                    cuRole=false;
+                    cuRole = false;
                     break;
                 default:
-                    cuRole=null;
+                    cuRole = null;
                     break;
             }
-            if(cuRole!=null){
-                if(cuRole){
-                    if(validate(cu)){
+            if (cuRole != null) {
+                if (cuRole) {
+                    if (validate(cu)) {
                         cabinetUserDao.update(cu);
-                        performed=true; 
+                        performed = true;
                     }
-                }else{
-                    if(validate(user)){
+                } else {
+                    if (validate(user)) {
                         userDao.update(user);
-                        performed=true; 
+                        performed = true;
                     }
                 }
             }
             addError(field);
-        }else{
-            addError("Записи о пользователе в кабинете с ИД:"+cabinetUserId+" не найдено");
+        } else {
+            addError("Записи о пользователе в кабинете с ИД:" + cabinetUserId + " не найдено");
         }
         return performed;
     }
@@ -190,7 +194,7 @@ public class UserService extends PrimService {
             Object cabinetId) {
 
         User existingUser = userDao.getUserByLogin(email);
-        PersonalCabinet cabinet = personalCabinetDao.find((long)cabinetId);
+        PersonalCabinet cabinet = personalCabinetDao.find((long) cabinetId);
 
         if (existingUser != null) {
 
@@ -200,8 +204,8 @@ public class UserService extends PrimService {
                 CabinetUser link = new CabinetUser();
                 link.setCabinet(cabinet);
                 link.setUserRole(role);
-                if(role.equals("user")){
-                    link.setMakesCalls((short)1);
+                if (role.equals("user")) {
+                    link.setMakesCalls((short) 1);
                 }
                 link.setUser(existingUser);
                 if (validate(link)) {
@@ -228,8 +232,8 @@ public class UserService extends PrimService {
                 CabinetUser link = new CabinetUser();
                 link.setCabinet(cabinet);
                 link.setUserRole(role);
-                if(role.equals("user")){
-                    link.setMakesCalls((short)1);
+                if (role.equals("user")) {
+                    link.setMakesCalls((short) 1);
                 }
                 link.setUser(user);
                 if (validate(link)) {
@@ -336,97 +340,117 @@ public class UserService extends PrimService {
     }
 
     /*public void deleteUser(Long cabinetUserId) {
-        CabinetUser cabinenUser = cabinetUserDao.find(cabinetUserId);
+     CabinetUser cabinenUser = cabinetUserDao.find(cabinetUserId);
         
-        Date date = new Date();
-        if (cabinenUser != null ) {
-            User user = cabinenUser.getUser();
-            for(Event ev:eventDao.getNotProcessedUserEvents(user.getId(), cabinenUser.getCabinet().getId())){
-                ev.setUser(null);
-                if(validate(ev)){
-                    eventDao.update(ev);
-                }
-            }
-            cabinenUser.setDeleteDate(date);
-            cabinetUserDao.update(cabinenUser);
-        } else {
-            addError("Юзер не найден по: " + cabinetUserId );
-        }
+     Date date = new Date();
+     if (cabinenUser != null ) {
+     User user = cabinenUser.getUser();
+     for(Event ev:eventDao.getNotProcessedUserEvents(user.getId(), cabinenUser.getCabinet().getId())){
+     ev.setUser(null);
+     if(validate(ev)){
+     eventDao.update(ev);
+     }
+     }
+     cabinenUser.setDeleteDate(date);
+     cabinetUserDao.update(cabinenUser);
+     } else {
+     addError("Юзер не найден по: " + cabinetUserId );
+     }
 
-    }*/
-    
-    public void deleteUser(Long cabinetUserIdtoDelete,Long cabinetUserIdtoAssign,Long pkId) {
-        CabinetUser deletingCu = cabinetUserDao.getCUByIdAndCabinet(cabinetUserIdtoDelete,pkId);
-        
-        List<Event>eventsForUpdate = new ArrayList();
-        
+     }*/
+    public void deleteUser(Long cabinetUserIdtoDelete, Long cabinetUserIdtoAssign, Long thisUserId, Long pkId) {
+        CabinetUser deletingCu = cabinetUserDao.getCUByIdAndCabinet(cabinetUserIdtoDelete, pkId);
+
+        List<Event> eventsForUpdate = new ArrayList();
+
         Date date = new Date();
         if (deletingCu != null) {
-            User user = deletingCu.getUser();
-            if(!cabinetUserIdtoAssign.equals((long)0)){
-                CabinetUser assigningCu = cabinetUserDao.getCUByIdAndCabinet(cabinetUserIdtoAssign,pkId);
-                for(Event ev:eventDao.getActiveEvents(user.getId(), pkId)){
-                    ev.setUser(assigningCu.getUser());
-                    if(validate(ev)){
-                        eventsForUpdate.add(ev);
+            if (!deletingCu.getUser().getId().equals(thisUserId)) {
+                User user = deletingCu.getUser();
+                if(isThisUserNotTheLastAdmin(deletingCu,pkId)){
+                    if (!cabinetUserIdtoAssign.equals((long) 0)) {
+                        CabinetUser assigningCu = cabinetUserDao.getCUByIdAndCabinet(cabinetUserIdtoAssign, pkId);
+                        for (Event ev : eventDao.getActiveEvents(user.getId(), pkId)) {
+                            ev.setUser(assigningCu.getUser());
+                            if (validate(ev)) {
+                                eventsForUpdate.add(ev);
+                            }
+                        }
+                    } else {
+                        for (Event ev : eventDao.getActiveEvents(user.getId(), pkId)) {
+                            ev.setUnassignedUnPostponed();
+                            if (validate(ev)) {
+                                eventsForUpdate.add(ev);
+                            }
+                        }
                     }
-                }
-            }else{
-                for(Event ev:eventDao.getActiveEvents(user.getId(), pkId)){
-                    ev.setUnassignedUnPostponed();
-                    if(validate(ev)){
-                        eventsForUpdate.add(ev);
+                    deletingCu.setDeleteDate(date);
+                    cabinetUserDao.update(deletingCu);
+                    for (Event ev : eventsForUpdate) {
+                        eventDao.update(ev);
                     }
-                }
-            }
-            deletingCu.setDeleteDate(date);
-            cabinetUserDao.update(deletingCu);
-            for(Event ev:eventsForUpdate){
-                eventDao.update(ev);
+                }else{
+                    addError("В кабинете должен остаться хотя бы один администратор.");
+                }     
+            } else {
+                addError("Нельзя удалить самого себя");
             }
         } else {
-            addError("Пользователь не найден по ИД: " + cabinetUserIdtoDelete );
+            addError("Пользователь не найден по ИД: " + cabinetUserIdtoDelete);
         }
-
     }
     
-    public LinkedHashMap<Long,User> getMakingCallsAndParticipatedUsersMap(Long pkId){
-        LinkedHashMap<Long,User>res=new LinkedHashMap();
+    private boolean isThisUserNotTheLastAdmin(CabinetUser deletingCu,Long pkId){
+        if(deletingCu.getUserRole().equals("admin")){
+            List<CabinetUser> admins = personalCabinetDao.getAdmins(pkId);
+            if(!admins.isEmpty()&&admins.size()>1){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return true;
+        }
+    }
+
+    public LinkedHashMap<Long, User> getMakingCallsAndParticipatedUsersMap(Long pkId) {
+        LinkedHashMap<Long, User> res = new LinkedHashMap();
         List<User> participatedUsers = userDao.getParticipatedUsers(pkId);
-        HashSet<Long>ids = new HashSet();
-        for(User u:participatedUsers){
+        HashSet<Long> ids = new HashSet();
+        for (User u : participatedUsers) {
             ids.add(u.getId());
         }
         List<User> makingCallsUsers = userDao.getMakingCallsUsers(pkId);
         List<User> preResList = new ArrayList();
         preResList.addAll(participatedUsers);
-        for(User u:makingCallsUsers){
-            if(!ids.contains(u.getId())){
+        for (User u : makingCallsUsers) {
+            if (!ids.contains(u.getId())) {
                 preResList.add(u);
             }
         }
-        Collections.sort(preResList,new SurnameComparator());
-        for(User u:preResList){
-            res.put(u.getId(),u);
+        Collections.sort(preResList, new SurnameComparator());
+        for (User u : preResList) {
+            res.put(u.getId(), u);
         }
         return res;
     }
-    
+
     private class SurnameComparator implements Comparator<User> {
+
         @Override
         public int compare(User a, User b) {
             return a.getSurname().compareToIgnoreCase(b.getSurname());
         }
     }
-    
-    public void changeCabinetName(String newName,Long pkId){
+
+    public void changeCabinetName(String newName, Long pkId) {
         PersonalCabinet pk = personalCabinetDao.find(pkId);
-        if(newName!=null&&newName.length()>0){
+        if (newName != null && newName.length() > 0) {
             pk.setCompany(newName);
-            if(validate(pk)){
+            if (validate(pk)) {
                 personalCabinetDao.update(pk);
             }
-        }else{ 
+        } else {
             addError("Новое название компании не передано.");
         }
     }
