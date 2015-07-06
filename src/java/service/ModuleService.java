@@ -201,4 +201,11 @@ public class ModuleService extends PrimService {
         return res;
     }
     
+    public Module getModule(Long moduleId){
+        if(moduleId==null){
+            return null;
+        }
+        return moduleDao.find(moduleId);
+    }
+    
 }

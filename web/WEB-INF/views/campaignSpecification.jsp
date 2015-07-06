@@ -146,7 +146,7 @@
                     <th> Модуль </th>
                     <th> Отрицательные исходы(%*) </th></tr>
                 <c:forEach var="entry" items="${moduleReportData.entrySet()}">
-                    <tr><td>${entry.getKey().getModuleName()}</td>
+                    <tr style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/moduleReportDetalisation?campaignId=${campaign.campaignId}&moduleId=${entry.getKey().moduleId}"/>'"><td>${entry.getKey().getModuleName()}</td>
                         <td>${entry.getValue()}</td></tr>
                 </c:forEach>
             </table>

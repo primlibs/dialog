@@ -34,13 +34,13 @@ public class RegistrationController extends WebController {
 
     @RequestMapping(value = {"/registration"})
     public String showRegistrationPage(Map<String, Object> model, String submit, String checkbox,
-            String company, String email, String phone, String password, String confirmPassword, String name, String surname, String patronymic,
-            String emailCompany,RedirectAttributes ras) {
+            /*String company,*/ String email, /*String phone,*/ String password, String confirmPassword, /*String name, String surname, String patronymic,
+            String emailCompany,*/RedirectAttributes ras) {
 
         if (submit != null) {
             if (checkbox != null) {
                 if (password.equals(confirmPassword)) {
-                    userService.save(company, email, phone, password, name, surname, patronymic, emailCompany);
+                    userService.save(null, email, null, password, null, null, null, null);
                     if (userService.getErrors().isEmpty()) {
                         ras.addFlashAttribute("username", email);
                         ras.addFlashAttribute("password",password);

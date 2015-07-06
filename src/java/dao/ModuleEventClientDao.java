@@ -121,4 +121,14 @@ public class ModuleEventClientDao extends Dao<ModuleEventClient>   {
         return res.longValue();
     }
     
+    public List<Event> getFailedEventsByFinishingModuleIdAndCampaignId(Long moduleId,Long campaignId,Long pkId){
+        String sql="select distinct ev.* from module_event_client mec inner join (select event_id,max(insert_date) mid from module_event_client group by event_id) supsel left join event ev on mec.event_id=ev.event_id where mec.event_id=supsel.event_id and supsel.mid=mec.insert_date and mec.personal_cabinet_id=:pkId and ev.status=:failed and ev.campaign_id=:campaignId and mec.module_id=:moduleId";
+        Query query = getCurrentSession().createSQLQuery(sql).addEntity(Event.class);
+        query.setParameter("pkId", pkId);
+        query.setParameter("moduleId", moduleId);
+        query.setParameter("campaignId",campaignId);
+        query.setParameter("failed",Event.FAILED);
+        return query.list();
+    }
+    
 }

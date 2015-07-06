@@ -9,8 +9,8 @@ package service;
 import dao.ModuleDao;
 import dao.ModuleEventClientDao;
 import dao.UserDao;
+import entities.Event;
 import entities.Module;
-import entities.User;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -18,10 +18,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -112,6 +110,22 @@ public class ReportService extends PrimService {
         }
         
         return res;
+    }
+    
+    public List<Event> getEventDetalisationByModuleId(Long moduleId,Long campaignId,Long pkId){
+        if(moduleId!=null&&campaignId!=null&&pkId!=null){
+            return moduleEventClientDao.getFailedEventsByFinishingModuleIdAndCampaignId(moduleId,campaignId,pkId);
+        }
+        if(moduleId==null){
+            addError("Ид модуля не передан.");
+        }
+        if(campaignId==null){
+            addError("Ид кампании не передан.");
+        }
+        if(pkId==null){
+            addError("Ошибка личного кабинета.");
+        }
+        return new ArrayList();
     }
     
     
@@ -443,6 +457,8 @@ public class ReportService extends PrimService {
             return a.getSurname().compareToIgnoreCase(b.getSurname());
         }
     }*/
+    
+    
     
     private class specByPercentComparator implements Comparator<BigDecimal[]> {
         @Override

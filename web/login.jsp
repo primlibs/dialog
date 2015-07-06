@@ -18,23 +18,23 @@
     <body >
 <script src="<c:url value='/js/jquery-1.11.2.min.js'/>"> </script>
 <script src="<c:url value='/js/bootstrap.js'/>"> </script>
-        <div class="jumbotron" style="background-color: #5bc0de;">
+        <div class="jumbotron" style="background-color: #5bc0de;background-color: #5bc0de;background-image: url(./img/mmc.jpg);margin-bottom: 0px; background-position: 0% 25%;      background-size: cover;      background-repeat: no-repeat;      color: white; ">
             <div class="container">
 
-                <nav class="navbar navbar-default navbar-fixed-top">
+                <nav class="navbar navbar-default navbar-fixed-top" style="background-color:#2f2f2f;opacity: 0.9;">
                     <div class="container-fluid">
                         <div class="navbar-header">
                             <a class="navbar-brand" style="padding:10px 15px;" href="#">
-                                <img alt="Brand" src="./img/icon.png" style="float: left;width: 150px;"/>
-                                <!--<span style="float: left;margin-left: 10px;font-size: 25px;">Диалог</span>-->
+                                <!--<img alt="Brand" src="./img/icon.png" style="float: left;width: 150px;"/>-->
+                                <span style="color:white;float: left;margin-left: 25px;font-size: 25px;margin-top:20px;">Диалог</span>
 
                             </a>
                             
                         </div>
-                        <p class="navbar-text navbar-right" style="margin-right: 10px;margin-top: 20px;">
-						+7(342) <strong>259-56-57</strong><br/>
-						<a href="#" data-toggle="modal" data-target="#entrance" class="navbar-link">Вход </a> 
-                            или <a href="/Registration/registration" class="navbar-link">Регистрация </a> 
+                        <p class="navbar-text navbar-right" style="margin-right: 10px;font-size:15px;color:#F0F0F0">
+						+7(342) <strong style="font-size:20px;color:white">259-56-57</strong><br/>
+						<a href="#" data-toggle="modal" data-target="#entrance" class="whiteLink">Вход </a> 
+                            или <a href="/Registration/registration" class="whiteLink">Регистрация </a> 
 							</p>
 							
                         
@@ -43,15 +43,15 @@
                 </nav>
 
 
-                <div class="page-header" style="margin-top:80px;">
-                    <h1>Диалог - это сервис для организации процесса телефонных переговоров с помощью речевых модулей</h1>
+                <div class="page-header col-sm-8" style="margin-top:80px;text-shadow: black 0.1em 0.1em 0.1em;">
+                    <h2>Диалог - это сервис для организации процесса телефонных переговоров с помощью речевых модулей</h2>
                 </div>
 
-                <div>
-                    <h3>Увеличить продажи. 
+                <div class="col-sm-8">
+                    <h4>Увеличить продажи. 
                         Провести телемаркетинговую компанию по лояльности. Организовать удаленную работу.
                         Сделать прозрачным процесс продаж. Уберечь бизнес от утечки информации.
-                        </h3>
+                        </h4>
                 </div>
             </div>
         </div>

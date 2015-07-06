@@ -517,6 +517,17 @@ public class EventController extends WebController {
         return "redirect:/Event/campaignSpecification";
     }
     
+    @RequestMapping("/moduleReportDetalisation")
+    public String moduleReportDetalisation(Map<String, Object> model, @RequestParam(value = "campaignId") Long campaignId,
+             @RequestParam(value = "moduleId",required = false) Long moduleId, RedirectAttributes ras, HttpServletRequest request) throws Exception{
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        model.put("events", reportService.getEventDetalisationByModuleId(moduleId, campaignId, cabinetId));
+        model.put("module",moduleService.getModule(moduleId));
+        model.put("campaign",eventService.getCampaign(campaignId));
+        return "failModuleReportDetalisation";
+    }
+    
     /*@RequestMapping("/summarizedModuleReport")
     public String showModuleReport(Map<String, Object> model,@RequestParam(value = "campaignId") Long campaignId, RedirectAttributes ras, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
