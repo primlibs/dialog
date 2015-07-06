@@ -8,8 +8,7 @@ package dao;
 import dao.parent.Dao;
 import entities.Event;
 import entities.ModuleEventClient;
-import java.util.Date;
-import java.util.HashMap;
+import java.math.BigInteger;
 import java.util.List;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
@@ -55,12 +54,10 @@ public class ModuleEventClientDao extends Dao<ModuleEventClient>   {
     }*/
     
     
-    public List<Object[]> getCountedFailedEventsModuleDataByUser(/*Long campaignId,Long strategyId,Date fromdate,Date toDate,*/Long pkId){
+    /*public List<Object[]> getCountedFailedEventsModuleDataByUser(Long pkId){
         HashMap<String,String>paramMap=new HashMap();
         String sql = "select mec.module_id,ev.user_id,count(mec.module_id) from module_event_client mec inner join (select event_id,max(insert_date) mid from module_event_client group by event_id) supsel left join event ev on mec.event_id=ev.event_id where mec.event_id=supsel.event_id and supsel.mid=mec.insert_date and ev.status=:failed and mec.personal_cabinet_id=:pkId group by ev.user_id,mec.module_id";
-        /*if(campaignId!=null){
-            sql+=" and ";
-        }*/
+        
         Query query = getCurrentSession().createSQLQuery(sql);
         query.setParameter("failed",Event.FAILED);
         query.setParameter("pkId", pkId);
@@ -91,6 +88,37 @@ public class ModuleEventClientDao extends Dao<ModuleEventClient>   {
         query.setParameter("successful",Event.SUCCESSFUL);
         query.setParameter("failed",Event.FAILED);
         return query.list();
+    }*/
+    
+    //модуль и число его использований в оканчаниях эвентов в кампании
+    public List<Object[]> getAllCountedModules(Long campaignId,Long pkId){
+        String sql="select module_id,count(module_id) from(select mec.module_id,count(mec.module_id) from module_event_client mec inner join (select event_id,max(insert_date) mid from module_event_client group by event_id) supsel left join event ev on mec.event_id=ev.event_id where mec.event_id=supsel.event_id and supsel.mid=mec.insert_date and mec.personal_cabinet_id=:pkId and (ev.status=:successful or ev.status=:failed) and ev.campaign_id=:campaignId group by mec.event_id) supsel2 group by module_id";
+        Query query = getCurrentSession().createSQLQuery(sql);
+        query.setParameter("pkId", pkId);
+        query.setParameter("campaignId",campaignId);
+        query.setParameter("successful",Event.SUCCESSFUL);
+        query.setParameter("failed",Event.FAILED);
+        return query.list(); 
+    }
+    
+    //модуль и число сливов после него в кампании
+    public List<Object[]> getFailedCountedModules(Long campaignId,Long pkId){
+        String sql="select module_id,count(module_id) from(select mec.module_id,count(mec.module_id) from module_event_client mec inner join (select event_id,max(insert_date) mid from module_event_client group by event_id) supsel left join event ev on mec.event_id=ev.event_id where mec.event_id=supsel.event_id and supsel.mid=mec.insert_date and mec.personal_cabinet_id=:pkId and ev.status=:failed and ev.campaign_id=:campaignId group by mec.event_id) supsel2 group by module_id";
+        Query query = getCurrentSession().createSQLQuery(sql);
+        query.setParameter("pkId", pkId);
+        query.setParameter("campaignId",campaignId);
+        query.setParameter("failed",Event.FAILED);
+        return query.list(); 
+    }
+    
+    public Long getCountFailsByCampaign(Long campaignId,Long pkId){
+        String sql="select count(distinct mec.event_id) from module_event_client mec inner join (select event_id,max(insert_date) mid from module_event_client group by event_id) supsel left join event ev on mec.event_id=ev.event_id where  mec.event_id=supsel.event_id and supsel.mid=mec.insert_date and mec.personal_cabinet_id=:pkId and ev.status=:failed and ev.campaign_id=:campaignId";
+        Query query = getCurrentSession().createSQLQuery(sql);
+        query.setParameter("pkId", pkId);
+        query.setParameter("campaignId",campaignId);
+        query.setParameter("failed",Event.FAILED);
+        BigInteger res =(BigInteger) query.uniqueResult();
+        return res.longValue();
     }
     
 }

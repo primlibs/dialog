@@ -760,7 +760,7 @@ public class EventService extends PrimService {
                     ev.setFinalComment(finalComment);
                     ev.setFailReason(fr);
                     if (validate(ev)) {
-                        writeModulesInHistory(pkId, eventId, moduleIds, dates);
+                        writeModulesInHistory(pkId, eventId, moduleIds, dates,true);
                         ev.setStatus(Event.FAILED);
                         eventDao.update(ev);
                         return true;
@@ -786,7 +786,7 @@ public class EventService extends PrimService {
                     ev.setFinalComment(finalComment);
                     ev.setSuccessDate(successDate);
                     if (validate(ev)) {
-                        writeModulesInHistory(pkId, eventId, moduleIds, dates);
+                        writeModulesInHistory(pkId, eventId, moduleIds, dates,true);
                         ev.setStatus(Event.SUCCESSFUL);
                         eventDao.update(ev);
                         return true;
@@ -813,7 +813,7 @@ public class EventService extends PrimService {
                     ev.setPostponedDate(postponeDate);
                     ev.setStatus(Event.POSTPONED);
                     if (validate(ev)) {
-                        writeModulesInHistory(pkId, eventId, moduleIds, dates);
+                        writeModulesInHistory(pkId, eventId, moduleIds, dates,false);
                         eventDao.update(ev);
                         return true;
                     }
@@ -830,7 +830,7 @@ public class EventService extends PrimService {
         return false;
     }
 
-    public boolean writeModulesInHistory(Long pkId, Long eventId, Long[] moduleIds, Long[] dates) {
+    public boolean writeModulesInHistory(Long pkId, Long eventId, Long[] moduleIds, Long[] dates,boolean finishing) {
         Event ev = eventDao.find(eventId);
         if (ev != null && moduleIds != null && dates != null && dates.length > 0 && moduleIds.length > 0 && dates.length == moduleIds.length) {
             List<ModuleEventClient> history = new ArrayList();
@@ -848,6 +848,9 @@ public class EventService extends PrimService {
                         mec.setInsertDate(date);
                         mec.setModule(mod);
                         mec.setGroup(mod.getGroup());
+                        if(i==dates.length-1&&finishing){
+                            mec.setSign("final");
+                        }
                         if (validate(mec)) {
                             history.add(mec);
                         }

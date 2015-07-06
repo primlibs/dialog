@@ -152,6 +152,7 @@ public class EventController extends WebController {
         model.put("eventList", eventService.getEventList(campaignId, cabinetId));
         model.put("unassignedEventList", eventService.getUnassignedEvent(campaignId, cabinetId));
         model.put("campaign", eventService.getCampaign(campaignId));
+        model.put("moduleReportData",reportService.getDataByModules(campaignId,cabinetId));
         errors.addAll(eventService.getErrors());
         model.put("errors", errors);
         return "campaignSpecification";
@@ -516,16 +517,16 @@ public class EventController extends WebController {
         return "redirect:/Event/campaignSpecification";
     }
     
-    @RequestMapping("/summarizedModuleReport")
-    public String showModuleReport(Map<String, Object> model, RedirectAttributes ras, HttpServletRequest request) throws Exception {
+    /*@RequestMapping("/summarizedModuleReport")
+    public String showModuleReport(Map<String, Object> model,@RequestParam(value = "campaignId") Long campaignId, RedirectAttributes ras, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         
-        model.put("reportData",reportService.getDatabyModules(cabinetId));
-        model.put("users",reportService.getUserList(cabinetId));
+        model.put("reportData",reportService.getDataByModules(campaignId,cabinetId));
+        //model.put("users",reportService.getUserList(cabinetId));
         //model.put("modules", moduleService.getAllModulesMap(cabinetId));
         model.put("errors", reportService.getErrors());
         return "moduleReport";
-    }
+    }*/
 
 }

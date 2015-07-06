@@ -72,6 +72,8 @@ public class Event extends PrimEntity {
     private CabinetUser cabinetUser;
 
     @Column(name = "status")
+    @NotNull
+    @Index(name="statusIndex")
     private Integer status;
 
     @Column(name = "comment")
@@ -94,6 +96,7 @@ public class Event extends PrimEntity {
 
     @LazyCollection(LazyCollectionOption.TRUE)
     @OneToMany(mappedBy = "event")
+    
     private List<ModuleEventClient> moduleEventClientList;
 
     @Override

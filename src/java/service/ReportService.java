@@ -54,9 +54,69 @@ public class ReportService extends PrimService {
     @Autowired
     private ModuleService moduleService;
     
+    public LinkedHashMap<Module,String> getDataByModules(Long campaignId,Long pkId){
+        LinkedHashMap<Module,String> res = new LinkedHashMap();
+        HashMap<Long,BigDecimal> preRes = new HashMap();
+        //List<Object[]> allModulesRawRes= moduleEventClientDao.getAllCountedModules(campaignId,pkId);
+        List<Object[]> failedModulesRawRes= moduleEventClientDao.getFailedCountedModules(campaignId,pkId);
+        Long allFailsCount = moduleEventClientDao.getCountFailsByCampaign(campaignId, pkId);
+        BigDecimal afc = BigDecimal.valueOf(allFailsCount);
+        ArrayList<BigDecimal[]>supListForSort=new ArrayList();
+        /*for(Object[]o:failedModulesRawRes){
+            BigInteger id=(BigInteger)o[0];
+            BigInteger failCount = (BigInteger)o[1];
+            preRes.put(id.longValue(),BigDecimal.valueOf(failCount.longValue()));
+        }
+        for(Object[]o:allModulesRawRes){
+            BigInteger id=(BigInteger)o[0];
+            BigInteger allCount = (BigInteger)o[1];
+            BigDecimal all=BigDecimal.valueOf(allCount.longValue());
+            BigDecimal fails = preRes.get(id.longValue());
+            if(fails!=null){
+                BigDecimal[] supArr= new BigDecimal[2];
+                supArr[0]=BigDecimal.valueOf(id.longValue());
+                if(!all.equals(BigDecimal.valueOf(0))){
+                    supArr[1]=fails.divide(all, 2, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100));
+                }else{
+                    supArr[1]=all;
+                }
+                supListForSort.add(supArr);
+            }
+        }*/
+        for(Object[]o:failedModulesRawRes){
+            BigInteger id=(BigInteger)o[0];
+            BigInteger failCount = (BigInteger)o[1];
+            BigDecimal[] supArr= new BigDecimal[2];
+            preRes.put(id.longValue(),BigDecimal.valueOf(failCount.longValue()));
+            supArr[0]=BigDecimal.valueOf(id.longValue());
+            if(!afc.equals(BigDecimal.valueOf(0))){
+                    supArr[1]=BigDecimal.valueOf(failCount.longValue()).divide(afc, 2, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100));
+                }else{
+                    supArr[1]=BigDecimal.valueOf(failCount.longValue());
+                }
+            supListForSort.add(supArr);
+        }
+        
+        Collections.sort(supListForSort,new specByPercentComparator());
+        
+        HashMap<Long,Module>modules=moduleService.getAllModulesMap(pkId);
+        
+        for(BigDecimal[] bd:supListForSort){
+            Long moduleId = bd[0].longValue();
+            Module m = modules.get(moduleId);
+            if(m!=null){
+                res.put(m,preRes.get(moduleId)+"("+StringAdapter.getString(bd[1])+"%)");
+            }else{
+                addError("Не найден модуль с ид: "+bd[0]+"; ");
+            }
+        }
+        
+        return res;
+    }
     
     
-    private LinkedHashMap<Long,String>getUserMapTemplate(HashSet<Long>usedUserIds,Long pkId){
+    
+    /*private LinkedHashMap<Long,String>getUserMapTemplate(HashSet<Long>usedUserIds,Long pkId){
         LinkedHashMap<Long,String>res = new LinkedHashMap();
         res.put((long)0,"0(0%)");
         LinkedHashMap<Long,User>users=userService.getMakingCallsAndParticipatedUsersMap(pkId);
@@ -67,9 +127,9 @@ public class ReportService extends PrimService {
             }
         }
         return res;
-    }
+    }*/
     
-    public ArrayList<User>getUserList(Long pkId){
+    /*public ArrayList<User>getUserList(Long pkId){
         
         LinkedHashMap<Module,LinkedHashMap<Long,String>>fullRes = getDatabyModules(pkId);
         if(!fullRes.isEmpty()){
@@ -92,9 +152,9 @@ public class ReportService extends PrimService {
         }
         
         return new ArrayList();
-    }
+    }*/
     
-    public LinkedHashMap<Module,LinkedHashMap<Long,String>>getDatabyModules(Long pkId){
+    /*public LinkedHashMap<Module,LinkedHashMap<Long,String>>getDatabyModules(Long pkId){
         
         HashMap<Long,HashMap<Long,BigDecimal[]>>rawRes=new HashMap();
         LinkedHashMap<Module,LinkedHashMap<Long,String>>result=new LinkedHashMap();
@@ -196,37 +256,7 @@ public class ReportService extends PrimService {
         }
         
         return result;
-        
-        /*for(Object[]o:failedCountListOverAll){
-            BigInteger intId = (BigInteger)o[0];
-            Long moduleId = intId.longValue();
-            BigInteger failed = (BigInteger)o[1];
-            BigDecimal failCount = BigDecimal.valueOf(failed.longValue());
-            BigDecimal[] entry=new BigDecimal[3];
-            entry[0]=BigDecimal.valueOf(moduleId);
-            entry[1]=failCount;
-            rawUserMap.put((long)0, entry);
-        }
-        for(Object[]o:allCountListOverAll){
-            BigInteger intId = (BigInteger)o[0];
-            Long moduleId = intId.longValue();
-            BigInteger all = (BigInteger)o[1];
-            BigDecimal allCount = BigDecimal.valueOf(all.longValue());
-            BigDecimal[] entry = rawUserMap.get(moduleId);
-            if(entry!=null){
-                if(!allCount.equals(BigDecimal.valueOf(0))){
-                    entry[2]=entry[1].divide(allCount, 2, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100));
-                }else if(!entry[0].equals(BigDecimal.valueOf(0))){
-                    entry[2]=BigDecimal.valueOf(0);
-                }else{   
-                    entry[2]=null;
-                    addError("Возникла непредвиденная ошибка при подсчете данных, попытка разделить на 0. Общее количество контактов по модулю ид:"+moduleId+" равно 0.");
-                }
-            }
-        }
-        
-        return res;*/
-    }
+    }*/
     
     //возвращает map ключ - ид модуля, значение - map, где ключ - ид юзера, значение - его результат.
     /*public LinkedHashMap<Long,LinkedHashMap<Long,String>> getDataForModuleReport(Long pkId){

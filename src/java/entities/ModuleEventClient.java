@@ -51,6 +51,8 @@ public class ModuleEventClient extends PrimEntity {
 
     @JoinColumn(name = "strategy_id")
     @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    @Index(name="strategyIndex")
     private Strategy strategy;
 
     @JoinColumn(name = "group_id")
