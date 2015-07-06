@@ -448,7 +448,7 @@ public class ReportService extends PrimService {
         @Override
         public int compare(BigDecimal[] a, BigDecimal[] b) {
             if(a!=null&&b!=null){
-                return a[1].compareTo(b[1]);
+                return b[1].compareTo(a[1]);
             }else{
                 return 0;
             }
