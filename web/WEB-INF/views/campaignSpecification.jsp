@@ -55,8 +55,8 @@
                 <th rowspan="2">Изменить назначение</th>
             </tr>
             <tr>
-                <th>Успешно </th>
-                <th>Не успешно </th>
+                <th>Успешно</th>
+                <th>Не успешно</th>
                 <th>Всего</th>
             </tr>
             <c:set var="number" value="1" />
@@ -136,12 +136,12 @@
             </div>
         </div>
 
-        <h5>Отчет по модулям</h5> 
+        <h5 id="moduleReportTumblr" style="cursor: pointer;">Отчет по модулям</h5> 
         <c:if test="${empty moduleReportData}">
-            Нет данных для отчета
+            <span id="moduleReport">Нет данных для отчета</span>
         </c:if>
         <c:if test="${not empty moduleReportData}">
-            <table class="table table-bordered table-hover" style="margin-top: 20px;">
+            <table id="moduleReport" class="table table-bordered table-hover hidden" style="margin-top: 20px;">
                 <tr>
                     <th> Модуль </th>
                     <th> Отрицательные исходы(%*) </th></tr>
@@ -151,6 +151,22 @@
                 </c:forEach>
             </table>
         </c:if>
-
+         <h5 id="workReportTumblr" style="cursor: pointer;">Отчет по работе</h5> 
+         <c:if test="${empty workReportData}">
+             <span id="workReport">Нет данных для отчета</span>
+         </c:if>
+         <c:if test="${not empty workReportData}">
+             <div id="workReport" class="hidden">
+                 
+             <table class="table table-bordered table-hover hidden" style="margin-top: 20px;">
+                 <th>Менеджеры</th>
+                 <th>Назначено</th>
+                 <th>Перенесено</th>
+                 <th>Не успешно</th>
+                 <th>Успешно</th>
+                 
+             </table>
+             </div>
+         </c:if>
     </body>
 </html>

@@ -29,6 +29,13 @@ import org.hibernate.annotations.Index;
 @Table(name = "event_comment")
 public class EventComment extends PrimEntity {
     
+    public static int CREATE = 0;
+    public static int POSTPONE = 1;
+    public static int ASSIGN = 2;
+    public static int UNASSIGN = 3;
+    public static int FAILED = 4;
+    public static int SUCCESSFUL = 5;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "event_comment_id")
@@ -44,8 +51,15 @@ public class EventComment extends PrimEntity {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date insertDate;
     
+    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User author;
+    
     @Column(name = "comment",columnDefinition="TEXT")
     private String comment;
+    
+    @Column(name = "type")
+    private Integer type;
 
     @Override
     public Long getId() {
@@ -82,6 +96,22 @@ public class EventComment extends PrimEntity {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
     
     
