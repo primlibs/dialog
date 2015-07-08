@@ -6,20 +6,26 @@
 
 package service;
 
+import dao.CampaignDao;
+import dao.EventCommentDao;
 import dao.ModuleDao;
 import dao.ModuleEventClientDao;
 import dao.UserDao;
+import entities.Campaign;
 import entities.Event;
 import entities.Module;
+import entities.User;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -51,6 +57,12 @@ public class ReportService extends PrimService {
     
     @Autowired
     private ModuleService moduleService;
+    
+    @Autowired
+    private CampaignDao campaignDao;
+    
+    @Autowired
+    private EventCommentDao eventCommentDao;
     
     public LinkedHashMap<Module,String> getDataByModules(Long campaignId,Long pkId){
         LinkedHashMap<Module,String> res = new LinkedHashMap();
@@ -469,6 +481,70 @@ public class ReportService extends PrimService {
                 return 0;
             }
         }
+    }
+    
+    //Данные для отчета по работе
+    public LinkedHashMap<String,HashMap<String,String>> getDataForWorkReport(Long pkId,Long campaignId,Date dateFrom,Date dateTo){
+        LinkedHashMap<String,HashMap<String,String>>res = new LinkedHashMap();
+        if(campaignId!=null){
+            Campaign campaign = campaignDao.find(campaignId);
+            HashMap<Long,BigDecimal>failMap=new HashMap();
+            HashMap<Long,BigDecimal>successMap=new HashMap();
+            HashMap<Long,BigDecimal>postponeMap=new HashMap();
+            List<Object[]>flist=eventCommentDao.getUserIdFailedCount(campaign, dateFrom, dateTo, pkId);
+            for(Object[] o:flist){
+                BigInteger userId=(BigInteger)o[0];
+                BigInteger count=(BigInteger)o[1];
+                failMap.put(userId.longValue(),BigDecimal.valueOf(count.longValue()));
+            }
+            List<Object[]>slist=eventCommentDao.getUserIdSuccessfulCount(campaign, dateFrom, dateTo, pkId);
+            for(Object[] o:slist){
+                BigInteger userId=(BigInteger)o[0];
+                BigInteger count=(BigInteger)o[1];
+                successMap.put(userId.longValue(),BigDecimal.valueOf(count.longValue()));
+            }
+            List<Object[]>plist=eventCommentDao.getUserIdPostponesCount(campaign, dateFrom, dateTo, pkId);
+            for(Object[] o:plist){
+                BigInteger userId=(BigInteger)o[0];
+                BigInteger count=(BigInteger)o[1];
+                postponeMap.put(userId.longValue(),BigDecimal.valueOf(count.longValue()));
+            }
+            LinkedHashMap<Long,User>users=userService.getMakingCallsAndParticipatedUsersMap(pkId);
+            BigDecimal sumFcount=BigDecimal.valueOf(0);
+            BigDecimal sumScount=BigDecimal.valueOf(0);
+            BigDecimal sumPcount=BigDecimal.valueOf(0);
+            for(Map.Entry<Long,User>entry:users.entrySet()){
+                Long userId=entry.getKey();
+                HashMap<String,String>supMap=new HashMap();
+                
+                BigDecimal fcount = failMap.get(userId);
+                if(fcount==null){
+                    fcount=BigDecimal.valueOf(0);
+                }
+                sumFcount=sumFcount.add(fcount);
+                BigDecimal scount = successMap.get(userId);
+                if(scount==null){
+                    scount=BigDecimal.valueOf(0);
+                }
+                sumScount=sumScount.add(scount);
+                BigDecimal pcount = postponeMap.get(userId);
+                if(pcount==null){
+                    pcount=BigDecimal.valueOf(0);
+                }
+                sumPcount=sumPcount.add(pcount);
+                
+                supMap.put("failed",StringAdapter.getString(fcount));
+                supMap.put("successful",StringAdapter.getString(scount));
+                supMap.put("postponed",StringAdapter.getString(pcount));
+                res.put(entry.getValue().getShortName(),supMap);
+            }
+            HashMap<String,String>sumMap=new HashMap();
+            sumMap.put("failed",StringAdapter.getString(sumFcount));
+            sumMap.put("successful",StringAdapter.getString(sumScount));
+            sumMap.put("postponed",StringAdapter.getString(sumPcount));
+            res.put("Итого:", sumMap);
+        }
+        return res;
     }
     
 }

@@ -55,6 +55,17 @@ public class EventComment extends PrimEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private User author;
     
+    @Column(name = "campaign_id")
+    @NotNull(message = "Ид кампании не передан")
+    @Index(name="campaignIndex")
+    private Long campaignId;
+    
+    @JoinColumn(name = "personal_cabinet_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    @Index(name="cabinetIndex")
+    private PersonalCabinet cabinet;
+    
     @Column(name = "comment",columnDefinition="TEXT")
     private String comment;
     
@@ -80,6 +91,7 @@ public class EventComment extends PrimEntity {
 
     public void setEvent(Event event) {
         this.event = event;
+        this.campaignId = event.getCampaign().getCampaignId();
     }
 
     public Date getInsertDate() {
@@ -112,6 +124,18 @@ public class EventComment extends PrimEntity {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public Long getCampaignId() {
+        return campaignId;
+    }
+
+    public PersonalCabinet getCabinet() {
+        return cabinet;
+    }
+
+    public void setCabinet(PersonalCabinet cabinet) {
+        this.cabinet = cabinet;
     }
     
     

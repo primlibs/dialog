@@ -157,14 +157,23 @@
          </c:if>
          <c:if test="${not empty workReportData}">
              <div id="workReport" class="hidden">
-                 
+                 <form class="form form-group">
+                     с <input type="text" name="dateFrom">
+                     по <input type="text" name="dateTo">
+                     <input class="btn btn-primary" type="submit" value="Отправить">
+                 </form>
              <table class="table table-bordered table-hover hidden" style="margin-top: 20px;">
                  <th>Менеджеры</th>
-                 <th>Назначено</th>
+                 <!--<th>Назначено</th>-->
                  <th>Перенесено</th>
                  <th>Не успешно</th>
                  <th>Успешно</th>
-                 
+                 <c:forEach var="entry" items="${workReportData.entrySet()}">
+                    <tr><td>${entry.getKey()}</td>
+                        <td>${entry.getValue().get("postponed")}</td>
+                        <td>${entry.getValue().get("failed")}</td>
+                        <td>${entry.getValue().get("successful")}</td></tr>
+                </c:forEach>
              </table>
              </div>
          </c:if>

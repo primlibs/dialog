@@ -128,8 +128,9 @@ public class EventController extends WebController {
     @RequestMapping("/campaignSpecification")
     public String showCampaignSpecification(Map<String, Object> model,
             HttpServletRequest request,
-            @RequestParam(value = "campaignId"//, required = false
-            ) Long campaignId) throws Exception {
+            @RequestParam(value = "campaignId") Long campaignId,
+            @RequestParam(value = "dateFrom", required=false) Date dateFrom,
+            @RequestParam(value = "dateTo", required=false) Date dateTo) throws Exception {
 
         List<String> errors = (List<String>) model.get("errors");
         if (errors == null) {
@@ -152,7 +153,10 @@ public class EventController extends WebController {
         model.put("eventList", eventService.getEventList(campaignId, cabinetId));
         model.put("unassignedEventList", eventService.getUnassignedEvent(campaignId, cabinetId));
         model.put("campaign", eventService.getCampaign(campaignId));
+        
         model.put("moduleReportData",reportService.getDataByModules(campaignId,cabinetId));
+        model.put("workReportData",reportService.getDataForWorkReport(cabinetId,campaignId,dateFrom,dateTo));
+        
         errors.addAll(eventService.getErrors());
         model.put("errors", errors);
         return "campaignSpecification";
