@@ -409,7 +409,7 @@ public class EventService extends PrimService {
                 event.setStatus(Event.ASSIGNED);
                 if (validate(event)) {
                     eventDao.save(event);
-                    addEventComment("Звонок назначен на "+user.getShortName()+" "+new Date().toString(), EventComment.ASSIGN, event);
+                    addEventComment("Звонок назначен на "+user.getShortName()+".", EventComment.ASSIGN, event);
                 }
             }
         }
@@ -443,7 +443,7 @@ public class EventService extends PrimService {
     }
 
 //сохранение распределения
-    public boolean eventAppointSaveAll(Long campaignId, Long cabinetId, Long[] userIdArray, String[] clientNumArray) {
+    public void eventAppointSaveAll(Long campaignId, Long cabinetId, Long[] userIdArray, String[] clientNumArray) {
         if (userIdArray != null && clientNumArray != null) {
             LinkedHashMap<Long, Integer> userIdCountAssignedMap = new LinkedHashMap();
             List<Event> events = getUnassignedEvent(campaignId, cabinetId);
@@ -507,24 +507,22 @@ public class EventService extends PrimService {
                              }*/
                         } else {
                             addError("Ошибка! Пользователь id:" + userId + " не принадлежит к личному кабинету!");
-                            return false;
                         }
                     }
                     for (Event ev : eventsForUpdate) {
                         eventDao.update(ev);
+                        addEventComment("Звонок назначен на "+ev.getUser().getShortName()+".",EventComment.ASSIGN,ev);
                     }
                     /*String str = "";
                      for(Map.Entry<Long,Integer> entry:userIdCountAssignedMap.entrySet()){
                      str+=entry.getKey()+"-"+entry.getValue()+"; ";
                      }
                      addError(str);*/
-                    return true;
                 } else {
                     addError("Количество клиентов " + summClient + " больше количества не назначенных: " + events.size());
                 }
             }
         }
-        return false;
     }
 
     public HashMap<Long, String> userAssignedClient(Long campaignId, Long cabinetId) {
@@ -757,7 +755,7 @@ public class EventService extends PrimService {
         return performed;
     }
 
-    public boolean badFinish(Long[] moduleIds, Long[] dates, Long pkId, Long eventId, Long reasonId, String finalComment) {
+    public void badFinish(Long[] moduleIds, Long[] dates, Long pkId, Long eventId, Long reasonId, String finalComment) {
         Event ev = eventDao.find(eventId);
         if (ev != null) {
             if (!ev.isClosed()) {
@@ -770,7 +768,6 @@ public class EventService extends PrimService {
                         ev.setStatus(Event.FAILED);
                         eventDao.update(ev);
                         addEventComment("Контакт завершен с отрицательным итогом "+new Date().toString(),EventComment.FAILED, ev);
-                        return true;
                     }
                 } else {
                     addError("Необходимо оставить комментарий.");
@@ -782,10 +779,9 @@ public class EventService extends PrimService {
         } else {
             addError("Эвент " + eventId + " не найден!");
         }
-        return false;
     }
 
-    public boolean goodFinish(Long[] moduleIds, Long[] dates, Long pkId, Long eventId, Date successDate, String finalComment) {
+    public void goodFinish(Long[] moduleIds, Long[] dates, Long pkId, Long eventId, Date successDate, String finalComment) {
         Event ev = eventDao.find(eventId);
         if (ev != null) {
             if (!ev.isClosed()) {
@@ -796,8 +792,7 @@ public class EventService extends PrimService {
                         writeModulesInHistory(pkId, eventId, moduleIds, dates,true);
                         ev.setStatus(Event.SUCCESSFUL);
                         eventDao.update(ev);
-                        addEventComment("Контакт успешно завершен "+new Date().toString(),EventComment.SUCCESSFUL, ev);
-                        return true;
+                        addEventComment("Звонок успешно завершен.",EventComment.SUCCESSFUL, ev);
                     }
                 } else {
                     addError("Необходимо оставить комментарий.");
@@ -809,7 +804,6 @@ public class EventService extends PrimService {
         } else {
             addError("Эвент " + eventId + " не найден!");
         }
-        return false;
     }
 
     public void postponeEvent(Long[] moduleIds, Long[] dates, Long pkId, Long eventId, Date postponeDate, String finalComment) {
@@ -919,34 +913,40 @@ public class EventService extends PrimService {
     /*public List<Campaign> getCampaignsByUserAndCabinet(Long cabinetId, Long userId){
      return eventDao.getCampaignsByUserAndCabinet(cabinetId, userId);
      }*/
-    public boolean assignOneEvent(Long userId, Long eventId) {
-        User user = userDao.find(userId);
-        Event ev = eventDao.find(eventId);
-        if (ev != null) {
-            //if(ev.getFinalComment()==null){
+    public void assignOneEvent(Long userId, Long eventId) {
+        if (eventId != null) {
+            Event ev = eventDao.find(eventId);
             if (!ev.isClosed()) {
-                ev.setUser(user);
-                int type = EventComment.ASSIGN;
-                String systemComment = "Звонок был наначен ";
-                if ((ev.getStatus() == null || Event.UNASSIGNED == ev.getStatus()) && user != null) {
-                    ev.setStatus(Event.ASSIGNED);
-                } else if (Event.POSTPONED == ev.getStatus() && user == null) {
-                    addError("Перенесенный звонок нельзя сделать неназначенным");
-                    return false;
-                } else if (user == null) {
-                    ev.setStatus(Event.UNASSIGNED);
-                    type=EventComment.UNASSIGN;
+                int type=EventComment.ASSIGN;;
+                String systemComment="";
+                if(userId==null){
+                    if (Event.POSTPONED == ev.getStatus()){
+                        addError("Перенесенный звонок нельзя сделать неназначенным;");
+                    }else{
+                        ev.setStatus(Event.UNASSIGNED);
+                        type=EventComment.UNASSIGN;
+                        systemComment="Звонк перенесен в неназначенные.";
+                    }
+                    
+                }else{
+                    if(ev.getStatus() == null || Event.UNASSIGNED == ev.getStatus()){
+                        User user = userDao.find(userId);
+                        ev.setStatus(Event.ASSIGNED);
+                        ev.setUser(user);
+                        type = EventComment.ASSIGN;
+                        systemComment="Звонок назначен на "+user.getShortName()+".";
+                    }
                 }
-                if (validate(ev)) {
+                if (getErrors().isEmpty()&&validate(ev)) {
                     eventDao.update(ev);
-                    return true;
+                    addEventComment(systemComment, type, ev);
                 }
             } else {
                 addError("Взаимодействие с клиентом в рамках данной кампании завершено, его нельзя переназначить.");
-                return false;
             }
+        }else{
+            addError("Ид звонка не передан.");
         }
-        return false;
     }
 
     public void changeUserCampaignAssignation(Long campaignId, Long userFromId, Long userToId, Long pkId) {
@@ -958,8 +958,15 @@ public class EventService extends PrimService {
                 evs = eventDao.getAssignedEvents(campaignId, pkId);
             }
             User userTo = null;
+            String textComment = "";
+            int type;
             if (userToId != null) {
                 userTo = userDao.find(userToId);
+                textComment="Звонок назначен на "+userTo.getShortName()+".";
+                type=EventComment.ASSIGN;
+            }else{
+                textComment="Звонок перенесен в неназначенные.";
+                type=EventComment.UNASSIGN;
             }
 
             for (Event ev : evs) {
@@ -970,6 +977,7 @@ public class EventService extends PrimService {
                 }
                 if (validate(ev)) {
                     eventDao.update(ev);
+                    addEventComment(textComment, type, ev);
                 }
             }
         } else {
