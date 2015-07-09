@@ -162,7 +162,7 @@
                      по <input type="text" name="dateTo">
                      <input class="btn btn-primary" type="submit" value="Отправить">
                  </form>
-             <table class="table table-bordered table-hover hidden" style="margin-top: 20px;">
+             <table class="table table-bordered table-hover" style="margin-top: 20px;">
                  <th>Менеджеры</th>
                  <!--<th>Назначено</th>-->
                  <th>Перенесено</th>

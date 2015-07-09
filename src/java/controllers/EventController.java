@@ -490,7 +490,7 @@ public class EventController extends WebController {
         }
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        eventService.assignOneEvent(userId, eventId);
+        eventService.assignOneEvent(userId, eventId,cabinetId);
         ras.addAttribute("campaignId", campaignId);
         ras.addAttribute("assigned", userId);
         errors.addAll(eventService.getErrors());
