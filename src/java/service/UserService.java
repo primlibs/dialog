@@ -283,6 +283,10 @@ public class UserService extends PrimService {
     }
 
     public String recoveryPassword(String email) {
+        if(email==null||email.equals("")){
+            addError("Нужно ввести адрес электронной почты");
+            return null;
+        }
         User user = userDao.getUserByLogin(email);
         if (user != null) {
             user.setRecoverDate(new Date());

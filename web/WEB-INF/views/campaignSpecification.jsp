@@ -17,6 +17,17 @@
         <%@include file="/WEB-INF/jsp/error.jsp" %>
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
         <script src="<c:url value="/js/myJsOnViews/campaignSpecification.js" />"></script>
+        <script type="text/javascript">
+            $(function() {
+                //Установим для виджета русскую локаль с помощью параметра language и значения ru
+                $('#datetimepicker2').datetimepicker(
+                        {language: 'ru'}
+                );
+                $('#datetimepicker1').datetimepicker(
+                        {language: 'ru'}
+                );
+            });
+        </script>
         <div class="row form-group">
             <span style="font-size: 18px;font-weight: 500;"><b>Кампания: ${campaign.name}; Сценарий ${campaign.strategy.strategyName};</b></span>
         </div>
@@ -145,37 +156,50 @@
                 <tr>
                     <th> Модуль </th>
                     <th> Отрицательные исходы(%*) </th></tr>
-                <c:forEach var="entry" items="${moduleReportData.entrySet()}">
+                        <c:forEach var="entry" items="${moduleReportData.entrySet()}">
                     <tr style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/moduleReportDetalisation?campaignId=${campaign.campaignId}&moduleId=${entry.getKey().moduleId}"/>'"><td>${entry.getKey().getModuleName()}</td>
                         <td>${entry.getValue()}</td></tr>
-                </c:forEach>
+                    </c:forEach>
             </table>
         </c:if>
-         <h5 id="workReportTumblr" style="cursor: pointer;">Отчет по работе</h5> 
-         <c:if test="${empty workReportData}">
-             <span id="workReport">Нет данных для отчета</span>
-         </c:if>
-         <c:if test="${not empty workReportData}">
-             <div id="workReport" class="hidden">
-                 <form class="form form-group">
-                     с <input type="text" name="dateFrom">
-                     по <input type="text" name="dateTo">
-                     <input class="btn btn-primary" type="submit" value="Отправить">
-                 </form>
-             <table class="table table-bordered table-hover" style="margin-top: 20px;">
-                 <th>Менеджеры</th>
-                 <!--<th>Назначено</th>-->
-                 <th>Перенесено</th>
-                 <th>Не успешно</th>
-                 <th>Успешно</th>
-                 <c:forEach var="entry" items="${workReportData.entrySet()}">
-                    <tr><td>${entry.getKey()}</td>
-                        <td>${entry.getValue().get("postponed")}</td>
-                        <td>${entry.getValue().get("failed")}</td>
-                        <td>${entry.getValue().get("successful")}</td></tr>
-                </c:forEach>
-             </table>
-             </div>
-         </c:if>
+        <h5 id="workReportTumblr" style="cursor: pointer;">Отчет по работе</h5> 
+        <c:if test="${empty workReportData}">
+            <span id="workReport">Нет данных для отчета</span>
+        </c:if>
+        <c:if test="${not empty workReportData}">
+            <c:set var="hidingclass" value="hidden"></c:set>
+            <c:if test="${wropen==1}">
+                <c:set var="hidingclass" value=""></c:set>
+            </c:if>
+            <div id="workReport" class="${hidingclass}">
+                <form class="form form-group form-inline">
+                    <div class="form-group">
+                        С <div class="input-group date">
+                            <input type="text" name="dateFrom" id="datetimepicker1" class="form-control" placeholder="дата с " value="${dateFrom}"/>
+                        </div>
+                        ПО <div class="input-group date">
+                            <input type="text" name="dateTo" id="datetimepicker2" class="form-control" placeholder="дата по " value="${dateTo}"/>
+                        </div>
+
+                    </div> 
+                    <input type="hidden" name="campaignId" value=${campaign.campaignId}>
+                    <input type="hidden" name="wropen" value="0">
+                    <input class="btn btn-primary" type="submit" value="Применить">
+                </form>
+                <table class="table table-bordered table-hover" style="margin-top: 20px;">
+                    <th>Менеджеры</th>
+                    <!--<th>Назначено</th>-->
+                    <th>Перенесено</th>
+                    <th>Не успешно</th>
+                    <th>Успешно</th>
+                        <c:forEach var="entry" items="${workReportData.entrySet()}">
+                        <tr><td>${entry.getKey()}</td>
+                            <td>${entry.getValue().get("postponed")}</td>
+                            <td>${entry.getValue().get("failed")}</td>
+                            <td>${entry.getValue().get("successful")}</td></tr>
+                        </c:forEach>
+                </table>
+            </div>
+        </c:if>
     </body>
 </html>

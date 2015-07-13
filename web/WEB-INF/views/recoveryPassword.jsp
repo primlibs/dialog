@@ -15,14 +15,27 @@
     <body class="container">
         
         <%@include file="/WEB-INF/jsp/error.jsp" %> <%@include file="/WEB-INF/jsp/message.jsp" %> 
-
-        <div style="margin-top: 59px; margin-left:310px;"> <h2>Форма восстановления пароля </h2> </div>
-
-        <form action="<c:url value="/User/recoveryPassword" />"  method="post">
-
+        
+        <center style="margin-top: 50px;">
+        <div class="">
             
+                <h2>восстановление пароля</h2>
+            
+        </div>  
+    </center>
+        
+        <div class="container col-sm-6 col-sm-offset-3">
+        <form action="<c:url value="/User/recoveryPassword" />"  method="post" style="margin-top: 100px;">
+
+            <div class="input-group">
+                <span class="input-group-addon">e-mail</span>
+                <input type="email" class="form-control" name="email" id="inputEmail" placeholder="e-mail" value="${email}">
+                <span class="input-group-btn">
+                    <button name="submit" class="btn btn-primary" type="input" value="Восстановить">Восстановить</button>
+                  </span>
+              </div>
            
-            <div class="form-group">
+            <!--<div class="form-group">
                 <label class="control-label col-xs-3"  for="inputEmail">Email:</label>
                 <div class="col-xs-9">
                     <input type="email" class="form-control" name="email" id="inputEmail" placeholder="Email">
@@ -33,10 +46,10 @@
                     <input type="submit" name="submit"  class="btn btn-primary" value="Отправить">
                   
                 </div>
-            </div>
+            </div>-->
 
         </form>
-
+        </div>
     </body>
 
 </html>

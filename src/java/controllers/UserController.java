@@ -98,11 +98,12 @@ public class UserController extends WebController {
         if (submit != null) {
             String recoverHash = userService.recoveryPassword(email);
             if (userService.getErrors().isEmpty()) {
-                String link = "http://62.76.41.244/CallCentr/recoverPassword";
-                String text = "Вы восcтнавливаите пароль от CallAssistent. Пройдите по ссылке для восстановления: " + link + "?hash=" + recoverHash;
+                String link = "http://dialogpl.com/recoverPassword";
+                String text = "Вы восcтнавливаете пароль от CallAssistent. Пройдите по ссылке для восстановления: " + link + "?hash=" + recoverHash;
                 sendMail.sendMail(email, text);
                 model.put("message", "Ссылка с востановлением отправлена на почту");
             }
+            model.put("email", email);
             model.put("errors", userService.getErrors());
         }
         return "recoveryPassword";

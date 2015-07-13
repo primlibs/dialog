@@ -9,5 +9,11 @@ $(function(){
         })
         $('#workReportTumblr').on('click',function(){
             $('#workReport').toggleClass('hidden');
-        })
+            var wrclass = $('#workReport').attr('class')
+            if(wrclass.indexOf('hidden')+1){
+                $("input[name='wropen']").val('0');
+            }else{
+                $("input[name='wropen']").val('1');
+            }
+        });
 });

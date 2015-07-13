@@ -8,9 +8,11 @@ package controllers;
 import static controllers.LkController.CABINET_ID_SESSION_NAME;
 import controllers.parent.WebController;
 import entities.CabinetUser;
+import entities.Campaign;
 import entities.Event;
 import entities.User;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -32,6 +34,7 @@ import service.ReportService;
 import service.StrategyService;
 import service.UserService;
 import support.AuthManager;
+import support.DateAdapter;
 import support.JsonResponse;
 
 /**
@@ -130,7 +133,8 @@ public class EventController extends WebController {
             HttpServletRequest request,
             @RequestParam(value = "campaignId") Long campaignId,
             @RequestParam(value = "dateFrom", required=false) Date dateFrom,
-            @RequestParam(value = "dateTo", required=false) Date dateTo) throws Exception {
+            @RequestParam(value = "dateTo", required=false) Date dateTo,
+            @RequestParam(value = "wropen", required=false) Integer wropen) throws Exception {
 
         List<String> errors = (List<String>) model.get("errors");
         if (errors == null) {
@@ -152,10 +156,24 @@ public class EventController extends WebController {
 
         model.put("eventList", eventService.getEventList(campaignId, cabinetId));
         model.put("unassignedEventList", eventService.getUnassignedEvent(campaignId, cabinetId));
-        model.put("campaign", eventService.getCampaign(campaignId));
+        Campaign campaign = eventService.getCampaign(campaignId);
+        model.put("campaign", campaign);
         
         model.put("moduleReportData",reportService.getDataByModules(campaignId,cabinetId));
         model.put("workReportData",reportService.getDataForWorkReport(cabinetId,campaignId,dateFrom,dateTo));
+        if(dateFrom==null){
+            dateFrom=campaign.getCreationDate();
+        }
+        if(dateTo==null){
+            if(campaign.getEndDate()!=null){
+                dateTo=campaign.getEndDate();
+            }else{
+                dateTo=new Date();
+            }
+        }
+        model.put("wropen",wropen);
+        model.put("dateFrom",DateAdapter.formatByDate(dateFrom, DateAdapter.SMALL_FORMAT));
+        model.put("dateTo",DateAdapter.formatByDate(dateTo, DateAdapter.SMALL_FORMAT));
         
         errors.addAll(eventService.getErrors());
         model.put("errors", errors);

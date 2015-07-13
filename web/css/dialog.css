@@ -2,6 +2,9 @@
 #dialogfreebtn:hover{
     background-color:#bebaba !important;
 }
+.changebleParam{
+    cursor: pointer;
+}
 
 .whiteLink{
     color:white;

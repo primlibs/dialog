@@ -29,7 +29,6 @@ public class UserDao extends Dao<User> {
         String queryString = "from User U where U.email = :email";
         Query query = getCurrentSession().createQuery(queryString);
         query.setParameter("email", login);
-        
         return (User) query.uniqueResult();
     }
      
@@ -37,8 +36,7 @@ public class UserDao extends Dao<User> {
         String queryString = "from User U where U.recoverHash = :recoverHash";
         Query query = getCurrentSession().createQuery(queryString);
         query.setParameter("recoverHash", hash);       
-       
-       return (User) query.uniqueResult();
+        return (User) query.uniqueResult();
    }
    
    //Принадлежит Юзер к ЛК?
