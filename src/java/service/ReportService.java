@@ -202,10 +202,12 @@ public class ReportService extends PrimService {
     public void getDataForFailReasonReport(Long campaignId,Long pkId){
         List<Object[]>rawFRRData=failReasonDao.getDataForFailReasonReport(campaignId, pkId);
         List<BigDecimal[]>listForSort=new ArrayList();
+        LinkedHashMap<FailReason,String> res = new LinkedHashMap();
         Campaign c = campaignDao.find(campaignId);
         if(c!=null){
             List<FailReason>freasons=failReasonDao.getAllFailReasons(c.getStrategy().getId(), pkId);
             HashMap<Long,FailReason>frMap=new HashMap();
+            BigDecimal sum = BigDecimal.valueOf(0);
             for(FailReason fr:freasons){
                 frMap.put(fr.getId(), fr);
             }
@@ -216,12 +218,29 @@ public class ReportService extends PrimService {
                     if(fr!=null){
                         BigInteger bicount = (BigInteger)o[1];
                         BigDecimal[] supArr=new BigDecimal[2];
+                        BigDecimal count = BigDecimal.valueOf(bicount.longValue());
+                        sum=sum.add(count);
                         supArr[0]=BigDecimal.valueOf(biid.longValue());
-                        supArr[1]=BigDecimal.valueOf(bicount.longValue());
+                        supArr[1]=count;
                         listForSort.add(supArr);
                     }else{
                         addError("Не удалось найти причину с ИД:"+biid);
                     }
+                }
+            }
+            Collections.sort(listForSort,new specByPercentComparator());
+            if(!sum.equals(BigDecimal.valueOf(0))){
+                for(BigDecimal[] arr:listForSort){
+                    BigDecimal id = arr[0];
+                    BigDecimal count = arr[1];
+                    FailReason fr = frMap.get(id.longValue());
+                    res.put(fr, count.toString()+"("+count.divide(sum, 2, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100))+"%)");
+                }
+            }else{
+                for(BigDecimal[] arr:listForSort){
+                    BigDecimal id = arr[0];
+                    FailReason fr = frMap.get(id.longValue());
+                    res.put(fr, "0(0%)");
                 }
             }
         }else{
