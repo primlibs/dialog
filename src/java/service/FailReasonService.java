@@ -71,8 +71,8 @@ public class FailReasonService extends PrimService {
             }
     }
     
-    public FailReason getFailReasons(Long failResonId){
+    public FailReason getFailReason(Long failResonId){
         return failReasonDao.find(failResonId);
-        
     }
+    
 }

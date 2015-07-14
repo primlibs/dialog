@@ -46,6 +46,12 @@ public class FailReason extends PrimEntity {
     @NotNull
     @Index(name="strategyIndex")
     private Strategy strategy;
+    
+    /*@JoinColumn(name = "personal_cabinet_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    @Index(name="cabinetIndex")
+    private PersonalCabinet cabinet;*/
 
     @Column(name = "date_delete")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -82,5 +88,13 @@ public class FailReason extends PrimEntity {
     public void setDateDelete(Date dateDelete) {
         this.dateDelete = dateDelete;
     }
+
+    /*public PersonalCabinet getCabinet() {
+        return cabinet;
+    }
+
+    public void setCabinet(PersonalCabinet cabinet) {
+        this.cabinet = cabinet;
+    }*/
     
 }

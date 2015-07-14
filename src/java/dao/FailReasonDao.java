@@ -17,20 +17,37 @@ import org.springframework.stereotype.Repository;
  * @author Юрий
  */
 @Repository
-public class FailReasonDao extends Dao<FailReason>{
+public class FailReasonDao extends Dao<FailReason> {
 
     @Override
     public Class getSupportedClass() {
         return FailReason.class;
     }
-    
-     public List<FailReason> getActiveFailReasons (Long strategyId) {
+
+    public List<FailReason> getActiveFailReasons(Long strategyId) {
         //   String hql = "from Event as ev where ev.event.campaignId= :event and ev.cabinet.pkId= :cabinet and ev.client.clientId= :client";
         String hql = "from FailReason fr where fr.strategy.strategyId=:strategyId and fr.dateDelete is null";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("strategyId", strategyId);
-                List<FailReason> clist = query.list();
-                 return clist;
-      
+        List<FailReason> clist = query.list();
+        return clist;
+
     }
+    
+    public List<FailReason> getAllFailReasons(Long strategyId,Long pkId){
+        String hql = "from FailReason fr where fr.strategy.strategyId=:strategyId";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("strategyId", strategyId);
+        List<FailReason> clist = query.list();
+        return clist;
+    }
+
+    public List<Object[]> getDataForFailReasonReport(Long campaignId, Long pkId) {
+        String sql = "select ev.fail_reason_id,count(ev.event_id) from event ev where ev.personal_cabinet_id=:pkId and ev.campaign_id=:campaignId group by ev.fail_reason";
+        Query query = getCurrentSession().createSQLQuery(sql);
+        query.setParameter("campaignId", campaignId);
+        query.setParameter("pkId", pkId);
+        return query.list();
+    }
+
 }

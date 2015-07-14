@@ -241,7 +241,7 @@ public class StrategyController extends WebController {
         Strategy strategy = strategyService.findStrategy(strategyId);
         failReasonService.delete(failReasonId);
           if (failReasonService.getErrors().isEmpty()) {
-            model.put("message", "Модуль отказа " + failReasonService.getFailReasons(failReasonId) + " удален");
+            model.put("message", "Модуль отказа " + failReasonService.getFailReason(failReasonId) + " удален");
         }
         model.put("actualReasons", failReasonService.getActiveFailReasonsByStrategy(strategyId));
         model.put("errors", failReasonService.getErrors());
