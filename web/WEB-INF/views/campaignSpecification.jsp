@@ -21,10 +21,14 @@
             $(function() {
                 //Установим для виджета русскую локаль с помощью параметра language и значения ru
                 $('#datetimepicker2').datetimepicker(
-                        {language: 'ru'}
+                        {language: 'ru',
+                        viewMode: 'days',
+                        pickTime: false}
                 );
                 $('#datetimepicker1').datetimepicker(
-                        {language: 'ru'}
+                        {language: 'ru',
+                        viewMode: 'days',
+                        pickTime: false}
                 );
             });
         </script>

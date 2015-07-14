@@ -98,7 +98,7 @@ public class UserController extends WebController {
         if (submit != null) {
             String recoverHash = userService.recoveryPassword(email);
             if (userService.getErrors().isEmpty()) {
-                String link = "http://dialogpl.com/recoverPassword";
+                String link = "http://dialogpl.com/User/recoverPassword";
                 String text = "Вы восcтнавливаете пароль от CallAssistent. Пройдите по ссылке для восстановления: " + link + "?hash=" + recoverHash;
                 sendMail.sendMail(email, text);
                 model.put("message", "Ссылка с востановлением отправлена на почту");
