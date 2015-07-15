@@ -72,7 +72,7 @@ public class Campaign extends PrimEntity {
     private Long status;
     
     @Column(name="show_modules_with_text")
-    private Long ShowModulesWithText;
+    private Long showModulesWithText;
 
     @LazyCollection(LazyCollectionOption.TRUE)
     @OneToMany(mappedBy = "campaign")
@@ -148,15 +148,15 @@ public class Campaign extends PrimEntity {
     }
 
     public Long getShowModulesWithText() {
-        return ShowModulesWithText;
+        return showModulesWithText;
     }
 
     public void setShowModulesWithText(Long ShowModulesWithText) {
-        this.ShowModulesWithText = ShowModulesWithText;
+        this.showModulesWithText = ShowModulesWithText;
     }
     
     public String getShowModulesWithTextCheck() {
-        if(ShowModulesWithText!=null){
+        if(showModulesWithText!=null){
             return "checked";
         }
             return "";
