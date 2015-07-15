@@ -25,6 +25,6 @@
 <script src="<c:url value='/js/bootstrap-datetimepicker.min.js'/>"> </script>
 <script src="<c:url value='/js/dropdown.js'/>"> </script>
 <script src="<c:url value="/js/myJsOnViews/updateParam.js" />"></script>
-
+<script src="<c:url value='/js/jquery-ui.js'/>"> </script>
 
 

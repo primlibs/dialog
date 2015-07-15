@@ -32,7 +32,7 @@
 
         <div class="row form-group">
             <span style="font-size: 18px;">   Сценарий: ${strategy.strategyName}</span><c:if test="${not empty event.postponedDate}">
-                <span> Контакт был перенесен на <fmt:formatDate type="both" value="${event.postponedDate}"/></span>
+                <span> Звонок был перенесен на <fmt:formatDate type="both" value="${event.postponedDate}"/></span>
                             </c:if>
         </div>
             <div class="row">

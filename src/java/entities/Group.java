@@ -69,6 +69,9 @@ public class Group extends PrimEntity {
     @LazyCollection(LazyCollectionOption.TRUE)
     @OneToMany(mappedBy = "group")
     private List<ModuleEventClient> moduleEventClientList;
+    
+    @Column(name = "position")
+    private Long position;
 
     @Override
     public Long getId() {
@@ -140,6 +143,14 @@ public class Group extends PrimEntity {
 
     public void setModuleEventClientList(List<ModuleEventClient> moduleEventClientList) {
         this.moduleEventClientList = moduleEventClientList;
+    }
+
+    public Long getPosition() {
+        return position;
+    }
+
+    public void setPosition(Long position) {
+        this.position = position;
     }
 
 }

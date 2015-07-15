@@ -11,7 +11,7 @@
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
         
         <div class="row form-group">
-            <h2>Отчет по контактам. Отрицательный результат.</h2>
+            <h2>Отчет по звонкам. Отрицательный результат.</h2>
             <span style="font-size: 18px;font-weight: 500;"><b>Кампания: ${campaign.name}; Модуль: ${module.moduleName};</b></span>
         </div>    
             <table class="table table-bordered table-hover">

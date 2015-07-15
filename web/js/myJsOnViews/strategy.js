@@ -38,4 +38,11 @@ $(function(){
             
             return false;
     });
+    
+    $(".sortableGroup").sortable({
+      items: "tr:not(.groupHeader)"
+    });
+    $("#sortableGroupsDiv").sortable({
+      handle: ".groupHeader"
+    });
 });

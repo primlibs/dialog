@@ -47,15 +47,16 @@
                         <button type="submit" name="submit" class="btn btn-primary">Создать группу</button>
                     </form>
                 </div>
+                        <div id="sortableGroupsDiv">
+                        <c:forEach var="group" items="${strategy.getActiveGroupList()}" varStatus="myIndex">
+                        <table class="table table-hover table-striped sortableGroup">
+                    
 
-                <table class="table table-hover table-striped">
-                    <c:forEach var="group" items="${strategy.getActiveGroupList()}" varStatus="myIndex">
-
-                        <tr style="background: moccasin;"><td data-groupid="${group.groupId}">Группа: <ins><span data-method="changegroupname" name="groupname_${group.groupId}" data-groupid="${group.groupId}" id="${group.groupId}" data-method="changegroupname">${group.groupName}</span></ins></td> 
+                            <tr style="background: moccasin;" class="groupHeader" style="cursor: pointer;"><td data-groupid="${group.groupId}">Группа: <ins><span data-method="changegroupname" name="groupname_${group.groupId}" data-groupid="${group.groupId}" id="${group.groupId}" data-method="changegroupname">${group.groupName}</span></ins></td> 
                             <td><a class="btn btn-warning btn-xs changingbtn" id="groupname_${group.groupId}" href="#">Изменить</a></td> 
                             <td><a class="btn btn-primary btn-xs" role="button" href='<c:url value="/Group/deleteGroup?groupId=${group.groupId}&strategyId=${group.strategy.strategyId}"/>'>Удалить</a></td></tr>
 
-                        <tr><td><form class="form-inline" id="addingModuleForm_${myIndex.count}" action='<c:url value="/Strategy/addModule" />'  method="post"></form>
+                        <tr class="groupHeader"><td><form class="form-inline" id="addingModuleForm_${myIndex.count}" action='<c:url value="/Strategy/addModule" />'  method="post"></form>
                                 <input class="span5" form="addingModuleForm_${myIndex.count}" id="appendedInputButton" name="moduleName" style="width: 128px " size="16" type="text" placeholder="Новый модуль"></td>
                             <td></td>
                             <td><input type="hidden" form="addingModuleForm_${myIndex.count}" name="groupId" value=${group.groupId}>
@@ -63,29 +64,13 @@
                                 <button type="submit" form="addingModuleForm_${myIndex.count}" name="submit" class="btn btn-primary btn-xs">Добавить модуль</button></td></tr>
 
                         <c:forEach var="module" items="${group.getActiveModuleList()}">
-                            <tr><td><span style="cursor: pointer;" ondblclick="location = '<c:url value="/Strategy/showModule?moduleId=${module.moduleId}&strategyId=${group.strategy.strategyId}"/>'"><span data-method="changemodulename" data-moduleid="${module.moduleId}" name="modulename_${module.moduleId}" id="${module.moduleId}">${module.moduleName}</span></span></td>
+                            <tr class="sortableModule${group.getId()}" id="${group.getId()}_${module.position}" data-position="${module.position}" style="cursor: pointer;"><td><span style="cursor: pointer;" ondblclick="location = '<c:url value="/Strategy/showModule?moduleId=${module.moduleId}&strategyId=${group.strategy.strategyId}"/>'"><span data-method="changemodulename" data-moduleid="${module.moduleId}" name="modulename_${module.moduleId}" id="${module.moduleId}">${module.moduleName}</span></span></td>
                                  <td><a class="btn btn-warning btn-xs changingbtn" id="modulename_${module.moduleId}" href="#">Изменить</a></td> 
                                 <td><a class="btn btn-primary btn-xs" role="button" href='<c:url value="/Group/deleteModule?moduleId=${module.moduleId}&groupId=${group.groupId}&strategyId=${group.strategy.strategyId}"/>'>Удалить</a></td></tr>
                         </c:forEach>
-
+                    </table>
                     </c:forEach>
-                </table>
-
-                <!--<c:forEach var="group" items="${strategy.getActiveGroupList()}" varStatus="myIndex">
-                    <ul>Группа: <ins>${group.groupName}</ins> <a class="btn btn-primary btn-xs" role="button" href="'<c:url value="/Group/deleteGroup?groupId=${group.groupId}&strategyId=${group.strategy.strategyId}"/>'">Удалить</a>
-                        <li><form class="form-inline" action="<c:url value="/Strategy/addModule" />"  method="post"> 
-                        <input class="span5" id="appendedInputButton" name="moduleName" style="width: 128px " size="16" type="text" placeholder="Новый модуль">
-                         <input type="hidden" name="groupId" value=${group.groupId}>
-                         <input type="hidden" name="strategyId" value=${group.strategy.strategyId}>
-                         <button type="submit" name="submit" class="btn btn-primary btn-xs">Добавить модуль</button>
-                            </form></li>
-                    <c:forEach var="module" items="${group.getActiveModuleList()}" varStatus="myIndex">
-                        <li><span style="cursor: pointer;" ondblclick="location = '<c:url value="/Strategy/showModule?moduleId=${module.moduleId}&strategyId=${group.strategy.strategyId}"/>'">${module.moduleName}</span> 
-                            <a class="btn btn-primary btn-xs" role="button" href="'<c:url value="/Group/deleteModule?moduleId=${module.moduleId}&groupId=${group.groupId}&strategyId=${group.strategy.strategyId}"/>'">Удалить</a></li>
-                    </c:forEach>
-            </ul>
-
-                </c:forEach>-->
+                        </div>
 
             </div>
         </div>

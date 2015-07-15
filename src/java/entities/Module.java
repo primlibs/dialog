@@ -62,6 +62,9 @@ public class Module extends PrimEntity {
 
     @Column(name = "body", columnDefinition="TEXT")
     private String bodyText;
+    
+    @Column(name = "position")
+    private Long position;
 
     @Column(name = "delete_date")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -139,7 +142,13 @@ public class Module extends PrimEntity {
     public void setStrategy(Strategy strategy) {
         this.strategy = strategy;
     }
-    
-    
+
+    public Long getPosition() {
+        return position;
+    }
+
+    public void setPosition(Long position) {
+        this.position = position;
+    }
 
 }

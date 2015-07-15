@@ -11,7 +11,7 @@
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
         <div class="row ">
-            <h4>Перенесенные контакты</h4>
+            <h4>Перенесенные звонки</h4>
         </div>
             <div class="row">
                 <table class="table table-bordered table-hover">
