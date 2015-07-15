@@ -113,8 +113,8 @@ public class StrategyController extends WebController {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
-        strategyService.saveGroup(strategyId, groupName, cabinetId);
-        if (strategyService.getErrors().isEmpty()) {
+        groupService.saveGroup(strategyId, groupName, cabinetId);
+        if (groupService.getErrors().isEmpty()) {
             ras.addFlashAttribute("message", "Группа " + groupName + " создана");
         }
 
@@ -148,7 +148,7 @@ public class StrategyController extends WebController {
         //Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        strategyService.deleteStrategy(strategyId);
+        strategyService.deleteStrategy(strategyId,cabinetId);
 
         ras.addFlashAttribute("errors", strategyService.getErrors());
 

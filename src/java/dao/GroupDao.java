@@ -41,4 +41,13 @@ public class GroupDao extends Dao<Group>{
         return res;
     }
     
+    public Long getMaxGroupPosition(Long strategyId,Long pkId){
+        String hql = "select max(position) from Group where cabinet.pkId=:pkId and strategy.strategyId=:strategyId and deleteDate is null";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("pkId", pkId);
+        query.setParameter("strategyId", strategyId);
+        Long res =(Long)query.uniqueResult();
+        return res;
+    }
+    
 }

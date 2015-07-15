@@ -102,42 +102,14 @@ public class StrategyService extends PrimService {
         return moduleDao.getActiveModules(groupId,pkId);
     }
 
-    public void saveGroup(Long strategyId,
-            String groupName,
-            Long cabinetId) {
-        PersonalCabinet pk = personalCabinetDao.find(cabinetId);
-        Strategy stg = strategyDao.find(strategyId);
-
-        Boolean exists = false;
-        for (Group group : stg.getActiveGroupList()) {
-            if (group.getGroupName().equalsIgnoreCase(groupName)) {
-                exists = true;
-                break;
-            }
-        }
-
-        if (!exists) {
-            Group gr = new Group();
-            gr.setCabinet(pk);
-            gr.setStrategy(stg);
-            gr.setGroupName(groupName);
-            if (validate(gr)) {
-                groupDao.save(gr);
-            }
-        } else {
-            addError("Такая группа уже есть");
-        }
-
-    }
+    
 
     public Strategy findStrategy(Long strategyId) {
         return strategyDao.find(strategyId);
 
     }
 
-    public Group findGroup(Long groupId) {
-        return groupDao.find(groupId);
-    }
+    
 
     public Long saveModule(Long groupId,
             String moduleName,
@@ -169,25 +141,21 @@ public class StrategyService extends PrimService {
         return moduleId;
     }
 
-    public void deleteStrategy(Long strategyId) {
-
+    public void deleteStrategy(Long strategyId,Long pkId) {
         Strategy strategy = strategyDao.find(strategyId);
-
         Date date = new Date();
         if (strategyId != null) {
             List<Group> groupList = strategy.getGroupList();
             if (groupList != null) {
                 for (Group group : groupList) {
-                    groupService.deleteGroup(group);
+                    groupService.deleteGroup(group.getId(),pkId);
                 }
             }
             strategy.setDeleteDate(date);
             strategyDao.update(strategy);
-
         } else {
             addError("Сценарий не найден по ИД: " + strategyId);
         }
-
     }
 
     public void renameStrategy(Long strategyId, String name) {

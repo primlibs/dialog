@@ -118,7 +118,7 @@ public class Strategy extends PrimEntity {
         this.deleteDate = deleteDate;
     }
 
-    public List<Group> getActiveGroupList() {
+    /*public List<Group> getActiveGroupList() {
 
         List<Group> activeGroupList = new ArrayList();
         for (Group group : groupList) {
@@ -127,7 +127,7 @@ public class Strategy extends PrimEntity {
             }
         }
         return activeGroupList;
-    }
+    }*/
 
     public List<Campaign> getEventList() {
         return campaigns;

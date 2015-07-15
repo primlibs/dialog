@@ -60,7 +60,7 @@ public class GroupController extends WebController {
             RedirectAttributes ras) throws Exception {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
-        groupService.deleteGroup(groupId);
+        groupService.deleteGroup(groupId,cabinetId);
 
         ras.addAttribute("errors", moduleService.getErrors());
         ras.addAttribute("strategyId", strategyId);

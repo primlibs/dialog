@@ -63,7 +63,10 @@
                                 <button type="submit" form="addingModuleForm_${myIndex.count}" name="submit" class="btn btn-primary btn-xs">Добавить модуль</button></td></tr>
 
                         <c:forEach var="module" items="${groupMap.get(group)}">
-                            <tr class="sortableModule${group.getId()}" id="${group.getId()}_${module.position}" data-position="${module.position}" style="cursor: pointer;"><td><span style="cursor: pointer;" ondblclick="location = '<c:url value="/Strategy/showModule?moduleId=${module.moduleId}&strategyId=${group.strategy.strategyId}"/>'"><span data-method="changemodulename" data-moduleid="${module.moduleId}" name="modulename_${module.moduleId}" id="${module.moduleId}">${module.moduleName}</span></span></td>
+                            <tr class="sortableModule${group.getId()}" id="${group.getId()}_${module.position}" data-position="${module.position}" style="cursor: pointer;">
+                                <td><span style="cursor: pointer;" ondblclick="location = '<c:url value="/Strategy/showModule?moduleId=${module.moduleId}&strategyId=${group.strategy.strategyId}"/>'">
+                                        <span data-method="changemodulename" data-moduleid="${module.moduleId}" name="modulename_${module.moduleId}" id="${module.moduleId}">${module.moduleName}</span>
+                                    </span></td>
                                  <td><a class="btn btn-warning btn-xs changingbtn" id="modulename_${module.moduleId}" href="#">Изменить</a></td> 
                                 <td><a class="btn btn-primary btn-xs" role="button" href='<c:url value="/Group/deleteModule?moduleId=${module.moduleId}&groupId=${group.groupId}&strategyId=${group.strategy.strategyId}"/>'>Удалить</a></td></tr>
                         </c:forEach>

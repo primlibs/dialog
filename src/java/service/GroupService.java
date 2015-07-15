@@ -7,12 +7,17 @@ package service;
 
 import dao.GroupDao;
 import dao.ModuleDao;
+import dao.PersonalCabinetDao;
 import dao.StrategyDao;
 import entities.Group;
 import entities.Module;
+import entities.PersonalCabinet;
+import entities.Strategy;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -38,78 +43,160 @@ public class GroupService extends PrimService {
     @Autowired
     private StrategyDao strategyDao;
 
-    public void deleteGroup(Long groupId) {
+    @Autowired
+    private PersonalCabinetDao personalCabinetDao;
 
-        Group group = groupDao.find(groupId);
-
+    public void deleteGroup(Long groupId,Long pkId) {
         if (groupId != null) {
-            deleteGroup(group);
-        } else {
-            addError("группа не найдена по: " + groupId);
+            Group group = groupDao.find(groupId);
+            if (group != null) {
+                Date date = new Date();
+
+                for (Module module : group.getModuleList()) {
+                    module.setDeleteDate(date);
+                    moduleDao.update(module);
+                }
+                Strategy s = group.getStrategy();
+                group.setDeleteDate(date);
+                if(validate(group)){
+                    groupDao.update(group);
+                    updatePositionsAndGetAvailable(s.getId(),pkId);
+                }
+            } else {
+                addError("Группа не найдена по ИД: " + groupId);
+            }
+        }else{
+            addError("Ид группы не передан");
         }
     }
 
-    public void deleteGroup(Group group) {
+    // получить лист активных(не отмеченных как удаленные) групп
+    /*public List<Group> getActiveGroupList(Long strategyId, Long pkId) {
+        return groupDao.getActiveGroups(strategyId, pkId);
+    }*/
 
-        List<Module> moduleList = group.getModuleList();
-        Date date = new Date();
-        //  moduleList.removeAll(moduleList);
-
-        for (Module modul : moduleList) {
-            modul.setDeleteDate(date);
-            moduleDao.update(modul);
-        }
-
-        group.setDeleteDate(date);
-        groupDao.update(group);
-    }
-
-     // получить лист активных(не отмеченных как удаленные) групп
-    public List<Group> getActiveGroupList(Long strategyId,Long pkId) {
-        return groupDao.getActiveGroups(strategyId,pkId);
-    }
-
-    public LinkedHashMap<Group, List<Module>> getActiveGroupMap(Long strategyId,Long pkId) {
+    public LinkedHashMap<Group, List<Module>> getActiveGroupMap(Long strategyId, Long pkId) {
         LinkedHashMap<Group, List<Module>> result = new LinkedHashMap();
-        for(Group g:groupDao.getActiveGroups(strategyId,pkId)){
-            result.put(g,moduleDao.getActiveModules(g.getId(),pkId));
+        for (Group g : groupDao.getActiveGroups(strategyId, pkId)) {
+            result.put(g, moduleDao.getActiveModules(g.getId(), pkId));
         }
         return result;
     }
     
-    public void updateName(String newName,Long groupId,Long pkId){
-        if(newName!=null){
-            if(!newName.equals("")){
+    public void changePosition(Long groupId,Long newPosition,Long pkId){
+        Group group = groupDao.find(groupId);
+        Long strategyId=group.getStrategy().getId();
+        updatePositionsAndGetAvailable(strategyId,pkId);
+        TreeMap<Long,Group>map = new TreeMap();
+        List<Group>groups=groupDao.getActiveGroups(strategyId, pkId);
+        Long oldPosition=group.getPosition();
+        for(Group g:groups){
+            Long GID=g.getId();
+            if(GID.equals(groupId)){
+                map.put(newPosition,g);
+            }else{
+                //перемещение модуля вверх
+                if(oldPosition>newPosition){
+                    if(g.getPosition()<newPosition||g.getPosition()>oldPosition){
+                        map.put(g.getPosition(),g);
+                    }else{
+                        map.put(g.getPosition()+1,g);
+                    }
+                    //вниз
+                }else{
+                    if(g.getPosition()>newPosition||g.getPosition()<oldPosition){
+                        map.put(g.getPosition(),g);
+                    }else{
+                        map.put(g.getPosition()-1,g);
+                    }
+                }
+            }
+        }
+        for(Map.Entry<Long,Group>entry:map.entrySet()){
+            Long pos = entry.getKey();
+            Group g = entry.getValue();
+            g.setPosition(pos);
+            if(validate(g)){
+                groupDao.update(g);
+            }
+        }
+    }
+
+    public void updateName(String newName, Long groupId, Long pkId) {
+        if (newName != null) {
+            if (!newName.equals("")) {
                 Group g = groupDao.getActiveGroup(groupId, pkId);
-                if(g!=null){
-                    if(isUniqueName(newName, g.getStrategy().getId(), pkId)){
+                if (g != null) {
+                    if (isUniqueName(newName, g.getStrategy().getId(), pkId)) {
                         g.setGroupName(newName);
-                        if(validate(g)){
+                        if (validate(g)) {
                             groupDao.update(g);
                         }
-                    }else{
+                    } else {
                         addError("Группа с таким наименованием уже существует в этом сценарии.");
                     }
-                }else{
+                } else {
                     addError("Группа не найдена!");
                 }
-            }else{
+            } else {
                 addError("Нужно ввести новое наименование группы.");
             }
-        }else{
+        } else {
             addError("Наименование группы не передано.");
         }
     }
-    
-    public boolean isUniqueName(String newName,Long strategyId,Long pkId){
-        List<Group> gs = groupDao.getActiveGroups(strategyId,pkId);
-        for(Group g:gs){
-            if(newName.equalsIgnoreCase(g.getGroupName())){
+
+    public boolean isUniqueName(String newName, Long strategyId, Long pkId) {
+        List<Group> gs = groupDao.getActiveGroups(strategyId, pkId);
+        for (Group g : gs) {
+            if (newName.equalsIgnoreCase(g.getGroupName())) {
                 return false;
             }
         }
         return true;
     }
-    
+
+    public Group findGroup(Long groupId) {
+        return groupDao.find(groupId);
+    }
+
+    public void saveGroup(Long strategyId,
+            String groupName,
+            Long pkId) {
+
+        Boolean exists = false;
+        for (Group group : groupDao.getActiveGroups(strategyId, pkId)) {
+            if (group.getGroupName().equalsIgnoreCase(groupName)) {
+                exists = true;
+                break;
+            }
+        }
+        if (!exists) {
+            PersonalCabinet pk = personalCabinetDao.find(pkId);
+            Strategy stg = strategyDao.find(strategyId);
+            Group gr = new Group();
+            gr.setCabinet(pk);
+            gr.setStrategy(stg);
+            gr.setGroupName(groupName);
+            Long pos = updatePositionsAndGetAvailable(strategyId, pkId);
+            gr.setPosition(pos);
+            if (validate(gr)) {
+                groupDao.save(gr);
+            }
+        } else {
+            addError("Такая группа уже есть");
+        }
+    }
+
+    private Long updatePositionsAndGetAvailable(Long strategyId, Long pkId) {
+        long i = 1;
+        for (Group g : groupDao.getActiveGroups(strategyId, pkId)) {
+            g.setPosition(i++);
+            if (validate(g)) {
+                groupDao.update(g);
+            }
+        }
+        return i;
+    }
 
 }
