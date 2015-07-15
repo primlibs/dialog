@@ -52,7 +52,7 @@
                         <table class="table table-hover table-striped sortableGroup">
                     
 
-                            <tr style="background: moccasin;" class="groupHeader" style="cursor: pointer;"><td data-groupid="${group.groupId}">Группа: <ins><span data-method="changegroupname" name="groupname_${group.groupId}" data-groupid="${group.groupId}" id="${group.groupId}" data-method="changegroupname">${group.groupName}</span></ins></td> 
+                            <tr style="background: moccasin;cursor: pointer;" class="groupHeader"><td data-groupid="${group.groupId}">Группа: <ins><span data-method="changegroupname" name="groupname_${group.groupId}" data-groupid="${group.groupId}" id="${group.groupId}" data-method="changegroupname">${group.groupName}</span></ins></td> 
                             <td><a class="btn btn-warning btn-xs changingbtn" id="groupname_${group.groupId}" href="#">Изменить</a></td> 
                             <td><a class="btn btn-primary btn-xs" role="button" href='<c:url value="/Group/deleteGroup?groupId=${group.groupId}&strategyId=${group.strategy.strategyId}"/>'>Удалить</a></td></tr>
 
