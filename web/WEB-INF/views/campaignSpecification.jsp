@@ -57,6 +57,11 @@
                 <a style="float: right;" href="<c:url value="/Event/deleteCampaign?campaignId=${campaign.campaignId}"/>" class="btn btn-large btn-danger" role="button">Удалить кампанию</a>           
             </c:if>
         </div>
+            <div class="row form-group checkbox">
+        <label>
+            <input id="showModulesWithText" type="checkbox" data-campaignid="${campaign.campaignId}" value="${campaign.getShowModulesWithTextCheck()}" ${campaign.getShowModulesWithTextCheck()}> Показывать полный текст модулей
+        </label>
+            </div>
 
         <table class="table table-bordered table-hover" style="margin-top: 20px;">
 

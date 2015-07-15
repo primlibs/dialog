@@ -550,6 +550,39 @@ public class EventController extends WebController {
         return "failModuleReportDetalisation";
     }
     
+    @RequestMapping("setShowModulesWithText")
+    @ResponseBody
+    public JsonResponse setShowModulesWithText(Map<String, Object> model,
+            @RequestParam(value = "campaignId",required = false) Long campaignId,
+            @RequestParam(value = "show",required = false) String show, HttpServletRequest request) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        
+        JsonResponse res = JsonResponse.getInstance();
+        
+        eventService.setShowModulesWithText(Boolean.valueOf(show),campaignId,cabinetId);
+        List<String>errs=(List<String>)model.get("errors");
+        if(errs==null){
+            errs=new ArrayList();
+        }
+        
+        if (errs.isEmpty()) {
+            res.setStatus(Boolean.TRUE);
+        } else {
+            res.setStatus(Boolean.FALSE);
+            String err = "";
+            for (String s : errs) {
+                err += s + "; ";
+            }
+            res.setMessage(err);
+        }
+        String s = res.getMessage();
+        s+=":"+show+":"+Boolean.valueOf(show)+":";
+        res.setMessage(s);
+        return res;
+    }
+    
     /*@RequestMapping("/summarizedModuleReport")
     public String showModuleReport(Map<String, Object> model,@RequestParam(value = "campaignId") Long campaignId, RedirectAttributes ras, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);

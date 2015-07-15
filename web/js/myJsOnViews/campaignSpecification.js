@@ -16,4 +16,24 @@ $(function(){
                 $("input[name='wropen']").val('1');
             }
         });
+        $('#showModulesWithText').change(function(){
+            var campaignId=$(this).attr('data-campaignid');
+           var show;
+           if ($(this).is(':checked')) {
+               show=true;
+            }else{
+               show="";
+            }
+            
+                $.ajax({
+                        url:"../Event/setShowModulesWithText?show="+show+"&campaignId="+campaignId,
+                        dataType : "json",
+                        cache: false,
+                        success: function(json){ 
+                        },
+                        error: function(json){
+                            //alert("Что-то пошло не так: "+json);
+                        }
+                    });
+        });
 });

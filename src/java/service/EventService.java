@@ -1055,6 +1055,21 @@ public class EventService extends PrimService {
         }
     }
     
+    public void setShowModulesWithText(Boolean show, Long campaignId,Long pkId){
+        if(campaignId!=null){
+            Campaign c = campaignDao.find(campaignId);
+            Long showLong = null;
+            if(show!=null&&show){
+                showLong=(long)1;
+            }
+            c.setShowModulesWithText(showLong);
+            if(validate(c)){
+                campaignDao.update(c);
+            }
+        }else{
+            addError("ИД кампании не передан");
+        }
+    }
     /*public LinkedHashMap<Long,HashMap<String,String>>GetCampaignResultReportData(List<Long> campaignIds,Long PkId){
         List<Object> daoRes = eventDao.getUserAndAssignedAndSuccAndFailedByaDateAndCampaign(campaignIds, PkId);
         for(Object o:daoRes){

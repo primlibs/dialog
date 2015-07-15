@@ -23,6 +23,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -69,6 +70,9 @@ public class Campaign extends PrimEntity {
     @NotNull(message = "поле статус не может быть пустым")
     @Index(name="statusIndex")
     private Long status;
+    
+    @Column(name="show_modules_with_text")
+    private Long ShowModulesWithText;
 
     @LazyCollection(LazyCollectionOption.TRUE)
     @OneToMany(mappedBy = "campaign")
@@ -141,6 +145,21 @@ public class Campaign extends PrimEntity {
 
     public void setCampaignId(Long campaignId) {
         this.campaignId = campaignId;
+    }
+
+    public Long getShowModulesWithText() {
+        return ShowModulesWithText;
+    }
+
+    public void setShowModulesWithText(Long ShowModulesWithText) {
+        this.ShowModulesWithText = ShowModulesWithText;
+    }
+    
+    public String getShowModulesWithTextCheck() {
+        if(ShowModulesWithText!=null){
+            return "checked";
+        }
+            return "";
     }
     
     
