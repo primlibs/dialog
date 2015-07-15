@@ -171,7 +171,7 @@ public class ModuleService extends PrimService {
     }
     
     public boolean isUniqueName(String newName,Long groupId,Long pkId){
-        List<Module> ms = moduleDao.getActiveModules(pkId, groupId);
+        List<Module> ms = moduleDao.getActiveModules(groupId,pkId);
         String err="";
         for(Module m:ms){
             //err+=m.getModuleName()+"; ";

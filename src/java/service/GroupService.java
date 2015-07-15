@@ -10,12 +10,9 @@ import dao.ModuleDao;
 import dao.StrategyDao;
 import entities.Group;
 import entities.Module;
-import entities.Strategy;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -68,42 +65,16 @@ public class GroupService extends PrimService {
     }
 
      // получить лист активных(не отмеченных как удаленные) групп
-    public List<Group> getActiveGroupList(Long strategyId) {
-        Strategy st = strategyDao.find(strategyId);
-        List<Group> activeGroupList = new ArrayList();
-        for (Group group : st.getGroupList()) {
-            if (group.getDeleteDate() == null) {
-                activeGroupList.add(group);
-            }
-        }
-        return activeGroupList;
+    public List<Group> getActiveGroupList(Long strategyId,Long pkId) {
+        return groupDao.getActiveGroups(strategyId,pkId);
     }
 
-    public Map<Group, List<Module>> getActiveMap(Long strategyId) {
-        Map<Group, List<Module>> result = new HashMap();
-        Strategy st = strategyDao.find(strategyId);
-        //    List<Group> activeGroupList = new ArrayList();
-        for (Group group : st.getGroupList()) {
-
-            if (group.getDeleteDate() == null) {
-                Long groupId = group.getGroupId();
-                Group g = groupDao.find(groupId);
-                result.put(g, getActiveModuleList(groupId));
-            }
+    public LinkedHashMap<Group, List<Module>> getActiveGroupMap(Long strategyId,Long pkId) {
+        LinkedHashMap<Group, List<Module>> result = new LinkedHashMap();
+        for(Group g:groupDao.getActiveGroups(strategyId,pkId)){
+            result.put(g,moduleDao.getActiveModules(g.getId(),pkId));
         }
         return result;
-    }
-
-    // получить лист активных(не отмеченных как удаленные) модулей
-    public List<Module> getActiveModuleList(Long groupId) {
-        Group g = groupDao.find(groupId);
-        List<Module> activeModeleList = new ArrayList<>();
-        for (Module module : g.getModuleList()) {
-            if (module.getDeleteDate() == null) {
-                activeModeleList.add(module);
-            }
-        }
-        return activeModeleList;
     }
     
     public void updateName(String newName,Long groupId,Long pkId){
@@ -130,8 +101,8 @@ public class GroupService extends PrimService {
         }
     }
     
-    public boolean isUniqueName(String newName,Long StrategyId,Long pkId){
-        List<Group> gs = groupDao.getActiveGroups(pkId, StrategyId);
+    public boolean isUniqueName(String newName,Long strategyId,Long pkId){
+        List<Group> gs = groupDao.getActiveGroups(strategyId,pkId);
         for(Group g:gs){
             if(newName.equalsIgnoreCase(g.getGroupName())){
                 return false;

@@ -75,18 +75,20 @@ public class StrategyController extends WebController {
             @RequestParam(value = "strategyId") Long strategyId) throws Exception {
 
         lk.dataByUserAndCompany(request, model);
-        //Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         Strategy strategy = strategyService.findStrategy(strategyId);
-
+        
+        
+        model.put("strategy", strategy);
         model.put("module", moduleService.showModule(moduleId));
         model.put("moduleId", moduleId);
+        model.put("groupMap", groupService.getActiveGroupMap(strategyId, cabinetId));
         if (!strategyService.getErrors().isEmpty()) {
             model.put("errors", strategyService.getErrors());
         }
         //model.put("GroupList", strategyService.getGroupList(strategyId));
         //model.put("strategyId", strategyId);
         //model.put("strategyName", strategyService.findStrategy(strategyId).getStrategyName());
-        model.put("strategy", strategy);
         return "strategy";
     }
 

@@ -99,7 +99,7 @@ public class StrategyService extends PrimService {
     }
     
     public List<Module> getActiveModules(Long groupId,Long pkId) {
-        return moduleDao.getActiveModules(pkId, groupId);
+        return moduleDao.getActiveModules(groupId,pkId);
     }
 
     public void saveGroup(Long strategyId,

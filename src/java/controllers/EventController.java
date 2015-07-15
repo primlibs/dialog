@@ -350,7 +350,7 @@ public class EventController extends WebController {
         model.put("campaign", eventService.getCampaign(campaignId));
         //model.put("errors", eventService.getErrors());
         model.put("strategy", strategyService.getStrategy(strategyId));
-        model.put("аctiveMap", groupService.getActiveMap(strategyId));
+        model.put("аctiveMap", groupService.getActiveGroupMap(strategyId,cabinetId));
         errors.addAll(eventService.getErrors());
         model.put("errors", errors);
         return "event";

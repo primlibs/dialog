@@ -41,8 +41,8 @@ public class ModuleDao extends Dao<Module> {
         return query.list();
     }
     
-    public List<Module> getActiveModules(Long pkId,Long groupId){
-        String hql = "from Module where group.groupId=:groupId and cabinet.pkId=:pkId and deleteDate is null order by moduleName asc";
+    public List<Module> getActiveModules(Long groupId,Long pkId){
+        String hql = "from Module where group.groupId=:groupId and cabinet.pkId=:pkId and deleteDate is null order by position asc";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("groupId", groupId);
         query.setParameter("pkId", pkId);
