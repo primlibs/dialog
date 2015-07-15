@@ -61,7 +61,7 @@
                     <div class="row">
                         <c:if test="${not empty campaign.showModulesWithText}">
                             <div class="col-md-10" style="float:left;">
-                                <table class="table">
+                                <table>
                                 <c:forEach var="entry"  items="${аctiveMap}" >
                                     <tr style="background: moccasin;"><td style="text-align: center;">Группа ${entry.key.groupName}:</td> </tr>
                                         <c:forEach var="module" items="${entry.value}" >

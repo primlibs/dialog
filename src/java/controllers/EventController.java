@@ -12,7 +12,6 @@ import entities.Campaign;
 import entities.Event;
 import entities.User;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -32,6 +31,7 @@ import service.GroupService;
 import service.ModuleService;
 import service.ReportService;
 import service.StrategyService;
+import service.TagService;
 import service.UserService;
 import support.AuthManager;
 import support.DateAdapter;
@@ -71,6 +71,9 @@ public class EventController extends WebController {
 
     @Autowired
     private ClientService clientService;
+    
+    @Autowired
+    private TagService tagService;
 
     @RequestMapping("/campaignList")
     public String showCampaigns(Map<String, Object> model, HttpServletRequest request) throws Exception {
@@ -174,6 +177,7 @@ public class EventController extends WebController {
         model.put("wropen",wropen);
         model.put("dateFrom",DateAdapter.formatByDate(dateFrom, DateAdapter.SMALL_FORMAT));
         model.put("dateTo",DateAdapter.formatByDate(dateTo, DateAdapter.SMALL_FORMAT));
+        model.put("tags", tagService.getAllActiveTags(cabinetId));
         
         errors.addAll(eventService.getErrors());
         model.put("errors", errors);
@@ -195,13 +199,14 @@ public class EventController extends WebController {
             @RequestParam(value = "fileXls") MultipartFile fileXls,
             String checkbox, HttpServletRequest request,
             @RequestParam(value = "campaignId") Long campaignId,
+            @RequestParam(value = "tagIds",required = false) Long[] tagIds,
             RedirectAttributes ras) throws Exception {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         Boolean update = false;
         if (checkbox != null) {
             update = true;
         }
-        eventService.readXls(fileXls, cabinetId, campaignId, update);
+        eventService.readXls(fileXls,tagIds, cabinetId, campaignId, update);
         ras.addAttribute("campaignId", campaignId);
         ras.addFlashAttribute("errors", eventService.getErrors());
         if (eventService.getErrors().isEmpty()) {
@@ -577,9 +582,9 @@ public class EventController extends WebController {
             }
             res.setMessage(err);
         }
-        String s = res.getMessage();
-        s+=":"+show+":"+Boolean.valueOf(show)+":";
-        res.setMessage(s);
+        //String s = res.getMessage();
+        //s+=":"+show+":"+Boolean.valueOf(show)+":";
+        //res.setMessage(s);
         return res;
     }
     

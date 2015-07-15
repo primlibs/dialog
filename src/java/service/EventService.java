@@ -97,6 +97,9 @@ public class EventService extends PrimService {
     
     @Autowired
     private ClientService clientService;
+    
+    @Autowired
+    private TagService tagService;
 
     @Autowired
     private ModuleEventClientDao moduleEventClientDao;
@@ -222,7 +225,7 @@ public class EventService extends PrimService {
         return workbook;
     }
 
-    public void readXls(MultipartFile fileXls, Long cabinetId, Long campaignId, Boolean update) throws Exception {
+    public void readXls(MultipartFile fileXls,Long[]tagIds, Long cabinetId, Long campaignId, Boolean update) throws Exception {
         List<Client> clientsListForSave = new ArrayList();
         List<Event> eventsListForSave = new ArrayList();
         List<Client> noContactList = new ArrayList();
@@ -296,6 +299,7 @@ public class EventService extends PrimService {
         if (noContactList.isEmpty() && noUniqueIdList.isEmpty() && doubleUniqsInfo.equals("")) {
             for (Client cl : clientsListForSave) {
                 clientDao.save(cl);
+                tagService.addTagToClient(cl.getId(),tagIds);
                 ClientsToCreateEventsList.add(cl);
             }
             for (Client cl : ClientsToCreateEventsList) {
