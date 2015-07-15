@@ -97,48 +97,10 @@ public class StrategyService extends PrimService {
     public List<Strategy> getActiveStrategyList(Long cabinetId) {
         return strategyDao.getActiveStrategies(cabinetId);
     }
-    
-    public List<Module> getActiveModules(Long groupId,Long pkId) {
-        return moduleDao.getActiveModules(groupId,pkId);
-    }
-
-    
 
     public Strategy findStrategy(Long strategyId) {
         return strategyDao.find(strategyId);
 
-    }
-
-    
-
-    public Long saveModule(Long groupId,
-            String moduleName,
-            Long cabinetId) {
-        
-        PersonalCabinet pk = personalCabinetDao.find(cabinetId);
-        Group gp = groupDao.find(groupId);
-        Long moduleId = null;
-        List<Module> moduleList = getActiveModules(groupId,cabinetId);
-        List<String> nameList = new ArrayList<>();
-
-        for (Module modul : moduleList) {
-            nameList.add(modul.getModuleName());
-        }
-
-        if (!nameList.contains(moduleName) & moduleName != null) {
-            Module ml = new Module();
-            ml.setStrategy(gp.getStrategy());
-            ml.setCabinet(pk);
-            ml.setGroup(gp);
-            ml.setModuleName(moduleName);
-            if (validate(ml)) {
-                moduleDao.save(ml);
-            }
-            moduleId=ml.getId();
-        } else {
-            addError("Такой модуль уже есть");
-        }
-        return moduleId;
     }
 
     public void deleteStrategy(Long strategyId,Long pkId) {

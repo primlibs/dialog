@@ -47,9 +47,10 @@
                     </form>
                 </div>
                         <div id="sortableGroupsDiv">
+                            <c:set var="groupPosition" value="1"></c:set>
                         <c:forEach var="group" items="${groupMap.keySet()}" varStatus="myIndex">
-                        <table class="table table-hover table-striped sortableGroup">
-                    
+                        <table class="table table-hover table-striped sortableGroup" data-position="${groupPosition}" data-groupid="${group.groupId}">
+                            <c:set var="groupPosition" value="${groupPosition+1}"></c:set>
 
                             <tr style="background: moccasin;cursor: pointer;" class="groupHeader"><td data-groupid="${group.groupId}">Группа: <ins><span data-method="changegroupname" name="groupname_${group.groupId}" data-groupid="${group.groupId}" id="${group.groupId}" data-method="changegroupname">${group.groupName}</span></ins></td> 
                             <td><a class="btn btn-warning btn-xs changingbtn" id="groupname_${group.groupId}" href="#">Изменить</a></td> 
@@ -61,9 +62,10 @@
                             <td><input type="hidden" form="addingModuleForm_${myIndex.count}" name="groupId" value=${group.groupId}>
                                 <input type="hidden" form="addingModuleForm_${myIndex.count}" name="strategyId" value=${group.strategy.strategyId}>
                                 <button type="submit" form="addingModuleForm_${myIndex.count}" name="submit" class="btn btn-primary btn-xs">Добавить модуль</button></td></tr>
-
+                        <c:set var="modulePosition" value="1"></c:set>
                         <c:forEach var="module" items="${groupMap.get(group)}">
-                            <tr class="sortableModule${group.getId()}" id="${group.getId()}_${module.position}" data-position="${module.position}" style="cursor: pointer;">
+                            <tr class="sortableModule${group.getId()}" id="${group.getId()}_${module.position}" data-position="${modulePosition}" data-moduleid="${module.moduleId}" style="cursor: pointer;">
+                                <c:set var="modulePosition" value="${modulePosition+1}"></c:set>
                                 <td><span style="cursor: pointer;" ondblclick="location = '<c:url value="/Strategy/showModule?moduleId=${module.moduleId}&strategyId=${group.strategy.strategyId}"/>'">
                                         <span data-method="changemodulename" data-moduleid="${module.moduleId}" name="modulename_${module.moduleId}" id="${module.moduleId}">${module.moduleName}</span>
                                     </span></td>

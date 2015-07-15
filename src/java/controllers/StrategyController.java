@@ -132,8 +132,8 @@ public class StrategyController extends WebController {
 
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        Long moduleId=strategyService.saveModule(groupId, moduleName, cabinetId);
-        ras.addFlashAttribute("errors", strategyService.getErrors());
+        Long moduleId=moduleService.saveModule(groupId, moduleName, cabinetId);
+        ras.addFlashAttribute("errors", moduleService.getErrors());
         ras.addAttribute("strategyId", strategyId);
         ras.addAttribute("groupId", groupId);
         ras.addAttribute("moduleId", moduleId);
@@ -277,6 +277,40 @@ public class StrategyController extends WebController {
         JsonResponse res = new JsonResponse();
         res.setStatus(Boolean.TRUE);
         if(!moduleService.getErrors().isEmpty()){
+            res.setMessage(moduleService.getErrorsAsString());
+            res.setStatus(Boolean.FALSE);
+        }
+        return res;
+    }
+    
+    @RequestMapping("/changeGroupPosition")
+    @ResponseBody
+    public JsonResponse changeGroupPosition(Map<String, Object> model,HttpServletRequest request,
+            @RequestParam(value = "groupId") Long groupId, 
+            @RequestParam(value = "newPosition") Long newPosition) throws Exception{
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        groupService.changePosition(groupId, newPosition, cabinetId);
+        JsonResponse res = new JsonResponse();
+        res.setStatus(Boolean.TRUE);
+        if(!groupService.getErrors().isEmpty()){
+            res.setMessage(moduleService.getErrorsAsString());
+            res.setStatus(Boolean.FALSE);
+        }
+        return res;
+    }
+    
+    @RequestMapping("/changeModulePosition")
+    @ResponseBody
+    public JsonResponse changeModulePosition(Map<String, Object> model,HttpServletRequest request,
+            @RequestParam(value = "moduleId") Long moduleId, 
+            @RequestParam(value = "newPosition") Long newPosition) throws Exception{
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        moduleService.changePosition(moduleId, newPosition, cabinetId);
+        JsonResponse res = new JsonResponse();
+        res.setStatus(Boolean.TRUE);
+        if(!groupService.getErrors().isEmpty()){
             res.setMessage(moduleService.getErrorsAsString());
             res.setStatus(Boolean.FALSE);
         }

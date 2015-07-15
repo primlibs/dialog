@@ -8,11 +8,15 @@ package service;
 import dao.GroupDao;
 import dao.ModuleDao;
 import dao.PersonalCabinetDao;
+import entities.Group;
 import entities.Module;
+import entities.PersonalCabinet;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -43,10 +47,42 @@ public class ModuleService extends PrimService {
     private final String deleteMarkEnd = ")";
     private final String dme = deleteMarkEnd;
     
+    public Long saveModule(Long groupId,
+            String moduleName,
+            Long pkId) {
+        
+        PersonalCabinet pk = personalCabinetDao.find(pkId);
+        Group gp = groupDao.find(groupId);
+        Long moduleId = null;
+        List<Module> moduleList = moduleDao.getActiveModules(groupId,pkId);
+        List<String> nameList = new ArrayList<>();
+
+        for (Module modul : moduleList) {
+            nameList.add(modul.getModuleName());
+        }
+
+        if (!nameList.contains(moduleName) & moduleName != null) {
+            Module ml = new Module();
+            ml.setStrategy(gp.getStrategy());
+            ml.setCabinet(pk);
+            ml.setGroup(gp);
+            ml.setModuleName(moduleName);
+            if (validate(ml)) {
+                moduleDao.save(ml);
+                updatePositionsAndGetAvailable(groupId,pkId);
+            }
+            moduleId=ml.getId();
+        } else {
+            addError("Такой модуль уже есть");
+        }
+        return moduleId;
+    }
+    
     public void deleteModule(Long moduleId,Long pkId) {
         if(moduleId!=null){
             Module module = moduleDao.find(moduleId);
             if (module != null) {
+                Group g = module.getGroup();
                 if(!module.getModuleEventClientList().isEmpty()){
                     List<String>names= getExistingModuleNames(module.getGroup().getId(),pkId);
                     Date date = new Date();
@@ -65,6 +101,7 @@ public class ModuleService extends PrimService {
                 }else{
                     moduleDao.delete(module);
                 }
+                updatePositionsAndGetAvailable(g.getId(),pkId);
             } else {
                 addError("Модуль не найден по ИД: " + moduleId);
             }
@@ -96,12 +133,6 @@ public class ModuleService extends PrimService {
                 nm.setGroup(module.getGroup());
                 nm.setStrategy(module.getStrategy());
                 nm.setModuleName(module.getModuleName());
-
-
-                /*module.setBodyText(bodyText);
-                if (validate(module)) {
-                    moduleDao.update(module);
-                }*/
                 if(validate(nm)){
                     deleteModule(moduleId,pkId);
                     moduleDao.save(nm);
@@ -206,6 +237,56 @@ public class ModuleService extends PrimService {
             return null;
         }
         return moduleDao.find(moduleId);
+    }
+    
+    public void changePosition(Long moduleId,Long newPosition,Long pkId){
+        Module Module = moduleDao.find(moduleId);
+        Long groupId=Module.getGroup().getId();
+        updatePositionsAndGetAvailable(groupId,pkId);
+        TreeMap<Long,Module>map = new TreeMap();
+        List<Module>modules=moduleDao.getActiveModules(groupId, pkId);
+        Long oldPosition=Module.getPosition();
+        for(Module m:modules){
+            Long GID=m.getId();
+            if(GID.equals(moduleId)){
+                map.put(newPosition,m);
+            }else{
+                //перемещение группы вверх
+                if(oldPosition>newPosition){
+                    if(m.getPosition()<newPosition||m.getPosition()>oldPosition){
+                        map.put(m.getPosition(),m);
+                    }else{
+                        map.put(m.getPosition()+1,m);
+                    }
+                    //вниз
+                }else{
+                    if(m.getPosition()>newPosition||m.getPosition()<oldPosition){
+                        map.put(m.getPosition(),m);
+                    }else{
+                        map.put(m.getPosition()-1,m);
+                    }
+                }
+            }
+        }
+        for(Map.Entry<Long,Module>entry:map.entrySet()){
+            Long pos = entry.getKey();
+            Module m = entry.getValue();
+            m.setPosition(pos);
+            if(validate(m)){
+                moduleDao.update(m);
+            }
+        }
+    }
+    
+    private Long updatePositionsAndGetAvailable(Long groupId, Long pkId) {
+        long i = 1;
+        for (Module m : moduleDao.getActiveModules(groupId, pkId)) {
+            m.setPosition(i++);
+            if (validate(m)) {
+                moduleDao.update(m);
+            }
+        }
+        return i;
     }
     
 }

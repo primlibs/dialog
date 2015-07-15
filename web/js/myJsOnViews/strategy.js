@@ -40,9 +40,37 @@ $(function(){
     });
     
     $(".sortableGroup").sortable({
-      items: "tr:not(.groupHeader)"
+      items: "tr:not(.groupHeader)",
+      opacity: 0.4, 
+      zIndex: 102,
+      stop: function(event, ui) {
+           var moduleId = $(ui.item).attr("data-moduleid");
+           var newPosition = ui.item.index()-1;
+           $.ajax({
+                        url:"../Strategy/changeModulePosition?moduleId="+moduleId+"&newPosition="+newPosition,
+                        dataType : "json",
+                        cache: false,
+                        error: function(json){
+                            alert("Что-то пошло не так: "+json);
+                        }
+                    });
+        }
     });
     $("#sortableGroupsDiv").sortable({
-      handle: ".groupHeader"
+      handle: ".groupHeader",
+      opacity: 0.4, 
+      zIndex: 102,
+      stop: function(event, ui) {
+           var groupId = $(ui.item).attr("data-groupid");
+           var newPosition = ui.item.index()+1;
+           $.ajax({
+                        url:"../Strategy/changeGroupPosition?groupId="+groupId+"&newPosition="+newPosition,
+                        dataType : "json",
+                        cache: false,
+                        error: function(json){
+                            alert("Что-то пошло не так: "+json);
+                        }
+                    });
+        }
     });
 });

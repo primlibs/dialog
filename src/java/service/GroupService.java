@@ -95,7 +95,7 @@ public class GroupService extends PrimService {
             if(GID.equals(groupId)){
                 map.put(newPosition,g);
             }else{
-                //перемещение модуля вверх
+                //перемещение группы вверх
                 if(oldPosition>newPosition){
                     if(g.getPosition()<newPosition||g.getPosition()>oldPosition){
                         map.put(g.getPosition(),g);
