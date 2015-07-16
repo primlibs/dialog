@@ -66,7 +66,7 @@
                     <input class="btn btn-primary" type="submit" value="Добавить">
                 </div>
             </form>
-            <a style="margin-left: 10px;" href="<c:url value="/Event/eventShowAllAppoint?campaignId=${campaign.campaignId}"/>" class="btn btn-primary" role="button">Распределить клиентов</a>
+            
             
         </div>
             <div class="row form-group">
@@ -75,6 +75,7 @@
             <input id="showModulesWithText" type="checkbox" data-campaignid="${campaign.campaignId}" value="${campaign.getShowModulesWithTextCheck()}" ${campaign.getShowModulesWithTextCheck()}> Показывать полный текст модулей
         </label>
             </div>
+            <a style="margin-left: 10px;" href="<c:url value="/Event/eventShowAllAppoint?campaignId=${campaign.campaignId}"/>" class="btn btn-primary" role="button">Распределить клиентов</a>
         <c:if test="${deleteble==true}">
                 <a style="float: right;" href="<c:url value="/Event/deleteCampaign?campaignId=${campaign.campaignId}"/>" class="btn btn-large btn-danger" role="button">Удалить кампанию</a>           
             </c:if>
