@@ -42,7 +42,13 @@ public class UserController extends WebController {
 
     @RequestMapping(value = {"/userAdd"})
     public String showAddUserPage(Map<String, Object> model, String submit,
-            String email, String phone, String name, String surname, String role, String patronymic, HttpServletRequest request,RedirectAttributes ras) throws Exception {
+            @RequestParam(value = "email", required = false)String email,
+            @RequestParam(value = "phone", required = false) String phone,
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "patronymic", required = false)String patronymic,
+            @RequestParam(value = "surname", required = false) String surname,
+            @RequestParam(value = "role", required = false) String role,
+            HttpServletRequest request,RedirectAttributes ras) throws Exception {
 
         lk.dataByUserAndCompany(request, model);
 

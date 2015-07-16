@@ -33,10 +33,10 @@ public class PersonalCabinetDao extends Dao<PersonalCabinet> {
     }
     
     public List<CabinetUser>getAdmins(Long pkId){
-        String queryString = "from CabinetUser cu where cu.cabinet.pkId=:pkId and cu.deleteDate is null and cu.userRole=admin";
+        String queryString = "from CabinetUser cu where cu.cabinet.pkId=:pkId and cu.deleteDate is null and cu.userRole=:admin";
         Query query = getCurrentSession().createQuery(queryString);
         query.setParameter("pkId", pkId);
-
+        query.setParameter("admin", "admin");   
         return query.list();
     }
 

@@ -61,16 +61,16 @@
                     <div class="row">
                         <c:if test="${not empty campaign.showModulesWithText}">
                             <div class="col-md-10" style="float:left;">
-                                <table>
+                                <table style="width: 100%;">
                                 <c:forEach var="entry"  items="${аctiveMap}" >
                                     <tr style="background: moccasin;"><td style="text-align: center;">Группа ${entry.key.groupName}:</td> </tr>
                                         <c:forEach var="module" items="${entry.value}" >
-                                            <tr style="cursor: pointer;" class="showableModule" id="${module.moduleId}"><td> <ins>
-                                                    ${module.moduleName}<!--<a href="<c:url value="/Event/eventProcessing?campaignId=${param.campaignId}&groupId=${entry.key.groupId}&moduleId=${module.moduleId}&eventId=${event.eventId}"/>">${module.moduleName}</a>-->
-                                            </ins></td></tr>
+                                            <tr><td><span style="display: block;cursor: pointer;font-size:18px;color: slategrey" class="showableModule" id="${module.moduleId}"><ins><b>
+                                                   Модуль: ${module.moduleName}<!--<a href="<c:url value="/Event/eventProcessing?campaignId=${param.campaignId}&groupId=${entry.key.groupId}&moduleId=${module.moduleId}&eventId=${event.eventId}"/>">${module.moduleName}</a>-->
+                                                    </b></ins></span></td></tr>
                                             <tr><td style="text-align: justify;">${module.bodyText}</td></tr>
                                             </c:forEach>
-                                    </ul>
+                                    
                                 </c:forEach>
                                 </table>
                             </div>
