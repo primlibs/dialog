@@ -40,7 +40,7 @@ public class CabinetUserService extends PrimService {
     private AuthManager user;
 
     public List<CabinetUser> getByUser(User user) {
-        return cabinetUserDao.getByUser(user);
+        return cabinetUserDao.getCabinetUserChoice(user);
     }
 
     public String getNameCompany(Long cabinetId) {
@@ -66,9 +66,9 @@ public class CabinetUserService extends PrimService {
         return user.getCurrentUser().getName() + " " + user.getCurrentUser().getSurname();
     }
 
-    public String getUserRole(User user,Long cabinetId) {
+    public String getUserRole(Long userId,Long pkId) {
         
-        List<CabinetUser> culist = cabinetUserDao.getByUserAndCabinet(user, cabinetDao.find(cabinetId));
+        List<CabinetUser> culist = cabinetUserDao.getByUserAndCabinet(userId, pkId);
        
         return culist.get(0).getUserRole();
     }

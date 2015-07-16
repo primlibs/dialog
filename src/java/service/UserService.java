@@ -245,8 +245,7 @@ public class UserService extends PrimService {
     }
 
     private boolean existCabinetUser(User existingUser, Object cabinetId) {
-        PersonalCabinet cabinet = personalCabinetDao.find((Long) cabinetId);
-        List<CabinetUser> list = cabinetUserDao.getByUserAndCabinet(existingUser, cabinet);
+        List<CabinetUser> list = cabinetUserDao.getByUserAndCabinet(existingUser.getId(),(Long)cabinetId);
         if (list.size() > 0) {
             return true;
         } else {

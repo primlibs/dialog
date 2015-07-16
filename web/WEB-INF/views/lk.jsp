@@ -25,7 +25,7 @@
             <h3> Выбор личного кабинета </h3><br>
             <select name="personalCabinetId" >
                 <c:forEach items="${list}" var="CabinetUser">
-                    <option value="${CabinetUser.cabinet.personalCabinetId}"> ${CabinetUser.cabinet.company}</option>
+                    <option value="${CabinetUser.cabinet.pkId}"> ${CabinetUser.cabinet.company}</option>
                 </c:forEach>
             </select>
 

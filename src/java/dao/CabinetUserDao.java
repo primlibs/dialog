@@ -27,26 +27,19 @@ public class CabinetUserDao extends Dao<CabinetUser> {
         return CabinetUser.class;
     }
 
-    public List<CabinetUser> getByUser(User user) {
-        Criteria crit = getCurrentSession().createCriteria(CabinetUser.class);
-        crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-        crit.add(Restrictions.eq("user", user));
-        return crit.list();
-    }
-
-    public List<CabinetUser> getByUserHql(User user) {
-        String hql = "from CabinetUser as cu where cu.user=:user";
+    public List<CabinetUser> getCabinetUserChoice(User user) {
+        String hql = "from CabinetUser as cu where cu.user=:user and cu.deleteDate is null";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("user", user);
         return query.list();
 
     }
 
-    public List<CabinetUser> getByUserAndCabinet(User user, PersonalCabinet cabinet) {
-        String hql = "from CabinetUser as cu where cu.user=:user and cu.cabinet=:cabinet ";
+    public List<CabinetUser> getByUserAndCabinet(Long userId, Long pkId) {
+        String hql = "from CabinetUser cu where cu.user.userId=:userId and cu.cabinet.pkId=:pkId and cu.deleteDate is null";
         Query query = getCurrentSession().createQuery(hql);
-        query.setParameter("user", user);
-        query.setParameter("cabinet", cabinet);
+        query.setParameter("userId", userId);
+        query.setParameter("pkId", pkId);
         return query.list();
     }
     

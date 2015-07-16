@@ -33,9 +33,6 @@ public class LkController extends WebController{
     @Autowired
     private CabinetUserService service;
 
-    @Autowired
-    private AuthManager authManager;
-
     @Transactional
     @RequestMapping(value = {"/lk"})
     public String showLkPage(Map<String, Object> model, HttpServletRequest request) throws Exception {
@@ -48,22 +45,27 @@ public class LkController extends WebController{
         if (list.size() == 1) {
             CabinetUser cu = list.get(0);
             request.getSession().setAttribute(CABINET_ID_SESSION_NAME, cu.getCabinet().getPkId());
-            request.getSession().setAttribute("role", service.getUserRole(user, cu.getCabinet().getPkId()));
+            request.getSession().setAttribute("role", service.getUserRole(user.getId(), cu.getCabinet().getPkId()));
             return "redirect:/";
         } else {
             model.put("list", list);
             return "lk";
         }
-
     }
 
     @RequestMapping(value = {"/selectLk"})
-    public String selectPersonalCabinetId(HttpServletRequest request,  Map<String, Object> model, Long personalCabinetId) throws UnsupportedEncodingException {
+    public String selectPersonalCabinetId(HttpServletRequest request,  Map<String, Object> model, Long pkId) throws UnsupportedEncodingException {
         User user = authManager.getCurrentUser();
       
-        request.getSession().setAttribute(CABINET_ID_SESSION_NAME, personalCabinetId);
-        request.getSession().setAttribute("role", service.getUserRole(user, personalCabinetId));
-
+        String role = service.getUserRole(user.getId(), pkId);
+        
+        if(role!=null){
+            request.getSession().setAttribute(CABINET_ID_SESSION_NAME, pkId);
+            request.getSession().setAttribute("role", role);
+        }else{
+            model.put("errors","Пользователь не найден в этом личном кабинете");
+            
+        }
         return "redirect:/";
     }
 

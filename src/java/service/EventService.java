@@ -1009,7 +1009,7 @@ public class EventService extends PrimService {
 
         HashSet<CabinetUser> cus = new HashSet();
         for (User u : users) {
-            CabinetUser cu = cabinetUserDao.getByUserAndCabinet(u, personalCabinetDao.find(pkId)).get(0);
+            CabinetUser cu = cabinetUserDao.getByUserAndCabinet(u.getId(), pkId).get(0);
             cus.add(cu);
         }
         return cus;
