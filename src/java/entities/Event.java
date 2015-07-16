@@ -90,6 +90,10 @@ public class Event extends PrimEntity {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date postponedDate;
     
+    @Column(name = "set_status_date")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date setStatusDate;
+    
     @JoinColumn(name = "fail_reason_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private FailReason failReason;
@@ -134,6 +138,12 @@ public class Event extends PrimEntity {
 
     public void setStatus(Integer status) {
         this.status = status;
+        if(Event.SUCCESSFUL==status||Event.FAILED==status||Event.POSTPONED==status){
+            Date date = new Date();
+            setSetStatusDate(date);
+        }else if(Event.UNASSIGNED==status||Event.ASSIGNED==status){
+            setSetStatusDate(null);
+        }
     }
 
     public String getComment() {
@@ -237,6 +247,14 @@ public class Event extends PrimEntity {
 
     public void setCabinetUser(CabinetUser cabinetUser) {
         this.cabinetUser = cabinetUser;
+    }
+
+    public Date getSetStatusDate() {
+        return setStatusDate;
+    }
+
+    public void setSetStatusDate(Date setStatusDate) {
+        this.setStatusDate = setStatusDate;
     }
     
     

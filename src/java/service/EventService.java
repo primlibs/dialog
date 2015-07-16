@@ -332,7 +332,7 @@ public class EventService extends PrimService {
                 addError(err);
             }
             if (!doubleUniqsInfo.equals("")) {
-                addError("В кампании уже присутствуют улиенты с уникальными ИД: " + doubleUniqsInfo);
+                addError("В кампании уже присутствуют клиенты с уникальными ИД: " + doubleUniqsInfo);
             }
         }
     }
