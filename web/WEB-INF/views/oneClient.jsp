@@ -9,7 +9,7 @@
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
         <%@include file="/WEB-INF/jsp/error.jsp" %> 
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
-        <script src="<c:url value="/js/myJsOnViews/updateParam.js" />"></script>
+        <!--<script src="<c:url value="/js/myJsOnViews/updateParam.js" />"></script>-->
         <div style="float: right;width: 49%;">
             
             <c:if test="${not empty dialogEvent}">
