@@ -80,18 +80,31 @@
 
                         <!--<div class="col-md-5" style="float:right;">
                             <div class="col-md-7"  data-spy="scroll" style="height: 100vh ;">-->
-                        <div class="col-md-3" >
+                        <!--<div class="col-md-3" >
                                 <c:forEach var="entry"  items="${аctiveMap}" >
                                     <ul> ${entry.key.groupName} 
                                         <c:forEach var="module" items="${entry.value}" >
                                             <li style="cursor: pointer;" class="showableModule" id="${module.moduleId}"> <ins>
-                                                    ${module.moduleName}<!--<a href="<c:url value="/Event/eventProcessing?campaignId=${param.campaignId}&groupId=${entry.key.groupId}&moduleId=${module.moduleId}&eventId=${event.eventId}"/>">${module.moduleName}</a>-->
+                                                    ${module.moduleName}
                                                 </ins></li>
                                             </c:forEach>
                                     </ul>
                                 </c:forEach>
-                            </div>
+                            </div>-->
 
+                        <div class="col-md-3" >
+                            <table style="width: 100%;">
+                                <c:forEach var="entry"  items="${аctiveMap}" >
+                                    <tr style="background: moccasin;"><td style="text-align: center;">Группа ${entry.key.groupName}:</td> </tr>
+                                        <c:forEach var="module" items="${entry.value}" >
+                                            <tr><td><span style="display: block;cursor: pointer;font-size:18px;color: slategrey" class="showableModule" id="${module.moduleId}"><ins><b>
+                                                   Модуль: ${module.moduleName}
+                                                    </b></ins></span></td></tr>
+                                            </c:forEach>
+                                    
+                                </c:forEach>
+                                </table>
+                        </div>
                             </c:if>
 
                             <!--<div class="col-md-5"  >-->
@@ -200,7 +213,9 @@
                         <c:forEach var="entry"  items="${аctiveMap}" >
                             <c:forEach var="module"  items="${entry.value}" >
                                 <div id="${module.moduleId}" class="hiddenModule">
-                                    ${module.moduleName}
+                                    <span style="display: block;cursor: pointer;font-size:18px;color: slategrey" class="showableModule" id="${module.moduleId}"><ins><b>
+                                                   Модуль: ${module.moduleName}
+                                                    </b></ins></span>
                                     <br><br>
                                     ${module.bodyText}
                                 </div>
