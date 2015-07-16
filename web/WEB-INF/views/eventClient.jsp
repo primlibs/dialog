@@ -87,8 +87,10 @@
                             </c:if>
                             
                     <tr class="${trstyle}">
-                        <td style="cursor: pointer;" onclick="location = '<c:url value="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}"/>'">${myIndex.count}</td>
-                        <td style="cursor: pointer;" onclick="location = '<c:url value="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}"/>'">${event.client.uniqueId}</td> 
+                        <td><a href="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}">${myIndex.count}</a></td>
+                        <td><a href="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}">${event.client.uniqueId}</a></td>
+                        <!--<td style="cursor: pointer;" onclick="location = '<c:url value="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}"/>'">${myIndex.count}</td>
+                        <td style="cursor: pointer;" onclick="location = '<c:url value="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}"/>'">${event.client.uniqueId}</td> -->
                         <td style="cursor: pointer;" onclick="location = '<c:url value="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}"/>'">${event.client.nameCompany}</td>
                         <td style="cursor: pointer;" onclick="location = '<c:url value="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}"/>'">${event.client.nameSecretary}</td>   
                         <td style="cursor: pointer;" onclick="location = '<c:url value="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}"/>'">${event.client.getFormattedPhoneSec()} </td>  
