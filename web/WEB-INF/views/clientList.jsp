@@ -34,7 +34,7 @@
           <input type="text" class="form-control" style="width: 170px;" name="name" id="nameInput" placeholder="Контактное лицо" value="${name}">
           <input type="text" class="form-control" style="width: 170px;" name="phone" id="phoneInput" placeholder="Телефон" value="${phone}">
           <c:if test="${not empty tags}">
-              <select style="vertical-align: middle;width: 170px;" size="${selectSize}" multiple="multiple" class="form-control" name="tags">
+              <select style="vertical-align: middle;width: 170px;" size="${selectSize}" multiple="multiple" class="form-control" name="tagIds">
                 <c:forEach var="tag" items="${tags}">
                     <option value="${tag.tagId}">${tag.name}</option>
                 </c:forEach>
@@ -50,8 +50,8 @@
           <input type="hidden"  name="name"  value="${name}">
           <input type="hidden"  name="phone" value="${phone}">
           <c:if test="${not empty selectedTags}">
-                <c:forEach var="tag" items="${selectedTags}">
-                    <input type="hidden" name="tags" value="${tag.tagId}" >
+                <c:forEach var="tagId" items="${selectedTags}">
+                    <input type="hidden" name="tags" value="${tagId}" >
                 </c:forEach>
           </c:if>
           <input type="submit" name="submit" class="btn btn-primary" value="Скачать excel" >

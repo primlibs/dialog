@@ -47,12 +47,12 @@ public class ClientController extends WebController {
     public String showClientList(Map<String, Object> model, HttpServletRequest request,@RequestParam(value = "uid", required = false) String uid,
             @RequestParam(value = "adress", required = false) String adress,@RequestParam(value = "nameCompany", required = false) String nameCompany,
             @RequestParam(value = "name", required = false) String name,@RequestParam(value = "phone", required = false) String phone,
-            @RequestParam(value = "tags", required = false) Long[] tags) throws Exception {
+            @RequestParam(value = "tagIds", required = false) Long[] tagIds) throws Exception {
         lk.dataByUserAndCompany(request, model);
      
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         
-        model.put("clients",clientService.getClientsBySearchRequest(cabinetId,uid, adress, nameCompany, name, phone,tags));
+        model.put("clients",clientService.getClientsBySearchRequest(cabinetId,uid, adress, nameCompany, name, phone,tagIds));
         model.put("tags",tagService.getAllActiveTags(cabinetId));
         
         model.put("uid",uid);
@@ -61,8 +61,8 @@ public class ClientController extends WebController {
         model.put("name",name);
         model.put("phone",phone);
         List<Long> selectedTags = new ArrayList();
-        if (tags != null) {
-            for (Long tag: tags) {
+        if (tagIds != null) {
+            for (Long tag: tagIds) {
                 selectedTags.add(tag);
             }
         }

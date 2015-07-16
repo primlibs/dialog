@@ -87,7 +87,7 @@ public class ClientService extends PrimService {
         return workbook;
     }
 
-    public List<Client> getClientsBySearchRequest(Long pkId, String uid, String adress, String nameCompany, String name, String phone, Long[] tags) {
+    public List<Client> getClientsBySearchRequest(Long pkId, String uid, String adress, String nameCompany, String name, String phone, Long[] tagIds) {
         if (adress != null && !adress.equals("")) {
             String[] ss = adress.trim().split(" ");
             adress = "";
@@ -112,7 +112,7 @@ public class ClientService extends PrimService {
         if (phone != null && !phone.equals("")) {
             phone = phone.replaceAll("[^0-9]*", "");
         }
-        return clientDao.getClientsBySearchRequest(pkId, uid, adress, nameCompany, name, phone, tags);
+        return clientDao.getClientsBySearchRequest(pkId, uid, adress, nameCompany, name, phone, tagIds);
     }
 
     public List<Module> getHistory(Long eventId) {
