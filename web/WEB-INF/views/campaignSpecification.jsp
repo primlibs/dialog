@@ -44,20 +44,42 @@
                     <input type="file"  name="fileXls" size="40"  onchange='$("#upload-file-info").html($(this).val());'>
                     <span class='label label-info' id="upload-file-info"></span>
                 </div>
+                <c:if test="${not empty tags}">
+                    <c:set var="size" value="5"/>
+                    <c:if test="${tags.size()<5}">
+                    <c:set var="size" value="${tags.size()}"/>
+                    </c:if>
                 <div class="form-group">
-                    <input  type="checkbox" name="checkbox" value="agree"> &nbsp;обновлять клиентов 
+                    Тэги:
+                    <select multiple name="tagIds" size="${size}" class="form-control">
+                        <c:forEach var="tag" items="${tags}">
+                        <option value="${tag.tagId}">${tag.name}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                </c:if>
+                <div class="form-group">
+                    <input  type="checkbox" name="checkbox" value="agree"> &nbsp;Обновлять клиентов 
                 </div>
                 <div class="form-group">
                     <input type="hidden" name="campaignId" value=${param.campaignId}>
                     <input class="btn btn-primary" type="submit" value="Добавить">
                 </div>
             </form>
+            
+            
+        </div>
+            <div class="row form-group">
+            <div class="checkbox">
+        <label>
+            <input id="showModulesWithText" type="checkbox" data-campaignid="${campaign.campaignId}" value="${campaign.getShowModulesWithTextCheck()}" ${campaign.getShowModulesWithTextCheck()}> Показывать полный текст модулей
+        </label>
+            </div>
             <a style="margin-left: 10px;" href="<c:url value="/Event/eventShowAllAppoint?campaignId=${campaign.campaignId}"/>" class="btn btn-primary" role="button">Распределить клиентов</a>
-            <c:if test="${deleteble==true}">
+        <c:if test="${deleteble==true}">
                 <a style="float: right;" href="<c:url value="/Event/deleteCampaign?campaignId=${campaign.campaignId}"/>" class="btn btn-large btn-danger" role="button">Удалить кампанию</a>           
             </c:if>
-        </div>
-
+            </div>
         <table class="table table-bordered table-hover" style="margin-top: 20px;">
 
             <tr>

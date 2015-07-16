@@ -59,10 +59,28 @@
                     </table>
                             
                     <div class="row">
+                        <c:if test="${not empty campaign.showModulesWithText}">
+                            <div class="col-md-10" style="float:left;">
+                                <table style="width: 100%;">
+                                <c:forEach var="entry"  items="${аctiveMap}" >
+                                    <tr style="background: moccasin;"><td style="text-align: center;">Группа ${entry.key.groupName}:</td> </tr>
+                                        <c:forEach var="module" items="${entry.value}" >
+                                            <tr><td><span style="display: block;cursor: pointer;font-size:18px;color: slategrey" class="showableModule" id="${module.moduleId}"><ins><b>
+                                                   Модуль: ${module.moduleName}<!--<a href="<c:url value="/Event/eventProcessing?campaignId=${param.campaignId}&groupId=${entry.key.groupId}&moduleId=${module.moduleId}&eventId=${event.eventId}"/>">${module.moduleName}</a>-->
+                                                    </b></ins></span></td></tr>
+                                            <tr><td style="text-align: justify;">${module.bodyText}</td></tr>
+                                            </c:forEach>
+                                    
+                                </c:forEach>
+                                </table>
+                            </div>
+                        </c:if>
+                        <c:if test="${empty campaign.showModulesWithText}">
                         <div class="col-md-7" style="float:left;" id="moduleShow"></div>
 
-                        <div class="col-md-5" style="float:right;">
-                            <div class="col-md-7"  data-spy="scroll" style="height: 100vh ;">
+                        <!--<div class="col-md-5" style="float:right;">
+                            <div class="col-md-7"  data-spy="scroll" style="height: 100vh ;">-->
+                        <div class="col-md-3" >
                                 <c:forEach var="entry"  items="${аctiveMap}" >
                                     <ul> ${entry.key.groupName} 
                                         <c:forEach var="module" items="${entry.value}" >
@@ -74,9 +92,10 @@
                                 </c:forEach>
                             </div>
 
+                            </c:if>
 
-
-                            <div class="col-md-5"  >
+                            <!--<div class="col-md-5"  >-->
+                            <div class="col-md-2" style="float:right;" >
                                 <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">

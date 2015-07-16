@@ -22,16 +22,16 @@
         <form role="form" action="<c:url value="/User/userAdd" />"  method="post">
 
             <div class="form-group">
-                <label for="lastName">Фамилия*:</label>
+                <label for="surname">Фамилия*:</label>
                     <input type="text" class="form-control" name="surname" id="lastName" placeholder="Фамилия" value="${surname}">
                 
             </div>
             <div class="form-group">
-                <label for="firstName">Имя*:</label>
+                <label for="name">Имя*:</label>
                     <input type="text" class="form-control" name="name" id="firstName" placeholder="Имя" value="${name}">
             </div>
             <div class="form-group">
-                <label for="firstName">Отчество:</label>
+                <label for="patronymic">Отчество:</label>
                     <input type="text" class="form-control" name="patronymic" id="firstName" placeholder="Отчество" value="${patronymic}">
                 
             </div>
