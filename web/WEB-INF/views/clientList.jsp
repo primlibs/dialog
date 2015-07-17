@@ -73,17 +73,17 @@
         <c:forEach var="client"  items="${clients}" >
             <!--<tr style="cursor: pointer;" onclick="location = '<c:url value="/Client/oneClient?clientId=${client.clientId}"/>'">-->
             <tr>
-                <td>${myIndex.count}</td>
-                <td>${client.uniqueId}</td>
+                <td><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}">${myIndex.count}</a></td>
+                <td><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}">${client.uniqueId}</a></td>
                 <td><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}">${client.nameCompany}</a></td>
-              <td>${client.address}</td>
-              <td>${client.nameSecretary}</td>
-              <td>${client.getFormattedPhoneSec()}</td>
-              <td>${client.nameLpr}</td>
-              <td>${client.getFormattedPhoneLpr()}</td></tr>
+              <td><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}">${client.address}</a></td>
+              <td><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}">${client.nameSecretary}</a></td>
+              <td><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}">${client.getFormattedPhoneSec()}</a></td>
+              <td><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}">${client.nameLpr}</a></td>
+              <td><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}">${client.getFormattedPhoneLpr()}</a></td></tr>
             </c:forEach>
       </table>
     </div>
-
+<script>$('.arow').hover(function(){$(this).closest('tr').find('.arow').toggleClass('underlined')})</script>
   </body>
 </html>
