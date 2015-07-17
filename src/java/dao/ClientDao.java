@@ -112,11 +112,11 @@ public class ClientDao extends Dao<Client> {
             paramMap.put("nameCompany", nameCompany.toLowerCase());
         }
         if (name != null && !name.equals("")) {
-            hql += " and (lower(с.nameSecretary)=:name or lower(с.nameLpr) like :name)";
+            hql += " and (lower(с.nameSecretary) like :name or lower(с.nameLpr) like :name)";
             paramMap.put("name", name.toLowerCase());
         }
         if (phone != null && !phone.equals("")) {
-            hql += " and (с.phoneSecretary=:phone or с.phoneLpr=:phone)";
+            hql += " and (с.phoneSecretary like :phone or с.phoneLpr like :phone)";
             paramMap.put("phone", phone);
         }
         Query query = getCurrentSession().createQuery(hql);

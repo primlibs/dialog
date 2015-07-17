@@ -111,6 +111,7 @@ public class ClientService extends PrimService {
         }
         if (phone != null && !phone.equals("")) {
             phone = phone.replaceAll("[^0-9]*", "");
+            phone="%"+phone+"%";
         }
         return clientDao.getClientsBySearchRequest(pkId, uid, adress, nameCompany, name, phone, tagIds);
     }
