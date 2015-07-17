@@ -12,3 +12,7 @@
 .whiteLink:hover{
     color:white;
 }
+
+.underlined{
+    text-decoration: underline;
+}

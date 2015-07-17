@@ -131,6 +131,7 @@ public class ModuleService extends PrimService {
                 nm.setBodyText(bodyText);
                 nm.setCabinet(module.getCabinet());
                 nm.setGroup(module.getGroup());
+                nm.setPosition(module.getPosition());
                 nm.setStrategy(module.getStrategy());
                 nm.setModuleName(module.getModuleName());
                 if(validate(nm)){
@@ -180,6 +181,7 @@ public class ModuleService extends PrimService {
                             newm.setBodyText(m.getBodyText());
                             newm.setCabinet(m.getCabinet());
                             newm.setGroup(m.getGroup());
+                            newm.setPosition(m.getPosition());
                             newm.setStrategy(m.getStrategy());
                             newm.setModuleName(newName);
                             if(validate(newm)){
