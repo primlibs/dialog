@@ -34,6 +34,7 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.parent.PrimService;
+import support.DateAdapter;
 import support.StringAdapter;
 
 /**
@@ -140,6 +141,17 @@ public class ReportService extends PrimService {
         LinkedHashMap<String,HashMap<String,String>>res = new LinkedHashMap();
         if(campaignId!=null){
             Campaign campaign = campaignDao.find(campaignId);
+            if(dateFrom==null){
+                dateFrom=campaign.getCreationDate();
+            }
+            if(dateTo==null){
+                dateTo=campaign.getEndDate();
+                if(dateTo==null){
+                    dateTo=new Date();
+                }
+            }
+            dateFrom=DateAdapter.getStartOfDate(dateFrom);
+            dateTo=DateAdapter.getEndOfDate(dateTo);
             HashMap<Long,BigDecimal>failMap=new HashMap();
             HashMap<Long,BigDecimal>successMap=new HashMap();
             HashMap<Long,BigDecimal>postponeMap=new HashMap();
