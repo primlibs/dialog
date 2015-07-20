@@ -104,10 +104,10 @@ public class EventCommentDao extends Dao<EventComment> {
             paramMap.put("userId",userId);
         }
         if(status!=null){
-            hql+=" ec.type=:status";
+            hql+=" and ec.type=:status";
             paramMap.put("status", status);
         }else{
-            hql+=" (ec.type=4 or ec.type=5 or ec.type=1)";
+            hql+=" and (ec.type=4 or ec.type=5 or ec.type=1)";
         }
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
