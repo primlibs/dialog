@@ -566,6 +566,7 @@ public class EventController extends WebController {
         Long cabinetId = (long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         model.put("events", reportService.getDataForWorkDetalisation(status,dateFrom,dateTo,userId, campaignId, cabinetId));
         model.put("user",userService.getUser(userId));
+        model.put("campaign", eventService.getCampaign(campaignId));
         model.put("errors",reportService.getErrors());
         return "workReportDetalisation";
     }

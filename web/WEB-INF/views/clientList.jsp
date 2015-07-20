@@ -73,14 +73,14 @@
         <c:forEach var="client"  items="${clients}" >
             <!--<tr style="cursor: pointer;" onclick="location = '<c:url value="/Client/oneClient?clientId=${client.clientId}"/>'">-->
             <tr>
-                <td><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}">${myIndex.count}</a></td>
-                <td><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}">${client.uniqueId}</a></td>
-                <td><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}">${client.nameCompany}</a></td>
-              <td><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}">${client.address}</a></td>
-              <td><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}">${client.nameSecretary}</a></td>
-              <td><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}">${client.getFormattedPhoneSec()}</a></td>
-              <td><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}">${client.nameLpr}</a></td>
-              <td><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}">${client.getFormattedPhoneLpr()}</a></td></tr>
+                <td><a class="arow" href="/Client/oneClient?clientId=${client.clientId}">${myIndex.count}</a></td>
+                <td><a class="arow" href="/Client/oneClient?clientId=${client.clientId}">${client.uniqueId}</a></td>
+                <td><a class="arow" href="/Client/oneClient?clientId=${client.clientId}">${client.nameCompany}</a></td>
+              <td><a class="arow" href="/Client/oneClient?clientId=${client.clientId}">${client.address}</a></td>
+              <td><a class="arow" href="/Client/oneClient?clientId=${client.clientId}">${client.nameSecretary}</a></td>
+              <td><a class="arow" href="/Client/oneClient?clientId=${client.clientId}">${client.getFormattedPhoneSec()}</a></td>
+              <td><a class="arow" href="/Client/oneClient?clientId=${client.clientId}">${client.nameLpr}</a></td>
+              <td><a class="arow" href="/Client/oneClient?clientId=${client.clientId}">${client.getFormattedPhoneLpr()}</a></td></tr>
             </c:forEach>
       </table>
     </div>

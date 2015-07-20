@@ -364,9 +364,10 @@ public class EventService extends PrimService {
     }
 
     public Campaign getCampaign(Long campaignId) {
-        Campaign camp = campaignDao.find(campaignId);
-
-        return camp;
+        if(campaignId==null){
+            return null;
+        }
+        return campaignDao.find(campaignId);
     }
 
     public List<Event> getEventList(Long campaignId, Long cabinetId) {

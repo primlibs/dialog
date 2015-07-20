@@ -12,7 +12,11 @@
         
         <div class="row form-group">
             <h2>Отчет по работе.</h2>
-            <span style="font-size: 18px;font-weight: 500;"><b>Кампания: ${campaign.name}; Менеджер: ${user.getShortName()};</b></span>
+            <c:set var="managerInfo" value="Все менеджеры"/>
+            <c:if test="${not empty user}">
+                <c:set var="managerInfo" value="Менеджер: ${user.getShortName()}"/>
+            </c:if>
+            <span style="font-size: 18px;font-weight: 500;"><b>Кампания: ${campaign.name}; ${managerInfo};</b></span>
         </div>    
             <table class="table table-bordered table-hover">
                 <tr class="active">
@@ -43,7 +47,7 @@
                             <c:if test="${4==event.status}">
                                 <c:set var="trstyle" value="danger" />
                             </c:if>
-                    <tr style="cursor: pointer;" ondblclick="location = '<c:url value="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}"/>'" class="${trStyle}">
+                    <tr style="cursor: pointer;" ondblclick="location = '<c:url value="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}"/>'" class="${trstyle}">
                         <td>${myIndex.count}</td>
                         <td>${event.client.uniqueId}</td> 
                         <td>${event.client.nameCompany}</td>

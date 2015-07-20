@@ -274,12 +274,14 @@ public class ReportService extends PrimService {
                 supMap.put("failed",StringAdapter.getString(fcount));
                 supMap.put("successful",StringAdapter.getString(scount));
                 supMap.put("postponed",StringAdapter.getString(pcount));
+                supMap.put("all",StringAdapter.getString(fcount.add(scount).add(pcount)));
                 res.put(entry.getValue(),supMap);
             }
             HashMap<String,String>sumMap=new HashMap();
             sumMap.put("failed",StringAdapter.getString(sumFcount));
             sumMap.put("successful",StringAdapter.getString(sumScount));
             sumMap.put("postponed",StringAdapter.getString(sumPcount));
+            sumMap.put("all",StringAdapter.getString(sumFcount.add(sumScount).add(sumPcount)));
             res.put(null, sumMap);
         }
         return res;
@@ -349,7 +351,7 @@ public class ReportService extends PrimService {
             }
             dateFrom=DateAdapter.getStartOfDate(dateFrom);
             dateTo=DateAdapter.getEndOfDate(dateTo);
-            return eventCommentDao.getEvents(status, dateFrom, dateTo, userId, campaignId, pkId);
+            return eventCommentDao.getEventsForWorkReport(status, dateFrom, dateTo, userId, campaignId, pkId);
         }else{
             addError("Ид кампании не передан");
             return new ArrayList();

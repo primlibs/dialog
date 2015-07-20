@@ -96,17 +96,22 @@ public class EventCommentDao extends Dao<EventComment> {
         return query.list();
     }
     
-    public List<Event> getEvents(Integer status,Date dateFrom, Date dateTo,Long userId,Long campaignId,Long pkId){
+    public List<Event> getEventsForWorkReport(Integer status,Date dateFrom, Date dateTo,Long userId,Long campaignId,Long pkId){
         HashMap<String, Object> paramMap = new HashMap();
-        String hql="select ec.event from EventComment ec where ec.type=:status and ec.campaignId=:campaignId and ec.insertDate>=:dateFrom and ec.insertDate<=:dateTo and ec.cabinet.pkId=:pkId";
+        String hql="select ec.event from EventComment ec where ec.campaignId=:campaignId and ec.insertDate>=:dateFrom and ec.insertDate<=:dateTo and ec.cabinet.pkId=:pkId";
         if(userId!=null){
             hql+=" and ec.author.userId=:userId";
             paramMap.put("userId",userId);
         }
+        if(status!=null){
+            hql+=" ec.type=:status";
+            paramMap.put("status", status);
+        }else{
+            hql+=" (ec.type=4 or ec.type=5 or ec.type=1)";
+        }
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
         query.setParameter("pkId", pkId);
-        query.setParameter("status", status);
         query.setParameter("dateFrom", DateAdapter.getDateFromString(DateAdapter.getDateInMysql(dateFrom)));
         query.setParameter("dateTo", DateAdapter.getDateFromString(DateAdapter.getDateInMysql(dateTo)));
         for(Map.Entry<String,Object> entry:paramMap.entrySet()){
