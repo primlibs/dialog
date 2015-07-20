@@ -28,7 +28,22 @@
                     <th>Статус</th>
                 </tr>
                 <c:forEach var="event" items="${events}" varStatus="myIndex">
-                    <tr style="cursor: pointer;" ondblclick="location = '<c:url value="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}"/>'" class="active">
+                    <c:if test="${0==event.status}">
+                                <c:set var="trstyle" value="" />
+                            </c:if>
+                            <c:if test="${1==event.status}">
+                                <c:set var="trstyle" value="active" />
+                            </c:if>
+                            <c:if test="${2==event.status}">
+                                <c:set var="trstyle" value="info" />
+                            </c:if>
+                            <c:if test="${3==event.status}">
+                                <c:set var="trstyle" value="success" />
+                            </c:if>
+                            <c:if test="${4==event.status}">
+                                <c:set var="trstyle" value="danger" />
+                            </c:if>
+                    <tr style="cursor: pointer;" ondblclick="location = '<c:url value="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}"/>'" class="${trStyle}">
                         <td>${myIndex.count}</td>
                         <td>${event.client.uniqueId}</td> 
                         <td>${event.client.nameCompany}</td>
