@@ -25,6 +25,7 @@
                     <th>Телефон Л.П.Р.</th>
                     <th>Адрес</th>
                     <th>Пользователь</th>
+                    <th>Дата</th>
                     <th>Причина</th>
                 </tr>
                 <c:forEach var="event" items="${events}" varStatus="myIndex">
@@ -38,6 +39,7 @@
                         <td>${event.client.getFormattedPhoneLpr()}</td>  
                         <td>${event.client.address}</td>
                         <td>${event.user.getShortName()}</td>
+                        <td><fmt:formatDate type="both" value="${event.getSetStatusDate()}"/></td>
                         <td>${event.failReason.name}</td>
                     </tr>
                 </c:forEach>

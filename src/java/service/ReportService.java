@@ -8,10 +8,10 @@ package service;
 
 import dao.CampaignDao;
 import dao.EventCommentDao;
+import dao.EventDao;
 import dao.FailReasonDao;
 import dao.ModuleDao;
 import dao.ModuleEventClientDao;
-import dao.UserDao;
 import entities.Campaign;
 import entities.Event;
 import entities.FailReason;
@@ -53,7 +53,7 @@ public class ReportService extends PrimService {
     private ModuleDao moduleDao;
     
     @Autowired
-    private UserDao userDao;
+    private EventDao eventDao;
     
     @Autowired
     private FailReasonDao failReasonDao;
@@ -336,6 +336,19 @@ public class ReportService extends PrimService {
             addError("Не удалось найти кампанию с ИД:"+campaignId);
         }
         return res;
+    }
+    
+    public List<Event> getDataForFailReasonDeatlisation(Long failReasonId,Long campaignId,Long pkId){
+        if(campaignId!=null&&pkId!=null){
+            return eventDao.getFailedEvents(failReasonId, campaignId, pkId);
+        }
+        if(campaignId==null){
+            addError("Ид кампании не передан.");
+        }
+        if(pkId==null){
+            addError("Ошибка личного кабинета.");
+        }
+        return new ArrayList();
     }
     
     public List<Event> getDataForWorkDetalisation(Integer status,Date dateFrom,Date dateTo,Long userId,Long campaignId,Long pkId){

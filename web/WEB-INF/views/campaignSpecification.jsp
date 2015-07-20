@@ -53,7 +53,7 @@
                     Тэги:
                     <select multiple name="tagIds" size="${size}" class="form-control">
                         <c:forEach var="tag" items="${tags}">
-                        <option value="${tag.tagId}">${tag.name}</option>
+                            <option value="${tag.tagId}">${tag.name}</option>
                         </c:forEach>
                     </select>
                 </div>
@@ -251,11 +251,11 @@
                     <th>Количество</th></tr>
                 <c:forEach var="entry" items="${failReasonReportData.entrySet()}">
                     <c:if test="${not empty entry.getKey()}">
-                    <tr><td>${entry.getKey().getName()}</td>
+                    <tr style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/failReasonReportDetalisation?campaignId=${campaign.campaignId}&failReasonId=${entry.getKey().getId()}"/>'"><td>${entry.getKey().getName()}</td>
                         <td>${entry.getValue()}</td></tr>
                     </c:if>
                 </c:forEach>
-                <tr>
+                <tr style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/failReasonReportDetalisation?campaignId=${campaign.campaignId}"/>'">
                         <td>Всего:</td>
                         <td>${failReasonReportData.get(null)}</td></tr>
             </table>

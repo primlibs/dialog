@@ -1,3 +1,4 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -11,12 +12,9 @@
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
         
         <div class="row form-group">
-            <h2>Отчет по работе.</h2>
+            <h2>Отчет по причинам.</h2>
             <c:set var="managerInfo" value="Все менеджеры"/>
-            <c:if test="${not empty user}">
-                <c:set var="managerInfo" value="Менеджер: ${user.getShortName()}"/>
-            </c:if>
-            <span style="font-size: 18px;font-weight: 500;"><b>Кампания: ${campaign.name}; ${managerInfo};</b></span>
+            <span style="font-size: 18px;font-weight: 500;"><b>Кампания: ${campaign.name};</b></span>
         </div>    
             <table class="table table-bordered table-hover">
                 <tr class="active">
@@ -29,6 +27,7 @@
                     <th>Телефон Л.П.Р.</th>
                     <th>Адрес</th>
                     <th>Пользователь</th>
+                    <th>Дата</th>
                     <th>Статус</th>
                 </tr>
                 <c:forEach var="event" items="${events}" varStatus="myIndex">
@@ -57,6 +56,7 @@
                         <td>${event.client.getFormattedPhoneLpr()}</td>  
                         <td>${event.client.address}</td>
                         <td>${event.user.getShortName()}</td>
+                        <td><fmt:formatDate type="both" value="${event.getSetStatusDate()}"/></td>
                         <td>${event.getRusStatus()}</td>
                     </tr>
                 </c:forEach>

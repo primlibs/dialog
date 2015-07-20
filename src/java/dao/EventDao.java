@@ -10,7 +10,6 @@ import entities.Client;
 import entities.Campaign;
 import entities.Event;
 import entities.PersonalCabinet;
-import entities.User;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -403,7 +402,23 @@ public class EventDao extends Dao<Event> {
         return query.list();
     }
     
-    
+    public List<Event> getFailedEvents(Long failReasonId,Long campaignId,Long pkId){
+        HashMap<String, Object> paramMap = new HashMap();
+        String hql="from Event ev where ev.cabinet.pkId=:pkId and ev.campaign.campaignId=:campaignId and ev.status=:failed";
+        if(failReasonId!=null){
+            hql+=" and ev.failReason.failReasonId=:failReasonId";
+            paramMap.put("failReasonId", failReasonId);
+        }
+        hql+=" order by ev.setStatusDate";
+        Query query = getCurrentSession().createQuery(hql);
+        for(Map.Entry<String,Object>entry:paramMap.entrySet()){
+            query.setParameter(entry.getKey(),entry.getValue());
+        }
+        query.setParameter("campaignId", campaignId);
+        query.setParameter("pkId", pkId);
+        query.setParameter("failed", Event.FAILED);
+        return query.list();
+    }
     
     /*public List<Object> getUserAndAssignedAndSuccAndFailedByaDateAndCampaign(List<Long>campaignIds,Long pkId){
         HashMap<String,Object>paramMap=new HashMap();
