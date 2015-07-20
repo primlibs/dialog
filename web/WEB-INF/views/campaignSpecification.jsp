@@ -69,7 +69,7 @@
             
             
         </div>
-            <div class="row form-group">
+            <div class="row form-group form-inline">
             <div class="checkbox">
         <label>
             <input id="showModulesWithText" type="checkbox" data-campaignid="${campaign.campaignId}" value="${campaign.getShowModulesWithTextCheck()}" ${campaign.getShowModulesWithTextCheck()}> Показывать полный текст модулей

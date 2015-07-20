@@ -40,9 +40,12 @@
                 </c:forEach>
               </select>
           </c:if>
-          <input type="submit" name="submit"  class="btn btn-primary" value="Поиск">
+          <input type="submit" name="submit"  class="btn btn-primary" value="Поиск"><br>
+          <label  style="float: left;">
+            <input id="tagCrossing" name="tagCrossing" type="checkbox"> Искать пересечение тэгов
+        </label>
         </form>
-
+          <br>
         <form action="<c:url value="/Client/getXls" />" >
           <input type="hidden"  name="uid"  value="${uid}">
           <input type="hidden"  name="nameCompany"  value="${nameCompany}">
@@ -70,7 +73,7 @@
           <th> Лицо принимающее решения </th>
           <th> Телефон Л.П.Р. </th>
         </tr>
-        <c:forEach var="client"  items="${clients}" >
+        <c:forEach var="client"  items="${clients}" varStatus="myIndex">
             <!--<tr style="cursor: pointer;" onclick="location = '<c:url value="/Client/oneClient?clientId=${client.clientId}"/>'">-->
             <tr>
                 <td><a class="arow" href="/Client/oneClient?clientId=${client.clientId}">${myIndex.count}</a></td>
