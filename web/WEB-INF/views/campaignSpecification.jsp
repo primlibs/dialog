@@ -219,7 +219,8 @@
                     <th>Не успешно</th>
                     <th>Успешно</th>
                         <c:forEach var="entry" items="${workReportData.entrySet()}">
-                        <tr><td>${entry.getKey()}</td>
+                        <tr style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&"/>'">
+                            <td>${entry.getKey()}</td>
                             <td>${entry.getValue().get("postponed")}</td>
                             <td>${entry.getValue().get("failed")}</td>
                             <td>${entry.getValue().get("successful")}</td></tr>

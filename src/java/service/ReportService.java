@@ -261,4 +261,25 @@ public class ReportService extends PrimService {
         
     }
     
+    public List<Event> getDataForWorkDetalisation(Integer status,Date dateFrom,Date dateTo,Long userId,Long campaignId,Long pkId){
+        if(campaignId!=null){
+            Campaign c = campaignDao.find(campaignId);
+            if(dateFrom==null){
+                dateFrom=c.getCreationDate();
+            }
+            if(dateTo==null){
+                dateTo=c.getEndDate();
+                if(dateTo==null){
+                    dateTo=new Date();
+                }
+            }
+            dateFrom=DateAdapter.getStartOfDate(dateFrom);
+            dateTo=DateAdapter.getEndOfDate(dateTo);
+            return eventCommentDao.getEvents(status, dateFrom, dateTo, userId, campaignId, pkId);
+        }else{
+            addError("Ид кампании не передан");
+            return new ArrayList();
+        }
+    }
+    
 }

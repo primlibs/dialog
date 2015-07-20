@@ -7,6 +7,7 @@ package dao;
 
 import dao.parent.Dao;
 import entities.Campaign;
+import entities.Event;
 import entities.EventComment;
 import java.util.Date;
 import java.util.HashMap;
@@ -93,6 +94,18 @@ public class EventCommentDao extends Dao<EventComment> {
             query.setParameter(entry.getKey(),entry.getValue());
         }
         return query.list();
-    } 
+    }
+    
+    public List<Event> getEvents(Integer status,Date dateFrom, Date dateTo,Long userId,Long campaignId,Long pkId){
+        String hql="select ec.event from EventComment ec where ec.type=:status and ec.insertDate>=:dateFrom and ec.insertDate<=:dateTo and ec.user.userId=:userId and ec.cabinet.pkId=:pkId";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("campaignId", campaignId);
+        query.setParameter("pkId", pkId);
+        query.setParameter("userId", userId);
+        query.setParameter("status", status);
+        query.setParameter("dateFrom", DateAdapter.getDateFromString(DateAdapter.getDateInMysql(dateFrom)));
+        query.setParameter("dateTo", DateAdapter.getDateFromString(DateAdapter.getDateInMysql(dateTo)));
+        return query.list();
+    }
     
 }

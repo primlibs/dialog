@@ -555,6 +555,21 @@ public class EventController extends WebController {
         return "failModuleReportDetalisation";
     }
     
+    @RequestMapping("/workReportDetalisation")
+    public String workReportDetalisation(Map<String, Object> model, @RequestParam(value = "campaignId") Long campaignId,
+             @RequestParam(value = "userId",required = false) Long userId,
+             @RequestParam(value = "dateFrom",required = false) Date dateFrom,
+             @RequestParam(value = "dateTo",required = false) Date dateTo,
+             @RequestParam(value = "status",required = false) Integer status,
+             RedirectAttributes ras, HttpServletRequest request) throws Exception{
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        model.put("events", reportService.getDataForWorkDetalisation(status,dateFrom,dateTo,userId, campaignId, cabinetId));
+        model.put("user",userService.getUser(userId));
+        model.put("errors",reportService.getErrors());
+        return "workReportDetalisation";
+    }
+    
     @RequestMapping("setShowModulesWithText")
     @ResponseBody
     public JsonResponse setShowModulesWithText(Map<String, Object> model,

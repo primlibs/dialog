@@ -53,6 +53,14 @@ public class UserService extends PrimService {
 
     @Autowired
     private PersonalCabinetDao personalCabinetDao;
+    
+    public User getUser(Long userId){
+        if(userId==null){
+            return null;
+        }else{
+            return userDao.find(userId);
+        }
+    }
 
     public void save(
             String company,
