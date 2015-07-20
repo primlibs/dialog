@@ -54,8 +54,8 @@ public class ClientService extends PrimService {
         return clientDao.getUnfinishedEventsByClient(clientId);
     }
 
-    public HSSFWorkbook getXls(Long pkId, String uid, String adress, String nameCompany, String name, String phone, Long[] tags) {
-        List<Client> clientList = getClientsBySearchRequest(pkId, uid, adress, nameCompany, name, phone, tags);
+    public HSSFWorkbook getXls(Long pkId, String uid, String adress, String nameCompany, String name, String phone,Boolean tagCrossing, Long[] tags) {
+        List<Client> clientList = getClientsBySearchRequest(pkId, uid, adress, nameCompany, name, phone,tagCrossing, tags);
 
         HSSFWorkbook workbook = new HSSFWorkbook();
         int n = 0;
@@ -87,7 +87,7 @@ public class ClientService extends PrimService {
         return workbook;
     }
 
-    public List<Client> getClientsBySearchRequest(Long pkId, String uid, String adress, String nameCompany, String name, String phone, Long[] tagIds) {
+    public List<Client> getClientsBySearchRequest(Long pkId, String uid, String adress, String nameCompany, String name, String phone,Boolean tagCrossing, Long[] tagIds) {
         if (adress != null && !adress.equals("")) {
             String[] ss = adress.trim().split(" ");
             adress = "";
@@ -113,7 +113,7 @@ public class ClientService extends PrimService {
             phone = phone.replaceAll("[^0-9]*", "");
             phone="%"+phone+"%";
         }
-        return clientDao.getClientsBySearchRequest(pkId, uid, adress, nameCompany, name, phone, tagIds);
+        return clientDao.getClientsBySearchRequest(pkId, uid, adress, nameCompany, name, phone,tagCrossing, tagIds);
     }
 
     public List<Module> getHistory(Long eventId) {

@@ -9,6 +9,8 @@ import static controllers.LkController.CABINET_ID_SESSION_NAME;
 import controllers.parent.WebController;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -47,26 +49,34 @@ public class ClientController extends WebController {
     public String showClientList(Map<String, Object> model, HttpServletRequest request,@RequestParam(value = "uid", required = false) String uid,
             @RequestParam(value = "adress", required = false) String adress,@RequestParam(value = "nameCompany", required = false) String nameCompany,
             @RequestParam(value = "name", required = false) String name,@RequestParam(value = "phone", required = false) String phone,
-            @RequestParam(value = "tagIds", required = false) Long[] tagIds) throws Exception {
+            @RequestParam(value = "tagIds", required = false) Long[] tagIds,@RequestParam(value = "tagCrossing", required = false) String tagCrossing) throws Exception {
         lk.dataByUserAndCompany(request, model);
      
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        
-        model.put("clients",clientService.getClientsBySearchRequest(cabinetId,uid, adress, nameCompany, name, phone,tagIds));
-        model.put("tags",tagService.getAllActiveTags(cabinetId));
+        Boolean cross = false;
+        if(tagCrossing!=null){
+            cross=true;
+        }
+        model.put("clients",clientService.getClientsBySearchRequest(cabinetId,uid, adress, nameCompany, name, phone,cross,tagIds));
+        model.put("tagMap",tagService.getAllActiveTagsMap(cabinetId));
         
         model.put("uid",uid);
         model.put("nameCompany",nameCompany);
         model.put("adress",adress);
         model.put("name",name);
         model.put("phone",phone);
-        List<Long> selectedTags = new ArrayList();
-        if (tagIds != null) {
-            for (Long tag: tagIds) {
-                selectedTags.add(tag);
+        model.put("tagCrossing",tagCrossing);
+        HashMap<Long,Long> selectedTagsMap=new HashMap();
+        if(tagIds!=null){
+            for(Long tagId:tagIds){
+                selectedTagsMap.put(tagId,tagId);
             }
         }
-        model.put("selectedTags", selectedTags);
+        /*List<Long> selectedTags = new ArrayList();
+        if (tagIds != null) {
+            selectedTags.addAll(Arrays.asList(tagIds));
+        }*/
+        model.put("selectedTagsMap", selectedTagsMap);
         
         List<String> clientErrors = clientService.getErrors();
         if(model.get("errors")!=null){
@@ -78,15 +88,18 @@ public class ClientController extends WebController {
     
     @RequestMapping("/getXls")
     public void getXls(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response,
-            @RequestParam(value = "uid", required = false) String uid,
+            @RequestParam(value = "uid", required = false) String uid,@RequestParam(value = "tagCrossing", required = false) String tagCrossing,
             @RequestParam(value = "adress", required = false) String adress,@RequestParam(value = "nameCompany", required = false) String nameCompany,
             @RequestParam(value = "name", required = false) String name,@RequestParam(value = "phone", required = false) String phone,
             @RequestParam(value = "tags", required = false) Long[] tags) throws IOException, Exception {
         lk.dataByUserAndCompany(request, model);
-     
+        Boolean cross=false;
+        if(tagCrossing!=null){
+            cross=true;
+        }
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         
-        HSSFWorkbook workbook = clientService.getXls(cabinetId, uid, adress, nameCompany, name, phone, tags);
+        HSSFWorkbook workbook = clientService.getXls(cabinetId, uid, adress, nameCompany, name, phone,cross, tags);
         getXls(response, workbook);
     }
     

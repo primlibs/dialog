@@ -26,7 +26,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class ClientDao extends Dao<Client> {
-    
+
     @Autowired
     private TagDao tagDao;
 
@@ -94,7 +94,7 @@ public class ClientDao extends Dao<Client> {
         return elist;
     }
 
-    public List<Client> getClientsBySearchRequest(Long pkId, String uid, String adress, String nameCompany, String name, String phone,Long[] tagIds) {
+    public List<Client> getClientsBySearchRequest(Long pkId, String uid, String adress, String nameCompany, String name, String phone, Boolean tagCrossing, Long[] tagIds) {
         List<Client> result = new ArrayList();
         HashMap<String, Object> paramMap = new HashMap();
         paramMap.put("pkId", pkId);
@@ -123,28 +123,44 @@ public class ClientDao extends Dao<Client> {
         for (Map.Entry<String, Object> entry : paramMap.entrySet()) {
             query.setParameter(entry.getKey(), entry.getValue());
         }
-        
+
         //TO DO: remove this pron
-        result=query.list();
-        if(tagIds!=null&&tagIds.length>0){
-        ArrayList<Long> tagIdList = new ArrayList();
+        result = query.list();
+        if (tagIds != null && tagIds.length > 0) {
+            ArrayList<Long> tagIdList = new ArrayList();
             List<Client> resWithTags = new ArrayList();
-            for(Long tagId:tagIds){
+
+            for (Long tagId : tagIds) {
                 Tag tag = tagDao.find(tagId);
                 tagIdList.add(tag.getTagId());
             }
-            for(Client client:result){
-                List<Long>subList=new ArrayList();
-                for(ClientTagLink ctl:client.getTagLinks()){
-                    if(tagIdList.contains(ctl.getTag().getTagId())){
-                        subList.add(ctl.getTag().getTagId());
+            if (tagCrossing) {
+                for (Client client : result) {
+                    List<Long> subList = new ArrayList();
+                    for (ClientTagLink ctl : client.getTagLinks()) {
+                        if (tagIdList.contains(ctl.getTag().getTagId())) {
+                            subList.add(ctl.getTag().getTagId());
+                        }
+                    }
+                    if (subList.size() == tagIdList.size()) {
+                        resWithTags.add(client);
                     }
                 }
-                if(subList.size()==tagIdList.size()){
-                    resWithTags.add(client);
+            } else {
+                for (Client client : result) {
+                    List<Long> subList = new ArrayList();
+                    for (ClientTagLink ctl : client.getTagLinks()) {
+                        if (tagIdList.contains(ctl.getTag().getTagId())) {
+                            subList.add(ctl.getTag().getTagId());
+                        }
+                    }
+                    if (subList.size()>0) {
+                        resWithTags.add(client);
+                    }
                 }
             }
             return resWithTags;
+
         }
         return result;
     }

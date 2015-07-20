@@ -18,11 +18,11 @@
 
     <div class="row "><h3>Клиенты</h3>
 
-      <c:set var="selectSize" value="${tags.size()}"/>
-      <c:if test="${tags.size()>5}">
+      <c:set var="selectSize" value="${tagMap.size()}"/>
+      <c:if test="${tagMap.size()>5}">
           <c:set var="selectSize" value="5"/>
       </c:if>
-      <c:if test="${tags.size()==0}">
+      <c:if test="${tagMap.size()==0}">
           <c:set var="selectSize" value="1"/>
       </c:if>
 
@@ -33,16 +33,16 @@
           <input type="text" class="form-control" style="width: 170px;" name="adress" id="adressInput" placeholder="Адрес" value="${adress}">
           <input type="text" class="form-control" style="width: 170px;" name="name" id="nameInput" placeholder="Контактное лицо" value="${name}">
           <input type="text" class="form-control" style="width: 170px;" name="phone" id="phoneInput" placeholder="Телефон" value="${phone}">
-          <c:if test="${not empty tags}">
+          <c:if test="${not empty tagMap}">
               <select style="vertical-align: middle;width: 170px;" size="${selectSize}" multiple="multiple" class="form-control" name="tagIds">
-                <c:forEach var="tag" items="${tags}">
-                    <option value="${tag.tagId}">${tag.name}</option>
+                <c:forEach var="tagEntry" items="${tagMap.entrySet()}">
+                    <option value="${tagEntry.getKey()}" <c:if test="${not empty selectedTagsMap.get(tagEntry.getKey())}">selected</c:if>>${tagEntry.getValue().name}</option>
                 </c:forEach>
               </select>
           </c:if>
           <input type="submit" name="submit"  class="btn btn-primary" value="Поиск"><br>
           <label  style="float: left;">
-            <input id="tagCrossing" name="tagCrossing" type="checkbox"> Искать пересечение тэгов
+              <input id="tagCrossing" name="tagCrossing" value="tagCrossing" <c:if test="${not empty tagCrossing}">checked</c:if> type="checkbox"> Искать пересечение тэгов
         </label>
         </form>
           <br>
@@ -52,8 +52,9 @@
           <input type="hidden"  name="adress"  value="${adress}">
           <input type="hidden"  name="name"  value="${name}">
           <input type="hidden"  name="phone" value="${phone}">
-          <c:if test="${not empty selectedTags}">
-                <c:forEach var="tagId" items="${selectedTags}">
+          <input type="hidden"  name="tagCrossing" value="${tagCrossing}">
+          <c:if test="${not empty selectedTagsMap}">
+                <c:forEach var="tagId" items="${selectedTagsMap.keySet()}">
                     <input type="hidden" name="tags" value="${tagId}" >
                 </c:forEach>
           </c:if>

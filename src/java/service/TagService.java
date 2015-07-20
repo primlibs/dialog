@@ -15,6 +15,7 @@ import entities.ClientTagLink;
 import entities.Tag;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -43,6 +44,14 @@ public class TagService extends PrimService {
     
     public List<Tag> getAllActiveTags(Long pkId){
         return tagDao.getAllTags(pkId);
+    }
+    
+    public LinkedHashMap<Long,Tag> getAllActiveTagsMap(Long pkId){
+        LinkedHashMap<Long,Tag>res=new LinkedHashMap();
+        for(Tag tag:getAllActiveTags(pkId)){
+            res.put(tag.getId(),tag);
+        }
+        return res;
     }
     
     public boolean create(String name,Long pkId){
