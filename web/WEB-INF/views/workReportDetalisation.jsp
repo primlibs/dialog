@@ -25,7 +25,7 @@
                     <th>Телефон Л.П.Р.</th>
                     <th>Адрес</th>
                     <th>Пользователь</th>
-                    <th>Причина</th>
+                    <th>Статус</th>
                 </tr>
                 <c:forEach var="event" items="${events}" varStatus="myIndex">
                     <tr style="cursor: pointer;" ondblclick="location = '<c:url value="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}"/>'" class="active">
@@ -38,7 +38,7 @@
                         <td>${event.client.getFormattedPhoneLpr()}</td>  
                         <td>${event.client.address}</td>
                         <td>${event.user.getShortName()}</td>
-                        <td>${event.failReason.name}</td>
+                        <td>${event.getRusStatus()}</td>
                     </tr>
                 </c:forEach>
             </table>

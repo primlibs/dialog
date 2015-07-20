@@ -103,6 +103,7 @@
             <c:set var="assignedProcessedSuccessEventsCount" value="0" />
             <c:set var="assignedProcessedFailedEventsCount" value="0" />
             <c:forEach var="cabinetUser"  items="${participatedCUsers}" >
+                
                 <tr>
                     <td>${cabinetUser.user.surname} ${cabinetUser.user.name} </td>
                     <c:if test="${number== 1}">
@@ -183,8 +184,10 @@
                     <th> Модуль </th>
                     <th> Отрицательные исходы(%*) </th></tr>
                         <c:forEach var="entry" items="${moduleReportData.entrySet()}">
+                            
                     <tr style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/moduleReportDetalisation?campaignId=${campaign.campaignId}&moduleId=${entry.getKey().moduleId}"/>'"><td>${entry.getKey().getModuleName()}</td>
                         <td>${entry.getValue()}</td></tr>
+                    
                     </c:forEach>
             </table>
         </c:if>
@@ -219,12 +222,19 @@
                     <th>Не успешно</th>
                     <th>Успешно</th>
                         <c:forEach var="entry" items="${workReportData.entrySet()}">
-                        <tr style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&"/>'">
-                            <td>${entry.getKey()}</td>
-                            <td>${entry.getValue().get("postponed")}</td>
-                            <td>${entry.getValue().get("failed")}</td>
-                            <td>${entry.getValue().get("successful")}</td></tr>
+                        <c:if test="${not empty entry.getKey()}">
+                        <tr >
+                            <td>${entry.getKey().getShortName()}</td>
+                            <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&userId=${entry.getKey().getId()}&dateFrom=${dateFrom}&dateTo=${dateTo}&status=1"/>'">${entry.getValue().get("postponed")}</td>
+                            <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&userId=${entry.getKey().getId()}&dateFrom=${dateFrom}&dateTo=${dateTo}&status=4"/>'">${entry.getValue().get("failed")}</td>
+                            <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&userId=${entry.getKey().getId()}&dateFrom=${dateFrom}&dateTo=${dateTo}&status=5"/>'">${entry.getValue().get("successful")}</td></tr>
+                        </c:if>
                         </c:forEach>
+                        <tr >
+                        <td>Итого:</td>
+                            <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&userId=&dateFrom=${dateFrom}&dateTo=${dateTo}&status=1"/>'">${workReportData.get(null).get("postponed")}</td>
+                            <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&userId=&dateFrom=${dateFrom}&dateTo=${dateTo}&status=4"/>'">${workReportData.get(null).get("failed")}</td>
+                            <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&userId=&dateFrom=${dateFrom}&dateTo=${dateTo}&status=5"/>'">${workReportData.get(null).get("successful")}</td></tr>
                 </table>
             </div>
         </c:if>
