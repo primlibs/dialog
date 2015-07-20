@@ -6,7 +6,10 @@ $(function(){
         });
         $('#moduleReportTumblr').on('click',function(){
             $('#moduleReport').toggleClass('hidden');
-        })
+        });
+        $('#failReasonReportTumblr').on('click',function(){
+            $('#failReasonReport').toggleClass('hidden');
+        });
         $('#workReportTumblr').on('click',function(){
             $('#workReport').toggleClass('hidden');
             var wrclass = $('#workReport').attr('class')

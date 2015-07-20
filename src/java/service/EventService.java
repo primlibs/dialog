@@ -299,7 +299,9 @@ public class EventService extends PrimService {
         if (noContactList.isEmpty() && noUniqueIdList.isEmpty() && doubleUniqsInfo.equals("")) {
             for (Client cl : clientsListForSave) {
                 clientDao.save(cl);
-                tagService.addTagToClient(cl.getId(),tagIds);
+                if(tagIds!=null&&tagIds.length>0){
+                    tagService.addTagToClient(cl.getId(),tagIds);
+                }
                 ClientsToCreateEventsList.add(cl);
             }
             for (Client cl : ClientsToCreateEventsList) {

@@ -164,6 +164,7 @@ public class EventController extends WebController {
         
         model.put("moduleReportData",reportService.getDataByModules(campaignId,cabinetId));
         model.put("workReportData",reportService.getDataForWorkReport(cabinetId,campaignId,dateFrom,dateTo));
+        model.put("failReasonReportData",reportService.getDataForFailReasonReport(campaignId,cabinetId));
         if(dateFrom==null){
             dateFrom=campaign.getCreationDate();
         }

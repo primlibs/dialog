@@ -287,7 +287,7 @@ public class ReportService extends PrimService {
         return res;
     }
     
-    public void getDataForFailReasonReport(Long campaignId,Long pkId){
+    public LinkedHashMap<FailReason,String> getDataForFailReasonReport(Long campaignId,Long pkId){
         List<Object[]>rawFRRData=failReasonDao.getDataForFailReasonReport(campaignId, pkId);
         List<BigDecimal[]>listForSort=new ArrayList();
         LinkedHashMap<FailReason,String> res = new LinkedHashMap();
@@ -331,10 +331,11 @@ public class ReportService extends PrimService {
                     res.put(fr, "0(0%)");
                 }
             }
+            res.put(null,sum+"(100%)");
         }else{
             addError("Не удалось найти кампанию с ИД:"+campaignId);
         }
-        
+        return res;
     }
     
     public List<Event> getDataForWorkDetalisation(Integer status,Date dateFrom,Date dateTo,Long userId,Long campaignId,Long pkId){

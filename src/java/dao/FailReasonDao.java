@@ -43,7 +43,7 @@ public class FailReasonDao extends Dao<FailReason> {
     }
 
     public List<Object[]> getDataForFailReasonReport(Long campaignId, Long pkId) {
-        String sql = "select ev.fail_reason_id,count(ev.event_id) from event ev where ev.personal_cabinet_id=:pkId and ev.campaign_id=:campaignId group by ev.fail_reason";
+        String sql = "select fail_reason_id,count(event_id) from event where personal_cabinet_id=:pkId and campaign_id=:campaignId group by fail_reason_id";
         Query query = getCurrentSession().createSQLQuery(sql);
         query.setParameter("campaignId", campaignId);
         query.setParameter("pkId", pkId);

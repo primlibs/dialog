@@ -123,7 +123,7 @@ public class TagService extends PrimService {
     public boolean addTagToClient(Long clientId,Long[] tagIds){
         List<ClientTagLink> listForSave = new ArrayList();
         Client client = clientDao.find(clientId);
-        if(!(tagIds.length==1&&tagIds[0]==(long)0)){
+        if(tagIds!=null&&!(tagIds.length==1&&tagIds[0]==(long)0)){
             for(Long tagId:tagIds){
                 ClientTagLink ctl = new ClientTagLink();
                 Tag tag = tagDao.find(tagId);
