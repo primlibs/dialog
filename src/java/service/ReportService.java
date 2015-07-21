@@ -322,7 +322,7 @@ public class ReportService extends PrimService {
                     BigDecimal id = arr[0];
                     BigDecimal count = arr[1];
                     FailReason fr = frMap.get(id.longValue());
-                    res.put(fr, count.toString()+"("+count.divide(sum, 2, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100))+"%)");
+                    res.put(fr, count.toString()+"("+count.multiply(BigDecimal.valueOf(100).divide(sum, 2, RoundingMode.HALF_UP))+"%)");
                 }
             }else{
                 for(BigDecimal[] arr:listForSort){
