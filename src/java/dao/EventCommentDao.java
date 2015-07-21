@@ -32,7 +32,7 @@ public class EventCommentDao extends Dao<EventComment> {
     public List<Object[]> getUserIdPostponesCount(Campaign campaign, Date dateFrom, Date dateTo, Long pkId) {
         HashMap<String, Object> paramMap = new HashMap();
         //
-        String sql = "select user_id,count(*) from (select * from event_comment where type=:postponed and campaign_id=:campaignId and personal_cabinet_id=:pkId";
+        /*String sql = "select user_id,count(*) from (select * from event_comment where type=:postponed and campaign_id=:campaignId and personal_cabinet_id=:pkId";
         if (dateFrom != null) {
             sql += " and insert_date>=:dateFrom";
             paramMap.put("dateFrom", DateAdapter.getDateFromString(DateAdapter.getDateInMysql(dateFrom)));
@@ -41,7 +41,19 @@ public class EventCommentDao extends Dao<EventComment> {
             sql += " and insert_date<=:dateTo";
             paramMap.put("dateTo", DateAdapter.getDateFromString(DateAdapter.getDateInMysql(dateTo)));
         }
-        sql += " group by event_id,DATE_FORMAT(insert_date,'%Y-%m-%d'),user_id) supsel group by user_id";
+        sql += " group by event_id,DATE_FORMAT(insert_date,'%Y-%m-%d'),user_id) supsel group by user_id";*/
+        
+        String sql = "select user_id,count(distinct event_id) from event_comment where type=:postponed and campaign_id=:campaignId and personal_cabinet_id=:pkId";
+        if (dateFrom != null) {
+            sql += " and insert_date>=:dateFrom";
+            paramMap.put("dateFrom", DateAdapter.getDateFromString(DateAdapter.getDateInMysql(dateFrom)));
+        }
+        if (dateTo != null) {
+            sql += " and insert_date<=:dateTo";
+            paramMap.put("dateTo", DateAdapter.getDateFromString(DateAdapter.getDateInMysql(dateTo)));
+        }
+        sql += " group by user_id";
+        
         Query query = getCurrentSession().createSQLQuery(sql);
         query.setParameter("campaignId", campaign.getCampaignId());
         query.setParameter("pkId", pkId);
@@ -54,7 +66,7 @@ public class EventCommentDao extends Dao<EventComment> {
 
     public List<Object[]> getUserIdSuccessfulCount(Campaign campaign, Date dateFrom, Date dateTo, Long pkId) {
         HashMap<String, Object> paramMap = new HashMap();
-        String sql = "select user_id,count(*) from event_comment where type=:successful and campaign_id=:campaignId and personal_cabinet_id=:pkId";
+        String sql = "select user_id,count(distinct event_id) from event_comment where type=:successful and campaign_id=:campaignId and personal_cabinet_id=:pkId";
         if (dateFrom != null) {
             sql += " and insert_date>=:dateFrom";
             paramMap.put("dateFrom", DateAdapter.getDateFromString(DateAdapter.getDateInMysql(dateFrom)));
@@ -76,7 +88,7 @@ public class EventCommentDao extends Dao<EventComment> {
 
     public List<Object[]> getUserIdFailedCount(Campaign campaign, Date dateFrom, Date dateTo, Long pkId) {
         HashMap<String, Object> paramMap = new HashMap();
-        String sql = "select user_id,count(*) from event_comment where type=:failed and campaign_id=:campaignId and personal_cabinet_id=:pkId";
+        String sql = "select user_id,count(distinct event_id) from event_comment where type=:failed and campaign_id=:campaignId and personal_cabinet_id=:pkId";
         if (dateFrom != null) {
             sql += " and insert_date>=:dateFrom";
             paramMap.put("dateFrom", DateAdapter.getDateFromString(DateAdapter.getDateInMysql(dateFrom)));
@@ -109,6 +121,7 @@ public class EventCommentDao extends Dao<EventComment> {
         } else {
             hql += " and (ec.type=4 or ec.type=5 or ec.type=1)";
         }
+        hql+= " order by ec.event.setStatusDate";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
         query.setParameter("pkId", pkId);
