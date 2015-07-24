@@ -54,7 +54,7 @@ public class LkController extends WebController{
     }
 
     @RequestMapping(value = {"/selectLk"})
-    public String selectPersonalCabinetId(HttpServletRequest request,  Map<String, Object> model, Long pkId) throws UnsupportedEncodingException {
+    public String selectPersonalCabinetId(HttpServletRequest request,  Map<String, Object> model,@RequestParam(value = "personalCabinetId") Long pkId) throws UnsupportedEncodingException {
         User user = authManager.getCurrentUser();
       
         String role = service.getUserRole(user.getId(), pkId);

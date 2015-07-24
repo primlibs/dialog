@@ -28,11 +28,10 @@ public class CabinetUserDao extends Dao<CabinetUser> {
     }
 
     public List<CabinetUser> getCabinetUserChoice(User user) {
-        String hql = "from CabinetUser as cu where cu.user=:user and cu.deleteDate is null";
+        String hql = "from CabinetUser cu where cu.user=:user and cu.deleteDate is null";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("user", user);
         return query.list();
-
     }
 
     public List<CabinetUser> getByUserAndCabinet(Long userId, Long pkId) {

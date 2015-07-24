@@ -225,16 +225,16 @@ public class EventService extends PrimService {
         return workbook;
     }
 
-    public void readXls(MultipartFile fileXls,Long[]tagIds, Long cabinetId, Long campaignId, Boolean update) throws Exception {
+    public void readXls(MultipartFile fileXls,Long[]tagIds, Long pkId, Long campaignId, Boolean update) throws Exception {
         List<Client> clientsListForSave = new ArrayList();
         List<Event> eventsListForSave = new ArrayList();
         List<Client> noContactList = new ArrayList();
         List<Integer> noUniqueIdList = new ArrayList();
         Boolean newClient = false;
-        PersonalCabinet pk = personalCabinetDao.find(cabinetId);
+        PersonalCabinet pk = personalCabinetDao.find(pkId);
         List<Client> pkList = pk.getClientList();
         Campaign campaign = campaignDao.find(campaignId);
-        List<String> uniqs = campaignDao.getUniqs(campaignId, cabinetId);
+        List<String> uniqs = campaignDao.getUniqs(campaignId, pkId);
         String doubleUniqsInfo = "";
         HashSet<Long> addedClientIds = new HashSet();
         for (Event ev : campaign.getEvents()) {
@@ -255,7 +255,7 @@ public class EventService extends PrimService {
                 rowCount++;
                 Row rw = it.next();
                 if (!(StringAdapter.getString(rw.getCell(0))).trim().equals("Номер уникальный")) {
-                    Client cl = clientDao.getClientByUniqueIdInLk(StringAdapter.HSSFSellValue(rw.getCell(0)), cabinetId);
+                    Client cl = clientDao.getClientByUniqueIdInLk(StringAdapter.HSSFSellValue(rw.getCell(0)), pkId);
                     if (cl == null) {
                         cl = new Client();
                         newClient = true;
@@ -314,7 +314,7 @@ public class EventService extends PrimService {
                     event.setStatus(Event.UNASSIGNED);
                     if (validate(event)) {
                         eventDao.save(event);
-                        addEventComment("Звонок добавлен "+new Date().toString(),EventComment.CREATE,event,cabinetId);
+                        addEventComment("Звонок добавлен "+new Date().toString(),EventComment.CREATE,event,pkId);
                     }
                 }
             }
