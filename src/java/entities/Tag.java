@@ -9,6 +9,7 @@ package entities;
 import entities.parent.PrimEntity;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,6 +17,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -49,13 +52,16 @@ public class Tag extends PrimEntity {
     @NotBlank(message = "Необходимо указать наименование тэга")
     private String name;
     
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "client_tags",
+            joinColumns = @JoinColumn(name = "tag_id"),
+            inverseJoinColumns = @JoinColumn(name = "client_id"))
+    private Set<Client> clients;
+    
     @Column(name = "delete_date")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date deleteDate;
-    
-    @LazyCollection(LazyCollectionOption.TRUE)
-    @OneToMany(mappedBy = "tag")
-    private List<ClientTagLink> clientLinks;
     
     @Override
     public Long getId() {
@@ -78,14 +84,6 @@ public class Tag extends PrimEntity {
         this.name = name;
     }
 
-    public List<ClientTagLink> getClientLinks() {
-        return clientLinks;
-    }
-
-    public void setClientLinks(List<ClientTagLink> clientLinks) {
-        this.clientLinks = clientLinks;
-    }
-
     public PersonalCabinet getCabinet() {
         return cabinet;
     }
@@ -101,7 +99,13 @@ public class Tag extends PrimEntity {
     public void setDeleteDate(Date deleteDate) {
         this.deleteDate = deleteDate;
     }
-    
-    
+
+    public Set<Client> getClients() {
+        return clients;
+    }
+
+    public void setClients(Set<Client> clients) {
+        this.clients = clients;
+    }
     
 }

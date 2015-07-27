@@ -308,7 +308,7 @@ public class EventService extends PrimService {
             for (Client cl : clientsListForSave) {
                 clientDao.save(cl);
                 if(tagIds!=null&&tagIds.length>0){
-                    tagService.addTagToClient(cl.getId(),tagIds,pkId);
+                    tagService.addTagsToClient(cl.getId(),tagIds,pkId);
                 }
                 ClientsToCreateEventsList.add(cl);
             }

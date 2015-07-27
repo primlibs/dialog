@@ -26,10 +26,14 @@ import service.TagService;
 public class TagController extends WebController {
     
     @Autowired
+    private LkController lk;
+    
+    @Autowired
     private TagService tagService;
     
     @RequestMapping("/show")
     public String showTags(Map<String, Object> model,HttpServletRequest request) throws Exception {
+        lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         
         model.put("tags",tagService.getAllActiveTags(cabinetId));
@@ -39,6 +43,7 @@ public class TagController extends WebController {
     
     @RequestMapping("/create")
     public String createTag(Map<String, Object> model,HttpServletRequest request,@RequestParam(value = "name") String name,RedirectAttributes ras) throws Exception {
+        lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         tagService.create(name, cabinetId);
         ras.addFlashAttribute("errors", tagService.getErrors());
@@ -48,6 +53,7 @@ public class TagController extends WebController {
     
     @RequestMapping("/delete")
     public String deleteTag(Map<String, Object> model,HttpServletRequest request,@RequestParam(value = "tagId") Long tagId,@RequestParam(value = "deleteLinks",required = false) Boolean deleteLinks,RedirectAttributes ras) throws Exception {
+        lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         if(deleteLinks==null){
             deleteLinks=false;

@@ -8,7 +8,6 @@ package dao;
 import dao.parent.Dao;
 import entities.Client;
 import entities.Campaign;
-import entities.ClientTagLink;
 import entities.Event;
 import entities.PersonalCabinet;
 import entities.Tag;
@@ -123,10 +122,12 @@ public class ClientDao extends Dao<Client> {
         for (Map.Entry<String, Object> entry : paramMap.entrySet()) {
             query.setParameter(entry.getKey(), entry.getValue());
         }
+        
+        
 
         //TO DO: remove this pron
         result = query.list();
-        if (tagIds != null && tagIds.length > 0) {
+        /*if (tagIds != null && tagIds.length > 0) {
             ArrayList<Long> tagIdList = new ArrayList();
             List<Client> resWithTags = new ArrayList();
 
@@ -161,7 +162,7 @@ public class ClientDao extends Dao<Client> {
             }
             return resWithTags;
 
-        }
+        }*/
         return result;
     }
     

@@ -33,8 +33,8 @@
                 <tr><td>Телефон: </td><td class="changebleParam" data-method="updateclient" data-clientid="${client.clientId}" name="phoneLpr_${client.clientId}" data-parametr="phoneLpr">${client.getFormattedPhoneLpr()}</td></tr>
                 <tr><td>Адрес: </td><td class="changebleParam" data-method="updateclient" data-clientid="${client.clientId}" name="address_${client.clientId}" data-parametr="address">${client.address}</td></tr>
                 <tr><td>Тэги: </td><td>
-                        <c:forEach var="ctl" items="${client.tagLinks}">
-                            <div title='Удалить' class="tag" ondblclick="location = '<c:url value="/Client/deleteTag?ctlId=${ctl.linkId}&eventId=${event.eventId}&clientId=${client.clientId}"/>'">${ctl.tag.name}</div>
+                        <c:forEach var="tag" items="${client.tags}">
+                            <div title='Удалить' class="tag" ondblclick="location = '<c:url value="/Client/deleteTag?tagId=${tag.tagId}&eventId=${event.eventId}&clientId=${client.clientId}"/>'">${tag.name}</div>
                         </c:forEach>
                     </td></tr>
 

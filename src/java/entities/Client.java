@@ -7,6 +7,7 @@ package entities;
 
 import entities.parent.PrimEntity;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,6 +15,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -64,9 +67,16 @@ public class Client extends PrimEntity {
     @OneToMany(mappedBy = "client")
     private List<Event> events;
 
-    @LazyCollection(LazyCollectionOption.TRUE)
+    /*@LazyCollection(LazyCollectionOption.TRUE)
     @OneToMany(mappedBy = "client")
-    private List<ClientTagLink> tagLinks;
+    private List<ClientTagLink> tagLinks;*/
+    
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "client_tags",
+            joinColumns = @JoinColumn(name = "client_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private Set<Tag> tags;
 
     @Column(name = "unique_id")
     @NotNull
@@ -160,12 +170,12 @@ public class Client extends PrimEntity {
         this.uniqueId = uniqueId;
     }
 
-    public List<ClientTagLink> getTagLinks() {
-        return tagLinks;
+    public Set<Tag> getTags() {
+        return tags;
     }
 
-    public void setTagLinks(List<ClientTagLink> tagLinks) {
-        this.tagLinks = tagLinks;
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
     }
     
     public String getFormattedPhoneLpr(){

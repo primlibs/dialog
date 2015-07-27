@@ -140,7 +140,7 @@ public class ClientController extends WebController {
             errors=new ArrayList();
         }
         if(tagIds!=null&&tagIds.length!=0){
-            tagService.addTagToClient(clientId, tagIds, cabinetId);
+            tagService.addTagsToClient(clientId, tagIds, cabinetId);
         }else{
             errors.add("Нужно выбрать хотябы один тэг");
         }
@@ -154,12 +154,16 @@ public class ClientController extends WebController {
     }
     
     @RequestMapping("/deleteTag")
-    public String deleteTagFromClient(Map<String, Object> model,@RequestParam(value = "clientId") Long clientId,@RequestParam(value = "ctlId", required = false) Long ctlId,@RequestParam(value = "eventId", required = false) Long eventId, HttpServletRequest request,RedirectAttributes ras) throws Exception {
+    public String deleteTagFromClient(Map<String, Object> model,@RequestParam(value = "clientId") Long clientId,@RequestParam(value = "tagId", required = false) Long tagId,@RequestParam(value = "eventId", required = false) Long eventId, HttpServletRequest request,RedirectAttributes ras) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+     
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        
         List<String> errors = (List<String>)model.get("errors");
         if(errors==null){
             errors=new ArrayList();
         }
-        tagService.deleteClientTagLink(ctlId);
+        tagService.deleteClientTag(clientId,tagId,cabinetId);
         errors.addAll(tagService.getErrors());
         
         model.put("errors",errors);

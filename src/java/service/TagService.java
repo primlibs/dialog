@@ -3,21 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package service;
 
 import dao.ClientDao;
-import dao.ClientTagLinkDao;
 import dao.PersonalCabinetDao;
 import dao.TagDao;
 import entities.Client;
-import entities.ClientTagLink;
 import entities.Tag;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -33,161 +31,203 @@ import service.parent.PrimService;
 @Transactional
 @Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class TagService extends PrimService {
-    
+
     @Autowired
     private TagDao tagDao;
     @Autowired
     private PersonalCabinetDao pkDao;
     @Autowired
-    private ClientTagLinkDao clientTagLinkDao;
-    @Autowired
     private ClientDao clientDao;
-    
-    public List<Tag> getAllActiveTags(Long pkId){
+
+    public List<Tag> getAllActiveTags(Long pkId) {
         return tagDao.getAllTags(pkId);
     }
-    
-    public LinkedHashMap<Long,Tag> getAllActiveTagsMap(Long pkId){
-        LinkedHashMap<Long,Tag>res=new LinkedHashMap();
-        for(Tag tag:getAllActiveTags(pkId)){
-            res.put(tag.getId(),tag);
+
+    public LinkedHashMap<Long, Tag> getAllActiveTagsMap(Long pkId) {
+        LinkedHashMap<Long, Tag> res = new LinkedHashMap();
+        for (Tag tag : getAllActiveTags(pkId)) {
+            res.put(tag.getId(), tag);
         }
         return res;
     }
-    
-    public boolean create(String name,Long pkId){
+
+    public boolean create(String name, Long pkId) {
         List<Tag> tags = tagDao.getAllTags(pkId);
-        Tag supTag=null;
+        Tag supTag = null;
         boolean unique = true;
         boolean deleted = false;
-        for(Tag tag:tags){
-            if(tag.getName().equalsIgnoreCase(name)){
+        for (Tag tag : tags) {
+            if (tag.getName().equalsIgnoreCase(name)) {
                 unique = false;
                 supTag = tag;
-                if(tag.getDeleteDate()!=null){
+                if (tag.getDeleteDate() != null) {
                     deleted = true;
                 }
             }
         }
-        if(unique){
+        if (unique) {
             Tag tag = new Tag();
             tag.setCabinet(pkDao.find(pkId));
             tag.setName(name);
-            if(validate(tag)){
+            if (validate(tag)) {
                 tagDao.save(tag);
                 return true;
             }
-        }else{
-            if(deleted&&supTag!=null){
+        } else {
+            if (deleted && supTag != null) {
                 supTag.setDeleteDate(null);
                 supTag.setName(name);
-                if(validate(supTag)){
+                if (validate(supTag)) {
                     tagDao.update(supTag);
                     return true;
                 }
-            }else{
+            } else {
                 addError("Такой тэг уже есть");
                 return false;
             }
         }
         return false;
     }
-    
-    public void delete(Long tagId,boolean deleteLinks){
-        Tag tag = tagDao.find(tagId);
-        if(tag!=null){
-            if(deleteLinks){
-                for(ClientTagLink ctl:tag.getClientLinks()){
-                    clientTagLinkDao.delete(ctl);
+
+    public void delete(Long tagId, boolean deleteLinks) {
+        if (tagId != null) {
+            Tag tag = tagDao.find(tagId);
+            if (tag != null) {
+                if (deleteLinks) {
+                    for (Client client : tag.getClients()) {
+                        Set<Tag> cltags = client.getTags();
+                        cltags.remove(tag);
+                        client.setTags(cltags);
+                        if (validate(client)) {
+                            clientDao.update(client);
+                        }
+                    }
                 }
+                tag.setDeleteDate(new Date());
+            } else {
+                addError("Не удалось найти тэг");
             }
-            tag.setDeleteDate(new Date());
-        }else{
-            addError("Не удалось найти тэг");
+        } else {
+            addError("Ид тэга не передан");
         }
     }
-    
-    public boolean changeName(Long tagId,String newName,Long pkId){
+
+    public boolean changeName(Long tagId, String newName, Long pkId) {
         Tag tag = tagDao.find(tagId);
-        if(tag!=null){
+        if (tag != null) {
             tag.setName(newName);
-            if(validate(tag)){
+            if (validate(tag)) {
                 tagDao.update(tag);
                 return true;
             }
-        }else{
+        } else {
             addError("Не удалось найти тэг");
         }
         return false;
     }
-    
-    public boolean isUniqueName(String name,Long pkId){
-        for(Tag tag:getAllActiveTags(pkId)){
-            if(tag.getName().equalsIgnoreCase(name)){
+
+    public boolean isUniqueName(String name, Long pkId) {
+        for (Tag tag : getAllActiveTags(pkId)) {
+            if (tag.getName().equalsIgnoreCase(name)) {
                 return false;
             }
         }
         return true;
     }
-    
-    public HashMap<Long,Tag> getAllTagsMap(Long pkId){
-        HashMap<Long,Tag>res=new HashMap();
-        for(Tag t:tagDao.getAllTags(pkId)){
+
+    public HashMap<Long, Tag> getAllTagsMap(Long pkId) {
+        HashMap<Long, Tag> res = new HashMap();
+        for (Tag t : tagDao.getAllTags(pkId)) {
             res.put(t.getId(), t);
         }
         return res;
     }
-    
-    public boolean addTagToClient(Long clientId,Long[] tagIds,Long pkId){
-        if(tagIds!=null&&!(tagIds.length==1&&tagIds[0]==(long)0)){
-            List<ClientTagLink> listForSave = new ArrayList();
-            Client client = clientDao.find(clientId);
-            HashMap<Long,Tag> allTags = getAllTagsMap(pkId);
-            HashMap<Long,Tag> clientTags = getClientTags(clientId,pkId);
-            for(Long tagId:tagIds){
-                if(!clientTags.keySet().contains(tagId)){
-                    ClientTagLink ctl = new ClientTagLink();
-                    Tag tag = tagDao.find(tagId);
-                    ctl.setClient(client);
-                    ctl.setTag(tag);
-                    if(validate(ctl)){
-                        listForSave.add(ctl);
+
+    public void addTagsToClient(Long clientId, Long[] tagIds, Long pkId) {
+        if (pkId != null) {
+            if (tagIds != null && !(tagIds.length == 1 && tagIds[0] == (long) 0)) {
+                HashMap<Long, Tag> tagMap = getAllActiveTagsMap(pkId);
+                Client client = clientDao.find(clientId);
+                Set<Tag> tags = client.getTags();
+                for (Long tagId : tagIds) {
+                    Tag tag = tagMap.get(tagId);
+                    if (tag != null) {
+                        tags.add(tag);
                     }
                 }
+                client.setTags(tags);
+                if (validate(client)) {
+                    clientDao.update(client);
+                }
             }
-            for(ClientTagLink link:listForSave){
-                clientTagLinkDao.save(link);
-            }
-            return true;
+        } else {
+            addError("Ошибка личного кабинета");
         }
-        return false;
     }
-    
-    public HashMap<Long,Tag>getClientTags(Long clientId,Long pkId){
-        HashMap<Long,Tag>res = new HashMap();
-        Client cl = clientDao.getClient(clientId,pkId);
-        for(ClientTagLink ctl:cl.getTagLinks()){
-            res.put(ctl.getTag().getId(),ctl.getTag());
+
+    /*public HashMap<Long,Tag>getClientTags(Long clientId,Long pkId){
+     HashMap<Long,Tag>res = new HashMap();
+     Client cl = clientDao.getClient(clientId,pkId);
+     for(ClientTagLink ctl:cl.getTagLinks()){
+     res.put(ctl.getTag().getId(),ctl.getTag());
+     }
+     return res;
+     }*/
+    /*public boolean deleteClientTagLink(Long ctlId){
+     ClientTagLink ctl = clientTagLinkDao.find(ctlId);
+     if(ctl!=null){
+     clientTagLinkDao.delete(ctl);
+     return true;
+     }
+     addError("Связь Тэга с клиентом не найдена");
+     return false;
+     }*/
+    public void deleteClientTag(Long clientId, Long tagId, Long pkId) {
+        if (pkId != null) {
+            if (clientId != null) {
+                Client c = clientDao.find(clientId);
+                if (tagId != null) {
+                    Tag t = tagDao.find(tagId);
+                    Set<Tag> tags = c.getTags();
+                    tags.remove(t);
+                    c.setTags(tags);
+                    if (validate(c)) {
+                        clientDao.update(c);
+                    }
+                } else {
+                    addError("Ид тэга не передан");
+                }
+            } else {
+                addError("Ид клиента не передан");
+            }
+        } else {
+            addError("Ошибка личного кабинета");
+        }
+    }
+
+    public List<Tag> getNotLinkedTags(Long clientId, Long pkId) {
+        List<Tag> res = new ArrayList();
+        if (pkId != null) {
+            if (clientId != null) {
+                List<Tag> allTags = tagDao.getAllTags(pkId);
+                Client c = clientDao.find(clientId);
+                Set<Tag> ctags = c.getTags();
+                for (Tag t : allTags) {
+                    if (!ctags.contains(t)) {
+                        res.add(t);
+                    }
+                }
+            } else {
+                addError("Ид клиента не передан");
+            }
+        } else {
+            addError("Ошибка личного кабинета");
         }
         return res;
     }
-    
-    public boolean deleteClientTagLink(Long ctlId){
-        ClientTagLink ctl = clientTagLinkDao.find(ctlId);
-        if(ctl!=null){
-            clientTagLinkDao.delete(ctl);
-            return true;
-        }
-        addError("Связь Тэга с клиентом не найдена");
-        return false;
-    }
-    
-    public List<Tag> getNotLinkedTags(Long ClientId,Long pkId){
-        return clientTagLinkDao.getNotLinkedTags(ClientId,pkId);
-    }
-    
-    public List<Tag> getDeletedTags(Long pkId){
+
+    public List<Tag> getDeletedTags(Long pkId) {
         return tagDao.getDeletedTags(pkId);
     }
-    
+
 }
