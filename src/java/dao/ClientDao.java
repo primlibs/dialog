@@ -164,5 +164,13 @@ public class ClientDao extends Dao<Client> {
         }
         return result;
     }
+    
+    public Client getClient(Long clientId,Long pkId){
+        String hql = "from Client where client.clientId=:clientId and client.cabinet.pkId=:pkId";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("clientId", clientId);
+        query.setParameter("pkId", pkId);
+        return (Client) query.uniqueResult();
+    }
 
 }

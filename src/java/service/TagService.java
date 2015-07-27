@@ -15,6 +15,7 @@ import entities.ClientTagLink;
 import entities.Tag;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,17 +130,29 @@ public class TagService extends PrimService {
         return true;
     }
     
-    public boolean addTagToClient(Long clientId,Long[] tagIds){
-        List<ClientTagLink> listForSave = new ArrayList();
-        Client client = clientDao.find(clientId);
+    public HashMap<Long,Tag> getAllTagsMap(Long pkId){
+        HashMap<Long,Tag>res=new HashMap();
+        for(Tag t:tagDao.getAllTags(pkId)){
+            res.put(t.getId(), t);
+        }
+        return res;
+    }
+    
+    public boolean addTagToClient(Long clientId,Long[] tagIds,Long pkId){
         if(tagIds!=null&&!(tagIds.length==1&&tagIds[0]==(long)0)){
+            List<ClientTagLink> listForSave = new ArrayList();
+            Client client = clientDao.find(clientId);
+            HashMap<Long,Tag> allTags = getAllTagsMap(pkId);
+            HashMap<Long,Tag> clientTags = getClientTags(clientId,pkId);
             for(Long tagId:tagIds){
-                ClientTagLink ctl = new ClientTagLink();
-                Tag tag = tagDao.find(tagId);
-                ctl.setClient(client);
-                ctl.setTag(tag);
-                if(validate(ctl)){
-                    listForSave.add(ctl);
+                if(!clientTags.keySet().contains(tagId)){
+                    ClientTagLink ctl = new ClientTagLink();
+                    Tag tag = tagDao.find(tagId);
+                    ctl.setClient(client);
+                    ctl.setTag(tag);
+                    if(validate(ctl)){
+                        listForSave.add(ctl);
+                    }
                 }
             }
             for(ClientTagLink link:listForSave){
@@ -148,6 +161,15 @@ public class TagService extends PrimService {
             return true;
         }
         return false;
+    }
+    
+    public HashMap<Long,Tag>getClientTags(Long clientId,Long pkId){
+        HashMap<Long,Tag>res = new HashMap();
+        Client cl = clientDao.getClient(clientId,pkId);
+        for(ClientTagLink ctl:cl.getTagLinks()){
+            res.put(ctl.getTag().getId(),ctl.getTag());
+        }
+        return res;
     }
     
     public boolean deleteClientTagLink(Long ctlId){

@@ -132,12 +132,15 @@ public class ClientController extends WebController {
     
     @RequestMapping("/addTag")
     public String addTagToClient(Map<String, Object> model,@RequestParam(value = "clientId") Long clientId,@RequestParam(value = "tags", required = false) Long[] tagIds,@RequestParam(value = "eventId", required = false) Long eventId, HttpServletRequest request,RedirectAttributes ras) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+     
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         List<String> errors = (List<String>)model.get("errors");
         if(errors==null){
             errors=new ArrayList();
         }
         if(tagIds!=null&&tagIds.length!=0){
-            tagService.addTagToClient(clientId, tagIds);
+            tagService.addTagToClient(clientId, tagIds, cabinetId);
         }else{
             errors.add("Нужно выбрать хотябы один тэг");
         }

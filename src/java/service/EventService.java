@@ -40,6 +40,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Objects;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -226,6 +227,14 @@ public class EventService extends PrimService {
     }
 
     public void readXls(MultipartFile fileXls,Long[]tagIds, Long pkId, Long campaignId, Boolean update) throws Exception {
+        Campaign campaign = campaignDao.find(campaignId);
+        List<String> uniqs = campaignDao.getUniqs(campaignId, pkId);
+        if(!Objects.equals(campaign.getStatus(), Campaign.CLOSE)){
+            
+        }else{
+            addError("Нельзя добавить клиентов в закрытую кампанию.");
+        }
+        
         List<Client> clientsListForSave = new ArrayList();
         List<Event> eventsListForSave = new ArrayList();
         List<Client> noContactList = new ArrayList();
@@ -233,8 +242,7 @@ public class EventService extends PrimService {
         Boolean newClient = false;
         PersonalCabinet pk = personalCabinetDao.find(pkId);
         List<Client> pkList = pk.getClientList();
-        Campaign campaign = campaignDao.find(campaignId);
-        List<String> uniqs = campaignDao.getUniqs(campaignId, pkId);
+        
         String doubleUniqsInfo = "";
         HashSet<Long> addedClientIds = new HashSet();
         for (Event ev : campaign.getEvents()) {
@@ -300,7 +308,7 @@ public class EventService extends PrimService {
             for (Client cl : clientsListForSave) {
                 clientDao.save(cl);
                 if(tagIds!=null&&tagIds.length>0){
-                    tagService.addTagToClient(cl.getId(),tagIds);
+                    tagService.addTagToClient(cl.getId(),tagIds,pkId);
                 }
                 ClientsToCreateEventsList.add(cl);
             }
