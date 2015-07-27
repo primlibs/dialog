@@ -98,9 +98,13 @@ public class Event extends PrimEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private FailReason failReason;
 
+    @Column(name = "unique_id")
+    @NotNull
+    @Index(name="uniqueIdIndex")
+    private String uniqueId;
+    
     @LazyCollection(LazyCollectionOption.TRUE)
     @OneToMany(mappedBy = "event")
-    
     private List<ModuleEventClient> moduleEventClientList;
 
     @Override
@@ -256,7 +260,13 @@ public class Event extends PrimEntity {
     public void setSetStatusDate(Date setStatusDate) {
         this.setStatusDate = setStatusDate;
     }
-    
-    
+
+    public String getUniqueId() {
+        return uniqueId;
+    }
+
+    public void setUniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
+    }
 
 }

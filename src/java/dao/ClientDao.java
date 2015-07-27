@@ -34,12 +34,12 @@ public class ClientDao extends Dao<Client> {
         return Client.class;
     }
 
-    public Client getClientByUniqueIdInLk(String uid, Long cabinetId) {
+    public Client getClientByUniqueIdInLk(String uid, Long pkId) {
 
-        String hql = "from Client as cu where cu.uniqueId= :uniqueId and cu.cabinet.pkId= :cabinetId ";
+        String hql = "from Client as cu where cu.uniqueId=:uniqueId and cu.cabinet.pkId=:pkId";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("uniqueId", uid);
-        query.setParameter("cabinetId", cabinetId);
+        query.setParameter("pkId", pkId);
         List<Client> clist = query.list();
         if (clist.isEmpty()) {
             return null;
@@ -48,13 +48,13 @@ public class ClientDao extends Dao<Client> {
         }
     }
 
-    public List<Client> getClientsByCampaign(PersonalCabinet pk, Campaign campaign) {
+    public List<Client> getClientsByCampaign(Long campaignId,Long pkId) {
         //   String hql = "from EventClientLink as ev where ev.event.eventId= :event and ev.cabinet.pkId= :cabinet and ev.client.clientId= :client";
         // String hql = "select ev.client  from EventClientLink as ev where ev.event= :event and ev.cabinet= :cabinet";
-        String hql = "select Client  from Event as ev where ev.campaign.campaignId= :campaignId and ev.cabinet.pkId= :cabinetId";
+        String hql = "select Client from Event as ev where ev.campaign.campaignId= :campaignId and ev.cabinet.pkId= :cabinetId";
         Query query = getCurrentSession().createQuery(hql);
-        query.setEntity("campaignId", campaign.getId());
-        query.setEntity("cabinetId", pk.getId());
+        query.setEntity("campaignId", campaignId);
+        query.setEntity("cabinetId", pkId);
         List<Client> clist = query.list();
         return clist;
     }
