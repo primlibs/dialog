@@ -10,6 +10,7 @@ import entities.parent.PrimEntity;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -52,11 +53,11 @@ public class Tag extends PrimEntity {
     @NotBlank(message = "Необходимо указать наименование тэга")
     private String name;
     
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
+    @ManyToMany(mappedBy = "tags")
+    /*@JoinTable(
             name = "client_tags",
             joinColumns = @JoinColumn(name = "tag_id"),
-            inverseJoinColumns = @JoinColumn(name = "client_id"))
+            inverseJoinColumns = @JoinColumn(name = "client_id"))*/
     private Set<Client> clients;
     
     @Column(name = "delete_date")

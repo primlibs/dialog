@@ -148,6 +148,7 @@ public class ClientController extends WebController {
         
         model.put("errors",errors);
         ras.addFlashAttribute("errors",errors);
+        ras.addFlashAttribute("message",tagService.getMessages());
         ras.addAttribute("eventId", eventId);
         ras.addAttribute("clientId", clientId);
         return "redirect:/Client/oneClient";

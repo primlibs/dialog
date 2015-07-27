@@ -40,7 +40,7 @@ public class TagService extends PrimService {
     private ClientDao clientDao;
 
     public List<Tag> getAllActiveTags(Long pkId) {
-        return tagDao.getAllTags(pkId);
+        return tagDao.getAllActiveTags(pkId);
     }
 
     public LinkedHashMap<Long, Tag> getAllActiveTagsMap(Long pkId) {
@@ -52,7 +52,7 @@ public class TagService extends PrimService {
     }
 
     public boolean create(String name, Long pkId) {
-        List<Tag> tags = tagDao.getAllTags(pkId);
+        List<Tag> tags = tagDao.getAllActiveTags(pkId);
         Tag supTag = null;
         boolean unique = true;
         boolean deleted = false;
@@ -100,6 +100,7 @@ public class TagService extends PrimService {
                         client.setTags(cltags);
                         if (validate(client)) {
                             clientDao.update(client);
+                            addError(client.getNameCompany());
                         }
                     }
                 }
@@ -133,14 +134,6 @@ public class TagService extends PrimService {
             }
         }
         return true;
-    }
-
-    public HashMap<Long, Tag> getAllTagsMap(Long pkId) {
-        HashMap<Long, Tag> res = new HashMap();
-        for (Tag t : tagDao.getAllTags(pkId)) {
-            res.put(t.getId(), t);
-        }
-        return res;
     }
 
     public void addTagsToClient(Long clientId, Long[] tagIds, Long pkId) {
@@ -209,7 +202,7 @@ public class TagService extends PrimService {
         List<Tag> res = new ArrayList();
         if (pkId != null) {
             if (clientId != null) {
-                List<Tag> allTags = tagDao.getAllTags(pkId);
+                List<Tag> allTags = tagDao.getAllActiveTags(pkId);
                 Client c = clientDao.find(clientId);
                 Set<Tag> ctags = c.getTags();
                 for (Tag t : allTags) {

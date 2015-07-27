@@ -8,7 +8,9 @@ package entities;
 import entities.parent.PrimEntity;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -71,11 +73,10 @@ public class Client extends PrimEntity {
     @OneToMany(mappedBy = "client")
     private List<ClientTagLink> tagLinks;*/
     
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "client_tags",
-            joinColumns = @JoinColumn(name = "client_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "client_tags",
+            joinColumns = @JoinColumn(name = "client_id", referencedColumnName = "client_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "tag_id"))
     private Set<Tag> tags;
 
     @Column(name = "unique_id")

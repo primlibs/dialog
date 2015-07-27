@@ -173,5 +173,7 @@ public class ClientDao extends Dao<Client> {
         query.setParameter("pkId", pkId);
         return (Client) query.uniqueResult();
     }
+    
+    
 
 }

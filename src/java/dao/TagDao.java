@@ -24,7 +24,7 @@ public class TagDao extends Dao<Tag> {
        return Tag.class;
     }
     
-    public List<Tag> getAllTags(Long pkId){
+    public List<Tag> getAllActiveTags(Long pkId){
         String hql = "from Tag t where t.cabinet.pkId=:pkId and t.deleteDate is null order by t.name";
         Query q = getCurrentSession().createQuery(hql);
         q.setParameter("pkId", pkId);
