@@ -76,9 +76,12 @@
         </label>
             </div>
             <a style="margin-left: 10px;" href="<c:url value="/Event/eventShowAllAppoint?campaignId=${campaign.campaignId}"/>" class="btn btn-primary" role="button">Распределить клиентов</a>
-        <c:if test="${deleteble==true}">
-                <a style="float: right;" href="<c:url value="/Event/deleteCampaign?campaignId=${campaign.campaignId}"/>" class="btn btn-large btn-danger" role="button">Удалить кампанию</a>           
-            </c:if>
+        <!--<c:if test="${deleteble==true}">-->
+            <a href="#" style="float: right;" class="btn btn-danger deletinghref" role="button"
+                                        data-toggle="modal"
+                                        data-target="#deleteWindow">удалить</a>
+                <!--<a style="float: right;" href="<c:url value="/Event/deleteCampaign?campaignId=${campaign.campaignId}"/>" class="btn btn-large btn-danger" role="button">Удалить кампанию</a>-->
+            <!--</c:if>-->
             </div>
         <table class="table table-bordered table-hover" style="margin-top: 20px;">
 
@@ -261,4 +264,19 @@
             </table>
         </c:if>
     </body>
+    <div class="modal fade" id="deleteWindow" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                                <h4 class="modal-title" id="myModalLabel">Удалить кампанию?</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <a href="<c:url value="/Event/deleteCampaign?campaignId=${campaign.campaignId}"/>" class="btn btn-large btn-danger" role="button">удалить</a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+    
 </html>
