@@ -45,19 +45,19 @@ public class Event extends PrimEntity {
 
     @JoinColumn(name = "personal_cabinet_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    @NotNull
+    @NotNull(message = "Эвент. Личный кабинет не указан.")
     @Index(name="cabinetIndex")
     private PersonalCabinet cabinet;
 
     @JoinColumn(name = "campaign_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    @NotNull
+    @NotNull(message = "Кампания не указана")
     @Index(name="campaignIndex")
     private Campaign campaign;
 
     @JoinColumn(name = "client_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    @NotNull
+    @NotNull(message = "Клиент не указан")
     @Index(name="clientIndex")
     private Client client;
 
@@ -72,7 +72,7 @@ public class Event extends PrimEntity {
     private CabinetUser cabinetUser;
 
     @Column(name = "status")
-    @NotNull
+    @NotNull(message = "Статус не указан")
     @Index(name="statusIndex")
     private Integer status;
 
@@ -99,7 +99,7 @@ public class Event extends PrimEntity {
     private FailReason failReason;
 
     @Column(name = "unique_id")
-    @NotNull
+    @NotNull (message = "Эвент.УИД не может быть пустым")
     @Index(name="uniqueIdIndex")
     private String uniqueId;
     

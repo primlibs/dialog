@@ -43,7 +43,7 @@ public class Client extends PrimEntity {
 
     @JoinColumn(name = "personal_cabinet_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    @NotNull
+    @NotNull(message = "Личный кабинет не указан")
     @Index(name="cabinetIndex")
     private PersonalCabinet cabinet;
 
@@ -80,7 +80,7 @@ public class Client extends PrimEntity {
     private Set<Tag> tags;
 
     @Column(name = "unique_id")
-    @NotNull
+    @NotNull(message = "УИД не может быть пустым")
     @Index(name="uniqueIdIndex")
     private String uniqueId;
 

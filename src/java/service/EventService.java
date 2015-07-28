@@ -269,7 +269,7 @@ public class EventService extends PrimService {
                     Row rw = it.next();
                     if (!(StringAdapter.getString(rw.getCell(0))).trim().equals("Номер уникальный")) {
                         String uid = StringAdapter.HSSFSellValue(rw.getCell(0));
-                        if (!uid.equals("")) {
+                        if (uid.equals("")) {
                             noUniqueIdList.add(rowCount);
                         } else {
                             //клиентов нет еще
@@ -326,6 +326,7 @@ public class EventService extends PrimService {
                                     Event event = new Event();
                                     event.setCabinet(pk);
                                     event.setClient(cl);
+                                    event.setUniqueId(uid);
                                     event.setCampaign(campaign);
                                     event.setComment(StringAdapter.getString(commentMap.get(cl.getUniqueId())));
                                     event.setStatus(Event.UNASSIGNED);
@@ -349,6 +350,7 @@ public class EventService extends PrimService {
                     Event event = new Event();
                     event.setCabinet(pk);
                     event.setClient(cl);
+                    event.setUniqueId(cl.getUniqueId());
                     event.setCampaign(campaign);
                     event.setComment(StringAdapter.getString(commentMap.get(cl.getUniqueId())));
                     event.setStatus(Event.UNASSIGNED);
