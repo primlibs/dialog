@@ -221,9 +221,9 @@ public class StrategyController extends WebController {
 
         failReasonService.saveFailReason(failReasonName, strategyId);
         
-        if (failReasonService.getErrors().isEmpty()) {
+        /*if (failReasonService.getErrors().isEmpty()) {
             ras.addFlashAttribute("message", "Модуль отказа " + failReasonName + " создан");
-        }
+        }*/
         ras.addFlashAttribute("errors", failReasonService.getErrors());
         ras.addAttribute("strategyId", strategyId);
         return "redirect:/Strategy/failReasonEditor";
@@ -238,9 +238,9 @@ public class StrategyController extends WebController {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);;
         failReasonService.delete(failReasonId);
-          if (failReasonService.getErrors().isEmpty()) {
+          /*if (failReasonService.getErrors().isEmpty()) {
             ras.addFlashAttribute("message", "Модуль отказа " + failReasonService.getFailReason(failReasonId) + " удален");
-        }
+        }*/
         ras.addFlashAttribute("errors", failReasonService.getErrors());
         ras.addAttribute("strategyId", strategyId);
         return "redirect:/Strategy/failReasonEditor";
