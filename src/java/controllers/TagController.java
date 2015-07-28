@@ -54,7 +54,7 @@ public class TagController extends WebController {
     }
     
     @RequestMapping("/delete")
-    public String deleteTag(Map<String, Object> model,HttpServletRequest request,@RequestParam(value = "tagId") Long tagId,@RequestParam(value = "deleteLinks",required = false) Boolean deleteLinks,RedirectAttributes ras) throws Exception {
+    public String deleteTag(Map<String, Object> model,HttpServletRequest request,@RequestParam(value = "tagIdtoDelete") Long tagId,@RequestParam(value = "deleteLinks",required = false) Boolean deleteLinks,RedirectAttributes ras) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         if(deleteLinks==null){
@@ -69,13 +69,12 @@ public class TagController extends WebController {
     @RequestMapping("/changename")
     @ResponseBody
     public JsonResponse changeTagName(Map<String, Object> model,HttpServletRequest request,
-            @RequestParam(value = "tagId") Long tagId,
-            @RequestParam(value = "name") String name,RedirectAttributes ras) throws Exception {
+            @RequestParam(value = "tagid") Long tagId,
+            @RequestParam(value = "newval") String name,RedirectAttributes ras) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         
         tagService.changeName(tagId,name,cabinetId);
-        //ras.addAttribute("errors", tagService.getErrors());
         JsonResponse res = new JsonResponse();
         res.setStatus(Boolean.TRUE);
         if(!tagService.getErrors().isEmpty()){

@@ -77,6 +77,8 @@ public class TagService extends PrimService {
         return tag;
     }
     
+    //Если тэга с таким именем не было - просто создается, если был, но был удален без очистки линков - восстанавливается
+    //Если имя тэга уникально, при попытке добавления такого-же будет ошибка
     public void create(String name, Long pkId){
         boolean unique = true;
         boolean deleted=false;

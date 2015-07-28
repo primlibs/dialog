@@ -1,42 +1,11 @@
 $(function() {
-    /*var params={};
-     changebleElem.each(function () {
-     $(this.attributes).each(function(){
-     params[this.name]=this.value;
-     });
-     });
-     var str = "";
-     $.each( params, function( key, value ) {
-     str+= key + ": " + value+";";
-     });
-     alert(str);*/
-    
-
-
-
-
-
-   /* function changeParam(method, newVal, params) {
-        var supurl = "";
-        for (var key in params) {
-            supurl += "&" + key + "=" + params[key];
-        }
-        $.ajax({
-            url: "./" + method + "?newval=" + newVal + supurl,
-            dataType: "json",
-            cache: false,
-            success: function(json) {
-                var str;
-                $(json).each(function(key, value) {
-                    str += key + "=" + value + "; ";
-                })
-                return json;
-            },
-            error: function(json) {
-                return json;
-            }
-        });
-    }*/
+    /*
+     * позволяет обновить значение 1 параметра, на контроллере значение принимается как newval;
+     * все необходимые доп. параметры перечисляются с префиксом data-;
+     * контроллер по умолчанию тот же, что и для страницы, если нужен другой его можно добавить
+     * в качестве значения параметра data-controller;
+     * 
+     **/
     
     $('.changingbtn').click(function(){
        

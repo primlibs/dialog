@@ -9,6 +9,7 @@
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
         <%@include file="/WEB-INF/jsp/error.jsp" %> 
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
+        <script src="<c:url value="/js/myJsOnViews/tagList.js" />"></script>
         <div class="row ">
             <h3>Тэги</h3>
         </div>
@@ -31,10 +32,31 @@
         <c:forEach var="tag" items="${tags}">
             <tr>
                     <td class="changebleParam" data-method="changename" data-tagid="${tag.tagId}" name="companyname_${tag.tagId}" data-parametr="tagname">${tag.name}</td>
-                    <td><div style="cursor: pointer;display: inline;" ondblclick="location = '<c:url value="/Tag/delete?tagId=${tag.tagId}"/>'"> Удалить </div></td>
+                    <td><a href="#" id="${tag.tagId}" class="btn btn-danger btn-xs deletinghref"
+                                        data-toggle="modal"
+                                        data-target="#deleteWindow">Удалить</a></td>
                     </tr>
         </c:forEach>
         </table>
+        <div class="modal fade" id="deleteWindow" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                                <h4 class="modal-title" id="myModalLabel">Удалить тэг?</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form id="deleteTagForm" action="<c:url value="/Tag/delete"/>" method="post">
+                                                    
+                                                    <p><input type="checkbox" name="deleteLinks"
+                                                        <input type="hidden" name="tagIdtoDelete" value="">
+                                                    <p>     <input class="btn btn-danger" type="submit" value="Удалить">
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                         </c:if>
         </div>
     </body>
