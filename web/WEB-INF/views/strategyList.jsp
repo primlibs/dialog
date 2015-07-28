@@ -19,32 +19,56 @@
 
 
         <div class="row">
-                <h3>Сценарий</h3>
+            <h3>Сценарий</h3>
         </div>            
-                <div class="form-group">
-                    <form action="<c:url value="/Strategy/show" />"  method="post"> 
-                        <input class="span5" id="appendedInputButton" name="strategyName" style="width: 256px " size="16" type="text" value="${strategyName}">
-                        <button type="submit" name="submit" class="btn btn-primary">Добавить</button>
-                    </form>
-                </div>
-                <div class="row">
-                <table class="table table-bordered table-hover">
+        <div class="form-group">
+            <form action="<c:url value="/Strategy/show" />"  method="post"> 
+                <input class="span5" id="appendedInputButton" name="strategyName" style="width: 256px " size="16" type="text" value="${strategyName}">
+                <button type="submit" name="submit" class="btn btn-primary">Добавить</button>
+            </form>
+        </div>
+        <div class="row">
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <th>${myIndex.index}#</th>
+                    <th>Наименование</th>
+                    <th></th>
+                </tr>
+                <c:forEach var="strategy" items="${StrategyList}" varStatus="myIndex">
+
                     <tr>
-                        <th>${myIndex.index}#</th>
-                        <th>Наименование</th>
-                        <th></th>
+                        <td>${myIndex.count}</td>
+                        <td><div style="cursor: pointer;display: inline;" ondblclick="location = '<c:url value="/Strategy/strategy?strategyId=${strategy.strategyId}"/>'"> ${strategy.strategyName} </div></td>
+                        <td><a href="#" id="${strategy.strategyId}" class="btn btn-danger btn-xs deletinghref"
+                               data-toggle="modal"
+                               data-target="#deleteWindow">Удалить</a></td>
+                   <!--<td><div style="cursor: pointer;display: inline;" ondblclick="location = '<c:url value="/Strategy/deleteStrategy?strategyId=${strategy.strategyId}"/>'">Удалить</div></td>-->
                     </tr>
-                    <c:forEach var="strategy" items="${StrategyList}" varStatus="myIndex">
-
-                        <tr>
-                            <td>${myIndex.count}</td>
-                            <td><div style="cursor: pointer;display: inline;" ondblclick="location = '<c:url value="/Strategy/strategy?strategyId=${strategy.strategyId}"/>'"> ${strategy.strategyName} </div></td>
-                            <td><div style="cursor: pointer;display: inline;" ondblclick="location = '<c:url value="/Strategy/deleteStrategy?strategyId=${strategy.strategyId}"/>'">Удалить</div></td>
-                        </tr>
-                    </c:forEach>
-                </table>
+                </c:forEach>
+            </table>
+        </div>
+        <div class="modal fade" id="deleteWindow" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title" id="myModalLabel">Удалить стратегию?</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="deleteTagForm" action="<c:url value="/Strategy/deleteStrategy"/>" method="post">
+                                <input type="hidden" name="strategyIdtoDelete" value="">
+                            <p><input class="btn btn-danger" type="submit" value="Удалить">
+                        </form>
+                    </div>
                 </div>
-
+            </div>
+        </div>
+        <script>
+            $('.deletinghref').click(function() {
+                var cuid = $(this).attr('id');
+                $('[name = strategyIdtoDelete]').val(cuid);
+            });
+        </script>
 
     </body>
 </html>

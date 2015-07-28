@@ -143,7 +143,7 @@ public class StrategyController extends WebController {
     @RequestMapping("/deleteStrategy")
     public String delStrategy(Map<String, Object> model,
             HttpServletRequest request,
-            @RequestParam(value = "strategyId") Long strategyId,
+            @RequestParam(value = "strategyIdtoDelete") Long strategyId,
             RedirectAttributes ras) throws Exception {
         //Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         lk.dataByUserAndCompany(request, model);
