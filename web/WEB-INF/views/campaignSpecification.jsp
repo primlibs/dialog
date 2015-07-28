@@ -176,7 +176,7 @@
 
         <h5 id="moduleReportTumblr" style="cursor: pointer;">Отчет по модулям</h5> 
         <c:if test="${empty moduleReportData}">
-            <span id="moduleReport">Нет данных для отчета</span>
+            <span id="moduleReport" class="hidden">Нет данных для отчета</span>
         </c:if>
         <c:if test="${not empty moduleReportData}">
             <table id="moduleReport" class="table table-bordered table-hover hidden" style="margin-top: 20px;">
