@@ -46,12 +46,38 @@
                         <tr>
                             <td>${myIndex.count}</td>
                             <td>${failReason.name}</td>
-                            <td><div style="cursor: pointer;display: inline-block" ondblclick="location = '<c:url value="/Strategy/deleteFailReason?failReasonId=${failReason.failReasonId}"/>'">удалить</div></td>
+                            <td><a href="#" id="${failReason.failReasonId}" class="btn btn-danger btn-xs deletinghref"
+                               data-toggle="modal"
+                               data-target="#deleteWindow">Удалить</a></td>
+                            <!--<td><div style="cursor: pointer;display: inline-block" ondblclick="location = '<c:url value="/Strategy/deleteFailReason?failReasonId=${failReason.failReasonId}"/>'">удалить</div></td>-->
                         </tr>
                     </c:forEach>
                 </table>
 
 
         </div>
+                        <div class="modal fade" id="deleteWindow" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title" id="myModalLabel">Удалить стратегию?</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="deleteTagForm" action="<c:url value="/Strategy/deleteFailReason"/>" method="post">
+                                <input type="hidden" name="failReasonIdtoDelete" value="">
+                                <input type="hidden" name="strategyId" value="${strategyId}">
+                            <p><input class="btn btn-danger" type="submit" value="Удалить">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $('.deletinghref').click(function() {
+                var cuid = $(this).attr('id');
+                $('[name = failReasonIdtoDelete]').val(cuid);
+            });
+        </script>
     </body>
 </html>

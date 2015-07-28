@@ -201,7 +201,6 @@ public class StrategyController extends WebController {
 
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        Strategy strategy = strategyService.findStrategy(strategyId);
 
         model.put("actualReasons", failReasonService.getActiveFailReasonsByStrategy(strategyId));
         model.put("errors", failReasonService.getErrors());
@@ -214,41 +213,37 @@ public class StrategyController extends WebController {
     public String createFailReason(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "failReasonName") String failReasonName,
-            @RequestParam(value = "strategyId") Long strategyId) throws Exception {
+            @RequestParam(value = "strategyId") Long strategyId,
+            RedirectAttributes ras) throws Exception {
 
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        Strategy strategy = strategyService.findStrategy(strategyId);
 
         failReasonService.saveFailReason(failReasonName, strategyId);
         
         if (failReasonService.getErrors().isEmpty()) {
-            model.put("message", "Модуль отказа " + failReasonName + " создан");
+            ras.addFlashAttribute("message", "Модуль отказа " + failReasonName + " создан");
         }
-
-        model.put("actualReasons", failReasonService.getActiveFailReasonsByStrategy(strategyId));
-        model.put("errors", failReasonService.getErrors());
-        model.put("strategyId", strategyId);
-        return "failReasons";
+        ras.addFlashAttribute("errors", failReasonService.getErrors());
+        ras.addAttribute("strategyId", strategyId);
+        return "redirect:/Strategy/failReasonEditor";
     }
 
     @RequestMapping("/deleteFailReason")
-    public String deleteFailReason(Map<String, Object> model,
+    public String deleteFailReason(Map<String, Object> model,RedirectAttributes ras,
             HttpServletRequest request,
-            @RequestParam(value = "failReasonId") Long failReasonId,
+            @RequestParam(value = "failReasonIdtoDelete") Long failReasonId,
             @RequestParam(value = "strategyId") Long strategyId) throws Exception {
 
         lk.dataByUserAndCompany(request, model);
-        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        Strategy strategy = strategyService.findStrategy(strategyId);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);;
         failReasonService.delete(failReasonId);
           if (failReasonService.getErrors().isEmpty()) {
-            model.put("message", "Модуль отказа " + failReasonService.getFailReason(failReasonId) + " удален");
+            ras.addFlashAttribute("message", "Модуль отказа " + failReasonService.getFailReason(failReasonId) + " удален");
         }
-        model.put("actualReasons", failReasonService.getActiveFailReasonsByStrategy(strategyId));
-        model.put("errors", failReasonService.getErrors());
-        model.put("strategyId", strategyId);
-        return "failReasons";
+        ras.addFlashAttribute("errors", failReasonService.getErrors());
+        ras.addAttribute("strategyId", strategyId);
+        return "redirect:/Strategy/failReasonEditor";
     }
     
     @RequestMapping("/changegroupname")
