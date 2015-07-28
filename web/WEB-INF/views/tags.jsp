@@ -48,7 +48,7 @@
                                             <div class="modal-body">
                                                 <form id="deleteTagForm" action="<c:url value="/Tag/delete"/>" method="post">
                                                     
-                                                    <p><input type="checkbox" name="deleteLinks"
+                                                    <p><label><input type="checkbox" name="deleteLinks">Стереть тэг из всех клиентов</label>
                                                         <input type="hidden" name="tagIdtoDelete" value="">
                                                     <p>     <input class="btn btn-danger" type="submit" value="Удалить">
                                                 </form>
