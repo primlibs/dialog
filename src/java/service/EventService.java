@@ -173,26 +173,33 @@ public class EventService extends PrimService {
             addError("не найден личный кабинет по id" + cabinetId);
         }
     }
+    
+    public void delete(Event ev){
+        for(ModuleEventClient mec:ev.getModuleEventClientList()){
+            moduleEventClientDao.delete(mec);
+        }
+        for(EventComment ec:ev.getEventComments()){
+            eventCommentDao.delete(ec);
+        }
+        eventDao.delete(ev);
+    }
 
-    public boolean deleteCampaign(Long campaignId, Long cabinetId) {
-        boolean deleted = false;
+    public void deleteCampaign(Long campaignId, Long cabinetId) {
         Campaign c = campaignDao.find(campaignId);
         if (c != null) {
             if (eventDao.getAssignedEvents(campaignId, cabinetId).isEmpty()) {
                 List<Event> events = c.getEvents();
                 for (Event ev : events) {
-                    eventDao.delete(ev);
+                    delete(ev);
                 }
                 //if(c.getEvents().isEmpty()){
                 campaignDao.delete(c);
-                deleted = true;
             } else {
                 addError("В кампании присутствуют назначения, её нельзя удалять.");
             }
         } else {
             addError("Не найдено кампании с ИД " + campaignId + "; ");
         }
-        return deleted;
     }
 
     public List<CabinetUser> getActiveMakingCallsUsers(Long cabinetId) {
@@ -200,11 +207,7 @@ public class EventService extends PrimService {
     }
 
     public boolean isDeleteble(Long campaignId, Long cabinetId) {
-        if (eventDao.getAssignedEventsCount(campaignId, cabinetId) > 0) {
-            return false;
-        } else {
-            return true;
-        }
+        return eventDao.getAssignedEventsCount(campaignId, cabinetId) <= 0;
     }
 
     public HSSFWorkbook getXls() throws IOException {

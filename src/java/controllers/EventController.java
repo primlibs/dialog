@@ -116,7 +116,8 @@ public class EventController extends WebController {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
         if (campaignId != null) {
-            if (eventService.deleteCampaign(campaignId, cabinetId) && eventService.getErrors().isEmpty()) {
+            eventService.deleteCampaign(campaignId, cabinetId);
+            if (eventService.getErrors().isEmpty()) {
                 return "redirect:/Event/campaignList";
             } else {
                 ras.addFlashAttribute("errors", eventService.getErrors());

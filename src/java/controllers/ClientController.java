@@ -155,7 +155,10 @@ public class ClientController extends WebController {
     }
     
     @RequestMapping("/deleteTag")
-    public String deleteTagFromClient(Map<String, Object> model,@RequestParam(value = "clientId") Long clientId,@RequestParam(value = "tagId", required = false) Long tagId,@RequestParam(value = "eventId", required = false) Long eventId, HttpServletRequest request,RedirectAttributes ras) throws Exception {
+    public String deleteTagFromClient(Map<String, Object> model,@RequestParam(value = "clientId") Long clientId,
+            @RequestParam(value = "tagId", required = false) Long tagId,
+            @RequestParam(value = "eventId", required = false) Long eventId, 
+            HttpServletRequest request,RedirectAttributes ras) throws Exception {
         lk.dataByUserAndCompany(request, model);
      
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);

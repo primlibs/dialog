@@ -106,6 +106,10 @@ public class Event extends PrimEntity {
     @LazyCollection(LazyCollectionOption.TRUE)
     @OneToMany(mappedBy = "event")
     private List<ModuleEventClient> moduleEventClientList;
+    
+    @LazyCollection(LazyCollectionOption.TRUE)
+    @OneToMany(mappedBy = "event")
+    private List<EventComment> eventComments;
 
     @Override
     public Long getId() {
@@ -267,6 +271,14 @@ public class Event extends PrimEntity {
 
     public void setUniqueId(String uniqueId) {
         this.uniqueId = uniqueId;
+    }
+
+    public List<EventComment> getEventComments() {
+        return eventComments;
+    }
+
+    public void setEventComments(List<EventComment> eventComments) {
+        this.eventComments = eventComments;
     }
 
 }
