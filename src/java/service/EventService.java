@@ -331,7 +331,7 @@ public class EventService extends PrimService {
                                     event.setStatus(Event.UNASSIGNED);
                                     if (validate(event)) {
                                         eventsListForSave.add(event);
-                                            //eventDao.save(event);
+                                        //eventDao.save(event);
                                         //addEventComment("Звонок добавлен " + new Date().toString(), EventComment.CREATE, event, pkId);
                                     }
                                 }
@@ -340,132 +340,12 @@ public class EventService extends PrimService {
                     }
                 }
             }
-        if (noContactList.isEmpty() && noUniqueIdList.isEmpty()) {
-            for (Client cl : clientsListForSave) {
-                clientDao.save(cl);
-                if (tagIds != null && tagIds.length > 0) {
-                    tagService.addTagsToClient(cl.getId(), tagIds, pkId);
-                }
-                Event event = new Event();
-                event.setCabinet(pk);
-                event.setClient(cl);
-                event.setCampaign(campaign);
-                event.setComment(StringAdapter.getString(commentMap.get(cl.getUniqueId())));
-                event.setStatus(Event.UNASSIGNED);
-                if (validate(event)) {
-                    eventsListForSave.add(event);
-                        //eventDao.save(event);
-                    //addEventComment("Звонок добавлен " + new Date().toString(), EventComment.CREATE, event, pkId);
-                }
-            }
-            for(Client cl:clientsListForUpdate){
-                clientDao.update(cl);
-            }
-            for(Event ev:eventsListForSave){
-                eventDao.save(ev);
-                addEventComment("Звонок добавлен " + new Date().toString(), EventComment.CREATE, ev, pkId);
-            }
-        } else {
-            if (!noContactList.isEmpty()) {
-                String err = "Не указаны контакты клиентов с УИД: ";
-                for (Client cl : noContactList) {
-                    err += cl.getUniqueId() + "; ";
-                }
-                addError(err + " для загрузки клиентов необходимо указать хотя бы один контакт.");
-            }
-            if (!noUniqueIdList.isEmpty()) {
-                String err = "Не указан УИД клиентов в следующих строках: ";
-                for (Integer rc : noUniqueIdList) {
-                    err += rc + "; ";
-                }
-                addError(err);
-            }
-        }    
-            
-
-        } else {
-            addError("Нельзя добавить клиентов в закрытую кампанию.");
-        }
-
-        /*List<Client> clientsListForSave = new ArrayList();
-        List<Event> eventsListForSave = new ArrayList();
-        List<Client> noContactList = new ArrayList();
-        List<Integer> noUniqueIdList = new ArrayList();
-        Boolean newClient = false;
-        PersonalCabinet pk = personalCabinetDao.find(pkId);
-        List<Client> pkList = pk.getClientList();
-
-        String doubleUniqsInfo = "";
-        HashSet<Long> addedClientIds = new HashSet();
-        for (Event ev : campaign.getEvents()) {
-            addedClientIds.add(ev.getClient().getId());
-        }
-        List<Client> ClientsToCreateEventsList = new ArrayList();
-
-        HashMap<String, String> commentMap = new HashMap();
-
-        InputStream fis = fileXls.getInputStream();
-        HSSFWorkbook inputWorkbook = new HSSFWorkbook(fis);
-        int sheetCount = inputWorkbook.getNumberOfSheets();
-        for (int i = 0; i < sheetCount; i++) {
-            HSSFSheet hss = inputWorkbook.getSheetAt(i);
-            int rowCount = 0;
-            Iterator<Row> it = hss.iterator();
-            while (it.hasNext()) {
-                rowCount++;
-                Row rw = it.next();
-                if (!(StringAdapter.getString(rw.getCell(0))).trim().equals("Номер уникальный")) {
-                    Client cl = clientDao.getClientByUniqueIdInLk(StringAdapter.HSSFSellValue(rw.getCell(0)), pkId);
-                    if (cl == null) {
-                        cl = new Client();
-                        newClient = true;
-                    } else {
-                        ClientsToCreateEventsList.add(cl);
+            if (noContactList.isEmpty() && noUniqueIdList.isEmpty()) {
+                for (Client cl : clientsListForSave) {
+                    clientDao.save(cl);
+                    if (tagIds != null && tagIds.length > 0) {
+                        tagService.addTagsToClient(cl.getId(), tagIds, pkId);
                     }
-                    if (newClient == true || update == true) {
-                        String uid = StringAdapter.HSSFSellValue(rw.getCell(0));
-                        if (!uid.equals("")) {
-                            if (uniqs.contains(uid)) {
-                                doubleUniqsInfo += uid + "; ";
-                            }
-                            cl.setUniqueId(uid);
-                            cl.setNameCompany(StringAdapter.HSSFSellValue(rw.getCell(1)));
-                            cl.setNameSecretary(StringAdapter.HSSFSellValue(rw.getCell(2)));
-
-                            String secretaryPhone = HSSFPhoneValue(rw.getCell(3));
-                            cl.setNameLpr(StringAdapter.HSSFSellValue(rw.getCell(4)));
-
-                            String lprPhone = HSSFPhoneValue(rw.getCell(5));
-                            cl.setPhoneSecretary(secretaryPhone);
-                            cl.setPhoneLpr(lprPhone);
-                            cl.setAddress(StringAdapter.HSSFSellValue(rw.getCell(6)));
-                            String comment = StringAdapter.HSSFSellValue(rw.getCell(7));
-                            commentMap.put(uid, comment);
-                            cl.setCabinet(pk);
-                            if (validate(cl)) {
-                                if ((secretaryPhone != null && !secretaryPhone.equals("")) || (lprPhone != null && !lprPhone.equals(""))) {
-                                    clientsListForSave.add(cl);
-                                } else {
-                                    noContactList.add(cl);
-                                }
-                            }
-                        } else {
-                            noUniqueIdList.add(rowCount);
-                        }
-                    }
-                }
-            }
-        }
-        if (noContactList.isEmpty() && noUniqueIdList.isEmpty() && doubleUniqsInfo.equals("")) {
-            for (Client cl : clientsListForSave) {
-                clientDao.save(cl);
-                if (tagIds != null && tagIds.length > 0) {
-                    tagService.addTagsToClient(cl.getId(), tagIds, pkId);
-                }
-                ClientsToCreateEventsList.add(cl);
-            }
-            for (Client cl : ClientsToCreateEventsList) {
-                if (!addedClientIds.contains(cl.getClientId())) {
                     Event event = new Event();
                     event.setCabinet(pk);
                     event.setClient(cl);
@@ -473,30 +353,38 @@ public class EventService extends PrimService {
                     event.setComment(StringAdapter.getString(commentMap.get(cl.getUniqueId())));
                     event.setStatus(Event.UNASSIGNED);
                     if (validate(event)) {
-                        eventDao.save(event);
-                        addEventComment("Звонок добавлен " + new Date().toString(), EventComment.CREATE, event, pkId);
+                        eventsListForSave.add(event);
+                        //eventDao.save(event);
+                        //addEventComment("Звонок добавлен " + new Date().toString(), EventComment.CREATE, event, pkId);
                     }
                 }
+                for (Client cl : clientsListForUpdate) {
+                    clientDao.update(cl);
+                }
+                for (Event ev : eventsListForSave) {
+                    eventDao.save(ev);
+                    addEventComment("Звонок добавлен " + new Date().toString(), EventComment.CREATE, ev, pkId);
+                }
+            } else {
+                if (!noContactList.isEmpty()) {
+                    String err = "Не указаны контакты клиентов с УИД: ";
+                    for (Client cl : noContactList) {
+                        err += cl.getUniqueId() + "; ";
+                    }
+                    addError(err + " для загрузки клиентов необходимо указать хотя бы один контакт.");
+                }
+                if (!noUniqueIdList.isEmpty()) {
+                    String err = "Не указан УИД клиентов в следующих строках: ";
+                    for (Integer rc : noUniqueIdList) {
+                        err += rc + "; ";
+                    }
+                    addError(err);
+                }
             }
+
         } else {
-            if (!noContactList.isEmpty()) {
-                String err = "Не указаны контакты клиентов с УИД: ";
-                for (Client cl : noContactList) {
-                    err += cl.getUniqueId() + "; ";
-                }
-                addError(err + " для загрузки клиентов необходимо указать хотя бы один контакт.");
-            }
-            if (!noUniqueIdList.isEmpty()) {
-                String err = "Не указан УИД клиентов в следующих строках: ";
-                for (Integer rc : noUniqueIdList) {
-                    err += rc + "; ";
-                }
-                addError(err);
-            }
-            if (!doubleUniqsInfo.equals("")) {
-                addError("В кампании уже присутствуют клиенты с уникальными ИД: " + doubleUniqsInfo);
-            }
-        }*/
+            addError("Нельзя добавить клиентов в закрытую кампанию.");
+        }
     }
 
     public String HSSFPhoneValue(Cell cl) {

@@ -94,6 +94,7 @@ public class ClientDao extends Dao<Client> {
     }
 
     public List<Client> getClientsBySearchRequest(Long pkId, String uid, String adress, String nameCompany, String name, String phone, Boolean tagCrossing, Long[] tagIds) {
+        
         List<Client> result = new ArrayList();
         HashMap<String, Object> paramMap = new HashMap();
         paramMap.put("pkId", pkId);
@@ -123,11 +124,10 @@ public class ClientDao extends Dao<Client> {
             query.setParameter(entry.getKey(), entry.getValue());
         }
         
-        
-
         //TO DO: remove this pron
         result = query.list();
-        /*if (tagIds != null && tagIds.length > 0) {
+        
+        if (tagIds != null && tagIds.length > 0) {
             ArrayList<Long> tagIdList = new ArrayList();
             List<Client> resWithTags = new ArrayList();
 
@@ -138,9 +138,9 @@ public class ClientDao extends Dao<Client> {
             if (tagCrossing) {
                 for (Client client : result) {
                     List<Long> subList = new ArrayList();
-                    for (ClientTagLink ctl : client.getTagLinks()) {
-                        if (tagIdList.contains(ctl.getTag().getTagId())) {
-                            subList.add(ctl.getTag().getTagId());
+                    for (Tag tag : client.getTags()) {
+                        if (tagIdList.contains(tag.getTagId())) {
+                            subList.add(tag.getTagId());
                         }
                     }
                     if (subList.size() == tagIdList.size()) {
@@ -150,9 +150,9 @@ public class ClientDao extends Dao<Client> {
             } else {
                 for (Client client : result) {
                     List<Long> subList = new ArrayList();
-                    for (ClientTagLink ctl : client.getTagLinks()) {
-                        if (tagIdList.contains(ctl.getTag().getTagId())) {
-                            subList.add(ctl.getTag().getTagId());
+                    for (Tag tag : client.getTags()) {
+                        if (tagIdList.contains(tag.getTagId())) {
+                            subList.add(tag.getTagId());
                         }
                     }
                     if (subList.size()>0) {
@@ -161,8 +161,7 @@ public class ClientDao extends Dao<Client> {
                 }
             }
             return resWithTags;
-
-        }*/
+        }
         return result;
     }
     
@@ -173,7 +172,4 @@ public class ClientDao extends Dao<Client> {
         query.setParameter("pkId", pkId);
         return (Client) query.uniqueResult();
     }
-    
-    
-
 }
