@@ -83,11 +83,9 @@
             tinymce.init({
                 selector: "textarea",
                 plugins: [
-                    " autolink lists link image charmap print preview anchor",
-                    " visualblocks code fullscreen",
-                    "media table contextmenu paste "
+                    " textcolor colorpicker textpattern"
                 ],
-                toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+                toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | forecolor backcolor",
             <%-- width: 800 --%>
             });
         </script>
