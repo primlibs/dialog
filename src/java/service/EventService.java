@@ -362,6 +362,9 @@ public class EventService extends PrimService {
                 }
                 for (Client cl : clientsListForUpdate) {
                     clientDao.update(cl);
+                    if (tagIds != null && tagIds.length > 0) {
+                        tagService.addTagsToClient(cl.getId(), tagIds, pkId);
+                    }
                 }
                 for (Event ev : eventsListForSave) {
                     eventDao.save(ev);
