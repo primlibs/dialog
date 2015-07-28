@@ -30,7 +30,7 @@
             </tr>
         <c:forEach var="tag" items="${tags}">
             <tr>
-                    <td>${tag.name}</td>
+                    <td class="changebleParam" data-method="changename" data-tagid="${tag.tagId}" name="companyname_${tag.tagId}" data-parametr="tagname">${tag.name}</td>
                     <td><div style="cursor: pointer;display: inline;" ondblclick="location = '<c:url value="/Tag/delete?tagId=${tag.tagId}"/>'"> Удалить </div></td>
                     </tr>
         </c:forEach>

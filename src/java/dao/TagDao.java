@@ -31,10 +31,34 @@ public class TagDao extends Dao<Tag> {
         return q.list();
     }
     
+    public List<Tag> getAllTags(Long pkId){
+        String hql = "from Tag t where t.cabinet.pkId=:pkId order by t.name";
+        Query q = getCurrentSession().createQuery(hql);
+        q.setParameter("pkId", pkId);
+        return q.list();
+    }
+    
     public List<Tag> getDeletedTags(Long pkId){
         String hql = "from Tag where cabinet.pkId=:pkId and deleteDate is not null order by name";
         Query q = getCurrentSession().createQuery(hql);
         q.setParameter("pkId", pkId);
         return q.list();
     }
+    
+    public List<Tag> getAllTagsByNameAndPkId(String name,Long pkId){
+        String hql = "from Tag where cabinet.pkId=:pkId and name=:name order by name";
+        Query q = getCurrentSession().createQuery(hql);
+        q.setParameter("pkId", pkId);
+        q.setParameter("name", name);
+        return q.list();
+    }
+    
+    public List<Tag> getDeletedTagsByNameAndPkId(String name,Long pkId){
+        String hql = "from Tag where cabinet.pkId=:pkId and deleteDate is not null and name=:name order by name";
+        Query q = getCurrentSession().createQuery(hql);
+        q.setParameter("pkId", pkId);
+        q.setParameter("name", name);
+        return q.list();
+    }
+    
 }

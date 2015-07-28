@@ -14,8 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.TagService;
+import support.JsonResponse;
 
 /**
  *
@@ -62,6 +64,25 @@ public class TagController extends WebController {
         ras.addAttribute("errors", tagService.getErrors());
         
         return "redirect:/Tag/show";
+    }
+    
+    @RequestMapping("/changename")
+    @ResponseBody
+    public JsonResponse changeTagName(Map<String, Object> model,HttpServletRequest request,
+            @RequestParam(value = "tagId") Long tagId,
+            @RequestParam(value = "name") String name,RedirectAttributes ras) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        
+        tagService.changeName(tagId,name,cabinetId);
+        //ras.addAttribute("errors", tagService.getErrors());
+        JsonResponse res = new JsonResponse();
+        res.setStatus(Boolean.TRUE);
+        if(!tagService.getErrors().isEmpty()){
+            res.setMessage(tagService.getErrorsAsString());
+            res.setStatus(Boolean.FALSE);
+        }
+        return res;
     }
     
 }

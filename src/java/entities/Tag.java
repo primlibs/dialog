@@ -49,7 +49,7 @@ public class Tag extends PrimEntity {
     @Index(name="cabinetIndex")
     private PersonalCabinet cabinet;
     
-    @Column(name = "name")
+    @Column(name = "name",unique=true)
     @NotBlank(message = "Необходимо указать наименование тэга")
     private String name;
     

@@ -42,6 +42,14 @@ public class TagService extends PrimService {
     public List<Tag> getAllActiveTags(Long pkId) {
         return tagDao.getAllActiveTags(pkId);
     }
+    
+    public List<Tag> getAllTags(Long pkId) {
+        return tagDao.getAllTags(pkId);
+    }
+    
+    public List<Tag> getDeletedTags(Long pkId) {
+        return tagDao.getDeletedTags(pkId);
+    }
 
     public LinkedHashMap<Long, Tag> getAllActiveTagsMap(Long pkId) {
         LinkedHashMap<Long, Tag> res = new LinkedHashMap();
@@ -50,9 +58,58 @@ public class TagService extends PrimService {
         }
         return res;
     }
+    
+    public Tag getTagByNameAndPkId(String name,Long pkId){
+        List<Tag> tags = tagDao.getAllTagsByNameAndPkId(name, pkId);
+        Tag tag = null;
+        if(!tags.isEmpty()){
+            tag=tags.get(0);
+        }
+        return tag;
+    }
+    
+    public Tag getDeletedTagByNameAndPkId(String name,Long pkId){
+        List<Tag> tags = tagDao.getDeletedTagsByNameAndPkId(name, pkId);
+        Tag tag = null;
+        if(!tags.isEmpty()){
+            tag=tags.get(0);
+        }
+        return tag;
+    }
+    
+    public void create(String name, Long pkId){
+        boolean unique = true;
+        boolean deleted=false;
+        Tag existingTag=getTagByNameAndPkId(name,pkId);
+        Tag deletedTag=getDeletedTagByNameAndPkId(name,pkId);
+        if(existingTag!=null){
+            unique=false;
+            if(deletedTag!=null){
+                deleted=true;
+            }
+        }
+        if (unique) {
+            Tag tag = new Tag();
+            tag.setCabinet(pkDao.find(pkId));
+            tag.setName(name);
+            if (validate(tag)) {
+                tagDao.save(tag);
+            }
+        }else {
+            if (deleted) {
+                deletedTag.setDeleteDate(null);
+                if (validate(deletedTag)) {
+                    tagDao.update(deletedTag);
+                }
+            } else {
+                addError("Такой тэг уже есть");
+            }
+        }
+        
+    }
 
-    public boolean create(String name, Long pkId) {
-        List<Tag> tags = tagDao.getAllActiveTags(pkId);
+    /*public boolean create1(String name, Long pkId) {
+        List<Tag> tags = tagDao.getAllTags(pkId);
         Tag supTag = null;
         boolean unique = true;
         boolean deleted = false;
@@ -87,7 +144,7 @@ public class TagService extends PrimService {
             }
         }
         return false;
-    }
+    }*/
 
     public void delete(Long tagId, boolean deleteLinks) {
         if (tagId != null) {
@@ -103,8 +160,10 @@ public class TagService extends PrimService {
                             addError(client.getNameCompany());
                         }
                     }
+                    tagDao.delete(tag);
+                }else{
+                    tag.setDeleteDate(new Date());
                 }
-                tag.setDeleteDate(new Date());
             } else {
                 addError("Не удалось найти тэг");
             }
@@ -113,18 +172,50 @@ public class TagService extends PrimService {
         }
     }
 
-    public boolean changeName(Long tagId, String newName, Long pkId) {
-        Tag tag = tagDao.find(tagId);
-        if (tag != null) {
-            tag.setName(newName);
-            if (validate(tag)) {
-                tagDao.update(tag);
-                return true;
+    public void changeName(Long tagId, String newName, Long pkId) {
+        if(tagId!=null&&newName!=null&&pkId!=null){
+            Tag tag = tagDao.find(tagId);
+            boolean unique = true;
+            boolean deleted=false;
+            Tag existingTag=getTagByNameAndPkId(newName,pkId);
+            Tag deletedTag=getDeletedTagByNameAndPkId(newName,pkId);
+            if(existingTag!=null){
+                unique=false;;
+                if(deletedTag!=null){
+                    deleted=true;
+                }
             }
-        } else {
-            addError("Не удалось найти тэг");
+            if (unique) {
+                if (tag != null) {
+                    tag.setName(newName);
+                    if (validate(tag)) {
+                        tagDao.update(tag);
+                    }
+                } else {
+                    addError("Не удалось найти тэг");
+                }
+            }else{
+                if (deleted) {
+                    tagDao.delete(deletedTag);
+                    tag.setName(newName);
+                    if(validate(tag)){
+                        tagDao.update(tag);
+                    }
+                }else{
+                    addError("Такой тэг уже есть");
+                }
+            }
+        }else{
+            if(tagId==null){
+                addError("Ид тэга не получен");
+            }
+            if(newName==null){
+                addError("Имя не получено");
+            }
+            if(pkId==null){
+                addError("Ошибка личного кабинета");
+            }
         }
-        return false;
     }
 
     public boolean isUniqueName(String name, Long pkId) {
@@ -219,8 +310,6 @@ public class TagService extends PrimService {
         return res;
     }
 
-    public List<Tag> getDeletedTags(Long pkId) {
-        return tagDao.getDeletedTags(pkId);
-    }
+    
 
 }
