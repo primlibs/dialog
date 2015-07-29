@@ -11,6 +11,7 @@ import dao.ModuleDao;
 import entities.Client;
 import entities.Event;
 import entities.Module;
+import java.util.HashSet;
 import java.util.List;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -189,6 +190,8 @@ public void delete(Long clientId,Long pkId){
         for(Event ev:c.getEvents()){
             eventService.delete(ev);
         }
+        c.setTags(new HashSet());
+        clientDao.update(c);
         clientDao.delete(c);
     }else{
         if(clientId==null){
