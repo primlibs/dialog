@@ -8,6 +8,7 @@ package controllers;
 import static controllers.LkController.CABINET_ID_SESSION_NAME;
 import controllers.parent.WebController;
 import entities.User;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -144,11 +145,16 @@ public class UserController extends WebController {
 
     @RequestMapping("/userList")
     public String showListUserPage(Map<String, Object> model, HttpServletRequest request) throws Exception {
+        List<String> errors = (List<String>)model.get("errors");
+        if(errors==null){
+            errors=new ArrayList();
+        }
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
         model.put("cabinetUserList", userService.cabinetUserList(cabinetId));
-        model.put("errors", userService.getErrors());
+        errors.addAll(userService.getErrors());
+        model.put("errors", errors);
         return "userList";
     }
     
