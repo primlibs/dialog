@@ -72,10 +72,6 @@ public class ClientController extends WebController {
                 selectedTagsMap.put(tagId,tagId);
             }
         }
-        /*List<Long> selectedTags = new ArrayList();
-        if (tagIds != null) {
-            selectedTags.addAll(Arrays.asList(tagIds));
-        }*/
         model.put("selectedTagsMap", selectedTagsMap);
         
         List<String> clientErrors = clientService.getErrors();
@@ -170,7 +166,6 @@ public class ClientController extends WebController {
         tagService.deleteClientTag(clientId,tagId,cabinetId);
         errors.addAll(tagService.getErrors());
         
-        model.put("errors",errors);
         ras.addFlashAttribute("errors",errors);
         ras.addAttribute("eventId", eventId);
         ras.addAttribute("clientId", clientId);
@@ -197,6 +192,43 @@ public class ClientController extends WebController {
             res.setMessage(err);
         }
         return res;
+    }
+    
+    @RequestMapping("/delete")
+    public String deleteClient(Map<String, Object> model,@RequestParam(value = "clientIdtoDelete") Long clientId,
+            @RequestParam(value = "uid", required = false) String uid,
+            @RequestParam(value = "adress", required = false) String adress,@RequestParam(value = "nameCompany", required = false) String nameCompany,
+            @RequestParam(value = "name", required = false) String name,@RequestParam(value = "phone", required = false) String phone,
+            @RequestParam(value = "tagIds", required = false) Long[] tagIds,@RequestParam(value = "tagCrossing", required = false) String tagCrossing,
+            HttpServletRequest request,RedirectAttributes ras) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+     
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        
+        List<String> errors = (List<String>)model.get("errors");
+        if(errors==null){
+            errors=new ArrayList();
+        }
+        clientService.delete(clientId,cabinetId);
+        errors.addAll(clientService.getErrors());
+        
+        HashMap<Long,Long> selectedTagsMap=new HashMap();
+        if(tagIds!=null){
+            for(Long tagId:tagIds){
+                selectedTagsMap.put(tagId,tagId);
+            }
+        }
+        ras.addAttribute("selectedTagsMap", selectedTagsMap);
+        
+        ras.addFlashAttribute("errors",errors);
+        ras.addAttribute("clientId", clientId);
+        ras.addAttribute("uid",uid);
+        ras.addAttribute("nameCompany",nameCompany);
+        ras.addAttribute("adress",adress);
+        ras.addAttribute("name",name);
+        ras.addAttribute("phone",phone);
+        ras.addAttribute("tagCrossing",tagCrossing);
+        return "redirect:/Client/clientList";
     }
 
 }

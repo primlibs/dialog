@@ -73,6 +73,7 @@
           <th> Телефон К.Л. </th>
           <th> Лицо принимающее решения </th>
           <th> Телефон Л.П.Р. </th>
+          <th></th>
         </tr>
         <c:forEach var="client"  items="${clients}" varStatus="myIndex">
             <!--<tr style="cursor: pointer;" onclick="location = '<c:url value="/Client/oneClient?clientId=${client.clientId}"/>'">-->
@@ -84,10 +85,41 @@
               <td><a class="arow" href="/Client/oneClient?clientId=${client.clientId}">${client.nameSecretary}</a></td>
               <td><a class="arow" href="/Client/oneClient?clientId=${client.clientId}">${client.getFormattedPhoneSec()}</a></td>
               <td><a class="arow" href="/Client/oneClient?clientId=${client.clientId}">${client.nameLpr}</a></td>
-              <td><a class="arow" href="/Client/oneClient?clientId=${client.clientId}">${client.getFormattedPhoneLpr()}</a></td></tr>
+              <td><a class="arow" href="/Client/oneClient?clientId=${client.clientId}">${client.getFormattedPhoneLpr()}</a></td>
+            <td><a href="#" id="${client.clientId}" class="btn btn-danger btn-xs deletinghref"
+                               data-toggle="modal"
+                               data-target="#deleteWindow">Удалить</a></td></tr>
             </c:forEach>
       </table>
     </div>
+          <div class="modal fade" id="deleteWindow" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title" id="myModalLabel">Будут удалены все назначенные звонки и вся стат. информация о клиенте.Удалить?</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="deleteTagForm" action="<c:url value="/Client/delete"/>" method="post">
+                                <input type="hidden" name="clientIdtoDelete" value="">
+                                <input type="hidden"  name="uid"  value="${uid}">
+                                <input type="hidden"  name="nameCompany"  value="${nameCompany}">
+                                <input type="hidden"  name="adress"  value="${adress}">
+                                <input type="hidden"  name="name"  value="${name}">
+                                <input type="hidden"  name="phone" value="${phone}">
+                                <input type="hidden"  name="tagCrossing" value="${tagCrossing}">
+                                <c:if test="${not empty selectedTagsMap}">
+                                    <c:forEach var="tagId" items="${selectedTagsMap.keySet()}">
+                                        <input type="hidden" name="tags" value="${tagId}" >
+                                    </c:forEach>
+                              </c:if>
+                            <p><input class="btn btn-danger" type="submit" value="Удалить">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 <script>$('.arow').hover(function(){$(this).closest('tr').find('.arow').toggleClass('underlined')})</script>
+<script>$('.deletinghref').click(function(){var cuid = $(this).attr('id');$('[name = clientIdtoDelete]').val(cuid);});</script>
   </body>
 </html>

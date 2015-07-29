@@ -37,6 +37,8 @@ public class ClientService extends PrimService {
     private ModuleDao moduleDao;
     @Autowired
     private EventDao eventDao;
+    @Autowired
+    private EventService eventService;
 
     public List<Client> getCabinetClients(Long pkId) {
         return clientDao.getCabinetClients(pkId);
@@ -180,5 +182,22 @@ public class ClientService extends PrimService {
             }
         }
     }
+    
+public void delete(Long clientId,Long pkId){
+    if(clientId!=null&&pkId!=null){
+        Client c = clientDao.find(clientId);
+        for(Event ev:c.getEvents()){
+            eventService.delete(ev);
+        }
+        clientDao.delete(c);
+    }else{
+        if(clientId==null){
+            addError("Ид клиента не был получен");
+        }
+        if(pkId==null){
+            addError("Ошибка личного кабинета");
+        }
+    }
+}
 
 }
