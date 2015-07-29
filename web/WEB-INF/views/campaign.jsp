@@ -24,7 +24,7 @@
         <div class="row ">
             <table class="table table-bordered table-hover">
                 <tr>
-                    <th></th>
+                    <th>№</th>
                     <th>Кампания</th>
                     <th>Сценарий</th>
                     <th>Количество клиентов</th>
