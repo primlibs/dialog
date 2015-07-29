@@ -222,9 +222,6 @@
                             </c:forEach>
                         </c:forEach>
                     </div>
-                
-            </div>
-        
-
+            
     </body>
 </html>

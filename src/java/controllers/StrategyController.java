@@ -195,10 +195,7 @@ public class StrategyController extends WebController {
     @RequestMapping("/failReasonEditor")
     public String editFailReason(Map<String, Object> model,
             HttpServletRequest request,
-            //  @RequestParam(value = "moduleName", required = false) String moduleName,
-            //  @RequestParam(value = "moduleId", required = false) Long moduleId,
             @RequestParam(value = "strategyId") Long strategyId) throws Exception {
-
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
