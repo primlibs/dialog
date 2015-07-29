@@ -13,7 +13,7 @@
 <div class="navbar" style="margin-bottom: 0px">
     <ul class="nav navbar-nav">
                <li><a href="<c:url value="/Event/campaign"/>">Мои звонки</a></li>
-               <!--<li><a href="<c:url value="/Event/postponedEvents"/>">Перенесенные</a></li> -->
+               <li><a href="<c:url value="/Event/postponedEvents"/>">Перенесенные</a></li>
     </ul> 
     <%@include file="/WEB-INF/jsp/menuright.jsp" %>
 </div>   
