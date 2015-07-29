@@ -1,3 +1,4 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -24,7 +25,7 @@
                         <th>Комментарий</th>
                     </tr>
                     <c:forEach var="event" items="${postponedEvents}" varStatus="myIndex">
-                        <tr>
+                        <tr style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/event?eventId=${event.eventId}&campaignId=${event.campaign.campaignId}"/>'">
                             <td>${myIndex.count}</td>
                             <td>${event.client.nameCompany}</td>
                             <td><fmt:formatDate type="both" value="${event.postponedDate}"/></td>
