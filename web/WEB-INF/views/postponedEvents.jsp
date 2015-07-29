@@ -12,7 +12,7 @@
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
 
         <div class="row ">
-            <h4>Перенесенные звонки</h4>
+            <h3>Перенесенные звонки</h3>
         </div>
             <div class="row">
                 <table class="table table-bordered table-hover">
