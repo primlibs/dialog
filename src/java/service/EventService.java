@@ -650,7 +650,11 @@ public class EventService extends PrimService {
             return events;
         }
         if (assigned > 0 && processed == 0) {
-            List<Event> events = eventDao.getEventsByUserId(campaignId, cabinetId, userId);//лист ссылок  по userId, по евенту и личному кабинету
+            List<Event> events = eventDao.getEventsByUserId(campaignId,userId,cabinetId);//лист ссылок  по userId, по евенту и личному кабинету
+            /*addError("campId="+campaignId+";");
+            addError("userId="+userId+";");
+            addError("cabinetId="+cabinetId+";");
+            addError("s="+events.size()+";");*/
             return events;
         }
         if (assigned > 0 && processed == -1) {

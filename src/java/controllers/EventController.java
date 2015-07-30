@@ -292,14 +292,21 @@ public class EventController extends WebController {
             HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-
+        List<String> errors = (List<String>) model.get("errors");
+        if(errors==null){
+            errors=new ArrayList();
+        }
+        
         model.put("events", eventService.getEventFilter(campaignId, cabinetId, assigned, processed));
+        //errors.add("finalEvsCount="+eventService.getEventFilter(campaignId, cabinetId, assigned, processed).size()+";");
         model.put("campaign", eventService.getCampaign(campaignId));
         model.put("cabinetUserList", eventService.getActiveMakingCallsUsers(cabinetId));
         model.put("assignedMap", getAssignedMap(eventService.getActiveMakingCallsUsers(cabinetId)));
         model.put("proceededMap", getProceededMap());
-        ras.addAttribute("campaignId", campaignId);
-        ras.addFlashAttribute("errors", eventService.getErrors());
+        model.put("campaignId", campaignId);
+        model.put("assigned", assigned);
+        errors.addAll(eventService.getErrors());
+        model.put("errors", errors);
         return "eventClient";
     }
 
@@ -309,7 +316,7 @@ public class EventController extends WebController {
         result.put(Long.valueOf(-1), "Не назначено");
         result.put(Long.valueOf(-2), "Назначено");
         for (CabinetUser cu : lcu) {
-            result.put(cu.getId(), cu.getUser().getSurname() + " " + cu.getUser().getName());
+            result.put(cu.getUser().getId(), cu.getUser().getSurname() + " " + cu.getUser().getName());
         }
         return result;
     }

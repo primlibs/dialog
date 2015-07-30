@@ -35,6 +35,7 @@ public class EventComment extends PrimEntity {
     public static int UNASSIGN = 3;
     public static int FAILED = 4;
     public static int SUCCESSFUL = 5;
+    public static int COMMENTED = 6;
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -138,6 +139,9 @@ public class EventComment extends PrimEntity {
         this.cabinet = cabinet;
     }
     
-    
+    /*public String getMessage(){
+        String msg = "";
+        
+    }*/
     
 }

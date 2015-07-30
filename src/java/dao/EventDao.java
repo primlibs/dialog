@@ -32,6 +32,14 @@ public class EventDao extends Dao<Event> {
     public Class getSupportedClass() {
         return Event.class;
     }
+    
+    public Event getEvent(Long eventId,Long pkId){
+        String hql = "from Event ev where ev.cabinet.pkId=:pkId and ev.eventId=:eventId";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("eventId", eventId);
+        query.setParameter("pkId", pkId);
+        return (Event) query.uniqueResult();
+    }
 
     public Event getEvent(Client cl, PersonalCabinet pk, Campaign campaign) {
         //   String hql = "from Event as ev where ev.event.campaignId= :event and ev.cabinet.pkId= :cabinet and ev.client.clientId= :client";
@@ -243,14 +251,13 @@ public class EventDao extends Dao<Event> {
     }
 
     //Ссылка ECL по campaignId , по userId
-    public List<Event> getEventsByUserId(Long campaignId, Long cabinetId, Long userId) {
-        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.cabinet.pkId= :cabinet and ev.user.userId= :userId order by ev.client.nameCompany,ev.client.address";
+    public List<Event> getEventsByUserId(Long campaignId, Long userId, Long pkId) {
+        String hql = "from Event ev where ev.campaign.campaignId=:campaignId and ev.cabinet.pkId=:pkId and ev.user.userId=:userId";// order by ev.client.nameCompany,ev.client.address";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
-        query.setParameter("cabinet", cabinetId);
+        query.setParameter("pkId", pkId);
         query.setParameter("userId", userId);
-        List<Event> ev = query.list();
-        return ev;
+        return query.list();
     }
 
     //клиенты назначение юзерам не обработанные

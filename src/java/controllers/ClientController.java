@@ -115,7 +115,8 @@ public class ClientController extends WebController {
         model.put("possibleTagsToAdd",tagService.getNotLinkedTags(clientId,cabinetId));
         model.put("unfinishedEvents",clientService.getUnfinishedEventsByClient(clientId));
         model.put("finishedEvents",clientService.getFinishedEventsByClient(clientId));
-        model.put("dialog",clientService.getHistory(eventId));
+        //model.put("dialog",clientService.getHistory(eventId,cabinetId));
+        model.put("messages", clientService.getHistory(eventId,cabinetId));
         model.put("dialogEvent",eventService.getEventById(eventId));
         
         List<String> clientErrors = clientService.getErrors();

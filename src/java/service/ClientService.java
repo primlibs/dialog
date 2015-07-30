@@ -10,9 +10,13 @@ import dao.EventDao;
 import dao.ModuleDao;
 import entities.Client;
 import entities.Event;
-import entities.Module;
+import entities.EventComment;
+import entities.ModuleEventClient;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.TreeMap;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -119,9 +123,32 @@ public class ClientService extends PrimService {
         return clientDao.getClientsBySearchRequest(pkId, uid, adress, nameCompany, name, phone,tagCrossing, tagIds);
     }
 
-    public List<Module> getHistory(Long eventId) {
-        List<Module> dialog = moduleDao.getHistory(eventId);
-        return dialog;
+    //to do refactor
+    public List<String> getHistory(Long eventId,Long pkId) {
+        TreeMap<Date,String>resMap = new TreeMap();
+        if(eventId!=null&&pkId!=null){
+            
+            Event ev = eventDao.getEvent(eventId,pkId);
+            for(EventComment ec:ev.getEventComments()){
+                resMap.put(ec.getInsertDate(),"Системное сообщение: "+ec.getComment());
+            }
+            for(ModuleEventClient mec:ev.getModuleEventClientList()){
+                Long time=mec.getInsertDate().getTime()-1;
+                resMap.put(new Date(time),"Клиент: "+mec.getModule().getModuleName());
+                resMap.put(mec.getInsertDate(),"Менеджер: "+mec.getModule().getBodyText());
+            }
+            //List<Module> dialog = moduleDao.getHistory(eventId);
+        }else{
+            /*if(eventId==null){
+                addError("Ид звонка не получен");
+            }*/
+            if(pkId==null){
+                addError("Ошибка личного кабинета");
+            }
+        }
+        ArrayList<String> res = new ArrayList();
+        res.addAll(resMap.values());
+        return res;
     }
 
     public void updateClientField(String field, Long clientId, Long eventId, String newVal) {

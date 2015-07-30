@@ -13,6 +13,7 @@ import entities.Tag;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
@@ -235,6 +236,9 @@ public class TagService extends PrimService {
                 HashMap<Long, Tag> tagMap = getAllActiveTagsMap(pkId);
                 Client client = clientDao.find(clientId);
                 Set<Tag> tags = client.getTags();
+                if(tags==null){
+                    tags= new HashSet();
+                }
                 for (Long tagId : tagIds) {
                     Tag tag = tagMap.get(tagId);
                     if (tag != null) {
