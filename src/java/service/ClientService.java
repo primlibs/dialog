@@ -26,6 +26,7 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.parent.PrimService;
+import support.DateAdapter;
 
 /**
  *
@@ -124,13 +125,13 @@ public class ClientService extends PrimService {
     }
 
     //to do refactor
-    public List<String> getHistory(Long eventId,Long pkId) {
+    public TreeMap<Date,String> getHistory(Long eventId,Long pkId) {
         TreeMap<Date,String>resMap = new TreeMap();
         if(eventId!=null&&pkId!=null){
             
             Event ev = eventDao.getEvent(eventId,pkId);
             for(EventComment ec:ev.getEventComments()){
-                resMap.put(ec.getInsertDate(),"Системное сообщение: "+ec.getComment());
+                resMap.put(ec.getInsertDate(),"Системное сообщение: "+ec.getComment()+" (от "+DateAdapter.formatByDate(ec.getInsertDate(), DateAdapter.FULL_FORMAT)+")");
             }
             for(ModuleEventClient mec:ev.getModuleEventClientList()){
                 Long time=mec.getInsertDate().getTime()-1;
@@ -148,7 +149,7 @@ public class ClientService extends PrimService {
         }
         ArrayList<String> res = new ArrayList();
         res.addAll(resMap.values());
-        return res;
+        return resMap;
     }
 
     public void updateClientField(String field, Long clientId, Long eventId, String newVal) {
