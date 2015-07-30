@@ -77,7 +77,6 @@ public class LkController extends WebController{
         String user = service.getNameUser();
         model.put("nameUser", user);
         model.put("nameCompany", company);
-       // return service.toString();
     }
 
     public void getRole(HttpServletRequest request, Map<String, Object> model) {
