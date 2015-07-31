@@ -40,7 +40,7 @@ public class GroupController extends WebController {
             HttpServletRequest request,
             @RequestParam(value = "strategyId") Long strategyId,
             @RequestParam(value = "groupId") Long groupId,
-            @RequestParam(value = "moduleId") Long moduleId,
+            @RequestParam(value = "moduleIdtoDelete") Long moduleId,
             RedirectAttributes ras) throws Exception {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
@@ -56,7 +56,7 @@ public class GroupController extends WebController {
     public String delGroup(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "strategyId") Long strategyId,
-            @RequestParam(value = "groupId") Long groupId,
+            @RequestParam(value = "groupIdtoDelete") Long groupId,
             RedirectAttributes ras) throws Exception {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
