@@ -84,6 +84,7 @@
                 theme: "modern",
                 menubar: false,
                 toolbar_items_size: 'small',
+                language: 'ru',
                 plugins: [
                     " textcolor colorpicker textpattern"
                 ],
