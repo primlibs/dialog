@@ -81,10 +81,13 @@
         <script type="text/javascript">
             tinymce.init({
                 selector: "textarea",
+                theme: "modern",
+                menubar: false,
+                toolbar_items_size: 'small',
                 plugins: [
                     " textcolor colorpicker textpattern"
                 ],
-                toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | forecolor backcolor",
+                toolbar: " styleselect | bold italic underline strikethrough | fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | forecolor backcolor",
             <%-- width: 800 --%>
             });
         </script>
