@@ -11,6 +11,7 @@ import entities.CabinetUser;
 import entities.Campaign;
 import entities.Event;
 import entities.User;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -188,9 +189,7 @@ public class EventController extends WebController {
 
     @RequestMapping("/getShapeExcel")
     public void getShapeExcel(Map<String, Object> model, HttpServletResponse response, HttpServletRequest request) throws Exception {
-
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition", "attachment; filename=Clients.xls");
         eventService.getXls().write(response.getOutputStream());
@@ -308,6 +307,53 @@ public class EventController extends WebController {
         errors.addAll(eventService.getErrors());
         model.put("errors", errors);
         return "eventClient";
+    }
+    
+    @RequestMapping("/eventClientXLS")
+    public void geteventClientXLS(Map<String, Object> model,
+            HttpServletResponse response,
+            @RequestParam(value = "campaignId") Long campaignId,
+            @RequestParam(value = "assigned", required = false) Integer assigned,
+            @RequestParam(value = "processed", required = false) Integer processed,
+            HttpServletRequest request) throws IOException, Exception{
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        
+        if(assigned==null){
+            assigned=0;
+        }
+        if(processed==null){
+            processed=0;
+        }
+        String fileName ="";
+        Campaign c = eventService.getCampaign(campaignId);
+        fileName+=c.getName();
+        if(assigned==-2){
+            fileName+="_assigned";
+        }else if(assigned==-1){
+            fileName+="_notassigned";
+        }else if(assigned==0){
+            fileName+="_notchosen";
+        }else{
+            User u= userService.getUser(Long.valueOf(assigned));
+            fileName+="_"+u.getEmail();
+        }
+        
+        if(processed==-4){
+            fileName+="_performed";
+        }else if(processed==-3){
+            fileName+="_failed";
+        }else if(processed==-2){
+            fileName+="_successful";
+        }else if(processed==-1){
+            fileName+="_notperformed";
+        }else if(processed==0){
+            fileName+="_notchosen";
+        }
+
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; filename="+fileName+".xls");
+        eventService.getEventClientXls(campaignId,assigned,processed,cabinetId).write(response.getOutputStream());
+        //eventService.getXls().write(response.getOutputStream());
     }
 
     private LinkedHashMap<Long, String> getAssignedMap(List<CabinetUser> lcu) {

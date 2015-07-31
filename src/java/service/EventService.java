@@ -1133,6 +1133,58 @@ public class EventService extends PrimService {
             addError("ИД кампании не передан");
         }
     }
+    
+    public HSSFWorkbook getEventClientXls(Long campaignId,Integer assigned,Integer processed,Long pkId) throws Exception{
+        List<Event>result=getEventFilter(campaignId,pkId,assigned,processed);
+        /*if(!result.isEmpty()){
+            throw new Exception(result.size()+"");
+        }*/
+        HSSFWorkbook workbook = new HSSFWorkbook();
+
+        int n = 0;
+        HSSFSheet sheet = workbook.createSheet("Результат");
+        HSSFRow rowhead = sheet.createRow((short) n);
+        int r = 0;
+        rowhead.createCell(r++).setCellValue("Номер уникальный");
+        rowhead.createCell(r++).setCellValue("Клиент");
+        rowhead.createCell(r++).setCellValue("Телефон");
+        rowhead.createCell(r++).setCellValue("Комментарий");
+        rowhead.createCell(r++).setCellValue("К.Л.");
+        rowhead.createCell(r++).setCellValue("Телефон Л.П.Р");
+        rowhead.createCell(r++).setCellValue("Л.П.Р.");
+        rowhead.createCell(r++).setCellValue("Адрес");
+        rowhead.createCell(r++).setCellValue("Пользователь");
+        rowhead.createCell(r++).setCellValue("Дата установки статуса");
+        rowhead.createCell(r++).setCellValue("Статус");
+        n++;
+        for(Event ev:result){
+            HSSFRow rowbody = sheet.createRow((short) n);
+            
+            String date = "";
+            if(ev.getSetStatusDate()!=null){
+                date = DateAdapter.formatByDate(ev.getSetStatusDate(), DateAdapter.FULL_FORMAT);
+            }
+            User u = ev.getUser();
+            String uname = "Не назначено";
+            if(u!=null){
+                uname=u.getShortName();
+            }
+            r=0;
+            rowbody.createCell(r++).setCellValue(ev.getClient().getUniqueId());
+            rowbody.createCell(r++).setCellValue(ev.getClient().getNameCompany());
+            rowbody.createCell(r++).setCellValue(ev.getClient().getFormattedPhoneSec());
+            rowbody.createCell(r++).setCellValue(ev.getComment());
+            rowbody.createCell(r++).setCellValue(ev.getClient().getNameSecretary());
+            rowbody.createCell(r++).setCellValue(ev.getClient().getFormattedPhoneLpr());
+            rowbody.createCell(r++).setCellValue(ev.getClient().getNameLpr());
+            rowbody.createCell(r++).setCellValue(ev.getClient().getAddress());
+            rowbody.createCell(r++).setCellValue(uname);
+            rowbody.createCell(r++).setCellValue(date);
+            rowbody.createCell(r++).setCellValue(ev.getRusStatus());
+            n++;
+        }
+        return workbook;
+    }
     /*public LinkedHashMap<Long,HashMap<String,String>>GetCampaignResultReportData(List<Long> campaignIds,Long PkId){
      List<Object> daoRes = eventDao.getUserAndAssignedAndSuccAndFailedByaDateAndCampaign(campaignIds, PkId);
      for(Object o:daoRes){

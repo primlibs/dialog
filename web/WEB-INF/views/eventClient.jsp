@@ -55,6 +55,12 @@
                     <input type="submit" name="submit"  class="btn btn-primary" value="Выбрать">
                 </div>
             </form>
+                    <form class="form-inline btn-group" action="<c:url value="/Event/eventClientXLS" />" >
+          <input type="hidden"  name="assigned" value="${param['assigned']}">
+          <input type="hidden"  name="processed" value="${param['processed']}">
+          <input type="hidden" name="campaignId" value=${param['campaignId']}>
+          <input type="submit" name="submit" class="btn btn-primary" value="Скачать excel" >
+        </form>
             </div>
             <table class="table table-bordered table-hover">
                 <tr>
