@@ -395,7 +395,7 @@ public class EventController extends WebController {
         
         JsonResponse res = JsonResponse.getInstance();
 
-        clientService.updateClientField(param, clientId,eventId, newVal);
+        clientService.updateClientField(param, clientId,eventId, newVal,cabinetId);
         List<String>errs=(List<String>)model.get("errors");
         if(errs==null){
             errs=new ArrayList();

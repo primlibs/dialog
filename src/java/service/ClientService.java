@@ -72,24 +72,24 @@ public class ClientService extends PrimService {
         int r = 0;
         rowhead.createCell(r++).setCellValue("Номер уникальный");
         rowhead.createCell(r++).setCellValue("Название компании");
-        rowhead.createCell(r++).setCellValue("Имя контактного лица");
         rowhead.createCell(r++).setCellValue("Телефон к.л.");
-        rowhead.createCell(r++).setCellValue("Имя лица принимающего решение");
+        rowhead.createCell(r++).setCellValue("Имя контактного лица");
         rowhead.createCell(r++).setCellValue("Телефон л.п.р.");
+        rowhead.createCell(r++).setCellValue("Имя лица принимающего решение");
         rowhead.createCell(r++).setCellValue("Адрес");
-        rowhead.createCell(r++).setCellValue("Коментарии");
+        //rowhead.createCell(r++).setCellValue("Коментарии");
         n++;
         for (Client client : clientList) {
             HSSFRow row = sheet.createRow((short) n);
             r = 0;
-            row.createCell(r++).setCellValue(client.getClientId());
+            row.createCell(r++).setCellValue(client.getUniqueId());
             row.createCell(r++).setCellValue(client.getNameCompany());
-            row.createCell(r++).setCellValue(client.getNameSecretary());
             row.createCell(r++).setCellValue(client.getPhoneSecretary());
-            row.createCell(r++).setCellValue(client.getNameLpr());
+            row.createCell(r++).setCellValue(client.getNameSecretary());
             row.createCell(r++).setCellValue(client.getPhoneLpr());
+            row.createCell(r++).setCellValue(client.getNameLpr());
             row.createCell(r++).setCellValue(client.getAddress());
-            row.createCell(r++).setCellValue("");
+            //row.createCell(r++).setCellValue("");
             n++;
         }
         return workbook;
@@ -131,7 +131,7 @@ public class ClientService extends PrimService {
             
             Event ev = eventDao.getEvent(eventId,pkId);
             for(EventComment ec:ev.getEventComments()){
-                resMap.put(ec.getInsertDate(),"Системное сообщение: "+ec.getComment()+" (от "+DateAdapter.formatByDate(ec.getInsertDate(), DateAdapter.FULL_FORMAT)+")");
+                resMap.put(ec.getInsertDate(),ec.getComment()+" (системное сообщение от "+DateAdapter.formatByDate(ec.getInsertDate(), DateAdapter.FULL_FORMAT)+")");
             }
             for(ModuleEventClient mec:ev.getModuleEventClientList()){
                 Long time=mec.getInsertDate().getTime()-1;
@@ -152,7 +152,7 @@ public class ClientService extends PrimService {
         return resMap;
     }
 
-    public void updateClientField(String field, Long clientId, Long eventId, String newVal) {
+    public void updateClientField(String field, Long clientId, Long eventId, String newVal,Long pkId) {
         //boolean performed=false;
         Client client = clientDao.find(clientId);
         Event ev = null;
@@ -197,6 +197,7 @@ public class ClientService extends PrimService {
             if (ev != null) {
                 if (validate(ev)) {
                     eventDao.update(ev);
+                    eventService.addEventComment("Комментарий: "+ev.getComment(), EventComment.COMMENTED, ev, pkId);
                 }
             } else {
                 addError("Эвент не найден");

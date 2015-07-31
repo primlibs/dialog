@@ -181,7 +181,7 @@ public class ClientController extends WebController {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         JsonResponse res = JsonResponse.getInstance();
         
-        clientService.updateClientField(parametr, clientId, null, newVal);
+        clientService.updateClientField(parametr, clientId, null, newVal,cabinetId);
         if(clientService.getErrors().isEmpty()){
             res.setStatus(Boolean.TRUE);
         }else{

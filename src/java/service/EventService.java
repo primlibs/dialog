@@ -219,13 +219,15 @@ public class EventService extends PrimService {
         HSSFRow rowhead = sheet.createRow((short) n);
         int r = 0;
         rowhead.createCell(r++).setCellValue("Номер уникальный");
-        rowhead.createCell(r++).setCellValue("Название компании");
-        rowhead.createCell(r++).setCellValue("Имя контактного лица");
-        rowhead.createCell(r++).setCellValue("Телефон к.л.");
+        rowhead.createCell(r++).setCellValue("Клиент");
+        
+        rowhead.createCell(r++).setCellValue("Телефон");
+        rowhead.createCell(r++).setCellValue("Коментарий");
+        
+        /*rowhead.createCell(r++).setCellValue("Имя контактного лица");
         rowhead.createCell(r++).setCellValue("Имя лица принимающего решение");
         rowhead.createCell(r++).setCellValue("Телефон л.п.р.");
-        rowhead.createCell(r++).setCellValue("Адрес");
-        rowhead.createCell(r++).setCellValue("Коментарии");
+        rowhead.createCell(r++).setCellValue("Адрес");*/
         n++;
         return workbook;
     }
@@ -273,24 +275,26 @@ public class EventService extends PrimService {
                     Row rw = it.next();
                     if (!(StringAdapter.getString(rw.getCell(0))).trim().equals("Номер уникальный")) {
                         String uid = StringAdapter.HSSFSellValue(rw.getCell(0));
-                        if (uid.equals("")) {
+                        String name = StringAdapter.HSSFSellValue(rw.getCell(1));
+                        String secretaryPhone = HSSFPhoneValue(rw.getCell(2));
+                        String comment = StringAdapter.HSSFSellValue(rw.getCell(3));
+                        String contface=StringAdapter.HSSFSellValue(rw.getCell(4));
+                        String lprPhone = HSSFPhoneValue(rw.getCell(5));
+                        String namelpr=StringAdapter.HSSFSellValue(rw.getCell(6));
+                        String adress=StringAdapter.HSSFSellValue(rw.getCell(7));
+                        if (uid.equals("")&&(!name.equals("")||!secretaryPhone.equals("")||!lprPhone.equals(""))) {
                             noUniqueIdList.add(rowCount);
-                        } else {
+                        } else if(!uid.equals("")&&!name.equals("")&&(!secretaryPhone.equals("")||!lprPhone.equals(""))) {
                             //клиентов нет еще
                             if (!addedInPkClientsMap.keySet().contains(uid)) {
                                 Client cl = new Client();
                                 cl.setUniqueId(uid);
-                                cl.setNameCompany(StringAdapter.HSSFSellValue(rw.getCell(1)));
-                                cl.setNameSecretary(StringAdapter.HSSFSellValue(rw.getCell(2)));
-
-                                String secretaryPhone = HSSFPhoneValue(rw.getCell(3));
-                                cl.setNameLpr(StringAdapter.HSSFSellValue(rw.getCell(4)));
-
-                                String lprPhone = HSSFPhoneValue(rw.getCell(5));
+                                cl.setNameCompany(name);
+                                cl.setNameSecretary(contface);
+                                cl.setNameLpr(namelpr);
                                 cl.setPhoneSecretary(secretaryPhone);
                                 cl.setPhoneLpr(lprPhone);
-                                cl.setAddress(StringAdapter.HSSFSellValue(rw.getCell(6)));
-                                String comment = StringAdapter.HSSFSellValue(rw.getCell(7));
+                                cl.setAddress(adress);
                                 commentMap.put(uid, comment);
                                 cl.setCabinet(pk);
                                 if (validate(cl)) {
@@ -304,17 +308,12 @@ public class EventService extends PrimService {
                                 Client cl = addedInPkClientsMap.get(uid);
                                 if (update) {
                                     cl.setUniqueId(uid);
-                                    cl.setNameCompany(StringAdapter.HSSFSellValue(rw.getCell(1)));
-                                    cl.setNameSecretary(StringAdapter.HSSFSellValue(rw.getCell(2)));
-
-                                    String secretaryPhone = HSSFPhoneValue(rw.getCell(3));
-                                    cl.setNameLpr(StringAdapter.HSSFSellValue(rw.getCell(4)));
-
-                                    String lprPhone = HSSFPhoneValue(rw.getCell(5));
+                                    cl.setNameCompany(name);
+                                    cl.setNameSecretary(contface);
+                                    cl.setNameLpr(namelpr);
                                     cl.setPhoneSecretary(secretaryPhone);
                                     cl.setPhoneLpr(lprPhone);
-                                    cl.setAddress(StringAdapter.HSSFSellValue(rw.getCell(6)));
-                                    String comment = StringAdapter.HSSFSellValue(rw.getCell(7));
+                                    cl.setAddress(adress);
                                     commentMap.put(uid, comment);
                                     cl.setCabinet(pk);
                                     if (validate(cl)) {
@@ -369,6 +368,7 @@ public class EventService extends PrimService {
                 for (Event ev : eventsListForSave) {
                     eventDao.save(ev);
                     addEventComment("Звонок добавлен", EventComment.CREATE, ev, pkId);
+                    addEventComment("Комментарий: "+ev.getComment(), EventComment.COMMENTED, ev, pkId);
                 }
             } else {
                 if (!noContactList.isEmpty()) {
@@ -827,6 +827,7 @@ public class EventService extends PrimService {
                         ev.setStatus(Event.FAILED);
                         eventDao.update(ev);
                         addEventComment("Звонок завершен с отрицательным итогом", EventComment.FAILED, ev, pkId);
+                        addEventComment("Комментарий: "+finalComment, EventComment.COMMENTED, ev, pkId);
                     }
                 } else {
                     addError("Необходимо оставить комментарий.");
@@ -852,6 +853,7 @@ public class EventService extends PrimService {
                         ev.setStatus(Event.SUCCESSFUL);
                         eventDao.update(ev);
                         addEventComment("Звонок успешно завершен", EventComment.SUCCESSFUL, ev, pkId);
+                        addEventComment("Комментарий: "+finalComment, EventComment.COMMENTED, ev, pkId);
                     }
                 } else {
                     addError("Необходимо оставить комментарий");
@@ -877,7 +879,7 @@ public class EventService extends PrimService {
                         writeModulesInHistory(pkId, eventId, moduleIds, dates, false);
                         eventDao.update(ev);
                         addEventComment("Звонок перенесен на " + DateAdapter.formatByDate(postponeDate, DateAdapter.FULL_FORMAT), EventComment.POSTPONE, ev, pkId);
-                        //return true;
+                        addEventComment("Комментарий: "+finalComment, EventComment.COMMENTED, ev, pkId);
                     }
                 } else {
                     addError("Необходимо оставить комментарий");
@@ -889,7 +891,6 @@ public class EventService extends PrimService {
         } else {
             addError("Эвент " + eventId + " не найден!");
         }
-        //return false;
     }
 
     public boolean writeModulesInHistory(Long pkId, Long eventId, Long[] moduleIds, Long[] dates, boolean finishing) {
@@ -1101,7 +1102,7 @@ public class EventService extends PrimService {
         }
     }
 
-    private void addEventComment(String text, int type, Event ev, Long pkId) {
+    public void addEventComment(String text, int type, Event ev, Long pkId) {
         PersonalCabinet pk = personalCabinetDao.find(pkId);
         EventComment ec = new EventComment();
         ec.setCabinet(pk);
