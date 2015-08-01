@@ -671,9 +671,12 @@ public class EventService extends PrimService {
         return null;
 
     }
+    
+    
 
     //клиенты назначение юзерам не обработанные
     public HashMap<Long, String> userAssignedClientNotProcessed(Long campaignId, Long cabinetId) {
+        //List<CabinetUser> cusers = getSurnameSortedCUListForCampaignSpecification(campaignId,cabinetId);
         HashMap<Long, String> userAssignedClientNotProcessed = getUserCountMap(cabinetId);
         for (Object[] ecl : eventDao.getAssignedNotProcessedClientsByUserId(campaignId, cabinetId)) {
             userAssignedClientNotProcessed.put(StringAdapter.toLong(ecl[1]), getStringNumber(ecl[0]));
@@ -728,8 +731,8 @@ public class EventService extends PrimService {
         HashMap<Long, String> userMap = new HashMap();
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         List<CabinetUser> CUsers = pk.getCabinetUserList();
-        for (CabinetUser user : CUsers) {
-            userMap.put(user.getId(), "0");
+        for (CabinetUser cuser : CUsers) {
+            userMap.put(cuser.getUser().getId(), "0");
         }
         return userMap;
     }
