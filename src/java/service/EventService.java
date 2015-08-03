@@ -133,10 +133,10 @@ public class EventService extends PrimService {
         return new ArrayList();
     }
 
-    public LinkedHashMap<Campaign, HashMap<String, String>> getCampaignsWithCountInfos(Long cabinetId) {
+    public LinkedHashMap<Campaign, HashMap<String, String>> getCampaignsWithCountInfos(Date dateFrom,Date dateTo,Boolean closed, Long pkId) {
         LinkedHashMap<Campaign, HashMap<String, String>> res = new LinkedHashMap();
-        LinkedHashMap<Long, HashMap<String, String>> countMap = eventDao.getFinishedAndUnassignedEventCountsInCampaignsAsMap(cabinetId);
-        for (Campaign c : campaignDao.getAllCampaigns(cabinetId)) {
+        LinkedHashMap<Long, HashMap<String, String>> countMap = eventDao.getFinishedAndUnassignedEventCountsInCampaignsAsMap(dateFrom,dateTo,closed,pkId);
+        for (Campaign c : campaignDao.getAllCampaigns(pkId)) {
             HashMap<String, String> InfoMap = countMap.get(c.getId());
             if (InfoMap == null) {
                 InfoMap = new HashMap();
@@ -1159,6 +1159,7 @@ public class EventService extends PrimService {
         rowhead.createCell(r++).setCellValue("Пользователь");
         rowhead.createCell(r++).setCellValue("Дата установки статуса");
         rowhead.createCell(r++).setCellValue("Статус");
+        rowhead.createCell(r++).setCellValue("Итог");
         n++;
         for(Event ev:result){
             HSSFRow rowbody = sheet.createRow((short) n);
@@ -1184,6 +1185,7 @@ public class EventService extends PrimService {
             rowbody.createCell(r++).setCellValue(uname);
             rowbody.createCell(r++).setCellValue(date);
             rowbody.createCell(r++).setCellValue(ev.getRusStatus());
+            rowbody.createCell(r++).setCellValue(ev.getFinalComment());
             n++;
         }
         return workbook;

@@ -125,9 +125,10 @@ public class EventDao extends Dao<Event> {
 
     //лист Ссылкок ECL по campaignId УСПЕШНО ОБРАБОТАНЫХ
     public List<Event> getEventLisSuccess(Long campaignId, Long cabinetId) {
-        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.cabinet.pkId= :cabinet and ev.successDate is not null order by ev.client.nameCompany,ev.client.address";
+        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.cabinet.pkId= :cabinet and ev.status=:successful order by ev.client.nameCompany,ev.client.address";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
+        query.setParameter("successful", Event.SUCCESSFUL);
         query.setParameter("cabinet", cabinetId);
         List<Event> ev = query.list();
         return ev;
@@ -135,9 +136,10 @@ public class EventDao extends Dao<Event> {
 
     //лист Ссылкок ECL по campaignId НЕ УСПЕШНО ОБРАБОТАНЫХ
     public List<Event> getEventLisNotSuccess(Long campaignId, Long cabinetId) {
-        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.cabinet.pkId= :cabinet and ev.failReason is not null order by ev.client.nameCompany,ev.client.address";
+        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.cabinet.pkId= :cabinet and ev.status=:failed order by ev.client.nameCompany,ev.client.address";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
+        query.setParameter("failed", Event.FAILED);
         query.setParameter("cabinet", cabinetId);
         List<Event> ev = query.list();
         return ev;
@@ -198,9 +200,10 @@ public class EventDao extends Dao<Event> {
 
     // получить лист назначенных ссылок ECL , успешно обработанных
     public List<Event> getAssignedEventSuccess(Long campaignId, Long cabinetId) {
-        String hql = "from Event as ev where ev.campaign.campaignId=:campaignId and ev.user is not null and ev.cabinet.pkId=:cabinet and ev.successDate is not null order by ev.client.nameCompany,ev.client.address";
+        String hql = "from Event as ev where ev.campaign.campaignId=:campaignId and ev.user is not null and ev.cabinet.pkId=:cabinet and ev.status=:succsesseful order by ev.client.nameCompany,ev.client.address";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
+        query.setParameter("succsesseful", Event.SUCCESSFUL);
         query.setParameter("cabinet", cabinetId);
         List<Event> ev = query.list();
         return ev;
@@ -219,9 +222,10 @@ public class EventDao extends Dao<Event> {
 
     //лист Ссылкок ECL по campaignId УСПЕШНО ОБРАБОТАНЫХ по userId
     public List<Event> getSuccessEventsByUserId(Long campaignId, Long cabinetId, Long userId) {
-        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.cabinet.pkId= :cabinet and ev.user.userId= :userId and ev.successDate is not null order by ev.client.nameCompany,ev.client.address";
+        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.cabinet.pkId= :cabinet and ev.user.userId= :userId and ev.status=:succsesseful order by ev.client.nameCompany,ev.client.address";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
+        query.setParameter("succsesseful", Event.SUCCESSFUL);
         query.setParameter("cabinet", cabinetId);
         query.setParameter("userId", userId);
         List<Event> ev = query.list();
@@ -230,9 +234,10 @@ public class EventDao extends Dao<Event> {
 
     //лист Ссылкок ECL по campaignId НЕ УСПЕШНО ОБРАБОТАНЫХ по userId
     public List<Event> getFailedEventsByUserId(Long campaignId, Long cabinetId, Long userId) {
-        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.cabinet.pkId= :cabinet and ev.user.userId= :userId and ev.failReason is not null order by ev.client.nameCompany,ev.client.address";
+        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.cabinet.pkId= :cabinet and ev.user.userId= :userId and ev.status=:failed order by ev.client.nameCompany,ev.client.address";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
+        query.setParameter("succsesseful", Event.FAILED);
         query.setParameter("cabinet", cabinetId);
         query.setParameter("userId", userId);
         List<Event> ev = query.list();
@@ -282,20 +287,22 @@ public class EventDao extends Dao<Event> {
 
     //клиенты назначение юзерам обработанные Успешно
     public List<Object[]> getUserIdListWithCountedAssignedProcessedSuccessClients(Long campaignId, Long cabinetId) {
-        String hql = "select count(ev.eventId) , ev.user.userId  from Event ev where ev.campaign.campaignId= :campaignId and ev.cabinet.pkId= :cabinetId and ev.user is not null and ev.successDate is not null group by ev.user.userId";
+        String hql = "select count(ev.eventId) , ev.user.userId  from Event ev where ev.campaign.campaignId= :campaignId and ev.cabinet.pkId= :cabinetId and ev.user is not null and ev.status=:successful group by ev.user.userId";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
         query.setParameter("cabinetId", cabinetId);
+        query.setParameter("successful", Event.SUCCESSFUL);
         List<Object[]> clist = query.list();
         return clist;
     }
 
     //клиенты назначение юзерам обработанные Не успешно
     public List<Object[]> getUserIdListWithCountedAssignedProcessedFailedClients(Long campaignId, Long cabinetId) {
-        String hql = "select count(ev.eventId) , ev.user.userId  from Event ev where ev.campaign.campaignId= :campaignId and ev.cabinet.pkId= :cabinet and ev.user is not null and ev.failReason is not null group by user.userId";
+        String hql = "select count(ev.eventId) , ev.user.userId  from Event ev where ev.campaign.campaignId= :campaignId and ev.cabinet.pkId= :cabinet and ev.user is not null and ev.status=:failed group by user.userId";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
         query.setParameter("cabinet", cabinetId);
+        query.setParameter("failed", Event.FAILED);
         List<Object[]> clist = query.list();
         return clist;
     }
@@ -334,10 +341,11 @@ public class EventDao extends Dao<Event> {
     }
     
     public List<Object[]> getUsersAndSuccessfulFailedPerformancesForReport(Date dateCampaignFrom,Date dateCampaignTo,Long pkId){
-        String hql = "select ev.user,count(ev.successDate),count(ev.failReason),count(ev.eventId) from Event ev where ev.cabinet.pkId=:pkId and ev.campaign.creationDate between :dateCampaignFrom and :dateCampaignTo group by ev.user order by ev.user.surname";
+        String hql = "select ev.user,sum(case when ev.status=:successful then 1 else 0 end),count(ev.failReason),count(ev.eventId) from Event ev where ev.cabinet.pkId=:pkId and ev.campaign.creationDate between :dateCampaignFrom and :dateCampaignTo group by ev.user order by ev.user.surname";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("dateCampaignFrom", dateCampaignFrom);
         query.setParameter("dateCampaignTo", dateCampaignTo);
+        query.setParameter("successful", Event.SUCCESSFUL);
         query.setParameter("pkId", pkId);
         return query.list();
     }
@@ -351,10 +359,18 @@ public class EventDao extends Dao<Event> {
         return query.list();
     }
     
-    public LinkedHashMap<Long,HashMap<String,String>> getFinishedAndUnassignedEventCountsInCampaignsAsMap(Long cabinetId){
-        String hql="select ev.campaign,sum(case when ev.user is not null then 1 else 0 end),sum(case when ev.finalComment is not null then 1 else 0 end) from Event ev where ev.cabinet.pkId=:cabinetId group by ev.campaign order by ev.campaign.creationDate,ev.campaign.status desc";
+    public LinkedHashMap<Long,HashMap<String,String>> getFinishedAndUnassignedEventCountsInCampaignsAsMap(Date dateFrom,Date dateTo,boolean showClosed,Long pkId){
+        String hql="select ev.campaign,sum(case when ev.user is not null then 1 else 0 end),sum(case when ev.finalComment is not null then 1 else 0 end) from Event ev where ev.cabinet.pkId=:pkId and ev.campaign.creationDate between :dateFrom and :dateTo";
+        if(!showClosed){
+            hql+=" and ev.campaign.endDate is null";
+        }else{
+            hql+=" and ev.campaign.endDate is not null";
+        }
+        hql+=" group by ev.campaign order by ev.campaign.creationDate,ev.campaign.status desc";
         Query query = getCurrentSession().createQuery(hql);
-        query.setParameter("cabinetId", cabinetId);
+        query.setParameter("dateFrom", dateFrom);
+        query.setParameter("dateTo", dateTo);
+        query.setParameter("pkId", pkId);
         LinkedHashMap<Long,HashMap<String,String>> res=new LinkedHashMap();
         List<Object[]> list = query.list();
         for(Object[] o:list){

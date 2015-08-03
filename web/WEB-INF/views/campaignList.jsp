@@ -18,11 +18,48 @@
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
         <%@include file="/WEB-INF/jsp/error.jsp" %> 
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
+        <script type="text/javascript">
+            $(function() {
+                //Установим для виджета русскую локаль с помощью параметра language и значения ru
+                $('#datetimepicker2').datetimepicker(
+                        {language: 'ru',
+                        viewMode: 'days',
+                        pickTime: false}
+                );
+                $('#datetimepicker1').datetimepicker(
+                        {language: 'ru',
+                        viewMode: 'days',
+                        pickTime: false}
+                );
+            });
+        </script>
         
         <div class="row "><h3>Кампании</h3>
 
         <div class="form-group">
             <a href="<c:url value="/Event/createCampaign"/>" class="btn btn-primary" role="button">Создать кампанию</a>
+        </div>
+        <div class="row form-group">  
+            
+            <c:set var="checked" value=""/>
+            <c:if test="${not empty closed}">
+                <c:set var="checked" value="checked"/>
+            </c:if>
+            
+            <!--<form class="form-inline" action="<c:url value="/Event/campaignList" />"  method="post"> 
+                Старт кампании с
+                <div class="input-group date">
+                    <input type="text" name="dateFrom" id="datetimepicker1" class="form-control" value=${dateFrom}>
+                </div>
+                  по  
+                  <div class="input-group date">
+                    <input type="text" name="dateTo" id="datetimepicker2" class="form-control" value=${dateTo}>
+                  </div>
+                  <label>
+                    <input id="closed" type="checkbox" ${checked}> в том числе закрытые
+                </label>
+                    <button type="submit" name="submit" class="btn btn-primary"> Выбрать </button>
+            </form>-->
         </div>
         <div class="row ">    
              <table class="table table-bordered table-hover">

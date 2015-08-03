@@ -13,6 +13,7 @@ import entities.Event;
 import entities.User;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -77,13 +78,32 @@ public class EventController extends WebController {
     private TagService tagService;
 
     @RequestMapping("/campaignList")
-    public String showCampaigns(Map<String, Object> model, HttpServletRequest request) throws Exception {
+    public String showCampaigns(Map<String, Object> model,
+            @RequestParam(value = "dateFrom", required = false) Date dateFrom,
+            @RequestParam(value = "dateTo", required = false) Date dateTo,
+            @RequestParam(value = "closed", required = false) String closed,
+            HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
-
+        
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        boolean showClosed = false;
+        if(closed!=null){
+            showClosed=true;
+        }
+        
+        if(dateFrom==null){
+            Calendar c = Calendar.getInstance();
+            c.set(Calendar.DAY_OF_MONTH, 1);
+            dateFrom=DateAdapter.getDateFromString(DateAdapter.formatByDate(c.getTime(),DateAdapter.SMALL_FORMAT));
+        }
+        if(dateTo==null){
+            dateTo=DateAdapter.getDateFromString(DateAdapter.formatByDate(new Date(),DateAdapter.SMALL_FORMAT));
+        }
 
-        model.put("campaignsWithCountInfosMap", eventService.getCampaignsWithCountInfos(cabinetId));
+        model.put("campaignsWithCountInfosMap", eventService.getCampaignsWithCountInfos(dateFrom,dateTo,showClosed,cabinetId));
         model.put("errors", eventService.getErrors());
+        model.put("dateFrom", dateFrom);
+        model.put("dateTo", dateTo);
         return "campaignList";
     }
 
@@ -326,7 +346,7 @@ public class EventController extends WebController {
         }
         String fileName ="";
         Campaign c = eventService.getCampaign(campaignId);
-        fileName+=c.getName();
+        fileName+=c.getId()+"_"+c.getName();
         if(assigned==-2){
             fileName+="_assigned";
         }else if(assigned==-1){
