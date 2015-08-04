@@ -17,14 +17,14 @@
                 <c:set var="managerInfo" value="Менеджер: ${user.getShortName()}"/>
             </c:if>
             <span style="font-size: 18px;font-weight: 500;"><b>Кампания: ${campaign.name}; ${managerInfo};</b></span>
-            <!--<form class="form-inline btn-group" action="<c:url value="/Event/workReportDetalisationXLS" />" >
-          <input type="hidden" name="campaignId" value=${campaignId}>
+            <form class="form-inline btn-group" action="<c:url value="/Event/workReportDetalisationXLS" />" >
+          <input type="hidden" name="campaignId" value=${campaign.campaignId}>
           <input type="hidden"  name="userId" value="${userId}">
           <input type="hidden"  name="status" value="${status}">
           <input type="hidden"  name="dateFrom" value="${dateFrom}">
           <input type="hidden"  name="dateTo" value="${dateTo}">
           <input type="submit" name="submit" class="btn btn-primary" value="Скачать excel" >
-        </form>-->
+        </form>
         </div>    
             <table class="table table-bordered table-hover">
                 <tr class="active">
