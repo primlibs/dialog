@@ -12,7 +12,10 @@ import entities.Client;
 import entities.Event;
 import entities.EventComment;
 import entities.ModuleEventClient;
+import entities.User;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -125,18 +128,31 @@ public class ClientService extends PrimService {
     }
 
     //to do refactor
-    public TreeMap<Date,String> getHistory(Long eventId,Long pkId) {
-        TreeMap<Date,String>resMap = new TreeMap();
+    public List<Object[]> getHistory(Long eventId,Long pkId) {
+        List<Object[]>listForSort=new ArrayList();
+        //TreeMap<Date,String>resMap = new TreeMap();
         if(eventId!=null&&pkId!=null){
             
             Event ev = eventDao.getEvent(eventId,pkId);
             for(EventComment ec:ev.getEventComments()){
-                resMap.put(ec.getInsertDate(),ec.getComment()+" (системное сообщение от "+DateAdapter.formatByDate(ec.getInsertDate(), DateAdapter.FULL_FORMAT)+")");
+                Object[]dateMessageObj=new Object[2];
+                dateMessageObj[0]=ec.getInsertDate();
+                dateMessageObj[1]=ec.getComment()+" (системное сообщение от "+DateAdapter.formatByDate(ec.getInsertDate(), DateAdapter.FULL_FORMAT)+", "+ec.getAuthor().getShortName()+")";
+                listForSort.add(dateMessageObj);
+                //resMap.put(ec.getInsertDate(),ec.getComment()+" (системное сообщение от "+DateAdapter.formatByDate(ec.getInsertDate(), DateAdapter.FULL_FORMAT)+", "+ec.getAuthor().getShortName()+")");
             }
             for(ModuleEventClient mec:ev.getModuleEventClientList()){
                 Long time=mec.getInsertDate().getTime()-1;
-                resMap.put(new Date(time),"Клиент: "+mec.getModule().getModuleName());
-                resMap.put(mec.getInsertDate(),"Менеджер: "+mec.getModule().getBodyText());
+                Object[]dateMessageObj1=new Object[2];
+                dateMessageObj1[0]=new Date(time);
+                dateMessageObj1[1]="Клиент: "+mec.getModule().getModuleName();
+                Object[]dateMessageObj2=new Object[2];
+                dateMessageObj2[0]=mec.getInsertDate();
+                dateMessageObj2[1]="Менеджер: "+mec.getModule().getBodyText();
+                listForSort.add(dateMessageObj1);
+                listForSort.add(dateMessageObj2);
+                //resMap.put(new Date(time),"Клиент: "+mec.getModule().getModuleName());
+                //resMap.put(mec.getInsertDate(),"Менеджер: "+mec.getModule().getBodyText());
             }
             //List<Module> dialog = moduleDao.getHistory(eventId);
         }else{
@@ -147,9 +163,21 @@ public class ClientService extends PrimService {
                 addError("Ошибка личного кабинета");
             }
         }
-        ArrayList<String> res = new ArrayList();
+        Collections.sort(listForSort, new specDateStringComparator());
+        /*ArrayList<String> res = new ArrayList();
         res.addAll(resMap.values());
-        return resMap;
+        return resMap;*/
+        return listForSort;
+    }
+    
+    private class specDateStringComparator implements Comparator<Object[]> {
+
+        @Override
+        public int compare(Object[] a, Object[] b) {
+            Date ad = (Date)a[0];
+            Date bd = (Date)b[0];
+            return ad.compareTo(bd);
+        }
     }
 
     public void updateClientField(String field, Long clientId, Long eventId, String newVal,Long pkId) {

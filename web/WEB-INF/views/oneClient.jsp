@@ -14,23 +14,24 @@
             
             <c:if test="${not empty dialogEvent}">
                     <br>
-                    <b>Комментарий:</b> ${dialogEvent.comment}
+                    <b>Результат: </b> ${dialogEvent.getRusStatus()}; ${dialogEvent.finalComment}
                     <br>
-                    <b>Итог:</b> ${dialogEvent.finalComment}
-                    <br>
+                    <!--<b>ПоследнКомментарий: </b> ${dialogEvent.comment}
+                    <br>-->
+                    
             </c:if>
             <h4>Диалог: </h4>
             <c:set var="num" value="0"/>
     
             <c:if test="${not empty messages}">
             <table class="table table-hover table-striped">
-                <c:forEach var="message" items="${messages.values()}">
+                <c:forEach var="message" items="${messages}">
                     <c:set var="num" value="${num+1}"/>
                     <c:set var="trstyle" value="background-color: #dff0d8;"/>
                     <c:if test="${num%2 eq 0}">
                         <c:set var="trstyle" value="background-color: ivory;"/>
                     </c:if>
-                    <tr style="${trstyle}"><td>${num}.</td><td>${message}</td></tr>
+                    <tr style="${trstyle}"><td>${num}.</td><td>${message[1]}</td></tr>
                 </c:forEach>
                 
                 <!--<c:forEach var="module" items="${dialog}">
