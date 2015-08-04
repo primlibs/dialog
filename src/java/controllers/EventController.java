@@ -79,14 +79,14 @@ public class EventController extends WebController {
 
     @RequestMapping("/campaignList")
     public String showCampaigns(Map<String, Object> model,
-            @RequestParam(value = "dateFrom", required = false) Date dateFrom,
+            /*@RequestParam(value = "dateFrom", required = false) Date dateFrom,
             @RequestParam(value = "dateTo", required = false) Date dateTo,
-            @RequestParam(value = "closed", required = false) String closed,
+            @RequestParam(value = "closed", required = false) String closed,*/
             HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        boolean showClosed = false;
+        /*boolean showClosed = false;
         if(closed!=null){
             showClosed=true;
         }
@@ -98,12 +98,12 @@ public class EventController extends WebController {
         }
         if(dateTo==null){
             dateTo=DateAdapter.getDateFromString(DateAdapter.formatByDate(new Date(),DateAdapter.SMALL_FORMAT));
-        }
+        }*/
 
-        model.put("campaignsWithCountInfosMap", eventService.getCampaignsWithCountInfos(dateFrom,dateTo,showClosed,cabinetId));
+        model.put("campaignsWithCountInfosMap", eventService.getCampaignsWithCountInfos(/*dateFrom,dateTo,showClosed,*/cabinetId));
         model.put("errors", eventService.getErrors());
-        model.put("dateFrom", dateFrom);
-        model.put("dateTo", dateTo);
+        /*model.put("dateFrom", dateFrom);
+        model.put("dateTo", dateTo);*/
         return "campaignList";
     }
 

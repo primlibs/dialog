@@ -359,17 +359,17 @@ public class EventDao extends Dao<Event> {
         return query.list();
     }
     
-    public LinkedHashMap<Long,HashMap<String,String>> getFinishedAndUnassignedEventCountsInCampaignsAsMap(Date dateFrom,Date dateTo,boolean showClosed,Long pkId){
-        String hql="select ev.campaign,sum(case when ev.user is not null then 1 else 0 end),sum(case when ev.finalComment is not null then 1 else 0 end) from Event ev where ev.cabinet.pkId=:pkId and ev.campaign.creationDate between :dateFrom and :dateTo";
-        if(!showClosed){
+    public LinkedHashMap<Long,HashMap<String,String>> getFinishedAndUnassignedEventCountsInCampaignsAsMap(/*Date dateFrom,Date dateTo,boolean showClosed,*/Long pkId){
+        String hql="select ev.campaign,sum(case when ev.user is not null then 1 else 0 end),sum(case when ev.finalComment is not null then 1 else 0 end) from Event ev where ev.cabinet.pkId=:pkId";// and ev.campaign.creationDate between :dateFrom and :dateTo";
+        /*if(!showClosed){
             hql+=" and ev.campaign.endDate is null";
         }else{
             hql+=" and ev.campaign.endDate is not null";
-        }
+        }*/
         hql+=" group by ev.campaign order by ev.campaign.creationDate,ev.campaign.status desc";
         Query query = getCurrentSession().createQuery(hql);
-        query.setParameter("dateFrom", dateFrom);
-        query.setParameter("dateTo", dateTo);
+        /*query.setParameter("dateFrom", dateFrom);
+        query.setParameter("dateTo", dateTo);*/
         query.setParameter("pkId", pkId);
         LinkedHashMap<Long,HashMap<String,String>> res=new LinkedHashMap();
         List<Object[]> list = query.list();
