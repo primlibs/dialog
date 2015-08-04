@@ -71,7 +71,7 @@ public class ClientService extends PrimService {
         HSSFRow rowhead = sheet.createRow((short) n);
         int r = 0;
         rowhead.createCell(r++).setCellValue("Номер уникальный");
-        rowhead.createCell(r++).setCellValue("Название компании");
+        rowhead.createCell(r++).setCellValue("Клиент");
         rowhead.createCell(r++).setCellValue("Телефон к.л.");
         rowhead.createCell(r++).setCellValue("Имя контактного лица");
         rowhead.createCell(r++).setCellValue("Телефон л.п.р.");

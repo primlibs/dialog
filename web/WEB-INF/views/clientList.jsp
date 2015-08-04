@@ -29,7 +29,7 @@
       <div class="form-group"> 
         <form role="form" class="form-inline form-group" action="<c:url value="/Client/clientList" />">
           <input type="text" class="form-control" style="width: 170px;" name="uid" id="uidInput" placeholder="Уникальный ИД" value="${uid}">
-          <input type="text" class="form-control" style="width: 170px;" name="nameCompany" id="nameCompanyInput" placeholder="Компания" value="${nameCompany}">
+          <input type="text" class="form-control" style="width: 170px;" name="nameCompany" id="nameCompanyInput" placeholder="Клиент" value="${nameCompany}">
           <input type="text" class="form-control" style="width: 170px;" name="adress" id="adressInput" placeholder="Адрес" value="${adress}">
           <input type="text" class="form-control" style="width: 170px;" name="name" id="nameInput" placeholder="Контактное лицо" value="${name}">
           <input type="text" class="form-control" style="width: 170px;" name="phone" id="phoneInput" placeholder="Телефон" value="${phone}">

@@ -38,6 +38,7 @@ import service.UserService;
 import support.AuthManager;
 import support.DateAdapter;
 import support.JsonResponse;
+import support.StringAdapter;
 
 /**
  *
@@ -643,7 +644,36 @@ public class EventController extends WebController {
         model.put("user",userService.getUser(userId));
         model.put("campaign", eventService.getCampaign(campaignId));
         model.put("errors",reportService.getErrors());
+        model.put("userId", userId);
+        model.put("status", status);
+        model.put("dateFrom", dateFrom);
+        model.put("dateTo", dateTo);
         return "workReportDetalisation";
+    }
+    
+    @RequestMapping("/workReportDetalisationXLS")
+    public void workReportDetalisationXLS(Map<String, Object> model, 
+            HttpServletResponse response, 
+            HttpServletRequest request,
+            @RequestParam(value = "campaignId") Long campaignId,
+             @RequestParam(value = "userId",required = false) Long userId,
+             @RequestParam(value = "dateFrom",required = false) Date dateFrom,
+             @RequestParam(value = "dateTo",required = false) Date dateTo,
+             @RequestParam(value = "status",required = false) Integer status) throws Exception {
+        
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        response.setContentType("application/octet-stream");
+        
+        String fileName = "work_report_on_"+StringAdapter.getString(dateFrom)+"-"+StringAdapter.getString(dateTo);
+        
+        if(userId!=null){
+            fileName+="_"+userService.getUser(userId).getEmail();
+        }else{
+            fileName+="_all";
+        }
+        
+        response.setHeader("Content-Disposition", "attachment; filename="+fileName+".xls");
+        reportService.getWorkReportDetalisationXls(status,dateFrom,dateTo,userId, campaignId, cabinetId).write(response.getOutputStream());
     }
     
     @RequestMapping("/failReasonReportDetalisation")

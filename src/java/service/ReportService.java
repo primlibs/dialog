@@ -28,6 +28,9 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -370,6 +373,65 @@ public class ReportService extends PrimService {
             addError("Ид кампании не передан");
             return new ArrayList();
         }
+    }
+    
+    public HSSFWorkbook getWorkReportDetalisationXls(Integer status,Date dateFrom,Date dateTo,Long userId,Long campaignId,Long pkId) throws Exception{
+        List<Event> rawData = getDataForWorkDetalisation(status,dateFrom,dateTo,userId, campaignId, pkId);
+        String listName = "отчет по работе";
+        if(userId!=null){
+            User u = userService.getUser(userId);
+            listName+=" "+u.getShortName();
+        }else{
+            listName+=" итог";
+        }
+        
+        HSSFWorkbook workbook = new HSSFWorkbook();
+
+        int n = 0;
+        HSSFSheet sheet = workbook.createSheet(listName);
+        HSSFRow rowhead = sheet.createRow((short) n);
+        int r = 0;
+        rowhead.createCell(r++).setCellValue("Номер уникальный");
+        rowhead.createCell(r++).setCellValue("Клиент");
+        rowhead.createCell(r++).setCellValue("Телефон");
+        rowhead.createCell(r++).setCellValue("Комментарий");
+        rowhead.createCell(r++).setCellValue("К.Л.");
+        rowhead.createCell(r++).setCellValue("Телефон Л.П.Р");
+        rowhead.createCell(r++).setCellValue("Л.П.Р.");
+        rowhead.createCell(r++).setCellValue("Адрес");
+        rowhead.createCell(r++).setCellValue("Пользователь");
+        rowhead.createCell(r++).setCellValue("Дата установки статуса");
+        rowhead.createCell(r++).setCellValue("Статус");
+        rowhead.createCell(r++).setCellValue("Итог");
+        n++;
+        for(Event ev:rawData){
+            HSSFRow rowbody = sheet.createRow((short) n);
+            
+            String date = "";
+            if(ev.getSetStatusDate()!=null){
+                date = DateAdapter.formatByDate(ev.getSetStatusDate(), DateAdapter.FULL_FORMAT);
+            }
+            User u = ev.getUser();
+            String uname = "Не назначено";
+            if(u!=null){
+                uname=u.getShortName();
+            }
+            r=0;
+            rowbody.createCell(r++).setCellValue(ev.getClient().getUniqueId());
+            rowbody.createCell(r++).setCellValue(ev.getClient().getNameCompany());
+            rowbody.createCell(r++).setCellValue(ev.getClient().getFormattedPhoneSec());
+            rowbody.createCell(r++).setCellValue(ev.getComment());
+            rowbody.createCell(r++).setCellValue(ev.getClient().getNameSecretary());
+            rowbody.createCell(r++).setCellValue(ev.getClient().getFormattedPhoneLpr());
+            rowbody.createCell(r++).setCellValue(ev.getClient().getNameLpr());
+            rowbody.createCell(r++).setCellValue(ev.getClient().getAddress());
+            rowbody.createCell(r++).setCellValue(uname);
+            rowbody.createCell(r++).setCellValue(date);
+            rowbody.createCell(r++).setCellValue(ev.getRusStatus());
+            rowbody.createCell(r++).setCellValue(ev.getFinalComment());
+            n++;
+        }
+        return workbook;
     }
     
 }

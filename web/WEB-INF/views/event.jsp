@@ -39,13 +39,13 @@
                     <!--<input type="hidden" name="eventId" id="eventId" value=${event.eventId}>-->
                     <table class="table table-striped table-hover">
                         <tr>
-                            <th>Компания: </th>
-                            <th>Адрес: </th>
+                            <th>Клиент </th>
+                            <th>Адрес </th>
                             <th>Контактное лицо </th>
                             <th>Телефон К.Л. </th>
-                            <th>ЛПР: </th>
-                            <th>Телефон ЛПР: </th>
-                            <th>Комментарий: </th>
+                            <th>Л.П.Р. </th>
+                            <th>Телефон Л.П.Р. </th>
+                            <th>Комментарий </th>
                         </tr>
                         <tr>
                             <td>${event.client.nameCompany} </td>
