@@ -132,17 +132,31 @@ public class ClientService extends PrimService {
         List<Object[]>listForSort=new ArrayList();
         //TreeMap<Date,String>resMap = new TreeMap();
         if(eventId!=null&&pkId!=null){
-            
+            //int n=0;
             Event ev = eventDao.getEvent(eventId,pkId);
             for(EventComment ec:ev.getEventComments()){
-                Object[]dateMessageObj=new Object[2];
-                dateMessageObj[0]=ec.getInsertDate();
-                dateMessageObj[1]=ec.getComment()+" (системное сообщение от "+DateAdapter.formatByDate(ec.getInsertDate(), DateAdapter.FULL_FORMAT)+", "+ec.getAuthor().getShortName()+")";
+                Object[]dateMessageObj=new Object[3];
+                dateMessageObj[0]=ec.getComment()+" (системное сообщение от "+DateAdapter.formatByDate(ec.getInsertDate(), DateAdapter.FULL_FORMAT)+", "+ec.getAuthor().getShortName()+")";
+                dateMessageObj[1]=ec.getInsertDate();
+                dateMessageObj[2]=2;
                 listForSort.add(dateMessageObj);
                 //resMap.put(ec.getInsertDate(),ec.getComment()+" (системное сообщение от "+DateAdapter.formatByDate(ec.getInsertDate(), DateAdapter.FULL_FORMAT)+", "+ec.getAuthor().getShortName()+")");
             }
             for(ModuleEventClient mec:ev.getModuleEventClientList()){
-                Long time=mec.getInsertDate().getTime()-1;
+                Object[]dateMessageObj1=new Object[3];
+                Object[]dateMessageObj2=new Object[3];
+                dateMessageObj1[0]="Клиент: "+mec.getModule().getModuleName();
+                dateMessageObj1[1]=mec.getInsertDate();
+                dateMessageObj1[2]=0;
+                
+                dateMessageObj2[0]="Менеджер: "+mec.getModule().getBodyText();
+                dateMessageObj2[1]=mec.getInsertDate();
+                dateMessageObj2[2]=1;
+                
+                listForSort.add(dateMessageObj1);
+                listForSort.add(dateMessageObj2);
+                
+                /*Long time=mec.getInsertDate().getTime()-1;
                 Object[]dateMessageObj1=new Object[2];
                 dateMessageObj1[0]=new Date(time);
                 dateMessageObj1[1]="Клиент: "+mec.getModule().getModuleName();
@@ -150,7 +164,7 @@ public class ClientService extends PrimService {
                 dateMessageObj2[0]=mec.getInsertDate();
                 dateMessageObj2[1]="Менеджер: "+mec.getModule().getBodyText();
                 listForSort.add(dateMessageObj1);
-                listForSort.add(dateMessageObj2);
+                listForSort.add(dateMessageObj2);*/
                 //resMap.put(new Date(time),"Клиент: "+mec.getModule().getModuleName());
                 //resMap.put(mec.getInsertDate(),"Менеджер: "+mec.getModule().getBodyText());
             }
@@ -170,13 +184,20 @@ public class ClientService extends PrimService {
         return listForSort;
     }
     
+    //спец компаратор для сообщений по дате[1] и признаку[2] первыми сообщениями с одинаквой датой идут сообщения клиента[2]=0, затем менеджера[2]=1, затем системные[2]=2
     private class specDateStringComparator implements Comparator<Object[]> {
 
         @Override
         public int compare(Object[] a, Object[] b) {
-            Date ad = (Date)a[0];
-            Date bd = (Date)b[0];
-            return ad.compareTo(bd);
+            Date ad = (Date)a[1];
+            int as=(int)a[2];
+            Date bd = (Date)b[1];
+            int bs=(int)a[2];
+            if(!ad.equals(bd)){
+                return ad.compareTo(bd);
+            }else{
+                return Integer.compare(as, bs);
+            }
         }
     }
 

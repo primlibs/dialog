@@ -31,7 +31,7 @@
                     <c:if test="${num%2 eq 0}">
                         <c:set var="trstyle" value="background-color: ivory;"/>
                     </c:if>
-                    <tr style="${trstyle}"><td>${num}.</td><td>${message[1]}</td></tr>
+                    <tr style="${trstyle}"><td>${num}.</td><td>${message[0]}</td></tr>
                 </c:forEach>
                 
                 <!--<c:forEach var="module" items="${dialog}">
