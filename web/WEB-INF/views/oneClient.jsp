@@ -14,7 +14,7 @@
             
             <c:if test="${not empty dialogEvent}">
                     <br>
-                    <b>Результат: </b> ${dialogEvent.getRusStatus()}; ${dialogEvent.finalComment}
+                    <b>РЕЗУЛЬТАТ: ${dialogEvent.getRusStatus()}; </b> ИТОГОВЫЙ КОММЕНТАРИЙ: ${dialogEvent.finalComment}
                     <br>
                     <!--<b>ПоследнКомментарий: </b> ${dialogEvent.comment}
                     <br>-->
