@@ -108,10 +108,10 @@
                         <td><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}">${event.client.address}</a></td>
                         <td><div style="cursor: pointer;display: inline-block" ondblclick="location = '<c:url value="/Event/showAssigningOneEvent?eventId=${event.eventId}&campaignId=${campaign.campaignId}"/>'">${event.user.surname}  ${event.user.name}</div></td>
                         <c:if test="${event.isClosed()}">
-                            <td><span class="glyphicon glyphicon-circle-arrow-right"></span></td>
+                            <td><span class="glyphicon glyphicon-circle-arrow-right" style="font-size:24pt;"></span></td>
                         </c:if>
                         <c:if test="${!event.isClosed()}">
-                            <td><a href="/Event/event?campaignId=${event.campaign.campaignId}&eventId=${event.eventId}"><span class="glyphicon glyphicon-circle-arrow-right"></span></a></td>
+                            <td><a href="/Event/event?campaignId=${event.campaign.campaignId}&eventId=${event.eventId}"><span style="font-size:24pt;" class="glyphicon glyphicon-circle-arrow-right"></span></a></td>
                         </c:if>
                         <td><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}"><fmt:formatDate type="both" value="${event.getSetStatusDate()}"/></a></td>
                         <td><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}">${event.getRusStatus()}</a></td>
