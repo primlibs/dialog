@@ -173,7 +173,7 @@ public class EventController extends WebController {
         model.put("participatedCUsers",eventService.getSurnameSortedCUListForCampaignSpecification(campaignId,cabinetId));
         model.put("cabinetUserList", eventService.getActiveMakingCallsUsers(cabinetId));
         model.put("userAssignedClient", eventService.userAssignedClient(campaignId, cabinetId));
-        model.put("deleteble", eventService.isDeleteble(campaignId, cabinetId));
+        model.put("deleteble", true/*eventService.isDeleteble(campaignId, cabinetId)*/);
 
         model.put("userAssignedClientProcessedSuccess", eventService.userAssignedClientProcessedSuccess(campaignId, cabinetId));
         model.put("userAssignedClientProcessedFails", eventService.userAssignedClientProcessedFails(campaignId, cabinetId));

@@ -64,18 +64,18 @@
             </div>
             <table class="table table-bordered table-hover">
                 <tr>
-                    <th>№</th>
+                    <th style="max-width: 3%;">№</th>
                     <th>Уникальный номер</th>
                     <th>Клиент</th>
-                    <th>Контактное лицо</th>
-                    <th>Телефон К.Л.</th>
-                    <th>Л.П.Р.</th>
-                    <th>Телефон Л.П.Р.</th>
-                    <th>Адрес</th>
-                    <th>Пользователь</th>
-                    <th>Работать с эвентом</th>
-                    <th>Дата установки статуса</th>
-                    <th>Статус</th>
+                    <th style="max-width: 10%;">Контактное лицо</th>
+                    <th style="max-width: 10%;">Телефон К.Л.</th>
+                    <th style="max-width: 10%;">Л.П.Р.</th>
+                    <th style="max-width: 10%;">Телефон Л.П.Р.</th>
+                    <th style="max-width: 10%;">Адрес</th>
+                    <th style="max-width: 6%;">Пользователь</th>
+                    <!--<th style="max-width: 4%;">Работать с эвентом</th>-->
+                    <th style="max-width: 7%;">Дата установки статуса</th>
+                    <th style="max-width: 5%;">Статус</th>
                 </tr>
                 <c:forEach var="event" items="${events}" varStatus="myIndex">
                     <c:set var="trstyle" value="danger" />
@@ -96,25 +96,25 @@
                             </c:if>
                             
                     <tr class="${trstyle}">
-                        <td><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}">${myIndex.count}</a></td>
-                        <td><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}">${event.client.uniqueId}</a></td>
+                        <td style="word-wrap: break-word;max-width: 3%;"><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}">${myIndex.count}</a></td>
+                        <td style="word-wrap: break-word;max-width: 50px !important;"><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}">${event.client.uniqueId}</a></td>
                         <!--<td style="cursor: pointer;" onclick="location = '<c:url value="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}"/>'">${myIndex.count}</td>
                         <td style="cursor: pointer;" onclick="location = '<c:url value="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}"/>'">${event.client.uniqueId}</td> -->
-                        <td><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}">${event.client.nameCompany}</a></td>
-                        <td><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}">${event.client.nameSecretary}</a></td>   
-                        <td><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}">${event.client.getFormattedPhoneSec()}</a></td>  
-                        <td><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}">${event.client.nameLpr}</a></td> 
-                        <td><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}">${event.client.getFormattedPhoneLpr()}</a></td>  
-                        <td><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}">${event.client.address}</a></td>
-                        <td><div style="cursor: pointer;display: inline-block" ondblclick="location = '<c:url value="/Event/showAssigningOneEvent?eventId=${event.eventId}&campaignId=${campaign.campaignId}"/>'">${event.user.surname}  ${event.user.name}</div></td>
-                        <c:if test="${event.isClosed()}">
-                            <td><span class="glyphicon glyphicon-circle-arrow-right" style="font-size:24pt;"></span></td>
+                        <td style="word-wrap: break-word;max-width: 50px !important;"><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}">${event.client.nameCompany}</a></td>
+                        <td style="word-wrap: break-word;max-width: 10%;"><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}">${event.client.nameSecretary}</a></td>   
+                        <td style="word-wrap: break-word;max-width: 10%;"><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}">${event.client.getFormattedPhoneSec()}</a></td>  
+                        <td style="word-wrap: break-word;max-width: 10%;"><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}">${event.client.nameLpr}</a></td> 
+                        <td style="word-wrap: break-word;max-width: 10%;"><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}">${event.client.getFormattedPhoneLpr()}</a></td>  
+                        <td style="word-wrap: break-word;max-width: 10%;"><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}">${event.client.address}</a></td>
+                        <td style="word-wrap: break-word;max-width: 6%;"><div style="cursor: pointer;display: inline-block" ondblclick="location = '<c:url value="/Event/showAssigningOneEvent?eventId=${event.eventId}&campaignId=${campaign.campaignId}"/>'">${event.user.surname}  ${event.user.name}</div></td>
+                       <!-- <c:if test="${event.isClosed()}">
+                            <td style="word-wrap: break-word;max-width: 4%;"><span class="glyphicon glyphicon-circle-arrow-right" style="font-size:24pt;"></span></td>
                         </c:if>
                         <c:if test="${!event.isClosed()}">
-                            <td><a href="/Event/event?campaignId=${event.campaign.campaignId}&eventId=${event.eventId}"><span style="font-size:24pt;" class="glyphicon glyphicon-circle-arrow-right"></span></a></td>
-                        </c:if>
-                        <td><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}"><fmt:formatDate type="both" value="${event.getSetStatusDate()}"/></a></td>
-                        <td><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}">${event.getRusStatus()}</a></td>
+                            <td style="word-wrap: break-word;max-width: 4%;"><a href="/Event/event?campaignId=${event.campaign.campaignId}&eventId=${event.eventId}"><span style="font-size:24pt;" class="glyphicon glyphicon-circle-arrow-right"></span></a></td>
+                        </c:if>-->
+                        <td style="word-wrap: break-word;max-width: 7%;"><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}"><fmt:formatDate type="both" value="${event.getSetStatusDate()}"/></a></td>
+                        <td style="word-wrap: break-word;max-width: 5%;"><a class="arow" href="/Client/oneClient?clientId=${event.client.clientId}&eventId=${event.eventId}">${event.getRusStatus()}</a></td>
                     </tr>
                 </c:forEach>
             </table>

@@ -188,16 +188,16 @@ public class EventService extends PrimService {
     public void deleteCampaign(Long campaignId, Long cabinetId) {
         Campaign c = campaignDao.find(campaignId);
         if (c != null) {
-            if (eventDao.getAssignedEvents(campaignId, cabinetId).isEmpty()) {
+            //if (eventDao.getAssignedEvents(campaignId, cabinetId).isEmpty()) {
                 List<Event> events = c.getEvents();
                 for (Event ev : events) {
                     delete(ev);
                 }
                 //if(c.getEvents().isEmpty()){
                 campaignDao.delete(c);
-            } else {
+            /*} else {
                 addError("В кампании присутствуют назначения, её нельзя удалять.");
-            }
+            }*/
         } else {
             addError("Не найдено кампании с ИД " + campaignId + "; ");
         }
