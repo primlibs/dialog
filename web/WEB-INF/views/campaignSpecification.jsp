@@ -110,11 +110,11 @@
                 <tr>
                     <td>${user.surname} ${user.name} </td>
                     <c:if test="${number== 1}">
-                        <td class ="for" rowspan="${participatedCUsers.size()}"><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}"/>'" > ${eventList.size()} </div></td>
+                        <td class ="for" rowspan="${participatedUsers.size()}"><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}"/>'" > ${eventList.size()} </div></td>
                     </c:if>
                     <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=${user.getUserId()}"/>'"> ${userAssignedClient.get(user.getUserId())}</div></td>
                     <c:if test="${number== 1}">
-                        <td rowspan="${participatedCUsers.size()}"><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=-1"/>'" >${unassignedEventList.size()}</div></td>
+                        <td rowspan="${participatedUsers.size()}"><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=-1"/>'" >${unassignedEventList.size()}</div></td>
                         </c:if>
                     <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=${user.getUserId()}&processed=-2"/>'"> ${userAssignedClientProcessedSuccess.get(user.getUserId())}</div></td>
                     <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=${user.getUserId()}&processed=-3"/>'" > ${userAssignedClientProcessedFails.get(user.getUserId())}</div></td>
