@@ -1,3 +1,4 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -14,8 +15,12 @@
             
             <c:if test="${not empty dialogEvent}">
                     <br>
-                    <b>РЕЗУЛЬТАТ: ${dialogEvent.getRusStatus()}; </b> ИТОГОВЫЙ КОММЕНТАРИЙ: ${dialogEvent.finalComment}
+                    <b>РЕЗУЛЬТАТ:</b> ${dialogEvent.getRusStatus()}; 
                     <br>
+                    <c:if test="${not empty dialogEvent.successDate}"><b>ДАТА НАЗНАЧЕНИЯ:</b> <fmt:formatDate type="both" value="${dialogEvent.successDate}"/>
+                        <br></c:if>
+                    <c:if test="${not empty dialogEvent.finalComment}"><b>ИТОГОВЫЙ КОММЕНТАРИЙ:</b> ${dialogEvent.finalComment}
+                        <br></c:if>
                     <!--<b>ПоследнКомментарий: </b> ${dialogEvent.comment}
                     <br>-->
                     
