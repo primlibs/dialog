@@ -105,30 +105,30 @@
             <c:set var="assignedProcessedEventsCount" value="0" />
             <c:set var="assignedProcessedSuccessEventsCount" value="0" />
             <c:set var="assignedProcessedFailedEventsCount" value="0" />
-            <c:forEach var="cabinetUser"  items="${participatedCUsers}" >
+            <c:forEach var="user"  items="${participatedUsers}" >
                 
                 <tr>
-                    <td>${cabinetUser.user.surname} ${cabinetUser.user.name} </td>
+                    <td>${user.surname} ${user.name} </td>
                     <c:if test="${number== 1}">
                         <td class ="for" rowspan="${participatedCUsers.size()}"><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}"/>'" > ${eventList.size()} </div></td>
                     </c:if>
-                    <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=${cabinetUser.getUser().getUserId()}"/>'"> ${userAssignedClient.get(cabinetUser.getUser().getUserId())}</div></td>
+                    <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=${user.getUserId()}"/>'"> ${userAssignedClient.get(user.getUserId())}</div></td>
                     <c:if test="${number== 1}">
                         <td rowspan="${participatedCUsers.size()}"><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=-1"/>'" >${unassignedEventList.size()}</div></td>
                         </c:if>
-                    <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-2"/>'"> ${userAssignedClientProcessedSuccess.get(cabinetUser.getUser().getUserId())}</div></td>
-                    <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-3"/>'" > ${userAssignedClientProcessedFails.get(cabinetUser.getUser().getUserId())}</div></td>
-                    <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-4"/>'"> ${userAssignedClientProcessed.get(cabinetUser.getUser().getUserId())}</div></td>
-                    <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=${cabinetUser.getUser().getUserId()}&processed=-1"/>'" > ${userAssignedClientNotProcessed.get(cabinetUser.getUser().getUserId())}</div></td>
+                    <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=${user.getUserId()}&processed=-2"/>'"> ${userAssignedClientProcessedSuccess.get(user.getUserId())}</div></td>
+                    <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=${user.getUserId()}&processed=-3"/>'" > ${userAssignedClientProcessedFails.get(user.getUserId())}</div></td>
+                    <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=${user.getUserId()}&processed=-4"/>'"> ${userAssignedClientProcessed.get(user.getUserId())}</div></td>
+                    <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=${user.getUserId()}&processed=-1"/>'" > ${userAssignedClientNotProcessed.get(user.getUserId())}</div></td>
                     <td><a href="#" class="btn btn-large btn-warning changeAssignFromSpec" id="changeAssignFromSpec" 
-                           data-userid="${cabinetUser.user.userId}"
+                           data-userid="${user.userId}"
                            data-toggle="modal"
                            data-target="#basicModalChangeAssign">Изменить</a></td>
-                        <c:set var="assignedEventsCount" value="${assignedEventsCount+userAssignedClient.get(cabinetUser.getUser().getUserId())}" />
-                        <c:set var="assignedNotProcessedEventsCount" value="${assignedNotProcessedEventsCount+userAssignedClientNotProcessed.get(cabinetUser.getUser().getUserId())}" />
-                        <c:set var="assignedProcessedEventsCount" value="${assignedProcessedEventsCount+userAssignedClientProcessed.get(cabinetUser.getUser().getUserId())}" />
-                        <c:set var="assignedProcessedSuccessEventsCount" value="${assignedProcessedSuccessEventsCount+userAssignedClientProcessedSuccess.get(cabinetUser.getUser().getUserId())}" />
-                        <c:set var="assignedProcessedFailedEventsCount" value="${assignedProcessedFailedEventsCount+userAssignedClientProcessedFails.get(cabinetUser.getUser().getUserId())}" />
+                        <c:set var="assignedEventsCount" value="${assignedEventsCount+userAssignedClient.get(user.getUserId())}" />
+                        <c:set var="assignedNotProcessedEventsCount" value="${assignedNotProcessedEventsCount+userAssignedClientNotProcessed.get(user.getUserId())}" />
+                        <c:set var="assignedProcessedEventsCount" value="${assignedProcessedEventsCount+userAssignedClientProcessed.get(user.getUserId())}" />
+                        <c:set var="assignedProcessedSuccessEventsCount" value="${assignedProcessedSuccessEventsCount+userAssignedClientProcessedSuccess.get(user.getUserId())}" />
+                        <c:set var="assignedProcessedFailedEventsCount" value="${assignedProcessedFailedEventsCount+userAssignedClientProcessedFails.get(user.getUserId())}" />
 
                 </tr>
                 <c:set var="number" value="${number+1}" />
