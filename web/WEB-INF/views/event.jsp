@@ -98,7 +98,7 @@
                                     <tr style="background: moccasin;"><td style="text-align: center;">Группа ${entry.key.groupName}:</td> </tr>
                                         <c:forEach var="module" items="${entry.value}" >
                                             <tr><td><span style="display: block;cursor: pointer;font-size:18px;color: slategrey" class="showableModule" id="${module.moduleId}"><ins><b>
-                                                   Модуль: ${module.moduleName}
+                                                    ${module.moduleName}
                                                     </b></ins></span></td></tr>
                                             </c:forEach>
                                     
@@ -214,7 +214,7 @@
                             <c:forEach var="module"  items="${entry.value}" >
                                 <div id="${module.moduleId}" class="hiddenModule">
                                     <span style="display: block;cursor: pointer;font-size:18px;color: slategrey" class="showableModule" id="${module.moduleId}"><ins><b>
-                                                   Модуль: ${module.moduleName}
+                                                    ${module.moduleName}
                                                     </b></ins></span>
                                     <br><br>
                                     ${module.bodyText}
