@@ -275,7 +275,7 @@ public class EventController extends WebController {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
         model.put("eventAllAppoint", eventService.eventAppointAll(campaignId, cabinetId));
-
+        model.put("clientCount", eventService.getNotAssignedClients(campaignId, cabinetId).size());
         model.put("campaign", eventService.getCampaign(campaignId));
         model.put("cabinetUserList", eventService.getActiveMakingCallsUsers(cabinetId));
         errors.addAll(eventService.getErrors());

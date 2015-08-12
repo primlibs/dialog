@@ -66,7 +66,7 @@
                                     <tr style="background: moccasin;"><td style="text-align: center;">Группа ${entry.key.groupName}:</td> </tr>
                                         <c:forEach var="module" items="${entry.value}" >
                                             <tr><td><span style="display: block;cursor: pointer;font-size:18px;color: slategrey" class="showableModule" id="${module.moduleId}"><ins><b>
-                                                   Модуль: ${module.moduleName}<!--<a href="<c:url value="/Event/eventProcessing?campaignId=${param.campaignId}&groupId=${entry.key.groupId}&moduleId=${module.moduleId}&eventId=${event.eventId}"/>">${module.moduleName}</a>-->
+                                                   ${module.moduleName}<!--<a href="<c:url value="/Event/eventProcessing?campaignId=${param.campaignId}&groupId=${entry.key.groupId}&moduleId=${module.moduleId}&eventId=${event.eventId}"/>">${module.moduleName}</a>-->
                                                     </b></ins></span></td></tr>
                                             <tr><td style="text-align: justify;">${module.bodyText}</td></tr>
                                             </c:forEach>

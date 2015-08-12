@@ -16,7 +16,7 @@
         <%@include file="/WEB-INF/jsp/error.jsp" %> 
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
         <div class="row">
-            <h4>  Кампания:  ${campaign.name} &nbsp Сценарий: ${campaign.strategy.strategyName} </h4>
+            <h4>  <b>Кампания: </b> ${campaign.name}; &nbsp<b> Сценарий: </b>${campaign.strategy.strategyName}; <b>Нераспределенных клиентов:</b> ${clientCount}. </h4>
 
             <form  action="<c:url value="/Event/eventAppointSaveAll" />" method="post">
                 <table class="table table-bordered table-hover">
