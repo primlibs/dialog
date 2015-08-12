@@ -1159,6 +1159,7 @@ public class EventService extends PrimService {
         rowhead.createCell(r++).setCellValue("Пользователь");
         rowhead.createCell(r++).setCellValue("Дата установки статуса");
         rowhead.createCell(r++).setCellValue("Статус");
+        rowhead.createCell(r++).setCellValue("Назначенная дата");
         rowhead.createCell(r++).setCellValue("Итог");
         n++;
         for(Event ev:result){
@@ -1167,6 +1168,10 @@ public class EventService extends PrimService {
             String date = "";
             if(ev.getSetStatusDate()!=null){
                 date = DateAdapter.formatByDate(ev.getSetStatusDate(), DateAdapter.FULL_FORMAT);
+            }
+            String finaldate = "";
+            if(ev.getSuccessDate()!=null){
+                finaldate = DateAdapter.formatByDate(ev.getSuccessDate(), DateAdapter.FULL_FORMAT);
             }
             User u = ev.getUser();
             String uname = "Не назначено";
@@ -1185,6 +1190,7 @@ public class EventService extends PrimService {
             rowbody.createCell(r++).setCellValue(uname);
             rowbody.createCell(r++).setCellValue(date);
             rowbody.createCell(r++).setCellValue(ev.getRusStatus());
+            rowbody.createCell(r++).setCellValue(finaldate);
             rowbody.createCell(r++).setCellValue(ev.getFinalComment());
             n++;
         }

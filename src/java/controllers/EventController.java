@@ -345,9 +345,9 @@ public class EventController extends WebController {
         if(processed==null){
             processed=0;
         }
-        String fileName ="";
+        String fileName ="campaign_report_";
         Campaign c = eventService.getCampaign(campaignId);
-        fileName+=c.getId()+"_"+c.getName();
+        fileName+=c.getId();
         if(assigned==-2){
             fileName+="_assigned";
         }else if(assigned==-1){
@@ -664,7 +664,7 @@ public class EventController extends WebController {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         response.setContentType("application/octet-stream");
         
-        String fileName = "work_report_on_"+StringAdapter.getString(dateFrom)+"-"+StringAdapter.getString(dateTo);
+        String fileName = "work_report_on_"+campaignId+"_"+StringAdapter.getString(dateFrom)+"-"+StringAdapter.getString(dateTo);
         
         if(userId!=null){
             fileName+="_"+userService.getUser(userId).getEmail();
