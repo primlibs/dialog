@@ -10,8 +10,8 @@ import dao.CampaignDao;
 import dao.EventCommentDao;
 import dao.EventDao;
 import dao.FailReasonDao;
-import dao.ModuleDao;
 import dao.ModuleEventClientDao;
+import entities.CabinetUser;
 import entities.Campaign;
 import entities.Event;
 import entities.FailReason;
@@ -53,7 +53,7 @@ public class ReportService extends PrimService {
     private ModuleEventClientDao moduleEventClientDao;
     
     @Autowired
-    private ModuleDao moduleDao;
+    private EventService eventService;
     
     @Autowired
     private EventDao eventDao;
@@ -250,7 +250,12 @@ public class ReportService extends PrimService {
                 BigInteger count=(BigInteger)o[1];
                 postponeMap.put(userId.longValue(),BigDecimal.valueOf(count.longValue()));
             }
-            LinkedHashMap<Long,User>users=userService.getMakingCallsAndParticipatedUsersMap(pkId);
+            //LinkedHashMap<Long,User>users=userService.getMakingCallsAndParticipatedUsersMap(pkId);
+            List<CabinetUser>cusers=eventService.getSurnameSortedCUListForCampaignSpecification(campaignId,pkId);
+            LinkedHashMap<Long,User>users=new LinkedHashMap();
+            for(CabinetUser cuser:cusers){
+                users.put(cuser.getUser().getId(), cuser.getUser());
+            }
             BigDecimal sumFcount=BigDecimal.valueOf(0);
             BigDecimal sumScount=BigDecimal.valueOf(0);
             BigDecimal sumPcount=BigDecimal.valueOf(0);
