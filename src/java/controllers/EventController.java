@@ -7,13 +7,13 @@ package controllers;
 
 import static controllers.LkController.CABINET_ID_SESSION_NAME;
 import controllers.parent.WebController;
+import dao.EventDao;
 import entities.CabinetUser;
 import entities.Campaign;
 import entities.Event;
 import entities.User;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -53,6 +53,9 @@ public class EventController extends WebController {
 
     @Autowired
     private EventService eventService;
+    
+    /*@Autowired
+    private EventDao eventDao;*/
 
     @Autowired
     private GroupService groupService;
@@ -170,7 +173,8 @@ public class EventController extends WebController {
 
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
-        model.put("participatedCUsers",eventService.getSurnameSortedCUListForCampaignSpecification(campaignId,cabinetId));
+        model.put("participatedCUsers",eventService.getUserWithAssignsList(campaignId,cabinetId));
+        //model.put("participatedCUsers",eventService.getSurnameSortedCUListForCampaignSpecification(campaignId,cabinetId));
         model.put("cabinetUserList", eventService.getActiveMakingCallsUsers(cabinetId));
         model.put("userAssignedClient", eventService.userAssignedClient(campaignId, cabinetId));
         model.put("deleteble", true/*eventService.isDeleteble(campaignId, cabinetId)*/);

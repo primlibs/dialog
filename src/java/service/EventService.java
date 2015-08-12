@@ -1075,6 +1075,18 @@ public class EventService extends PrimService {
         }
         return cus;
     }
+    
+    public List<User>getUserWithAssignsList(Long campaignId,Long pkId){
+        return eventDao.getUserWithAssignsList(campaignId, pkId);
+    }
+    
+    public LinkedHashMap<Long,User> getUserWithAssignsMap(Long campaignId,Long pkId){
+        LinkedHashMap<Long,User>res=new LinkedHashMap();
+        for(User u:eventDao.getUserWithAssignsList(campaignId, pkId)){
+            res.put(u.getId(), u);
+        }
+        return res;
+    }
 
     public List<CabinetUser> getCUListForCampaignSpecification(Long campaignId, Long pkId) {
         List<CabinetUser> mclist = getActiveMakingCallsUsers(pkId);

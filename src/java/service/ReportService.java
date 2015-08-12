@@ -218,11 +218,12 @@ public class ReportService extends PrimService {
         LinkedHashMap<User,HashMap<String,String>>res = new LinkedHashMap();
         if(campaignId!=null){
             //LinkedHashMap<Long,User>users=userService.getMakingCallsAndParticipatedUsersMap(pkId);
-            List<CabinetUser>cusers=eventService.getSurnameSortedCUListForCampaignSpecification(campaignId,pkId);
+            /*List<CabinetUser>cusers=eventService.getSurnameSortedCUListForCampaignSpecification(campaignId,pkId);
             LinkedHashMap<Long,User>users=new LinkedHashMap();
             for(CabinetUser cuser:cusers){
                 users.put(cuser.getUser().getId(), cuser.getUser());
-            }
+            }*/
+            LinkedHashMap<Long,User>users=eventService.getUserWithAssignsMap(campaignId, pkId);
             
             Campaign campaign = campaignDao.find(campaignId);
             if(dateFrom==null){
@@ -297,9 +298,9 @@ public class ReportService extends PrimService {
                 supMap.put("successful",StringAdapter.getString(scount));
                 supMap.put("postponed",StringAdapter.getString(pcount));
                 supMap.put("all",StringAdapter.getString(fcount.add(scount).add(pcount)));
-                if(!(scount.equals(nul)&&fcount.equals(nul)&&pcount.equals(nul))){
+                //if(!(scount.equals(nul)&&fcount.equals(nul)&&pcount.equals(nul))){
                     res.put(entry.getValue(),supMap);
-                }
+                //}
             }
             HashMap<String,String>sumMap=new HashMap();
             sumMap.put("failed",StringAdapter.getString(sumFcount));

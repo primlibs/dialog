@@ -10,6 +10,7 @@ import entities.Client;
 import entities.Campaign;
 import entities.Event;
 import entities.PersonalCabinet;
+import entities.User;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -440,6 +441,14 @@ public class EventDao extends Dao<Event> {
         query.setParameter("campaignId", campaignId);
         query.setParameter("pkId", pkId);
         query.setParameter("failed", Event.FAILED);
+        return query.list();
+    }
+    
+    public List<User>getUserWithAssignsList(Long campaignId,Long pkId){
+        String hql="select distinct ev.user from Event ev where ev.cabinet.pkId=:pkId and ev.campaign.campaignId=:campaignId order by ev.user.surname";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("campaignId", campaignId);
+        query.setParameter("pkId", pkId);
         return query.list();
     }
     
