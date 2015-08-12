@@ -204,6 +204,7 @@ public class EventController extends WebController {
         model.put("tags", tagService.getAllActiveTags(cabinetId));
         
         errors.addAll(eventService.getErrors());
+        errors.addAll(reportService.getErrors());
         model.put("errors", errors);
         return "campaignSpecification";
     }

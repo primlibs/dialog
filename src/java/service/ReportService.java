@@ -217,6 +217,13 @@ public class ReportService extends PrimService {
     public LinkedHashMap<User,HashMap<String,String>> getDataForWorkReport(Long pkId,Long campaignId,Date dateFrom,Date dateTo){
         LinkedHashMap<User,HashMap<String,String>>res = new LinkedHashMap();
         if(campaignId!=null){
+            //LinkedHashMap<Long,User>users=userService.getMakingCallsAndParticipatedUsersMap(pkId);
+            List<CabinetUser>cusers=eventService.getSurnameSortedCUListForCampaignSpecification(campaignId,pkId);
+            LinkedHashMap<Long,User>users=new LinkedHashMap();
+            for(CabinetUser cuser:cusers){
+                users.put(cuser.getUser().getId(), cuser.getUser());
+            }
+            
             Campaign campaign = campaignDao.find(campaignId);
             if(dateFrom==null){
                 dateFrom=campaign.getCreationDate();
@@ -247,20 +254,27 @@ public class ReportService extends PrimService {
             List<Object[]>plist=eventCommentDao.getUserIdPostponesCount(campaign, dateFrom, dateTo, pkId);
             for(Object[] o:plist){
                 BigInteger userId=(BigInteger)o[0];
+                Long luserId = userId.longValue();
                 BigInteger count=(BigInteger)o[1];
-                postponeMap.put(userId.longValue(),BigDecimal.valueOf(count.longValue()));
+                
+                BigDecimal scount = successMap.get(luserId);
+                BigDecimal fcount = failMap.get(luserId);
+                BigDecimal pcount = BigDecimal.valueOf(count.longValue());
+                postponeMap.put(luserId,pcount);
+                //addError("id="+luserId+" s="+scount+" f="+fcount+" p="+pcount);
+                /*if((scount==null||scount.equals(nul))&&(fcount==null||fcount.equals(nul))&&(pcount==null||pcount.equals(nul))){
+                    users.remove(luserId);
+                }*/
             }
-            //LinkedHashMap<Long,User>users=userService.getMakingCallsAndParticipatedUsersMap(pkId);
-            List<CabinetUser>cusers=eventService.getSurnameSortedCUListForCampaignSpecification(campaignId,pkId);
-            LinkedHashMap<Long,User>users=new LinkedHashMap();
-            for(CabinetUser cuser:cusers){
-                users.put(cuser.getUser().getId(), cuser.getUser());
-            }
+            
             BigDecimal sumFcount=BigDecimal.valueOf(0);
             BigDecimal sumScount=BigDecimal.valueOf(0);
             BigDecimal sumPcount=BigDecimal.valueOf(0);
             for(Map.Entry<Long,User>entry:users.entrySet()){
+                
+                BigDecimal nul = BigDecimal.valueOf(0);
                 Long userId=entry.getKey();
+                //addError("userID="+userId);
                 HashMap<String,String>supMap=new HashMap();
                 
                 BigDecimal fcount = failMap.get(userId);
@@ -283,7 +297,9 @@ public class ReportService extends PrimService {
                 supMap.put("successful",StringAdapter.getString(scount));
                 supMap.put("postponed",StringAdapter.getString(pcount));
                 supMap.put("all",StringAdapter.getString(fcount.add(scount).add(pcount)));
-                res.put(entry.getValue(),supMap);
+                if(!(scount.equals(nul)&&fcount.equals(nul)&&pcount.equals(nul))){
+                    res.put(entry.getValue(),supMap);
+                }
             }
             HashMap<String,String>sumMap=new HashMap();
             sumMap.put("failed",StringAdapter.getString(sumFcount));
