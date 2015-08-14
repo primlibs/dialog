@@ -559,8 +559,9 @@ public class EventController extends WebController {
     public String showPostponedEvents(Map<String, Object> model, @RequestParam(value = "dateTo", required = false) Date dateTo,
             @RequestParam(value = "dateFrom", required = false) Date dateFrom, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
+        User user = authManager.getCurrentUser();
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        List<Event> postponedEvents = eventService.getPostponedEvents(dateFrom, dateTo, cabinetId);
+        List<Event> postponedEvents = eventService.getPostponedEvents(dateFrom, dateTo,user.getId(), cabinetId);
 
         model.put("postponedEvents", postponedEvents);
         model.put("errors", eventService.getErrors());

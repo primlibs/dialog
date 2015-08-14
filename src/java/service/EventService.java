@@ -958,7 +958,7 @@ public class EventService extends PrimService {
         return result;
     }
 
-    public List<Event> getPostponedEvents(Date dateFrom, Date dateTo, Long pkId) {
+    public List<Event> getPostponedEvents(Date dateFrom, Date dateTo,Long userId, Long pkId) {
         if (dateTo == null) {
             Calendar cl = Calendar.getInstance();
             cl.set(Calendar.DATE, cl.getActualMaximum(Calendar.DATE));
@@ -970,7 +970,7 @@ public class EventService extends PrimService {
             dateFrom = cl.getTime();
         }
         //addError("from "+dateFrom.toString()+" to "+dateTo.toString());
-        return eventDao.getPostponedEvents(dateFrom, dateTo, pkId);
+        return eventDao.getPostponedEvents(dateFrom, dateTo,userId, pkId);
     }
 
     /*public List<Campaign> getCampaignsByUserAndCabinet(Long cabinetId, Long userId){

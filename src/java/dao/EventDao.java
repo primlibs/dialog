@@ -351,11 +351,13 @@ public class EventDao extends Dao<Event> {
         return query.list();
     }
     
-    public List<Event> getPostponedEvents(Date dateFrom,Date dateTo,Long pkId){
-        String hql = "from Event ev where ev.cabinet.pkId=:pkId and ev.postponedDate between :dateFrom and :dateTo order by ev.postponedDate asc";
+    public List<Event> getPostponedEvents(Date dateFrom,Date dateTo,Long userId,Long pkId){
+        String hql = "from Event ev where ev.cabinet.pkId=:pkId and ev.user.userId=:userId and ev.postponedDate between :dateFrom and :dateTo and ev.status=:postponed order by ev.postponedDate asc";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("dateFrom", dateFrom);
         query.setParameter("dateTo", dateTo);
+        query.setParameter("postponed", Event.POSTPONED);
+        query.setParameter("userId", userId);
         query.setParameter("pkId", pkId);
         return query.list();
     }
