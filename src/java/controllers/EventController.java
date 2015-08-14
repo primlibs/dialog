@@ -636,6 +636,21 @@ public class EventController extends WebController {
         return "failModuleReportDetalisation";
     }
     
+    @RequestMapping("/moduleReportDetalisationXLS")
+    public void moduleReportDetalisationXLS(Map<String, Object> model,
+            @RequestParam(value = "campaignId") Long campaignId,
+             @RequestParam(value = "moduleId",required = false) Long moduleId,
+             RedirectAttributes ras, 
+            HttpServletResponse response, 
+            HttpServletRequest request) throws Exception{
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        String fileName = "module_report_on_"+campaignId;
+        
+        response.setHeader("Content-Disposition", "attachment; filename="+fileName+".xls");
+        reportService.getModuleReportDetalisationXls(moduleId, campaignId, cabinetId).write(response.getOutputStream());
+    }
+    
     @RequestMapping("/workReportDetalisation")
     public String workReportDetalisation(Map<String, Object> model, @RequestParam(value = "campaignId") Long campaignId,
              @RequestParam(value = "userId",required = false) Long userId,
@@ -689,8 +704,26 @@ public class EventController extends WebController {
         Long cabinetId = (long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         model.put("events", reportService.getDataForFailReasonDeatlisation(failReasonId, campaignId, cabinetId));
         model.put("campaign", eventService.getCampaign(campaignId));
+        model.put("failReasonId", failReasonId);
         model.put("errors",reportService.getErrors());
         return "failReasonReportDetalisation";
+    }
+    
+    @RequestMapping("/failReasonReportDetalisationXLS")
+    public void failReasonReportDetalisationXLS(Map<String, Object> model, 
+            HttpServletResponse response, 
+            HttpServletRequest request,
+            @RequestParam(value = "campaignId") Long campaignId,
+             @RequestParam(value = "failReasonId",required = false) Long failReasonId,
+             RedirectAttributes ras) throws Exception{
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        response.setContentType("application/octet-stream");
+        
+        String fileName = "fail_reason_report_on_"+campaignId;
+        
+        response.setHeader("Content-Disposition", "attachment; filename="+fileName+".xls");
+        reportService.getFailReasonReportDetalisationXls(failReasonId, campaignId, cabinetId).write(response.getOutputStream());
     }
     
     @RequestMapping("setShowModulesWithText")

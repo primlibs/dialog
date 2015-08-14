@@ -13,6 +13,11 @@
         <div class="row form-group">
             <h2>Отчет по звонкам. Отрицательный результат.</h2>
             <span style="font-size: 18px;font-weight: 500;"><b>Кампания: ${campaign.name}; Модуль: ${module.moduleName};</b></span>
+            <form class="form-inline btn-group" action="<c:url value="/Event/moduleReportDetalisationXLS" />" >
+          <input type="hidden" name="campaignId" value=${campaign.campaignId}>
+          <input type="hidden"  name="moduleId" value="${module.moduleId}">
+          <input type="submit" name="submit" class="btn btn-primary" value="Скачать excel" >
+        </form>
         </div>    
             <table class="table table-bordered table-hover">
                 <tr class="active">

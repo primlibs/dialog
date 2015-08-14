@@ -128,6 +128,65 @@ public class ReportService extends PrimService {
         return new ArrayList();
     }
     
+    public HSSFWorkbook getModuleReportDetalisationXls(Long moduleId,Long campaignId,Long pkId) throws Exception{
+        List<Event> rawData = getEventDetalisationByModuleId(moduleId, campaignId, pkId);
+        String listName = "детализация по модулям";
+        
+        HSSFWorkbook workbook = new HSSFWorkbook();
+
+        int n = 0;
+        HSSFSheet sheet = workbook.createSheet(listName);
+        HSSFRow rowhead = sheet.createRow((short) n);
+        int r = 0;
+        rowhead.createCell(r++).setCellValue("Номер уникальный");
+        rowhead.createCell(r++).setCellValue("Клиент");
+        rowhead.createCell(r++).setCellValue("Телефон");
+        rowhead.createCell(r++).setCellValue("Комментарий");
+        rowhead.createCell(r++).setCellValue("К.Л.");
+        rowhead.createCell(r++).setCellValue("Телефон Л.П.Р");
+        rowhead.createCell(r++).setCellValue("Л.П.Р.");
+        rowhead.createCell(r++).setCellValue("Адрес");
+        rowhead.createCell(r++).setCellValue("Пользователь");
+        rowhead.createCell(r++).setCellValue("Дата установки статуса");
+        rowhead.createCell(r++).setCellValue("Статус");
+        rowhead.createCell(r++).setCellValue("Назначенная дата");
+        rowhead.createCell(r++).setCellValue("Итог");
+        n++;
+        for(Event ev:rawData){
+            HSSFRow rowbody = sheet.createRow((short) n);
+            
+            String date = "";
+            if(ev.getSetStatusDate()!=null){
+                date = DateAdapter.formatByDate(ev.getSetStatusDate(), DateAdapter.FULL_FORMAT);
+            }
+            String finalDate = " - ";
+            if(ev.getSuccessDate()!=null){
+                finalDate = DateAdapter.formatByDate(ev.getSuccessDate(), DateAdapter.FULL_FORMAT);
+            }
+            User u = ev.getUser();
+            String uname = "Не назначено";
+            if(u!=null){
+                uname=u.getShortName();
+            }
+            r=0;
+            rowbody.createCell(r++).setCellValue(ev.getClient().getUniqueId());
+            rowbody.createCell(r++).setCellValue(ev.getClient().getNameCompany());
+            rowbody.createCell(r++).setCellValue(ev.getClient().getFormattedPhoneSec());
+            rowbody.createCell(r++).setCellValue(ev.getComment());
+            rowbody.createCell(r++).setCellValue(ev.getClient().getNameSecretary());
+            rowbody.createCell(r++).setCellValue(ev.getClient().getFormattedPhoneLpr());
+            rowbody.createCell(r++).setCellValue(ev.getClient().getNameLpr());
+            rowbody.createCell(r++).setCellValue(ev.getClient().getAddress());
+            rowbody.createCell(r++).setCellValue(uname);
+            rowbody.createCell(r++).setCellValue(date);
+            rowbody.createCell(r++).setCellValue(ev.getRusStatus());
+            rowbody.createCell(r++).setCellValue(finalDate);
+            rowbody.createCell(r++).setCellValue(ev.getFinalComment());
+            n++;
+        }
+        return workbook;
+    }
+    
     private class specByPercentComparator implements Comparator<BigDecimal[]> {
         @Override
         public int compare(BigDecimal[] a, BigDecimal[] b) {
@@ -374,6 +433,65 @@ public class ReportService extends PrimService {
             addError("Ошибка личного кабинета.");
         }
         return new ArrayList();
+    }
+    
+    public HSSFWorkbook getFailReasonReportDetalisationXls(Long failReasonId,Long campaignId,Long pkId) throws Exception{
+        List<Event> rawData = getDataForFailReasonDeatlisation(failReasonId, campaignId, pkId);
+        String listName = "детализация по причинам";
+        
+        HSSFWorkbook workbook = new HSSFWorkbook();
+
+        int n = 0;
+        HSSFSheet sheet = workbook.createSheet(listName);
+        HSSFRow rowhead = sheet.createRow((short) n);
+        int r = 0;
+        rowhead.createCell(r++).setCellValue("Номер уникальный");
+        rowhead.createCell(r++).setCellValue("Клиент");
+        rowhead.createCell(r++).setCellValue("Телефон");
+        rowhead.createCell(r++).setCellValue("Комментарий");
+        rowhead.createCell(r++).setCellValue("К.Л.");
+        rowhead.createCell(r++).setCellValue("Телефон Л.П.Р");
+        rowhead.createCell(r++).setCellValue("Л.П.Р.");
+        rowhead.createCell(r++).setCellValue("Адрес");
+        rowhead.createCell(r++).setCellValue("Пользователь");
+        rowhead.createCell(r++).setCellValue("Дата установки статуса");
+        rowhead.createCell(r++).setCellValue("Статус");
+        rowhead.createCell(r++).setCellValue("Назначенная дата");
+        rowhead.createCell(r++).setCellValue("Итог");
+        n++;
+        for(Event ev:rawData){
+            HSSFRow rowbody = sheet.createRow((short) n);
+            
+            String date = "";
+            if(ev.getSetStatusDate()!=null){
+                date = DateAdapter.formatByDate(ev.getSetStatusDate(), DateAdapter.FULL_FORMAT);
+            }
+            String finalDate = " - ";
+            if(ev.getSuccessDate()!=null){
+                finalDate = DateAdapter.formatByDate(ev.getSuccessDate(), DateAdapter.FULL_FORMAT);
+            }
+            User u = ev.getUser();
+            String uname = "Не назначено";
+            if(u!=null){
+                uname=u.getShortName();
+            }
+            r=0;
+            rowbody.createCell(r++).setCellValue(ev.getClient().getUniqueId());
+            rowbody.createCell(r++).setCellValue(ev.getClient().getNameCompany());
+            rowbody.createCell(r++).setCellValue(ev.getClient().getFormattedPhoneSec());
+            rowbody.createCell(r++).setCellValue(ev.getComment());
+            rowbody.createCell(r++).setCellValue(ev.getClient().getNameSecretary());
+            rowbody.createCell(r++).setCellValue(ev.getClient().getFormattedPhoneLpr());
+            rowbody.createCell(r++).setCellValue(ev.getClient().getNameLpr());
+            rowbody.createCell(r++).setCellValue(ev.getClient().getAddress());
+            rowbody.createCell(r++).setCellValue(uname);
+            rowbody.createCell(r++).setCellValue(date);
+            rowbody.createCell(r++).setCellValue(ev.getRusStatus());
+            rowbody.createCell(r++).setCellValue(finalDate);
+            rowbody.createCell(r++).setCellValue(ev.getFinalComment());
+            n++;
+        }
+        return workbook;
     }
     
     public List<Event> getDataForWorkDetalisation(Integer status,Date dateFrom,Date dateTo,Long userId,Long campaignId,Long pkId){

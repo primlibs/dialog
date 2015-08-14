@@ -65,9 +65,9 @@
                                 <c:forEach var="entry"  items="${аctiveMap}" >
                                     <tr style="background: moccasin;"><td style="text-align: center;">Группа ${entry.key.groupName}:</td> </tr>
                                         <c:forEach var="module" items="${entry.value}" >
-                                            <tr><td><span style="display: block;cursor: pointer;font-size:18px;color: slategrey" class="showableModule" id="${module.moduleId}"><ins><b>
+                                            <tr><td><span style="display: block;cursor: pointer;color: slategrey" class="showableModule" id="${module.moduleId}">
                                                    ${module.moduleName}<!--<a href="<c:url value="/Event/eventProcessing?campaignId=${param.campaignId}&groupId=${entry.key.groupId}&moduleId=${module.moduleId}&eventId=${event.eventId}"/>">${module.moduleName}</a>-->
-                                                    </b></ins></span></td></tr>
+                                                    </span></td></tr>
                                             <tr><td style="text-align: justify;">${module.bodyText}</td></tr>
                                             </c:forEach>
                                     
@@ -97,9 +97,9 @@
                                 <c:forEach var="entry"  items="${аctiveMap}" >
                                     <tr style="background: moccasin;"><td style="text-align: center;">Группа ${entry.key.groupName}:</td> </tr>
                                         <c:forEach var="module" items="${entry.value}" >
-                                            <tr><td><span style="display: block;cursor: pointer;font-size:18px;color: slategrey" class="showableModule" id="${module.moduleId}"><ins><b>
+                                            <tr><td><span style="display: block;cursor: pointer;color: slategrey" class="showableModule" id="${module.moduleId}">
                                                     ${module.moduleName}
-                                                    </b></ins></span></td></tr>
+                                                    </span></td></tr>
                                             </c:forEach>
                                     
                                 </c:forEach>
