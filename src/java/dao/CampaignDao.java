@@ -38,4 +38,13 @@ public class CampaignDao extends Dao<Campaign> {
         return query.list();
     }
     
+    
+    public Campaign getCampaign(Long campaignId,Long pkId){
+        String hql = "from Campaign where cabinet.pkId=:pkId and campaignId=:campaignId";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("campaignId", campaignId);
+        query.setParameter("pkId", pkId);
+        return (Campaign) query.uniqueResult();
+    }
+    
 }

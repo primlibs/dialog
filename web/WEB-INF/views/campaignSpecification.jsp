@@ -66,8 +66,6 @@
                     <input class="btn btn-primary" type="submit" value="Добавить">
                 </div>
             </form>
-            
-            
         </div>
             <div class="row form-group form-inline">
             <div class="checkbox">
@@ -75,13 +73,19 @@
             <input id="showModulesWithText" type="checkbox" data-campaignid="${campaign.campaignId}" value="${campaign.getShowModulesWithTextCheck()}" ${campaign.getShowModulesWithTextCheck()}> Показывать полный текст модулей
         </label>
             </div>
-            <a style="margin-left: 10px;" href="<c:url value="/Event/eventShowAllAppoint?campaignId=${campaign.campaignId}"/>" class="btn btn-primary" role="button">Распределить клиентов</a>
-        <!--<c:if test="${deleteble==true}">-->
+            <a style="margin-left: 10px;margin-right: 10px;" href="<c:url value="/Event/eventShowAllAppoint?campaignId=${campaign.campaignId}"/>" class="btn btn-primary" role="button">Распределить клиентов</a>
+            
             <a href="#" style="float: right;" class="btn btn-danger deletinghref" role="button"
                                         data-toggle="modal"
-                                        data-target="#deleteWindow">удалить</a>
-                <!--<a style="float: right;" href="<c:url value="/Event/deleteCampaign?campaignId=${campaign.campaignId}"/>" class="btn btn-large btn-danger" role="button">Удалить кампанию</a>-->
-            <!--</c:if>-->
+                                        data-target="#deleteWindow">Удалить</a>
+            
+            <c:if test="${!campaign.isClosed()}">
+            <a href="<c:url value="/Event/closeCampaign?campaignId=${campaign.campaignId}"/>" style="float: right;margin-right: 10px;" class="btn btn-danger deletinghref" role="button">Закрыть</a>
+            </c:if>
+            <c:if test="${campaign.isClosed()}">
+            <a href="<c:url value="/Event/openCampaign?campaignId=${campaign.campaignId}"/>" style="float: right;margin-right: 10px;" class="btn btn-warning deletinghref" role="button">Открыть</a>
+            </c:if>
+            
             </div>
         <table class="table table-bordered table-hover" style="margin-top: 20px;">
 

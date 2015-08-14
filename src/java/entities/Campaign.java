@@ -162,6 +162,14 @@ public class Campaign extends PrimEntity {
             return "";
     }
     
-    
+    public Boolean isClosed(){
+        if(ACTIVE.equals(status)){
+            return false;
+        }
+        if(CLOSE.equals(status)){
+            return true;
+        }
+        return null;
+    }
 
 }

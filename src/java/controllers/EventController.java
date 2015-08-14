@@ -156,6 +156,32 @@ public class EventController extends WebController {
         ras.addFlashAttribute("errors", errors);
         return "redirect:/Event/campaignList";
     }
+    
+    @RequestMapping("/closeCampaign")
+    public String closeCampaign(Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "campaignId", required = false) Long campaignId,
+            RedirectAttributes ras) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        eventService.closeCampaign(campaignId, cabinetId);
+        ras.addFlashAttribute("errors", eventService.getErrors());
+        ras.addAttribute("campaignId", campaignId);
+        return "redirect:/Event/campaignSpecification";
+    }
+    
+    @RequestMapping("/openCampaign")
+    public String openCampaign(Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "campaignId", required = false) Long campaignId,
+            RedirectAttributes ras) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        eventService.openClosedCampaign(campaignId, cabinetId);
+        ras.addFlashAttribute("errors", eventService.getErrors());
+        ras.addAttribute("campaignId", campaignId);
+        return "redirect:/Event/campaignSpecification";
+    }
 
     @RequestMapping("/campaignSpecification")
     public String showCampaignSpecification(Map<String, Object> model,
@@ -561,9 +587,8 @@ public class EventController extends WebController {
         lk.dataByUserAndCompany(request, model);
         User user = authManager.getCurrentUser();
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        List<Event> postponedEvents = eventService.getPostponedEvents(dateFrom, dateTo,user.getId(), cabinetId);
 
-        model.put("postponedEvents", postponedEvents);
+        model.put("postponedEvents", eventService.getPostponedEvents(dateFrom, dateTo,user.getId(), cabinetId));
         model.put("errors", eventService.getErrors());
         return "postponedEvents";
     }
@@ -759,6 +784,7 @@ public class EventController extends WebController {
         //res.setMessage(s);
         return res;
     }
+    
     
     /*@RequestMapping("/summarizedModuleReport")
     public String showModuleReport(Map<String, Object> model,@RequestParam(value = "campaignId") Long campaignId, RedirectAttributes ras, HttpServletRequest request) throws Exception {

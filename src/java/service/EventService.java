@@ -175,6 +175,46 @@ public class EventService extends PrimService {
         }
     }
     
+    public void closeCampaign(Long campaignId,Long pkId){
+        if(campaignId!=null&&pkId!=null){
+            Campaign c = campaignDao.getCampaign(campaignId, pkId);
+            if(c!=null){
+                c.setEndDate(new Date());
+                c.setStatus(Campaign.CLOSE);
+                campaignDao.save(c);
+            }else{
+                addError("Вданном кабинете не удалось найти кампании с ИД "+campaignId);
+            }
+        }else{
+            if(campaignId==null){
+                addError("Ид кампании не был получен");
+            }
+            if(pkId==null){
+                addError("Ошибка личного кабинета");
+            }
+        }
+    }
+    
+    public void openClosedCampaign(Long campaignId,Long pkId){
+        if(campaignId!=null&&pkId!=null){
+            Campaign c = campaignDao.getCampaign(campaignId, pkId);
+            if(c!=null){
+                c.setEndDate(null);
+                c.setStatus(Campaign.ACTIVE);
+                campaignDao.save(c);
+            }else{
+                addError("Вданном кабинете не удалось найти кампании с ИД "+campaignId);
+            }
+        }else{
+            if(campaignId==null){
+                addError("Ид кампании не был получен");
+            }
+            if(pkId==null){
+                addError("Ошибка личного кабинета");
+            }
+        }
+    }
+    
     public void delete(Event ev){
         for(ModuleEventClient mec:ev.getModuleEventClientList()){
             moduleEventClientDao.delete(mec);
@@ -1214,6 +1254,15 @@ public class EventService extends PrimService {
             
      }
      }*/
+    
+    private boolean isCampaignClosed(Campaign c){
+        if(Objects.equals(c.getStatus(), Campaign.CLOSE)){
+            addError("Кампания закрыта");
+            return false;
+        }else{
+            return true;
+        }
+    }
     
     
 

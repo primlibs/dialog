@@ -310,10 +310,11 @@ public class EventDao extends Dao<Event> {
 
     //Оператору: список ссылок по kичному кабинету и userId
     public List<Object[]> getCampaignByCabinetAndUserId(Long cabinetId, Long userId) {
-        String hql = "select ev.campaign,count(ev.eventId) from Event as ev where ev.cabinet.pkId= :cabinetId and ev.user.userId= :userId and ev.finalComment is null group by ev.campaign order by ev.campaign.creationDate";
+        String hql = "select ev.campaign,count(ev.eventId) from Event as ev where ev.cabinet.pkId= :cabinetId and ev.campaign.status=:active and ev.user.userId= :userId and ev.finalComment is null group by ev.campaign order by ev.campaign.creationDate";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("cabinetId", cabinetId);
         query.setParameter("userId", userId);
+        query.setParameter("active", Campaign.ACTIVE);
         //List<Event> ev = query.list();
         List<Object[]> clist = query.list();
         return clist;
@@ -352,10 +353,11 @@ public class EventDao extends Dao<Event> {
     }
     
     public List<Event> getPostponedEvents(Date dateFrom,Date dateTo,Long userId,Long pkId){
-        String hql = "from Event ev where ev.cabinet.pkId=:pkId and ev.user.userId=:userId and ev.postponedDate between :dateFrom and :dateTo and ev.status=:postponed order by ev.postponedDate asc";
+        String hql = "from Event ev where ev.cabinet.pkId=:pkId and ev.user.userId=:userId and ev.campaign.status=:active and ev.postponedDate between :dateFrom and :dateTo and ev.status=:postponed order by ev.postponedDate asc";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("dateFrom", dateFrom);
         query.setParameter("dateTo", dateTo);
+        query.setParameter("active", Campaign.ACTIVE);
         query.setParameter("postponed", Event.POSTPONED);
         query.setParameter("userId", userId);
         query.setParameter("pkId", pkId);
@@ -412,18 +414,20 @@ public class EventDao extends Dao<Event> {
     }
     
     public List<Event> getPostponedEvents(Long userId,Long pkId){
-        String hql="from Event ev where ev.user.userId=:userId and ev.cabinet.pkId=:pkId and ev.status=2";
+        String hql="from Event ev where ev.user.userId=:userId and ev.cabinet.pkId=:pkId and ev.status=2 and ev.campaign.status=:active order by ev.postponedDate desc";
         Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("active", Campaign.ACTIVE);
         query.setParameter("userId", userId);
         query.setParameter("pkId", pkId);
         return query.list();
     }
     
     public List<Event> getPostponedEvents(Long campaignId,Long userId,Long pkId){
-        String hql="from Event ev where ev.user.userId=:userId and ev.cabinet.pkId=:pkId and ev.status=2 and ev.campaign.campaignId=:campaignId order by ev.postponedDate desc";
+        String hql="from Event ev where ev.user.userId=:userId and ev.cabinet.pkId=:pkId and ev.status=2 and ev.campaign.campaignId=:campaignId and ev.campaign.status=:active order by ev.postponedDate desc";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
         query.setParameter("userId", userId);
+        query.setParameter("active", Campaign.ACTIVE);
         query.setParameter("pkId", pkId);
         return query.list();
     }
