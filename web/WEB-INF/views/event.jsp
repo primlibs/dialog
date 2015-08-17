@@ -63,12 +63,12 @@
                             <div class="col-md-10" style="float:left;">
                                 <table style="width: 100%;">
                                 <c:forEach var="entry"  items="${аctiveMap}" >
-                                    <tr style="background: moccasin;"><td style="text-align: center;">Группа ${entry.key.groupName}:</td> </tr>
+                                    <tr style="background: moccasin;cursor:pointer;" class="fullshowgroupwithmodules" data-fullshowgroupid="${entry.key.groupId}"><td style="text-align: center;">Группа ${entry.key.groupName}:</td> </tr>
                                         <c:forEach var="module" items="${entry.value}" >
-                                            <tr><td><span style="display: block;cursor: pointer;color: slategrey" class="showableModule" id="${module.moduleId}">
+                                            <tr><td><span style="display: block;cursor: pointer;color: slategrey" class="showableModule hidingModule" data-fullshowgroupid="${entry.key.groupId}" id="${module.moduleId}">
                                                    ${module.moduleName}<!--<a href="<c:url value="/Event/eventProcessing?campaignId=${param.campaignId}&groupId=${entry.key.groupId}&moduleId=${module.moduleId}&eventId=${event.eventId}"/>">${module.moduleName}</a>-->
                                                     </span></td></tr>
-                                            <tr><td style="text-align: justify;">${module.bodyText}</td></tr>
+                                            <tr><td style="text-align: justify;" class="hidingModule" data-fullshowgroupid="${entry.key.groupId}">${module.bodyText}</td></tr>
                                             </c:forEach>
                                     
                                 </c:forEach>
@@ -95,13 +95,12 @@
                         <div class="col-md-3" >
                             <table style="width: 100%;">
                                 <c:forEach var="entry"  items="${аctiveMap}" >
-                                    <tr style="background: moccasin;"><td style="text-align: center;">Группа ${entry.key.groupName}:</td> </tr>
+                                    <tr style="background: moccasin;cursor: pointer;" class="groupwithmodules" data-groupid="${entry.key.groupId}"><td style="text-align: center;">Группа ${entry.key.groupName}:</td> </tr>
                                         <c:forEach var="module" items="${entry.value}" >
-                                            <tr><td><span style="display: block;cursor: pointer;color: slategrey" class="showableModule" id="${module.moduleId}">
+                                            <tr><td><span style="display: block;cursor: pointer;color: slategrey" class="showableModule hidingModule" data-groupid="${entry.key.groupId}" id="${module.moduleId}">
                                                     ${module.moduleName}
                                                     </span></td></tr>
                                             </c:forEach>
-                                    
                                 </c:forEach>
                                 </table>
                         </div>
@@ -202,7 +201,7 @@
                                 <p>   <a href="#" class="btn btn-large btn-success"
                                          data-toggle="modal"
                                          data-target="#basicModalSuccess">Положительный исход</a>
-                                <p>    <a href="<c:url value="/Event/event?campaignId=${param.campaignId}&strategyId=${campaign.strategy.strategyId}"/>" class="btn btn-large btn-primary" role="button">следующий клиент</a>
+                                <p>    <a href="<c:url value="/Event/event?campaignId=${param.campaignId}&strategyId=${campaign.strategy.strategyId}"/>" class="btn btn-large btn-primary" role="button">Следующий клиент</a>
 
                             </div>
                         </div>

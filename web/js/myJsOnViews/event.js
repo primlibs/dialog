@@ -4,6 +4,16 @@ $(function(){
         showModule($(this).attr('id'));
     });
     
+    $('.fullshowgroupwithmodules').click(function(){
+        var groupId=$(this).attr('data-fullshowgroupid');
+        $('.hidingModule[data-fullshowgroupid='+groupId+']').toggleClass('hidden');
+    })
+    
+    $('.groupwithmodules').click(function(){
+        var groupId=$(this).attr('data-groupid');
+        $('.hidingModule[data-groupid='+groupId+']').toggleClass('hidden');
+    })
+    
     function showModule(moduleId){
         var div = '';
         $('#moduleShow').html(div);
