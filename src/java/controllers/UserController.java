@@ -41,6 +41,7 @@ public class UserController extends WebController {
     @Autowired
     private LkController lk;
 
+    //to do po 4elove4eski bez etogo submit
     @RequestMapping(value = {"/userAdd"})
     public String showAddUserPage(Map<String, Object> model, String submit,
             @RequestParam(value = "email", required = false)String email,
@@ -58,15 +59,15 @@ public class UserController extends WebController {
             Object cabinetId = request.getSession().getAttribute(LkController.CABINET_ID_SESSION_NAME);
             userService.addUser(email, phone, name, surname, patronymic, role, cabinetId);
             if (userService.getErrors().isEmpty()) {
-                model.put("message", "Пользователь добавлен");
+                ras.addFlashAttribute("message", "Пользователь с логином: "+email+" и паролем: 0000 успешно добавлен");
+                //model.put("message", );
                 return "redirect:/User/userList";
-            } else {
-                model.put("errors", userService.getErrors());
             }
 
         } else {
             model.put("errors", userService.getErrors());
         }
+        //model.put("errors", userService.getErrors());
         model.put("email", email);
         model.put("name", name);
         model.put("patronymic", patronymic);
