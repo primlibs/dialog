@@ -76,6 +76,7 @@ public class ClientService extends PrimService {
         rowhead.createCell(r++).setCellValue("Номер уникальный");
         rowhead.createCell(r++).setCellValue("Клиент");
         rowhead.createCell(r++).setCellValue("Телефон к.л.");
+        rowhead.createCell(r++).setCellValue("Комментарий");
         rowhead.createCell(r++).setCellValue("Имя контактного лица");
         rowhead.createCell(r++).setCellValue("Телефон л.п.р.");
         rowhead.createCell(r++).setCellValue("Имя лица принимающего решение");
@@ -88,6 +89,7 @@ public class ClientService extends PrimService {
             row.createCell(r++).setCellValue(client.getUniqueId());
             row.createCell(r++).setCellValue(client.getNameCompany());
             row.createCell(r++).setCellValue(client.getPhoneSecretary());
+            row.createCell(r++).setCellValue("");
             row.createCell(r++).setCellValue(client.getNameSecretary());
             row.createCell(r++).setCellValue(client.getPhoneLpr());
             row.createCell(r++).setCellValue(client.getNameLpr());

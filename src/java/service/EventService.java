@@ -1026,6 +1026,7 @@ public class EventService extends PrimService {
                     if (Event.POSTPONED == ev.getStatus()) {
                         addError("Перенесенный звонок нельзя сделать неназначенным;");
                     } else {
+                        ev.setUser(null);
                         ev.setStatus(Event.UNASSIGNED);
                         type = EventComment.UNASSIGN;
                         systemComment = "Звонк перенесен в неназначенные";
