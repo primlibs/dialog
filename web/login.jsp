@@ -34,7 +34,7 @@
                         <p class="navbar-text navbar-right" style="margin-right: 10px;font-size:15px;color:#F0F0F0">
 						+7(342) <strong style="font-size:20px;color:white">259-56-57</strong><br/>
 						<a href="#" data-toggle="modal" data-target="#entrance" class="whiteLink">Вход </a> 
-                            или <a href="/Registration/registration" class="whiteLink">Регистрация </a> 
+                            или <a href="/Registration/closedregistration" class="whiteLink">Регистрация </a> 
 							</p>
 							
                         
@@ -72,7 +72,7 @@
                         <iframe width="560" height="315" src="https://www.youtube.com/embed/G0eIbWXek-Q" frameborder="0" allowfullscreen></iframe>
                     </div>-->
                 </div>
-                <h1><a href="/Registration/registration" class="label label-warning">Протестировать</a></h1>
+                <h1><a href="/Registration/closedregistration" class="label label-warning">Протестировать</a></h1>
 
             </div>
         </div>    
@@ -156,7 +156,7 @@
 					туроператоры, салоны красоты, страховые компании, телекоммуникационные компании, коллекторские агентства</p>
 				</h3>
 			</div>
-            <h1><a href="/Registration/registration" class="label label-danger " style="float: right;">Демо-версия на 14 дней бесплатно</a></h1>
+            <h1><a href="/Registration/closedregistration" class="label label-danger " style="float: right;">Демо-версия на 14 дней бесплатно</a></h1>
         </div>
 		
         <div class="container" style="margin-top: 20px;">
@@ -175,7 +175,7 @@
 
                             </div>
                             <p>Строимость: <strong>бесплатно</strong></p>
-                            <p><a href="/Registration/registration" class="btn btn-default btn-lg" id="dialogfreebtn" style="background-color: #ccc;" role="button">Получить Диалог</a></p>
+                            <p><a href="/Registration/closedregistration" class="btn btn-default btn-lg" id="dialogfreebtn" style="background-color: #ccc;" role="button">Получить Диалог</a></p>
                         </div>
                     </div>
                 </div>
@@ -191,7 +191,7 @@
 
                             </div>
                             <p>Строимость: <strong>25 000 р.</strong></p>
-                            <p><a href="/Registration/registration" class="btn btn-success btn-lg" role="button">Получить Диалог</a></p>
+                            <p><a href="/Registration/closedregistration" class="btn btn-success btn-lg" role="button">Получить Диалог</a></p>
                         </div>
                     </div>
                 </div>
@@ -208,7 +208,7 @@
 
                             </div>
                             <p>Строимость: <strong>70 000 р.</strong></p>
-                            <p><a href="/Registration/registration" class="btn btn-primary btn-lg" role="button">Получить Диалог</a></p>
+                            <p><a href="/Registration/closedregistration" class="btn btn-primary btn-lg" role="button">Получить Диалог</a></p>
                         </div>
                     </div>
                 </div>
@@ -225,7 +225,7 @@
 
                             </div>
                             <p>Строимость: <strong>120 000 р.</strong></p>
-                            <p><a href="/Registration/registration" class="btn btn-warning btn-lg" role="button">Получить Диалог</a></p>
+                            <p><a href="/Registration/closedregistration" class="btn btn-warning btn-lg" role="button">Получить Диалог</a></p>
                         </div>
                     </div>
                 </div>
@@ -238,7 +238,7 @@
                             <h3 id="thumbnail-label" style="text-align: center;">Диалог навсегда<a class="anchorjs-link" ><span class="anchorjs-icon"></span></a></h3>
                                 <p  style="text-align: center;">Установка на свой сервер</p>
                             <p  style="text-align: center;">Строимость: <strong>150 000 р.</strong></p>
-                            <p><a href="/Registration/registration" class="btn btn-danger btn-block" role="button">Получить Диалог</a> </p>
+                            <p><a href="/Registration/closedregistration" class="btn btn-danger btn-block" role="button">Получить Диалог</a> </p>
                         </div>
                     </div>
                 </div>-->
@@ -274,7 +274,7 @@
                             </div>
 
                             <p class="forgot-password"><a href="/User/recoveryPassword">Забыли пароль?</a>   
-                                <a href="/Registration/registration">Регистрация!!</a></p>
+                                <a href="/Registration/closedregistration">Регистрация!!</a></p>
                         </form>
 
                     </div>

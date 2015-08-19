@@ -19,50 +19,12 @@
 
     <center><h2>Регистрация</h2></center> 
     <%@include file="/WEB-INF/jsp/error.jsp" %> 
-
+    <br>
+    <br>
+    <br>
+    <!--<h3>Уважаемый пользователь! В данный момент прямая регистрация в нашем сервисе закрыта. Если у Вас есть интерес к нашему продукту, просим обращаться к нам по телефону: +7(342) 259-56-57, либо по email: primsoft59@gmail.ru</h3>-->
     <form class="form-horizontal" action="<c:url value="/Registration/registration" />" method="post">
-       <!-- <h3>   Данные компании:</h3>
-
-        <div class="form-group">
-            <label class="control-label col-xs-3" for="lastName">Название компании:</label>
-            <div class="col-xs-9">
-                <input type="text" class="form-control ntSaveForms" name="company" id="lastName" placeholder="Введите наименование компании" value="${param['company']}">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-xs-3"  for="inputEmail">Email:</label>
-            <div class="col-xs-9">
-                <input type="email" class="form-control ntSaveForms" name="emailCompany"  id="inputEmail" placeholder="Email" value="${param['emailCompany']}">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-xs-3" for="phoneNumber">Телефон:</label>
-            <div class="col-xs-9">
-                <input type="tel" class="form-control ntSaveForms" name="phone" id="phoneNumber" placeholder="Введите номер телефона" value="${param['phone']}">
-            </div>
-        </div>
-        <h3>   Личные данные:</h3>
-
-
-        <div class="form-group">
-            <label class="control-label col-xs-3" for="lastName">Фамилия:</label>
-            <div class="col-xs-9">
-                <input type="text" class="form-control ntSaveForms" name="surname" id="lastName" placeholder="Введите фамилию" value="${param['surname']}">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-xs-3" for="firstName">Имя:</label>
-            <div class="col-xs-9">
-                <input type="text" class="form-control ntSaveForms" name="name" id="firstName" placeholder="Введите имя" value="${param['name']}">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-xs-3" for="firstName">Отчество:</label>
-            <div class="col-xs-9">
-                <input type="text" class="form-control ntSaveForms" name="patronymic" id="firstName" placeholder="Введите отчество" value="${param['patronymic']}">
-            </div>
-        </div>-->
+       
         <div class="form-group">
             <label class="control-label col-xs-3"  for="inputEmail">Email:</label>
             <div class="col-xs-9">
@@ -81,14 +43,6 @@
                 <input type="password" class="form-control" name="confirmPassword"  id="confirmPassword" placeholder="Введите пароль ещё раз" value="${param['confirmPassword']}">
             </div>
         </div>
-
-        <!--<div class="form-group">
-            <div class="col-xs-offset-3 col-xs-9">
-                <label class="checkbox-inline">
-                    <input type="checkbox" name="checkbox" value="agree">  Я согласен с <a href="#">условиями</a>.
-                </label>
-            </div>
-        </div>-->
         <input type="hidden" name="checkbox" value="agree">
         <br />
         <div class="form-group">

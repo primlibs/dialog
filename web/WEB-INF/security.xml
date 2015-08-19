@@ -18,6 +18,7 @@
         <intercept-url pattern="/Prim" access="hasAnyRole('ROLE_ANONYMOUS')" />
         <intercept-url pattern="/PRIM" access="hasAnyRole('ROLE_ANONYMOUS')" />
         <intercept-url pattern="/Registration/registration" access="hasAnyRole('ROLE_ANONYMOUS')" />
+        <intercept-url pattern="/Registration/closedregistration" access="hasAnyRole('ROLE_ANONYMOUS')" />
         <intercept-url pattern="/Registration/successRegistration" access="hasAnyRole('ROLE_ANONYMOUS')" />
         <intercept-url pattern="/User/recoveryPassword" access="hasAnyRole('ROLE_ANONYMOUS')" />
         <intercept-url pattern="/User/recoverPassword" access="hasAnyRole('ROLE_ANONYMOUS')" />

@@ -84,6 +84,12 @@ public class RegistrationController extends WebController {
 
         return "registration";
     }
+    
+    @RequestMapping(value = {"/closedregistration"})
+    public String showClosedRegMessage(Map<String, Object> model, HttpServletRequest request) throws Exception {
+        
+        return "closedreg";
+    }
 
     @RequestMapping(value = {"/successRegistration"})
     public String showSRPage(Map<String, Object> model, HttpServletRequest request,
