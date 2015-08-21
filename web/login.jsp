@@ -11,6 +11,7 @@
         <title>Диалог||Построение телефонных продаж за 1 день</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Cache-Control" content="no-cache">
         <link href="./css/bootstrap.min.css" rel="stylesheet" type="text/css" >
         <link href="./css/dialog.css" rel="stylesheet" type="text/css" >
         <link rel="shortcut icon" href="./img/icon(D).png">
@@ -34,7 +35,7 @@
                         <p class="navbar-text navbar-right" style="margin-right: 10px;font-size:15px;color:#F0F0F0">
 						+7(342) <strong style="font-size:20px;color:white">259-56-57</strong><br/>
 						<a href="#" data-toggle="modal" data-target="#entrance" class="whiteLink">Вход </a> 
-                            или <a href="/Registration/closedregistration" class="whiteLink">Регистрация </a> 
+                            или <a href="#" data-toggle="modal" data-target="#registrationwindow" class="whiteLink">Регистрация </a> 
 							</p>
 							
                         
@@ -72,7 +73,7 @@
                         <iframe width="560" height="315" src="https://www.youtube.com/embed/G0eIbWXek-Q" frameborder="0" allowfullscreen></iframe>
                     </div>-->
                 </div>
-                <h1><a href="/Registration/closedregistration" class="label label-warning">Протестировать</a></h1>
+                <h1><a href="#" data-toggle="modal" data-target="#infowindow" class="label label-warning">Попробовать Диалог </a></h1>
 
             </div>
         </div>    
@@ -156,7 +157,7 @@
 					туроператоры, салоны красоты, страховые компании, телекоммуникационные компании, коллекторские агентства</p>
 				</h3>
 			</div>
-            <h1><a href="/Registration/closedregistration" class="label label-danger " style="float: right;">Демо-версия на 14 дней бесплатно</a></h1>
+            <h1><a href="#" data-toggle="modal" data-target="#infowindow" style="float: right;" class="label label-danger ">Демо-версия на 14 дней бесплатно </a></h1>
         </div>
 		
         <div class="container" style="margin-top: 20px;">
@@ -175,7 +176,7 @@
 
                             </div>
                             <p>Строимость: <strong>бесплатно</strong></p>
-                            <p><a href="/Registration/closedregistration" class="btn btn-default btn-lg" id="dialogfreebtn" style="background-color: #ccc;" role="button">Получить Диалог</a></p>
+                            <p><a href="#" class="btn btn-default btn-lg" data-toggle="modal" data-target="#infowindow" style="background-color: #ccc;" role="button">Получить Диалог</a></p>
                         </div>
                     </div>
                 </div>
@@ -191,7 +192,7 @@
 
                             </div>
                             <p>Строимость: <strong>25 000 р.</strong></p>
-                            <p><a href="/Registration/closedregistration" class="btn btn-success btn-lg" role="button">Получить Диалог</a></p>
+                            <p><a href="#" class="btn btn-success btn-lg" data-toggle="modal" data-target="#infowindow" role="button">Получить Диалог</a></p>
                         </div>
                     </div>
                 </div>
@@ -208,7 +209,7 @@
 
                             </div>
                             <p>Строимость: <strong>70 000 р.</strong></p>
-                            <p><a href="/Registration/closedregistration" class="btn btn-primary btn-lg" role="button">Получить Диалог</a></p>
+                            <p><a href="#" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#infowindow" role="button">Получить Диалог</a></p>
                         </div>
                     </div>
                 </div>
@@ -225,7 +226,7 @@
 
                             </div>
                             <p>Строимость: <strong>120 000 р.</strong></p>
-                            <p><a href="/Registration/closedregistration" class="btn btn-warning btn-lg" role="button">Получить Диалог</a></p>
+                            <p><a href="#" data-toggle="modal" data-target="#infowindow" class="btn btn-warning btn-lg" role="button">Получить Диалог</a></p>
                         </div>
                     </div>
                 </div>
@@ -258,6 +259,19 @@
                         <h4 class="modal-title" id="myModalLabel">Авторизация</h4>
                     </div>
                     <div class="modal-body">
+                        <c:if test="${param.error=='true'}">
+                            <center>
+                                <div class="alert alert-success" >
+                                        <p>Введенные логин или пароль неверны.</p>
+                                </div>  
+                            </center>
+                            <c:set var="autherror" value="<script>
+    $(window).load(function(){
+        $('#entrance').modal('show');
+    });
+</script>"/>
+            
+                        </c:if>
                         <form method="post" action="j_spring_security_check" class="login">
                             <div class="form-group">
                                 <label for="login">Логин:</label>
@@ -274,14 +288,130 @@
                             </div>
 
                             <p class="forgot-password"><a href="/User/recoveryPassword">Забыли пароль?</a>   
-                                <a href="/Registration/closedregistration">Регистрация!!</a></p>
+                                <a href="#" data-toggle="modal" data-target="#registrationwindow">Регистрация!!</a></p>
                         </form>
 
                     </div>
                 </div>
             </div>
         </div>
-    
+         
+            
+            <c:set var="inedreg" value=""/>
+            
+            <c:if test="${not empty param.regerrors}"><c:set var="inedreg" value="<script>
+    $(window).load(function(){
+        $('#registrationwindow').modal('show');
+    });
+</script>"/>
+            </c:if>
+        <div class="modal fade" id="registrationwindow" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title" id="myModalLabel">Регистрация</h4>
+                    </div>
+                    
+                    
+                    <div class="modal-body">
+                        
+                        <c:if test="${not empty param.regerrors}">
+                            <center>
+                                <div class="alert alert-danger" >
+                                    <c:forEach items="${param.regerrors}" var="error" >
+                                        <p>${error}</p>
+                                    </c:forEach>
+                                </div>  
+                            </center>
+                        </c:if>
+                        
+                        <form method="post" action="Registration/registration" class="login">
+                            <div class="form-group">
+                                <label for="regemail">email</label>
+                                <input placeholder="Введите email" class="form-control" name="regemail" id="login" type="email">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="regphone">Телефон</label>
+                                <input placeholder="Введите телефон" class="form-control" name="regphone" id="password" type="phone">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="regpassword">Пароль:</label>
+                                <input placeholder="Введите пароль" class="form-control" name="regpassword" id="password" type="password">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="regconfirmPassword">Подтверждение пароля:</label>
+                                <input placeholder="Подтвердите пароль" class="form-control" name="regconfirmPassword" id="confirmPassword" type="password">
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="login-button">Регистрация</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="modal fade" id="infowindow" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title" id="myModalLabel">Уважаемый пользователь!</h4>
+                        <h4>Если у Вас есть интерес к нашему продукту, Вы можете связаться с нами по телефону: +7(342) 259-56-57, либо по email: primsoft59@gmail.com</h4>
+                        <h4>Или оставьте нам Ваши контактные данные и мы с Вами обязательно свяжемся.</h4>
+                    </div>
+                    
+                    
+                    <div class="modal-body">
+                        
+                        <c:if test="${not empty param.serrors}">
+                            <center>
+                                <div class="alert alert-success" >
+                                    <c:forEach items="${param.serrors}" var="error" >
+                                        <p>${error}</p>
+                                    </c:forEach>
+                                </div>  
+                            </center>
+                        </c:if>
+                        
+                        <form method="post" action="Registration/saveContacts" class="login">
+                            <div class="form-group">
+                                <label for="clemail">email</label>
+                                <input placeholder="Введите email" class="form-control" name="clemail" id="clemail" type="email" value="${param.clemail}">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="clphone">Телефон</label>
+                                <input placeholder="Введите телефон" class="form-control" name="clphone" id="clphone" type="phone" value="${param.clphone}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="clname">Как к Вам обращаться:</label>
+                                <input placeholder="Введите Ваше имя" class="form-control" name="clname" id="clname" type="text" value="${param.clname}">
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="login-button">Отправить</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    ${inedreg}
+    ${autherror}
+    <c:if test="${not empty param.serrors}"><script>
+    $(window).load(function(){
+        $('#infowindow').modal('show');
+    });
+</script>
+            </c:if>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
     (function (d, w, c) {

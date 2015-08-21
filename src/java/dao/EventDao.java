@@ -223,10 +223,10 @@ public class EventDao extends Dao<Event> {
 
     //лист Ссылкок ECL по campaignId УСПЕШНО ОБРАБОТАНЫХ по userId
     public List<Event> getSuccessEventsByUserId(Long campaignId, Long cabinetId, Long userId) {
-        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.cabinet.pkId= :cabinet and ev.user.userId= :userId and ev.status=:succsesseful order by ev.client.nameCompany,ev.client.address";
+        String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.cabinet.pkId= :cabinet and ev.user.userId= :userId and ev.status=:successful order by ev.client.nameCompany,ev.client.address";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
-        query.setParameter("succsesseful", Event.SUCCESSFUL);
+        query.setParameter("successful", Event.SUCCESSFUL);
         query.setParameter("cabinet", cabinetId);
         query.setParameter("userId", userId);
         List<Event> ev = query.list();
@@ -238,7 +238,7 @@ public class EventDao extends Dao<Event> {
         String hql = "from Event as ev where ev.campaign.campaignId= :campaignId and ev.cabinet.pkId= :cabinet and ev.user.userId= :userId and ev.status=:failed order by ev.client.nameCompany,ev.client.address";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("campaignId", campaignId);
-        query.setParameter("succsesseful", Event.FAILED);
+        query.setParameter("failed", Event.FAILED);
         query.setParameter("cabinet", cabinetId);
         query.setParameter("userId", userId);
         List<Event> ev = query.list();

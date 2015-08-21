@@ -11,15 +11,15 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <%@include file="/WEB-INF/jsp/css_js.jsp" %>
-        <title>Регистрация</title>
+        <title>Обращение</title>
     </head>
     <body class="container" >
 
-    <center><h2>Регистрация</h2></center> 
+    
     <%@include file="/WEB-INF/jsp/error.jsp" %> 
     <br>
     <br>
     <br>
-        <h3>Уважаемый пользователь! В данный момент прямая регистрация в нашем сервисе закрыта. Если у Вас есть интерес к нашему продукту, просим обращаться к нам по телефону: +7(342) 259-56-57, либо по email: primsoft59@gmail.com</h3>
+        <center><h3>Спасибо за проявленный интерес, мы с Вами обязательно свяжемся!</h3></center> 
     </body>
 </html>

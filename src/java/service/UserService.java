@@ -31,6 +31,10 @@ import service.parent.PrimService;
 import support.AuthManager;
 import support.Random;
 import support.ServiceResult;
+import support.StringAdapter;
+import support.editors.PhoneEditor;
+import support.enums.ValidatorTypes;
+import support.filterValidator.ChainValidator;
 
 /**
  *
@@ -53,11 +57,11 @@ public class UserService extends PrimService {
 
     @Autowired
     private PersonalCabinetDao personalCabinetDao;
-    
-    public User getUser(Long userId){
-        if(userId==null){
+
+    public User getUser(Long userId) {
+        if (userId == null) {
             return null;
-        }else{
+        } else {
             return userDao.find(userId);
         }
     }
@@ -72,49 +76,61 @@ public class UserService extends PrimService {
             String patronymic,
             String emailCompany
     ) {
+        
+        PhoneEditor phe=new PhoneEditor();
+        phone=phe.getPhone(phone);
+        if ((email != null && isValidMail(email)) && (password != null && password.length()>3)) {
+            User existingUser = userDao.getUserByLogin(email);
+            //PersonalCabinet existingEmailCompany = personalCabinetDao.getCabinetByLogin(emailCompany);
 
-        User existingUser = userDao.getUserByLogin(email);
-        //PersonalCabinet existingEmailCompany = personalCabinetDao.getCabinetByLogin(emailCompany);
-
-        if (existingUser != null) {
-            addError("Пользователь с такой почтой уже зарегистрирован, выберите другую");
-        } /*else if(existingEmailCompany != null) {
-         addError("Укажите другую почту, на данный адрес уже зарегистрирована компания");
-         }*/ else {
-            if (name == null || name.equals("")) {
-                name = "Пользователь";
-            }
-            if (surname == null || surname.equals("")) {
-                surname = "Новый";
-            }
-            User user = new User();
-            user.setEmail(email);
-            user.setPassword(AuthManager.md5Custom(password));
-            user.setName(name);
-            user.setSurname(surname);
-            user.setPatronymic(patronymic);
-            if (validate(user)) {
-                if (company == null || company.equals("")) {
-                    company = "Новая компания";
+            if (existingUser != null) {
+                addError("Пользователь с такой почтой уже зарегистрирован, выберите другую");
+            } /*else if(existingEmailCompany != null) {
+             addError("Укажите другую почту, на данный адрес уже зарегистрирована компания");
+             }*/ else {
+                if (name == null || name.equals("")) {
+                    name = "Пользователь";
                 }
-                PersonalCabinet cabinet = new PersonalCabinet();
+                if (surname == null || surname.equals("")) {
+                    surname = "Новый";
+                }
+                User user = new User();
+                user.setEmail(email);
+                user.setPassword(AuthManager.md5Custom(password));
+                user.setName(name);
+                user.setSurname(surname);
+                user.setPatronymic(patronymic);
+                if (validate(user)) {
+                    if (company == null || company.equals("")) {
+                        company = "Новая компания";
+                    }
+                    PersonalCabinet cabinet = new PersonalCabinet();
                 //cabinet.setEmail(emailCompany);
-                //cabinet.setPhone(phone);
-                cabinet.setCompany(company);
-                if (validate(cabinet)) {
-                    userDao.save(user);
-                    personalCabinetDao.save(cabinet);
-                    CabinetUser link = new CabinetUser();
-                    link.setCabinet(cabinet);
-                    link.setUser(user);
-                    link.setUserRole("admin");
-                    if (validate(link)) {
-                        cabinetUserDao.save(link);
+                    //cabinet.setPhone(phone);
+                    cabinet.setCompany(company);
+                    cabinet.setPhone(phone);
+                    if (validate(cabinet)) {
+                        userDao.save(user);
+                        personalCabinetDao.save(cabinet);
+                        CabinetUser link = new CabinetUser();
+                        link.setCabinet(cabinet);
+                        link.setUser(user);
+                        
+                        link.setUserRole("admin");
+                        if (validate(link)) {
+                            cabinetUserDao.save(link);
+                        }
                     }
                 }
             }
+        }else{
+            if(email==null||email.equals("")){
+                addError("Необходимо указать email");
+            }
+            if(password==null||password.length()<4){
+                addError("Необходимо указать пароль длиной более 3 символов");
+            }
         }
-
     }
 
     public boolean updateUserField(String field, Long cabinetUserId, String newVal, Long pkId) {
@@ -145,10 +161,10 @@ public class UserService extends PrimService {
                     break;
                 case "userRole":
                     if (newVal.equals("Пользователь")) {
-                        if(isThisUserNotTheLastAdmin(cu, pkId)){
+                        if (isThisUserNotTheLastAdmin(cu, pkId)) {
                             cu.setUserRole("user");
                             cu.setMakesCalls((short) 1);
-                        }else{
+                        } else {
                             addError("В кабинете должен остаться хотя бы один администратор.");
                         }
                     } else if (newVal.equals("Администратор")) {
@@ -253,7 +269,7 @@ public class UserService extends PrimService {
     }
 
     private boolean existCabinetUser(User existingUser, Object cabinetId) {
-        List<CabinetUser> list = cabinetUserDao.getByUserAndCabinet(existingUser.getId(),(Long)cabinetId);
+        List<CabinetUser> list = cabinetUserDao.getByUserAndCabinet(existingUser.getId(), (Long) cabinetId);
         if (list.size() > 0) {
             return true;
         } else {
@@ -290,7 +306,7 @@ public class UserService extends PrimService {
     }
 
     public String recoveryPassword(String email) {
-        if(email==null||email.equals("")){
+        if (email == null || email.equals("")) {
             addError("Нужно ввести адрес электронной почты");
             return null;
         }
@@ -378,7 +394,7 @@ public class UserService extends PrimService {
         if (deletingCu != null) {
             if (!deletingCu.getUser().getId().equals(thisUserId)) {
                 User user = deletingCu.getUser();
-                if(isThisUserNotTheLastAdmin(deletingCu,pkId)){
+                if (isThisUserNotTheLastAdmin(deletingCu, pkId)) {
                     if (!cabinetUserIdtoAssign.equals((long) 0)) {
                         CabinetUser assigningCu = cabinetUserDao.getCUByIdAndCabinet(cabinetUserIdtoAssign, pkId);
                         for (Event ev : eventDao.getActiveEvents(user.getId(), pkId)) {
@@ -400,9 +416,9 @@ public class UserService extends PrimService {
                     for (Event ev : eventsForUpdate) {
                         eventDao.update(ev);
                     }
-                }else{
+                } else {
                     addError("В кабинете должен остаться хотя бы один администратор.");
-                }     
+                }
             } else {
                 addError("Нельзя удалить самого себя");
             }
@@ -410,16 +426,16 @@ public class UserService extends PrimService {
             addError("Пользователь не найден по ИД: " + cabinetUserIdtoDelete);
         }
     }
-    
-    private boolean isThisUserNotTheLastAdmin(CabinetUser deletingCu,Long pkId){
-        if(deletingCu.getUserRole().equals("admin")){
+
+    private boolean isThisUserNotTheLastAdmin(CabinetUser deletingCu, Long pkId) {
+        if (deletingCu.getUserRole().equals("admin")) {
             List<CabinetUser> admins = personalCabinetDao.getAdmins(pkId);
-            if(!admins.isEmpty()&&admins.size()>1){
+            if (!admins.isEmpty() && admins.size() > 1) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
-        }else{
+        } else {
             return true;
         }
     }
@@ -463,6 +479,44 @@ public class UserService extends PrimService {
             }
         } else {
             addError("Новое название компании не передано.");
+        }
+    }
+    
+    public Boolean isValidMail(Object ob) {
+        /*if(ob.getClass().equals(Double.class)){
+            BigDecimal bd = BigDecimal.valueOf((double)ob);
+            ob=bd.longValue();
+        }*/
+        ChainValidator ch = ChainValidator.getInstance(ValidatorTypes.MAILVALIDATOR);
+        ch.execute(ob);
+        if(ch.getErrors().isEmpty()){
+            return true;
+        }else{
+            for(String er:ch.getErrors()){
+                addError(er);
+            }
+            return false;
+        }
+    }
+    
+    public void saveContacts(String name,
+            String email,
+            String phone
+            ){
+        if(!((email==null||email.equals(""))&&(phone==null||phone.equals("")))){
+            PhoneEditor phe=new PhoneEditor();
+            phone=phe.getPhone(phone);
+            User u = new User();
+            u.setEmail(email);
+            u.setPassword("00001");
+            u.setSurname(phone);
+            u.setName(name);
+            //u.setSurname(surname);
+            if(validate(u)){
+                userDao.save(u);
+            }
+        }else{
+            addError("Введите email или телефон");
         }
     }
 
