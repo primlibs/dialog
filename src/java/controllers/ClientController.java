@@ -219,7 +219,7 @@ public class ClientController extends WebController {
                 selectedTagsMap.put(tagId,tagId);
             }
         }
-        ras.addAttribute("selectedTagsMap", selectedTagsMap);
+        ras.addFlashAttribute("selectedTagsMap", selectedTagsMap);
         
         ras.addFlashAttribute("errors",errors);
         ras.addAttribute("clientId", clientId);
