@@ -7,21 +7,24 @@ package entities;
 
 import entities.parent.PrimEntity;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
 import support.editors.PhoneEditor;
-import support.filterValidator.entity.PhoneFilter;
 
 /**
  *
@@ -48,6 +51,32 @@ public class PersonalCabinet extends PrimEntity {
     @Column(name = "phone")
     //@NotNull(message = "Поле телефон не может быть пустым")
     private String phone;
+    
+    //@LazyCollection(LazyCollectionOption.TRUE)
+    
+    
+    @JoinColumn(name = "tarif_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull(message = "Тариф не указан")
+    private Tarif tarif;
+    
+    @Column(name = "begin_date")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    //@NotNull(message = "Дата начала не указана")
+    private Date beginDate;
+    
+    @Column(name = "end_date")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    //@NotNull(message = "Дата окончания не указана")
+    private Date endDate;
+    
+    //@LazyCollection(LazyCollectionOption.TRUE)
+    
+    
+    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull(message = "Установивший пользователь не указан")
+    private User userSet;
 
     @LazyCollection(LazyCollectionOption.TRUE)
     @OneToMany(mappedBy = "cabinet")
@@ -213,5 +242,40 @@ public class PersonalCabinet extends PrimEntity {
     public void setEvents(List<Event> events) {
         this.events = events;
     }
+
+    public Tarif getTarif() {
+        return tarif;
+    }
+
+    public void setTarif(Tarif tarif) {
+        this.tarif = tarif;
+    }
+
+    public Date getBeginDate() {
+        return beginDate;
+    }
+
+    public void setBeginDate(Date beginDate) {
+        this.beginDate = beginDate;
+    }
+    
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public User getUserSet() {
+        return userSet;
+    }
+
+    public void setUserSet(User userSet) {
+        this.userSet = userSet;
+    }
+    
+    
 
 }

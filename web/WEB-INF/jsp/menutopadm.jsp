@@ -29,6 +29,10 @@
             </ul>                    
         </li>
         
+        <c:if test="${superadmin eq 'superadmin'}">
+            <li>  <a href="<c:url value="/Lk/admin"/>">Управление кабинетами</a></li>
+        </c:if>
+        
     </ul> 
     <%@include file="/WEB-INF/jsp/menuright.jsp" %>
 </div>  
