@@ -30,7 +30,11 @@
         </li>
         
         <c:if test="${superadmin eq 'superadmin'}">
-            <li>  <a href="<c:url value="/Lk/admin"/>">Управление кабинетами</a></li>
+            <li class="dropdown">  <a href="#" data-toggle="dropdown"  class="dropdown-toggle">Управление <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="<c:url value="/Tarif/list"/>">Тарифы</a></li>
+                <li><a href="<c:url value="/Lk/admin"/>">Кабинеты</a></li>
+            </ul></li>
         </c:if>
         
     </ul> 

@@ -16,6 +16,8 @@
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
         <%@include file="/WEB-INF/jsp/error.jsp" %> 
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
+        
+        <h3>Кабинеты</h3>
         <table class="table table-bordered table-hover">
             <tr>
                 <th> ИД </th>

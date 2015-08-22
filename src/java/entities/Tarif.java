@@ -29,7 +29,7 @@ public class Tarif extends PrimEntity {
     private Long tarifId;
     
     @Column(name = "name")
-    @NotBlank(message = "Название не может быть пустым")
+    @NotBlank(message = "Название тарифа не может быть пустым")
     private String name;
     
     @Column(name = "price")
