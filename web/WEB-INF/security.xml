@@ -29,6 +29,7 @@
         <intercept-url pattern="/User/successChangePassword" access="hasAnyRole('user', 'admin')" /> 
         <intercept-url pattern="/User/changePassword" access="hasAnyRole('user', 'admin')" /> 
         <intercept-url pattern="/Lk/lk" access="hasAnyRole('user', 'admin')" />  
+        <intercept-url pattern="/Lk/admin" access="hasAnyRole('user', 'admin')" /> 
         <intercept-url pattern="/Lk/selectLk" access="hasAnyRole('user', 'admin')" />
         
         <intercept-url pattern="/Event/event" access="hasAnyRole('user', 'admin')" />

@@ -49,7 +49,7 @@ public class CabinetUserService extends PrimService {
         if (cabinetId == null) {
             return "не определено";
         }
-         PersonalCabinet cabinet= cabinetDao.find(cabinetId);
+        PersonalCabinet cabinet= cabinetDao.find(cabinetId);
         cabinet = cabinetDao.find(cabinetId);
 
         return cabinet.getCompany();
@@ -64,6 +64,16 @@ public class CabinetUserService extends PrimService {
         }
 
         return user.getCurrentUser().getName() + " " + user.getCurrentUser().getSurname();
+    }
+    
+    public Boolean isSuperRole() throws Exception {
+        if (user == null) {
+            throw new Exception("user is null");
+        }
+        if (user.getCurrentUser() == null) {
+            throw new Exception("userCurrent is null");
+        }
+        return user.getCurrentUser().isSuperAdmin();
     }
 
     public String getUserRole(Long userId,Long pkId) {

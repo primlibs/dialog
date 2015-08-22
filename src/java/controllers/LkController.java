@@ -72,11 +72,18 @@ public class LkController extends WebController{
     public void dataByUserAndCompany(HttpServletRequest request, Map<String, Object> model) throws Exception {
         
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-         
+        
+        String superadmin = "";
+        
+        if(service.isSuperRole()){
+            superadmin=User.SUPERADMIN;
+        }
+        
         String company = service.getNameCompany(cabinetId);
         String user = service.getNameUser();
         model.put("nameUser", user);
         model.put("nameCompany", company);
+        model.put("superadmin", superadmin);
     }
 
     public void getRole(HttpServletRequest request, Map<String, Object> model) {
@@ -84,4 +91,19 @@ public class LkController extends WebController{
         model.put("role", role);
 
     }
+    
+    
+    
+    @RequestMapping("/admin")
+    public String administrating(Map<String, Object> model, HttpServletRequest request) throws Exception {
+        dataByUserAndCompany(request, model);
+        Object supermark = model.get("superadmin");
+        
+        if(User.SUPERADMIN.equals(supermark)){
+            return "administrating";
+        }else{
+            return "redirect:/";
+        }
+    }
+    
 }

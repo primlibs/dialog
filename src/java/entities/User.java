@@ -30,6 +30,8 @@ import org.hibernate.validator.constraints.NotBlank;
 @Entity
 @Table(name = "users")
 public class User extends PrimEntity {
+    
+    public static String SUPERADMIN = "superadmin";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,6 +65,9 @@ public class User extends PrimEntity {
 
     @Column(name = "recoverHash")
     private String recoverHash;
+    
+    @Column(name = "supermark")
+    private String supermark;
 
     @LazyCollection(LazyCollectionOption.TRUE)
     @OneToMany(mappedBy = "user")
@@ -164,5 +169,22 @@ public class User extends PrimEntity {
         }
         return res;
     }
+
+    public boolean isSuperAdmin() {
+        if(SUPERADMIN.equals(supermark)){
+            return true;
+        }
+        return false;
+    }
+
+    public void setSuperAdmin(Boolean set) {
+        if(true==set){
+            this.supermark = SUPERADMIN;
+        }else{
+            this.supermark = null;
+        }
+    }
+    
+    
 
 }
