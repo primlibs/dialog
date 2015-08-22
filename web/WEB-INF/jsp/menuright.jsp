@@ -12,7 +12,7 @@
 <ul class="nav navbar-nav  pull-right" style="margin-bottom: 0px">
     
     <c:if test="${superadmin eq 'superadmin'}">
-        <li>  <a href="<c:url value="/Lk/admin"/>">Администрирование</a></li>
+        <li>  <a href="<c:url value="/Lk/admin"/>">Управление кабинетами</a></li>
     </c:if>
 
     <li style="top: 15px;"> Организация: <span class="changebleParam" data-method="changeOrgName" data-controller="/User" name="newName">${nameCompany }</span> &nbsp </li>    

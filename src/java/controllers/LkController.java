@@ -17,8 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import service.AdminService;
 import service.CabinetUserService;
-import support.AuthManager;
 
 /**
  *
@@ -32,6 +32,9 @@ public class LkController extends WebController{
 
     @Autowired
     private CabinetUserService service;
+    
+    @Autowired
+    private AdminService adminService;
 
     @Transactional
     @RequestMapping(value = {"/lk"})
@@ -100,6 +103,8 @@ public class LkController extends WebController{
         Object supermark = model.get("superadmin");
         
         if(User.SUPERADMIN.equals(supermark)){
+            model.put("pkList", adminService.getPkList());
+            
             return "administrating";
         }else{
             return "redirect:/";

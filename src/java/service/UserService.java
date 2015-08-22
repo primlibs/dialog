@@ -105,7 +105,7 @@ public class UserService extends PrimService {
                         company = "Новая компания";
                     }
                     PersonalCabinet cabinet = new PersonalCabinet();
-                //cabinet.setEmail(emailCompany);
+                    cabinet.setEmail(email);
                     //cabinet.setPhone(phone);
                     cabinet.setCompany(company);
                     cabinet.setPhone(phone);
