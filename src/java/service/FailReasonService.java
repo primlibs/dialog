@@ -32,33 +32,39 @@ public class FailReasonService extends PrimService {
 
     @Autowired
     private StrategyDao strategyDao;
+    @Autowired
+    private AdminService adminService;
 
     public List<FailReason> getActiveFailReasonsByStrategy(Long strategyId) {
         List<FailReason> res = failReasonDao.getActiveFailReasons(strategyId);
         return res;
     }
 
-    public void saveFailReason(String reason, Long strategyId) {
+    public void saveFailReason(String reason, Long strategyId,Long pkId) {
         //TO DO проверка удаленных и восстановление мб
-        Strategy str = strategyDao.find(strategyId);
-        List<FailReason> frs = getActiveFailReasonsByStrategy(strategyId);
+        if(adminService.tarifIsNotExpired(pkId)){
+            Strategy str = strategyDao.find(strategyId);
+            List<FailReason> frs = getActiveFailReasonsByStrategy(strategyId);
 
-        boolean existName = false;
-        for (FailReason fr : frs) {
-            existName = fr.getName().equals(reason);
-            if (existName == true) {
-                addError("Такая причина уже существует");
-                break;
+            boolean existName = false;
+            for (FailReason fr : frs) {
+                existName = fr.getName().equals(reason);
+                if (existName == true) {
+                    addError("Такая причина уже существует");
+                    break;
+                }
             }
-        }
 
-        if (reason != null && existName == false) {
-            FailReason fr = new FailReason();
-            fr.setName(reason);
-            fr.setStrategy(str);
-            if (validate(fr)) {
-                failReasonDao.save(fr);
+            if (reason != null && existName == false) {
+                FailReason fr = new FailReason();
+                fr.setName(reason);
+                fr.setStrategy(str);
+                if (validate(fr)) {
+                    failReasonDao.save(fr);
+                }
             }
+        }else{
+            addError("Доступ к добавлениб причин ограничен в связи с ограничениями тарифа");
         }
     }
 

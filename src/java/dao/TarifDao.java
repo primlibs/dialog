@@ -6,6 +6,7 @@
 package dao;
 
 import dao.parent.Dao;
+import entities.PersonalCabinet;
 import entities.Tarif;
 import java.util.List;
 import org.hibernate.Query;
@@ -34,6 +35,13 @@ public class TarifDao extends Dao<Tarif> {
         String hql = "from Tarif t where t.defaultMark=:def";
         Query q = getCurrentSession().createQuery(hql);
         q.setParameter("def", Tarif.DEFAULTMARK);
+        return q.list();
+    }
+    
+    public List<PersonalCabinet> getCabinetsWithTarif(Long tarifId){
+        String hql = "from PersonalCabinet pk where pk.tarif.tarifId=:tarifId";
+        Query q = getCurrentSession().createQuery(hql);
+        q.setParameter("tarifId", tarifId);
         return q.list();
     }
     

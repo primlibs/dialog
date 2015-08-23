@@ -128,6 +128,8 @@ public class AdminService extends PrimService {
                         if(uc==null||culist.size()<uc.intValue()){
                             return true;
                         }
+                    }else{
+                        return true;
                     }
                 } else {
                     addError("Личный кабинет с ид " + pkId + " не был найден");
@@ -151,6 +153,8 @@ public class AdminService extends PrimService {
                         if(uc==null||clist.size()<uc.intValue()){
                             return true;
                         }
+                    }else{
+                        return true;
                     }
                 } else {
                     addError("Личный кабинет с ид " + pkId + " не был найден");
@@ -174,6 +178,8 @@ public class AdminService extends PrimService {
                         if(uc==null||clist.size()<uc.intValue()){
                             return true;
                         }
+                    }else{
+                        return true;
                     }
                 } else {
                     addError("Личный кабинет с ид " + pkId + " не был найден");

@@ -65,10 +65,10 @@ public class UserController extends WebController {
                 return "redirect:/User/userList";
             }
 
-        } else {
+        } /*else {
             model.put("errors", userService.getErrors());
-        }
-        //model.put("errors", userService.getErrors());
+        }*/
+        model.put("errors", userService.getErrors());
         model.put("email", email);
         model.put("name", name);
         model.put("patronymic", patronymic);

@@ -39,6 +39,8 @@ public class TagService extends PrimService {
     private PersonalCabinetDao pkDao;
     @Autowired
     private ClientDao clientDao;
+    @Autowired
+    private AdminService adminService;
 
     public List<Tag> getAllActiveTags(Long pkId) {
         return tagDao.getAllActiveTags(pkId);
@@ -81,34 +83,37 @@ public class TagService extends PrimService {
     //Если тэга с таким именем не было - просто создается, если был, но был удален без очистки линков - восстанавливается
     //Если имя тэга уникально, при попытке добавления такого-же будет ошибка
     public void create(String name, Long pkId){
-        boolean unique = true;
-        boolean deleted=false;
-        Tag existingTag=getTagByNameAndPkId(name,pkId);
-        Tag deletedTag=getDeletedTagByNameAndPkId(name,pkId);
-        if(existingTag!=null){
-            unique=false;
-            if(deletedTag!=null){
-                deleted=true;
-            }
-        }
-        if (unique) {
-            Tag tag = new Tag();
-            tag.setCabinet(pkDao.find(pkId));
-            tag.setName(name);
-            if (validate(tag)) {
-                tagDao.save(tag);
-            }
-        }else {
-            if (deleted) {
-                deletedTag.setDeleteDate(null);
-                if (validate(deletedTag)) {
-                    tagDao.update(deletedTag);
+        if(adminService.tarifIsNotExpired(pkId)){
+            boolean unique = true;
+            boolean deleted=false;
+            Tag existingTag=getTagByNameAndPkId(name,pkId);
+            Tag deletedTag=getDeletedTagByNameAndPkId(name,pkId);
+            if(existingTag!=null){
+                unique=false;
+                if(deletedTag!=null){
+                    deleted=true;
                 }
-            } else {
-                addError("Такой тэг уже есть");
             }
+            if (unique) {
+                Tag tag = new Tag();
+                tag.setCabinet(pkDao.find(pkId));
+                tag.setName(name);
+                if (validate(tag)) {
+                    tagDao.save(tag);
+                }
+            }else {
+                if (deleted) {
+                    deletedTag.setDeleteDate(null);
+                    if (validate(deletedTag)) {
+                        tagDao.update(deletedTag);
+                    }
+                } else {
+                    addError("Такой тэг уже есть");
+                }
+            }
+        }else{
+            addError("Не удалось добваить тэг в связи с ограничениями тарифа");
         }
-        
     }
 
     /*public boolean create1(String name, Long pkId) {

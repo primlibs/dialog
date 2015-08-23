@@ -216,7 +216,7 @@ public class StrategyController extends WebController {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
-        failReasonService.saveFailReason(failReasonName, strategyId);
+        failReasonService.saveFailReason(failReasonName, strategyId,cabinetId);
         
         /*if (failReasonService.getErrors().isEmpty()) {
             ras.addFlashAttribute("message", "Модуль отказа " + failReasonName + " создан");

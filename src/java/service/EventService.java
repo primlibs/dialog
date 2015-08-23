@@ -102,6 +102,9 @@ public class EventService extends PrimService {
 
     @Autowired
     private TagService tagService;
+    
+    @Autowired
+    private AdminService adminService;
 
     @Autowired
     private ModuleEventClientDao moduleEventClientDao;
@@ -119,7 +122,6 @@ public class EventService extends PrimService {
             addError("не найден по " + cabinetId);
         }
         return "";
-
     }
 
     public List<Strategy> getStrategies(Long cabinetId) {
@@ -149,29 +151,33 @@ public class EventService extends PrimService {
     }
 
     public void createCampaign(String name, Long strategyId, Long cabinetId) {
-        PersonalCabinet pk = personalCabinetDao.find(cabinetId);
-        Strategy strategy = strategyDao.find(strategyId);
-        Date dt = new Date();
-        if (pk != null) {
-            if (strategyId != null) {
-                if (name != null) {
-                    Campaign campaign = new Campaign();
-                    campaign.setCabinet(pk);
-                    campaign.setName(name);
-                    campaign.setStrategy(strategy);
-                    campaign.setCreationDate(dt);
-                    campaign.setStatus(Campaign.ACTIVE);
-                    if (validate(campaign)) {
-                        campaignDao.save(campaign);
+        if(adminService.mayAddCampaign(cabinetId)){
+            PersonalCabinet pk = personalCabinetDao.find(cabinetId);
+            Strategy strategy = strategyDao.find(strategyId);
+            Date dt = new Date();
+            if (pk != null) {
+                if (strategyId != null) {
+                    if (name != null) {
+                        Campaign campaign = new Campaign();
+                        campaign.setCabinet(pk);
+                        campaign.setName(name);
+                        campaign.setStrategy(strategy);
+                        campaign.setCreationDate(dt);
+                        campaign.setStatus(Campaign.ACTIVE);
+                        if (validate(campaign)) {
+                            campaignDao.save(campaign);
+                        }
+                    } else {
+                        addError("наименование кампании не может быть пустым");
                     }
                 } else {
-                    addError("наименование кампании не может быть пустым");
+                    addError("не найдена сценарий по id" + strategyId);
                 }
             } else {
-                addError("не найдена сценарий по id" + strategyId);
+                addError("не найден личный кабинет по id" + cabinetId);
             }
-        } else {
-            addError("не найден личный кабинет по id" + cabinetId);
+        }else{
+            addError("Вы не можете добавлять больше кампаний в связи с ограничениями тарифа");
         }
     }
     
@@ -306,6 +312,7 @@ public class EventService extends PrimService {
             InputStream fis = fileXls.getInputStream();
             HSSFWorkbook inputWorkbook = new HSSFWorkbook(fis);
             int sheetCount = inputWorkbook.getNumberOfSheets();
+            boolean nomoreclients=false;
             for (int i = 0; i < sheetCount; i++) {
                 HSSFSheet hss = inputWorkbook.getSheetAt(i);
                 int rowCount = 0;
@@ -339,7 +346,11 @@ public class EventService extends PrimService {
                                 cl.setCabinet(pk);
                                 if (validate(cl)) {
                                     if ((secretaryPhone != null && !secretaryPhone.equals("")) || (lprPhone != null && !lprPhone.equals(""))) {
-                                        clientsListForSave.add(cl);
+                                        if(adminService.mayAddClient(pkId)){
+                                            clientsListForSave.add(cl);
+                                        }else{
+                                            nomoreclients=true;
+                                        }
                                     } else {
                                         noContactList.add(cl);
                                     }
@@ -380,6 +391,9 @@ public class EventService extends PrimService {
                             }
                         }
                     }
+                }
+                if(nomoreclients){
+                    addError("Вы не можете добавлять больше клиентов в связи с ограничениями тарифа");
                 }
             }
             if (noContactList.isEmpty() && noUniqueIdList.isEmpty()) {

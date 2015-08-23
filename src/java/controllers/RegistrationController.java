@@ -97,33 +97,12 @@ public class RegistrationController extends WebController {
                         ras.addFlashAttribute("username", email);
                         ras.addFlashAttribute("phone", phone);
                         ras.addFlashAttribute("password",password);
-                       // ras.addFlashAttribute("action","j_spring_security_check");
-                        //ras.addAttribute("username", email);
-                        //ras.addAttribute("password",password);
-                        //ras.addAttribute("action","j_spring_security_check");
-                        
-                        //authRequest.setAuthenticated(true);
-                        //AuthenticationManager am = new SampleAuthenticationManager();
-                        //am.authenticate(authRequest);
-                        //authRequest.
-                        //authRequest.setAuthenticated(true);
-                        //SecurityContextHolder.getContext().setAuthentication(authRequest);
-                        /*setDetails(request, authRequest);
-                        this.getAuthenticationManager().authenticate(authRequest);*/
-                        /*UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(email, password);
-                        support.AfterRegistrationAuthenticationManager am = new support.AfterRegistrationAuthenticationManager();
-                        SecurityContextHolder.getContext().setAuthentication(am.authenticate(authRequest));
-                        SecurityContext context = SecurityContextHolder.getContext();*/
-                        /*Authentication authentication = new UsernamePasswordAuthenticationToken(email, password);
-                        
-                        SecurityContextHolder.getContext().setAuthentication(authentication);*/
                         
                         return "redirect:/Registration/successRegistration";
                     }
                 } else {
                     userService.addError("Пароли не совпадают");
                 }
-        //ras.addFlashAttribute("errors", userService.getErrors());
         List<String> ers = new ArrayList();
         ers.addAll(userService.getErrors());
         ras.addAttribute("regerrors", ers);

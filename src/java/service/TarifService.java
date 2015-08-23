@@ -62,6 +62,13 @@ public class TarifService extends PrimService {
 
     public void delete(Long tarifId) {
         if (tarifId != null) {
+            for(PersonalCabinet pk:tarifDao.getCabinetsWithTarif(tarifId)){
+                pk.setEndDate(null);
+                pk.setTarif(null);
+                if(validate(pk)){
+                    personalCabinetDao.update(pk);
+                }
+            }
             Tarif t = tarifDao.find(tarifId);
             tarifDao.delete(t);
         } else {

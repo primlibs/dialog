@@ -42,6 +42,9 @@ public class GroupService extends PrimService {
 
     @Autowired
     private StrategyDao strategyDao;
+    
+    @Autowired
+    private AdminService adminService;
 
     @Autowired
     private PersonalCabinetDao personalCabinetDao;
@@ -163,28 +166,31 @@ public class GroupService extends PrimService {
     public void saveGroup(Long strategyId,
             String groupName,
             Long pkId) {
-
-        Boolean exists = false;
-        for (Group group : groupDao.getActiveGroups(strategyId, pkId)) {
-            if (group.getGroupName().equalsIgnoreCase(groupName)) {
-                exists = true;
-                break;
+        if(adminService.tarifIsNotExpired(pkId)){
+            Boolean exists = false;
+            for (Group group : groupDao.getActiveGroups(strategyId, pkId)) {
+                if (group.getGroupName().equalsIgnoreCase(groupName)) {
+                    exists = true;
+                    break;
+                }
             }
-        }
-        if (!exists) {
-            PersonalCabinet pk = personalCabinetDao.find(pkId);
-            Strategy stg = strategyDao.find(strategyId);
-            Group gr = new Group();
-            gr.setCabinet(pk);
-            gr.setStrategy(stg);
-            gr.setGroupName(groupName);
-            Long pos = updatePositionsAndGetAvailable(strategyId, pkId);
-            gr.setPosition(pos);
-            if (validate(gr)) {
-                groupDao.save(gr);
+            if (!exists) {
+                PersonalCabinet pk = personalCabinetDao.find(pkId);
+                Strategy stg = strategyDao.find(strategyId);
+                Group gr = new Group();
+                gr.setCabinet(pk);
+                gr.setStrategy(stg);
+                gr.setGroupName(groupName);
+                Long pos = updatePositionsAndGetAvailable(strategyId, pkId);
+                gr.setPosition(pos);
+                if (validate(gr)) {
+                    groupDao.save(gr);
+                }
+            } else {
+                addError("Такая группа уже есть");
             }
-        } else {
-            addError("Такая группа уже есть");
+        }else{
+            addError("Не удалось добваить группу в связи с ограничениями тарифа");
         }
     }
 

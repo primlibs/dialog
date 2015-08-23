@@ -53,44 +53,51 @@ public class StrategyService extends PrimService {
 
     @Autowired
     private GroupService groupService;
+    
+    @Autowired
+    private AdminService adminService;
 
     public void saveStrategy(String strategyName, Long cabinetId) {
-        PersonalCabinet pk = personalCabinetDao.find(cabinetId);
-        List<Strategy> strategyList = getActiveStrategyList(cabinetId);
+        if(adminService.tarifIsNotExpired(cabinetId)){
+            PersonalCabinet pk = personalCabinetDao.find(cabinetId);
+            List<Strategy> strategyList = getActiveStrategyList(cabinetId);
 
-        boolean existName = false;
-        for (Strategy stretagy : strategyList) {
-            existName = stretagy.getStrategyName().equalsIgnoreCase(strategyName);
-            if (existName == true) {
-                break;
-            }
-        }
-
-        if (strategyName != null && existName == false) {
-            Strategy strategy = new Strategy();
-            strategy.setStrategyName(strategyName);
-            strategy.setCabinet(pk);
-            if (validate(strategy)) {
-                strategyDao.save(strategy);
-            }
-            if (getErrors().isEmpty()) {
-                ArrayList<String> failReasons = new ArrayList<>();
-                failReasons.add(0, "Нет потребности");
-                failReasons.add(1, "Нет средств");
-                //failReasons.add(2, "Не интересно");
-                for (String str :failReasons ) {
-                    FailReason fr = new FailReason();
-                    fr.setStrategy(strategy);
-                    fr.setName(str);
-                    if (validate(fr)) {
-                        failReasonDao.save(fr);
-                    }else{
-                        addError("Список сливов не сохранился");
-                    }
+            boolean existName = false;
+            for (Strategy stretagy : strategyList) {
+                existName = stretagy.getStrategyName().equalsIgnoreCase(strategyName);
+                if (existName == true) {
+                    break;
                 }
             }
-        } else {
-            addError("Cтратегия с названием " + strategyName + " уже существует");
+
+            if (strategyName != null && existName == false) {
+                Strategy strategy = new Strategy();
+                strategy.setStrategyName(strategyName);
+                strategy.setCabinet(pk);
+                if (validate(strategy)) {
+                    strategyDao.save(strategy);
+                }
+                if (getErrors().isEmpty()) {
+                    ArrayList<String> failReasons = new ArrayList<>();
+                    failReasons.add(0, "Нет потребности");
+                    failReasons.add(1, "Нет средств");
+                    //failReasons.add(2, "Не интересно");
+                    for (String str :failReasons ) {
+                        FailReason fr = new FailReason();
+                        fr.setStrategy(strategy);
+                        fr.setName(str);
+                        if (validate(fr)) {
+                            failReasonDao.save(fr);
+                        }else{
+                            addError("Список сливов не сохранился");
+                        }
+                    }
+                }
+            } else {
+                addError("Cтратегия с названием " + strategyName + " уже существует");
+            }
+        }else{
+            addError("Не удалось добваить сценарий в связи с ограничениями тарифа");
         }
     }
 

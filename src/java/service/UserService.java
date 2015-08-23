@@ -8,10 +8,12 @@ package service;
 import dao.CabinetUserDao;
 import dao.EventDao;
 import dao.PersonalCabinetDao;
+import dao.TarifDao;
 import dao.UserDao;
 import entities.CabinetUser;
 import entities.Event;
 import entities.PersonalCabinet;
+import entities.Tarif;
 import entities.User;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -50,10 +52,12 @@ public class UserService extends PrimService {
     private UserDao userDao;
     @Autowired
     private EventDao eventDao;
-
+    @Autowired
+    private TarifDao tarifDao;
     @Autowired
     private CabinetUserDao cabinetUserDao;
-
+    @Autowired
+    private AdminService adminService;
     @Autowired
     private PersonalCabinetDao personalCabinetDao;
 
@@ -75,10 +79,10 @@ public class UserService extends PrimService {
             String patronymic,
             String emailCompany
     ) {
-        
-        PhoneEditor phe=new PhoneEditor();
-        phone=phe.getPhone(phone);
-        if ((email != null && isValidMail(email)) && (password != null && password.length()>3)) {
+
+        PhoneEditor phe = new PhoneEditor();
+        phone = phe.getPhone(phone);
+        if ((email != null && isValidMail(email)) && (password != null && password.length() > 3)) {
             User existingUser = userDao.getUserByLogin(email);
             //PersonalCabinet existingEmailCompany = personalCabinetDao.getCabinetByLogin(emailCompany);
 
@@ -104,8 +108,21 @@ public class UserService extends PrimService {
                         company = "Новая компания";
                     }
                     PersonalCabinet cabinet = new PersonalCabinet();
+                    Tarif t = null;
+                    Date endDate = null;
+                    List<Tarif> ts = tarifDao.getDefaults();
+                    if (!ts.isEmpty()) {
+                        t = ts.get(0);
+                        if (t.getDayLength() != null) {
+                            Calendar c = Calendar.getInstance();
+                            c.add(Calendar.DAY_OF_MONTH, t.getDayLength().intValue());
+                            endDate = c.getTime();
+                        }
+                    }
                     cabinet.setEmail(email);
-                    //cabinet.setPhone(phone);
+                    cabinet.setTarif(t);
+                    cabinet.setEndDate(endDate);
+                    cabinet.setBeginDate(new Date());
                     cabinet.setCompany(company);
                     cabinet.setPhone(phone);
                     if (validate(cabinet)) {
@@ -114,7 +131,7 @@ public class UserService extends PrimService {
                         CabinetUser link = new CabinetUser();
                         link.setCabinet(cabinet);
                         link.setUser(user);
-                        
+
                         link.setUserRole("admin");
                         if (validate(link)) {
                             cabinetUserDao.save(link);
@@ -122,11 +139,11 @@ public class UserService extends PrimService {
                     }
                 }
             }
-        }else{
-            if(email==null||email.equals("")){
+        } else {
+            if (email == null || email.equals("")) {
                 addError("Необходимо указать email");
             }
-            if(password==null||password.length()<4){
+            if (password == null || password.length() < 4) {
                 addError("Необходимо указать пароль длиной более 3 символов");
             }
         }
@@ -215,55 +232,54 @@ public class UserService extends PrimService {
             String patronymic,
             String role,
             Object cabinetId) {
+        if (adminService.mayAddUser((Long) cabinetId)) {
+            User existingUser = userDao.getUserByLogin(email);
+            PersonalCabinet cabinet = personalCabinetDao.find((long) cabinetId);
 
-        User existingUser = userDao.getUserByLogin(email);
-        PersonalCabinet cabinet = personalCabinetDao.find((long) cabinetId);
+            if (existingUser != null) {
 
-        if (existingUser != null) {
+                boolean exist = existCabinetUser(existingUser, cabinetId);
 
-            boolean exist = existCabinetUser(existingUser, cabinetId);
+                if (exist == false) {
+                    CabinetUser link = new CabinetUser();
+                    link.setCabinet(cabinet);
+                    link.setUserRole(role);
+                    if (role.equals("user")) {
+                        link.setMakesCalls((short) 1);
+                    }
+                    link.setUser(existingUser);
+                    if (validate(link)) {
+                        cabinetUserDao.save(link);
+                    }
 
-            if (exist == false) {
-                CabinetUser link = new CabinetUser();
-                link.setCabinet(cabinet);
-                link.setUserRole(role);
-                if (role.equals("user")) {
-                    link.setMakesCalls((short) 1);
+                } else {
+                    addError("Пользователь уже существует");
                 }
-                link.setUser(existingUser);
-                if (validate(link)) {
-                    cabinetUserDao.save(link);
-                }
-
             } else {
-                addError("Пользователь уже существует");
+                User user = new User();
+                user.setEmail(email);
+                user.setPassword(AuthManager.md5Custom(DEFAULT_PASS));
+                user.setName(name);
+                user.setSurname(surname);
+                user.setPatronymic(patronymic);
+                if (validate(user)) {
+                    userDao.save(user);
+                }
+                if (getErrors().isEmpty()) {
+                    CabinetUser link = new CabinetUser();
+                    link.setCabinet(cabinet);
+                    link.setUserRole(role);
+                    if (role.equals("user")) {
+                        link.setMakesCalls((short) 1);
+                    }
+                    link.setUser(user);
+                    if (validate(link)) {
+                        cabinetUserDao.save(link);
+                    }
+                }
             }
-
         } else {
-
-            User user = new User();
-            user.setEmail(email);
-            user.setPassword(AuthManager.md5Custom(DEFAULT_PASS));
-            user.setName(name);
-            user.setSurname(surname);
-            user.setPatronymic(patronymic);
-            if (validate(user)) {
-                userDao.save(user);
-            }
-
-            if (getErrors().isEmpty()) {
-                CabinetUser link = new CabinetUser();
-                link.setCabinet(cabinet);
-                link.setUserRole(role);
-                if (role.equals("user")) {
-                    link.setMakesCalls((short) 1);
-                }
-                link.setUser(user);
-                if (validate(link)) {
-                    cabinetUserDao.save(link);
-                }
-            }
-
+            addError("Вы не можете добавлять больше пользователей в связи с ограничениями тарифа");
         }
     }
 
@@ -480,41 +496,41 @@ public class UserService extends PrimService {
             addError("Новое название компании не передано.");
         }
     }
-    
+
     public Boolean isValidMail(Object ob) {
         /*if(ob.getClass().equals(Double.class)){
-            BigDecimal bd = BigDecimal.valueOf((double)ob);
-            ob=bd.longValue();
-        }*/
+         BigDecimal bd = BigDecimal.valueOf((double)ob);
+         ob=bd.longValue();
+         }*/
         ChainValidator ch = ChainValidator.getInstance(ValidatorTypes.MAILVALIDATOR);
         ch.execute(ob);
-        if(ch.getErrors().isEmpty()){
+        if (ch.getErrors().isEmpty()) {
             return true;
-        }else{
-            for(String er:ch.getErrors()){
+        } else {
+            for (String er : ch.getErrors()) {
                 addError(er);
             }
             return false;
         }
     }
-    
+
     public void saveContacts(String name,
             String email,
             String phone
-            ){
-        if(!((email==null||email.equals(""))&&(phone==null||phone.equals("")))){
-            PhoneEditor phe=new PhoneEditor();
-            phone=phe.getPhone(phone);
+    ) {
+        if (!((email == null || email.equals("")) && (phone == null || phone.equals("")))) {
+            PhoneEditor phe = new PhoneEditor();
+            phone = phe.getPhone(phone);
             User u = new User();
             u.setEmail(email);
             u.setPassword("00001");
             u.setSurname(phone);
             u.setName(name);
             //u.setSurname(surname);
-            if(validate(u)){
+            if (validate(u)) {
                 userDao.save(u);
             }
-        }else{
+        } else {
             addError("Введите email или телефон");
         }
     }
