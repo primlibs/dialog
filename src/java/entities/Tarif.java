@@ -24,6 +24,8 @@ import support.StringAdapter;
 @Table(name = "tarif")
 public class Tarif extends PrimEntity {
     
+    public static String NOTARIFNAME = "Не назначен";
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tarif_id")
@@ -126,7 +128,11 @@ public class Tarif extends PrimEntity {
         if(cls.equals("")){
            cls="не ограничено";
         }
-        return data+", П:"+u+", Ка:"+camps+", Кл:"+cls;
+        String days = StringAdapter.getString(dayLength);
+        if(days.equals("")){
+           days="не ограничено";
+        }
+        return data+", дней:"+days+", польз.:"+u+", кампаний:"+camps+", клиентов:"+cls;
     }
     
 }

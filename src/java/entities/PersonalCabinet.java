@@ -274,6 +274,12 @@ public class PersonalCabinet extends PrimEntity {
         this.userSet = userSet;
     }
     
-    
+    public String getTarifName(){
+        String name=Tarif.NOTARIFNAME;
+        if(tarif!=null){
+            name=tarif.getName();
+        }
+        return name;
+    }
 
 }

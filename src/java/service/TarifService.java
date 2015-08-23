@@ -57,10 +57,10 @@ public class TarifService extends PrimService {
 
     public boolean isUniqueName(String name) {
         Tarif t = tarifDao.getByName(name);
-        if (t == null) {
-            return true;
-        } else {
+        if (t != null || name.equals(Tarif.NOTARIFNAME)) {
             return false;
+        } else {
+            return true;
         }
     }
 

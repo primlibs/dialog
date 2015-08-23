@@ -4,6 +4,7 @@
     Author     : bezdatiuzer
 --%>
 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -22,6 +23,8 @@
             <tr>
                 <th> ИД </th>
                 <th> Организация </th>
+                <th> Тариф </th>
+                <th> Дата окончания </th>
                 <th> email </th>
                 <th> Телефон </th>
             </tr>
@@ -30,6 +33,8 @@
                     
                     <td> ${pk.pkId} </td>
                     <td> ${pk.company} </td>
+                    <td> ${pk.getTarifName()} </td>
+                    <td><fmt:formatDate type="date" value="${pk.endDate}"/></td>
                     <td> ${pk.email} </td>
                     <td> ${pk.phone} </td>
                 </tr>
