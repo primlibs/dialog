@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.annotations.Index;
@@ -61,6 +62,7 @@ public class User extends PrimEntity {
     private String patronymic;
 
     @Column(name = "recoverDate")
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date recoverDate;
 
     @Column(name = "recoverHash")
@@ -171,10 +173,7 @@ public class User extends PrimEntity {
     }
 
     public boolean isSuperAdmin() {
-        if(SUPERADMIN.equals(supermark)){
-            return true;
-        }
-        return false;
+        return SUPERADMIN.equals(this.supermark);
     }
 
     public void setSuperAdmin(Boolean set) {

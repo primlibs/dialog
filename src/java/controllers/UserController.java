@@ -57,6 +57,7 @@ public class UserController extends WebController {
         if (submit != null) {
 
             Object cabinetId = request.getSession().getAttribute(LkController.CABINET_ID_SESSION_NAME);
+            
             userService.addUser(email, phone, name, surname, patronymic, role, cabinetId);
             if (userService.getErrors().isEmpty()) {
                 ras.addFlashAttribute("message", "Пользователь с логином: "+email+" и паролем: 0000 успешно добавлен");

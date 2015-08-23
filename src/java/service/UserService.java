@@ -31,7 +31,6 @@ import service.parent.PrimService;
 import support.AuthManager;
 import support.Random;
 import support.ServiceResult;
-import support.StringAdapter;
 import support.editors.PhoneEditor;
 import support.enums.ValidatorTypes;
 import support.filterValidator.ChainValidator;
@@ -358,7 +357,7 @@ public class UserService extends PrimService {
     public List<CabinetUser> cabinetUserList(Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         if (pk != null) {
-            return pk.getActiveCabinetUserList();
+            return personalCabinetDao.getActiveUserList(cabinetId);
         } else {
             addError("Кабинет не найден по ид " + cabinetId);
         }

@@ -5,19 +5,15 @@
  */
 package controllers;
 
-import static controllers.LkController.CABINET_ID_SESSION_NAME;
 import controllers.parent.WebController;
-import entities.User;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.TarifService;
-import support.JsonResponse;
 
 /**
  *
@@ -36,9 +32,7 @@ public class TarifController extends WebController{
     @RequestMapping(value = {"/list"})
     public String selectPersonalCabinetId(HttpServletRequest request,  Map<String, Object> model) throws Exception {
         lk.dataByUserAndCompany(request, model);
-        Object supermark = model.get("superadmin");
-        
-        if(User.SUPERADMIN.equals(supermark)){
+        if(isSuperAdmin()){
             model.put("tarifs", tarifService.getAllTarifs());
             return "tarif";
         }else{
@@ -56,8 +50,7 @@ public class TarifController extends WebController{
             @RequestParam(value = "clients") Long clients,
             RedirectAttributes ras) throws Exception {
         lk.dataByUserAndCompany(request, model);
-        Object supermark = model.get("superadmin");
-        if(User.SUPERADMIN.equals(supermark)){
+        if(isSuperAdmin()){
             tarifService.create(name, price, days, users, campaigns, clients);
             if(!tarifService.getErrors().isEmpty()){
                 ras.addFlashAttribute("errors", tarifService.getErrors());
@@ -75,12 +68,22 @@ public class TarifController extends WebController{
     }
     
     @RequestMapping("/delete")
-    public String deleteTag(Map<String, Object> model,HttpServletRequest request,@RequestParam(value = "tarifIdToDelete") Long tarifId,Boolean deleteLinks,RedirectAttributes ras) throws Exception {
+    public String deleteTag(Map<String, Object> model,HttpServletRequest request,@RequestParam(value = "tarifIdToDelete") Long tarifId,RedirectAttributes ras) throws Exception {
         lk.dataByUserAndCompany(request, model);
-        Object supermark = model.get("superadmin");
-        
-        if(User.SUPERADMIN.equals(supermark)){
+        if(isSuperAdmin()){
             tarifService.delete(tarifId);
+            return "redirect:/Tarif/list";
+        }else{
+            return "redirect:/";
+        }
+    }
+    
+    @RequestMapping("/setDefault")
+    public String setDefault(Map<String, Object> model,HttpServletRequest request,@RequestParam(value = "tarifId") Long tarifId,RedirectAttributes ras) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        if(isSuperAdmin()){
+            tarifService.setDefault(tarifId);
+            ras.addFlashAttribute(ERRORS_LIST_NAME, tarifService.getErrors());
             return "redirect:/Tarif/list";
         }else{
             return "redirect:/";

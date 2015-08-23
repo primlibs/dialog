@@ -7,6 +7,9 @@ package service;
 
 import dao.PersonalCabinetDao;
 import dao.TarifDao;
+import entities.CabinetUser;
+import entities.Campaign;
+import entities.Client;
 import entities.PersonalCabinet;
 import entities.Tarif;
 import entities.User;
@@ -85,7 +88,7 @@ public class AdminService extends PrimService {
             PersonalCabinet pk = pkDao.find(pkId);
             if (pk != null) {
                 pk.setEndDate(newDate);
-                if(validate(pk)){
+                if (validate(pk)) {
                     pkDao.update(pk);
                 }
             } else {
@@ -94,6 +97,92 @@ public class AdminService extends PrimService {
         } else {
             addError("Ид личного кабинета не передан");
         }
+    }
+
+    public boolean tarifIsNotExpired(Long pkId) {
+        if (pkId != null) {
+            PersonalCabinet pk = pkDao.find(pkId);
+            if (pk != null) {
+                Date endDate = pk.getEndDate();
+                if (endDate == null || endDate.compareTo(new Date()) > 0) {
+                    return true;
+                }
+            } else {
+                addError("Личный кабинет с ид " + pkId + " не был найден");
+            }
+        } else {
+            addError("Ид личного кабинета не передан");
+        }
+        return false;
+    }
+
+    public boolean mayAddUser(Long pkId) {
+        if (tarifIsNotExpired(pkId)) {
+            if (pkId != null) {
+                PersonalCabinet pk = pkDao.find(pkId);
+                if (pk != null) {
+                    Tarif t = pk.getTarif();
+                    if(t!=null){
+                        Long uc = t.getUserCount();
+                        List<CabinetUser> culist = pkDao.getActiveUserList(pkId);
+                        if(uc==null||culist.size()<uc.intValue()){
+                            return true;
+                        }
+                    }
+                } else {
+                    addError("Личный кабинет с ид " + pkId + " не был найден");
+                }
+            } else {
+                addError("Ид личного кабинета не передан");
+            }
+        }
+        return false;
+    }
+    
+    public boolean mayAddCampaign(Long pkId) {
+        if (tarifIsNotExpired(pkId)) {
+            if (pkId != null) {
+                PersonalCabinet pk = pkDao.find(pkId);
+                if (pk != null) {
+                    Tarif t = pk.getTarif();
+                    if(t!=null){
+                        Long uc = t.getCampaignCount();
+                        List<Campaign> clist = pkDao.getCampaignList(pkId);
+                        if(uc==null||clist.size()<uc.intValue()){
+                            return true;
+                        }
+                    }
+                } else {
+                    addError("Личный кабинет с ид " + pkId + " не был найден");
+                }
+            } else {
+                addError("Ид личного кабинета не передан");
+            }
+        }
+        return false;
+    }
+    
+    public boolean mayAddClient(Long pkId) {
+        if (tarifIsNotExpired(pkId)) {
+            if (pkId != null) {
+                PersonalCabinet pk = pkDao.find(pkId);
+                if (pk != null) {
+                    Tarif t = pk.getTarif();
+                    if(t!=null){
+                        Long uc = t.getClientCount();
+                        List<Client> clist = pkDao.getClientList(pkId);
+                        if(uc==null||clist.size()<uc.intValue()){
+                            return true;
+                        }
+                    }
+                } else {
+                    addError("Личный кабинет с ид " + pkId + " не был найден");
+                }
+            } else {
+                addError("Ид личного кабинета не передан");
+            }
+        }
+        return false;
     }
 
 }

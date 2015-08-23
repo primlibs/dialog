@@ -25,6 +25,7 @@ import support.StringAdapter;
 public class Tarif extends PrimEntity {
     
     public static String NOTARIFNAME = "Не назначен";
+    public static String DEFAULTMARK = "defaultMark";
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,6 +51,9 @@ public class Tarif extends PrimEntity {
     
     @Column(name = "campaign_count")
     private Long campaignCount;
+    
+    @Column(name = "default_mark")
+    private String defaultMark;
     
     //+ограничения?права?
     
@@ -115,24 +119,36 @@ public class Tarif extends PrimEntity {
     }
     
     public String getData(){
-        String data=name+" - "+price;
-        String u = StringAdapter.getString(userCount);
+        String data=this.name+" - "+this.price;
+        String u = StringAdapter.getString(this.userCount);
         if(u.equals("")){
            u="не ограничено";
         }
-        String camps = StringAdapter.getString(campaignCount);
+        String camps = StringAdapter.getString(this.campaignCount);
         if(camps.equals("")){
            camps="не ограничено";
         }
-        String cls = StringAdapter.getString(clientCount);
+        String cls = StringAdapter.getString(this.clientCount);
         if(cls.equals("")){
            cls="не ограничено";
         }
-        String days = StringAdapter.getString(dayLength);
+        String days = StringAdapter.getString(this.dayLength);
         if(days.equals("")){
            days="не ограничено";
         }
         return data+", дней:"+days+", польз.:"+u+", кампаний:"+camps+", клиентов:"+cls;
+    }
+    
+    public boolean isDefault(){
+        return DEFAULTMARK.equals(this.defaultMark);
+    }
+    
+    public void setDefault(Boolean set){
+        if(true==set){
+            this.defaultMark=DEFAULTMARK;
+        }else{
+            this.defaultMark=null;
+        }
     }
     
 }

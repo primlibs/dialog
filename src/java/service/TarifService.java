@@ -94,5 +94,24 @@ public class TarifService extends PrimService {
         }
         return tarifInfo;
     }
+    
+    public void setDefault(Long tarifId){
+        if(tarifId!=null){
+            List<Tarif>ts=tarifDao.getDefaults();
+            Tarif tarif = tarifDao.find(tarifId);
+            if(tarif!=null){
+                for(Tarif t:ts){
+                    t.setDefault(false);
+                    tarifDao.update(t);
+                }
+                tarif.setDefault(true);
+                tarifDao.update(tarif);
+            }else{
+                addError("Тарифа с ид "+tarifId+" не удалось найти");
+            }
+        }else{
+            addError("ИД тарифа не был получен");
+        }
+    }
 
 }

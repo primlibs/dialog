@@ -6,6 +6,7 @@
 package controllers.parent;
 
 
+import entities.User;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -49,7 +50,7 @@ public class WebController {
         model.put("dateFormatter", new DateFormatter());
     }
 
-   
+    
 /*
     protected void _deleteFile(Long fileId) {
         fileService.delete(fileId);
@@ -97,4 +98,8 @@ public class WebController {
         model.put(ERRORS_LIST_NAME, res.getErrors());
     }
 
+    protected boolean isSuperAdmin(){
+        return authManager.getCurrentUser().isSuperAdmin();
+    }
+    
 }

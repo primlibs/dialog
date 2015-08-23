@@ -6,8 +6,8 @@
 package dao;
 
 import dao.parent.Dao;
-import entities.Tag;
 import entities.Tarif;
+import java.util.List;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
@@ -28,6 +28,13 @@ public class TarifDao extends Dao<Tarif> {
         Query q = getCurrentSession().createQuery(hql);
         q.setParameter("name", name);
         return (Tarif) q.uniqueResult();
+    }
+    
+    public List<Tarif> getDefaults(){
+        String hql = "from Tarif t where t.defaultMark=:def";
+        Query q = getCurrentSession().createQuery(hql);
+        q.setParameter("def", Tarif.DEFAULTMARK);
+        return q.list();
     }
     
 }

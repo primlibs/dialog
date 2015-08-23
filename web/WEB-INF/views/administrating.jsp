@@ -18,7 +18,6 @@
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
         <script type="text/javascript">
             $(function () {
-                //Установим для виджета русскую локаль с помощью параметра language и значения ru
                 $('#datetimepicker').datetimepicker(
                         {language: 'ru',
                             viewMode: 'days',

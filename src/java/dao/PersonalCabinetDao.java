@@ -7,6 +7,8 @@ package dao;
 
 import dao.parent.Dao;
 import entities.CabinetUser;
+import entities.Campaign;
+import entities.Client;
 import entities.PersonalCabinet;
 import java.util.List;
 import org.hibernate.Query;
@@ -37,6 +39,27 @@ public class PersonalCabinetDao extends Dao<PersonalCabinet> {
         Query query = getCurrentSession().createQuery(queryString);
         query.setParameter("pkId", pkId);
         query.setParameter("admin", "admin");   
+        return query.list();
+    }
+    
+    public List<CabinetUser>getActiveUserList(Long pkId){
+        String queryString = "from CabinetUser cu where cu.cabinet.pkId=:pkId and cu.deleteDate is null";
+        Query query = getCurrentSession().createQuery(queryString);
+        query.setParameter("pkId", pkId);  
+        return query.list();
+    }
+    
+    public List<Client>getClientList(Long pkId){
+        String queryString = "from Client c where c.cabinet.pkId=:pkId";
+        Query query = getCurrentSession().createQuery(queryString);
+        query.setParameter("pkId", pkId);  
+        return query.list();
+    }
+    
+    public List<Campaign>getCampaignList(Long pkId){
+        String queryString = "from Campaign c where c.cabinet.pkId=:pkId";
+        Query query = getCurrentSession().createQuery(queryString);
+        query.setParameter("pkId", pkId);  
         return query.list();
     }
 

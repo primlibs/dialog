@@ -8,7 +8,6 @@ package service.parent;
 //import entity.UploadedFile;
 import entities.parent.PrimEntity;
 //import files.FileManager;
-import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
@@ -16,7 +15,6 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.multipart.MultipartFile;
 //import persistence.FileDao;
 import dao.parent.Dao;
 import org.springframework.context.annotation.Scope;
@@ -36,8 +34,6 @@ public class PrimService {
     
     @Autowired
     protected AuthManager authManager;
-    
- 
 
     protected <T extends PrimEntity> void _delete(Long id, Dao<T> dao) {
         T obj = dao.find(id);
@@ -99,8 +95,6 @@ public class PrimService {
         return constraintViolations.isEmpty();
     }
     
-    
-    
     public void addError(String error){
         serviceResult.addError(error);
     }
@@ -132,5 +126,7 @@ public class PrimService {
     public List<String> getMessages(){
         return serviceResult.getMessages();
     }
+    
+    
 
 }

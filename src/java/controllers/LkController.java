@@ -75,7 +75,6 @@ public class LkController extends WebController{
             request.getSession().setAttribute("role", role);
         }else{
             model.put("errors","Пользователь не найден в этом личном кабинете");
-            
         }
         return "redirect:/";
     }
@@ -106,12 +105,11 @@ public class LkController extends WebController{
     @RequestMapping("/cabinets")
     public String showPkList(Map<String, Object> model, HttpServletRequest request) throws Exception {
         dataByUserAndCompany(request, model);
-        Object supermark = model.get("superadmin");
         List<String>errors=(List<String>)model.get("errors");
         if(errors==null){
             errors=new ArrayList();
         }
-        if(User.SUPERADMIN.equals(supermark)){
+        if(isSuperAdmin()){
             model.put("pkList", adminService.getPkList());
             errors.addAll(adminService.getErrors());
             model.put("errors", errors);
@@ -127,12 +125,11 @@ public class LkController extends WebController{
             RedirectAttributes ras,
             HttpServletRequest request) throws Exception {
         dataByUserAndCompany(request, model);
-        Object supermark = model.get("superadmin");
         List<String>errors=(List<String>)model.get("errors");
         if(errors==null){
             errors=new ArrayList();
         }
-        if(User.SUPERADMIN.equals(supermark)){
+        if(isSuperAdmin()){
             PersonalCabinet pk = adminService.getPk(pkId);
             errors.addAll(adminService.getErrors());
             if(pk!=null){
@@ -179,12 +176,11 @@ public class LkController extends WebController{
             @RequestParam(value = "pkId")Long pkId,
             HttpServletRequest request) throws Exception {
         dataByUserAndCompany(request, model);
-        Object supermark = model.get("superadmin");
         List<String>errors=(List<String>)model.get("errors");
         if(errors==null){
             errors=new ArrayList();
         }
-        if(User.SUPERADMIN.equals(supermark)){
+        if(isSuperAdmin()){
             adminService.setTarif(tarifId,pkId);
             errors.addAll(adminService.getErrors());
             ras.addAttribute("pkId",pkId);
@@ -202,12 +198,11 @@ public class LkController extends WebController{
             @RequestParam(value = "pkId",required = false)Long pkId,
             HttpServletRequest request) throws Exception {
         dataByUserAndCompany(request, model);
-        Object supermark = model.get("superadmin");
         List<String>errors=(List<String>)model.get("errors");
         if(errors==null){
             errors=new ArrayList();
         }
-        if(User.SUPERADMIN.equals(supermark)){
+        if(isSuperAdmin()){
             adminService.setEndDate(pkId,newDate);
             errors.addAll(adminService.getErrors());
             ras.addAttribute("pkId",pkId);
