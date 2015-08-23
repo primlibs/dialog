@@ -16,24 +16,42 @@
         <%@include file="/WEB-INF/jsp/menu.jsp" %>
         <%@include file="/WEB-INF/jsp/error.jsp" %> 
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
-        
+        <script type="text/javascript">
+            $(function () {
+                //Установим для виджета русскую локаль с помощью параметра language и значения ru
+                $('#datetimepicker').datetimepicker(
+                        {language: 'ru',
+                            viewMode: 'days',
+                            pickTime: false}
+                );
+            });
+        </script>
         <h3>Организация: ${pk.company}</h3>
-        
+
         <h4>${tarifInfo}</h4>
-        
+
         <c:if test="${empty tarifs}">
             <h4>Не найдено доступных тарифов для назначения.</h4>
         </c:if>
         <c:if test="${not empty tarifs}">
-        <form class="form form-inline" action="<c:url value="/Lk/setTarif" />" method="post">
-            <p> Тариф: <select name="tarifId">
-                    <c:forEach var="t" items="${tarifs}">
-                        <option value="${t.tarifId}">${t.getData()}</option>
-                    </c:forEach> 
-                </select>
-                <input type="hidden" name="pkId" value=${pk.pkId}>
-                 <input class="btn btn-primary" type="submit" value="Установить">
-        </form>
+            <form class="form form-inline" action="<c:url value="/Lk/setTarif" />" method="post">
+                <p> Новый тариф: <select name="tarifId">
+                        <c:forEach var="t" items="${tarifs}">
+                            <option value="${t.tarifId}">${t.getData()}</option>
+                        </c:forEach> 
+                    </select>
+                    <input type="hidden" name="pkId" value=${pk.pkId}>
+                    <input class="btn btn-primary" type="submit" value="Установить">
+            </form>
         </c:if>
+        <p>Установить дату окончания:<form class="form form-group form-inline" action="<c:url value="/Lk/setEndDate"/>" method="post">
+            <div class="form-group">
+                <div class="input-group date">
+                    <input type="text" name="newDate" id="datetimepicker" class="form-control" placeholder="Дата окончания" value="${newDate}"/>
+                </div>
+            </div>
+            <input type="hidden" name="pkId" value="${pk.pkId}"/>
+            <input class="btn btn-primary" type="submit" value="Установить">
+        </form>
     </body>
 </html>

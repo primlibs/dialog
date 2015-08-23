@@ -8,10 +8,10 @@ package controllers;
 import controllers.parent.WebController;
 import entities.CabinetUser;
 import entities.PersonalCabinet;
-import entities.Tarif;
 import entities.User;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -24,8 +24,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.AdminService;
 import service.CabinetUserService;
 import service.TarifService;
-import support.DateAdapter;
-import support.StringAdapter;
 
 /**
  *
@@ -188,6 +186,29 @@ public class LkController extends WebController{
         }
         if(User.SUPERADMIN.equals(supermark)){
             adminService.setTarif(tarifId,pkId);
+            errors.addAll(adminService.getErrors());
+            ras.addAttribute("pkId",pkId);
+            ras.addFlashAttribute("errors", errors);
+            return "redirect:/Lk/administrating";
+        }else{
+            return "redirect:/";
+        }
+    }
+    
+    @RequestMapping("/setEndDate")
+    public String setEndDate(Map<String, Object> model,
+            RedirectAttributes ras,
+            @RequestParam(value = "newDate",required = false)Date newDate,
+            @RequestParam(value = "pkId",required = false)Long pkId,
+            HttpServletRequest request) throws Exception {
+        dataByUserAndCompany(request, model);
+        Object supermark = model.get("superadmin");
+        List<String>errors=(List<String>)model.get("errors");
+        if(errors==null){
+            errors=new ArrayList();
+        }
+        if(User.SUPERADMIN.equals(supermark)){
+            adminService.setEndDate(pkId,newDate);
             errors.addAll(adminService.getErrors());
             ras.addAttribute("pkId",pkId);
             ras.addFlashAttribute("errors", errors);
