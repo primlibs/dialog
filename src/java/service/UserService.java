@@ -82,15 +82,12 @@ public class UserService extends PrimService {
 
         PhoneEditor phe = new PhoneEditor();
         phone = phe.getPhone(phone);
-        if ((email != null && isValidMail(email)) && (password != null && password.length() > 3)) {
+        if ((email != null /*&& isValidMail(email)*/) && (password != null && password.length() > 3)) {
             User existingUser = userDao.getUserByLogin(email);
-            //PersonalCabinet existingEmailCompany = personalCabinetDao.getCabinetByLogin(emailCompany);
 
             if (existingUser != null) {
                 addError("Пользователь с такой почтой уже зарегистрирован, выберите другую");
-            } /*else if(existingEmailCompany != null) {
-             addError("Укажите другую почту, на данный адрес уже зарегистрирована компания");
-             }*/ else {
+            }  else {
                 if (name == null || name.equals("")) {
                     name = "Пользователь";
                 }

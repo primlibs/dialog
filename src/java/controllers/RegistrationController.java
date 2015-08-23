@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.UserService;
+import support.StringAdapter;
 
 /**
  *
@@ -90,9 +91,14 @@ public class RegistrationController extends WebController {
             @RequestParam(value = "regphone")String phone,
             @RequestParam(value = "regpassword")String password,
             @RequestParam(value = "regconfirmPassword")String confirmPassword,
-            RedirectAttributes ras) {
+            RedirectAttributes ras) throws Exception {
                 if (password.equals(confirmPassword)) {
-                    userService.save(null, email, phone, password, null, null, null, null);
+                    //try{
+                        userService.save(null, email, phone, password, null, null, null, null);
+                    /*}catch (Exception ex){
+                        ras.addAttribute("regerrors", StringAdapter.getStackTraceException(ex));
+                        return "redirect:/login.jsp";
+                    }*/
                     if (userService.getErrors().isEmpty()) {
                         ras.addFlashAttribute("username", email);
                         ras.addFlashAttribute("phone", phone);
