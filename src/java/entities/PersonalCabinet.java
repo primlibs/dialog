@@ -52,12 +52,11 @@ public class PersonalCabinet extends PrimEntity {
     //@NotNull(message = "Поле телефон не может быть пустым")
     private String phone;
     
-    //@LazyCollection(LazyCollectionOption.TRUE)
     
     
     @JoinColumn(name = "tarif_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    @NotNull(message = "Тариф не указан")
+    //@NotNull(message = "Тариф не указан")
     private Tarif tarif;
     
     @Column(name = "begin_date")
@@ -70,12 +69,11 @@ public class PersonalCabinet extends PrimEntity {
     //@NotNull(message = "Дата окончания не указана")
     private Date endDate;
     
-    //@LazyCollection(LazyCollectionOption.TRUE)
     
     
     @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    @NotNull(message = "Установивший пользователь не указан")
+    //@NotNull(message = "Установивший пользователь не указан")
     private User userSet;
 
     @LazyCollection(LazyCollectionOption.TRUE)

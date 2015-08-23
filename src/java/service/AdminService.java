@@ -6,7 +6,12 @@
 package service;
 
 import dao.PersonalCabinetDao;
+import dao.TarifDao;
 import entities.PersonalCabinet;
+import entities.Tarif;
+import entities.User;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -27,8 +32,52 @@ public class AdminService extends PrimService {
     @Autowired
     PersonalCabinetDao pkDao;
     
+    @Autowired
+    TarifDao tarifDao;
+    
     public List<PersonalCabinet> getPkList() {
         return pkDao.getAll();
+    }
+    
+    public PersonalCabinet getPk(Long pkId){
+        return pkDao.find(pkId);
+    }
+    
+    public void setTarif(Long tarifId,Long pkId){
+        if(tarifId!=null&&pkId!=null){
+            Tarif t = tarifDao.find(tarifId);
+            PersonalCabinet pk = pkDao.find(pkId);
+            if(t!=null&&pk!=null){
+                User u =authManager.getCurrentUser();
+                Date endDate = null;
+                if(t.getDayLength()!=null){
+                    Calendar c = Calendar.getInstance();
+                    c.add(Calendar.DAY_OF_MONTH, t.getDayLength().intValue());
+                    endDate = c.getTime();
+                }
+                pk.setTarif(t);
+                pk.setBeginDate(new Date());
+                pk.setEndDate(endDate);
+                pk.setUserSet(u);
+                if(validate(pk)){
+                    pkDao.update(pk);
+                }
+            }else{
+                if(t==null){
+                addError("Тариф с ид "+tarifId+" не был найден");
+            }
+                if(pk==null){
+                addError("Личный кабинет с ид "+pkId+" не был найден");
+            }
+            }
+        }else{
+            if(tarifId==null){
+                addError("Ид тарифа не передан");
+            }
+            if(pkId==null){
+                addError("Ид личного кабинета не передан");
+            }
+        }
     }
     
 }

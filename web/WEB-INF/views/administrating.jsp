@@ -1,6 +1,6 @@
 <%-- 
     Document   : administrating
-    Created on : 22.08.2015, 13:16:29
+    Created on : 23.08.2015, 9:54:10
     Author     : bezdatiuzer
 --%>
 
@@ -17,23 +17,23 @@
         <%@include file="/WEB-INF/jsp/error.jsp" %> 
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
         
-        <h3>Кабинеты</h3>
-        <table class="table table-bordered table-hover">
-            <tr>
-                <th> ИД </th>
-                <th> Организация </th>
-                <th> email </th>
-                <th> Телефон </th>
-            </tr>
-            <c:forEach var="pk" items="${pkList}" varStatus="myIndex">
-                <tr>
-                    
-                    <td> ${pk.pkId} </td>
-                    <td> ${pk.company} </td>
-                    <td> ${pk.email} </td>
-                    <td> ${pk.phone} </td>
-                </tr>
-            </c:forEach>
-        </table>
+        <h3>Организация: ${pk.company}</h3>
+        
+        <h4>${tarifInfo}</h4>
+        
+        <c:if test="${empty tarifs}">
+            <h4>Не найдено доступных тарифов для назначения.</h4>
+        </c:if>
+        <c:if test="${not empty tarifs}">
+        <form class="form form-inline" action="<c:url value="/Lk/setTarif" />" method="post">
+            <p> Тариф: <select name="tarifId">
+                    <c:forEach var="t" items="${tarifs}">
+                        <option value="${t.tarifId}">${t.getData()}</option>
+                    </c:forEach> 
+                </select>
+                <input type="hidden" name="pkId" value=${pk.pkId}>
+                 <input class="btn btn-primary" type="submit" value="Установить">
+        </form>
+        </c:if>
     </body>
 </html>

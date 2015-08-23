@@ -29,7 +29,8 @@
         <intercept-url pattern="/User/successChangePassword" access="hasAnyRole('user', 'admin')" /> 
         <intercept-url pattern="/User/changePassword" access="hasAnyRole('user', 'admin')" /> 
         <intercept-url pattern="/Lk/lk" access="hasAnyRole('user', 'admin')" />  
-        <intercept-url pattern="/Lk/admin" access="hasAnyRole('user', 'admin')" /> 
+        <intercept-url pattern="/Lk/cabinets" access="hasAnyRole('user', 'admin')" /> 
+        <intercept-url pattern="/Lk/administrating" access="hasAnyRole('user', 'admin')" /> 
         <intercept-url pattern="/Lk/selectLk" access="hasAnyRole('user', 'admin')" />
         <intercept-url pattern="/Tarif/list" access="hasAnyRole('user', 'admin')" />
         <intercept-url pattern="/Tarif/create" access="hasAnyRole('user', 'admin')" /> 

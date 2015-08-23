@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
+import support.StringAdapter;
 
 /**
  *
@@ -111,6 +112,21 @@ public class Tarif extends PrimEntity {
         this.campaignCount = campaignCount;
     }
     
-    
+    public String getData(){
+        String data=name+" - "+price;
+        String u = StringAdapter.getString(userCount);
+        if(u.equals("")){
+           u="не ограничено";
+        }
+        String camps = StringAdapter.getString(campaignCount);
+        if(camps.equals("")){
+           camps="не ограничено";
+        }
+        String cls = StringAdapter.getString(clientCount);
+        if(cls.equals("")){
+           cls="не ограничено";
+        }
+        return data+", П:"+u+", Ка:"+camps+", Кл:"+cls;
+    }
     
 }
