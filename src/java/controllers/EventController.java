@@ -7,10 +7,11 @@ package controllers;
 
 import static controllers.LkController.CABINET_ID_SESSION_NAME;
 import controllers.parent.WebController;
-import dao.EventDao;
 import entities.CabinetUser;
 import entities.Campaign;
 import entities.Event;
+import entities.InCall;
+import entities.Module;
 import entities.User;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -480,8 +481,8 @@ public class EventController extends WebController {
         return "campaign";
     }
     
-    @RequestMapping("/outCampaign")
-    public String outCampaignPage(Map<String, Object> model,
+    @RequestMapping("/inCampaign")
+    public String inCampaignPage(Map<String, Object> model,
             HttpServletRequest request,
             RedirectAttributes ras) throws Exception {
         lk.dataByUserAndCompany(request, model);
@@ -489,11 +490,11 @@ public class EventController extends WebController {
         User user = authManager.getCurrentUser();
         Long userId = user.getUserId();
         model.put("campaigns",eventService.getOutStrategies(cabinetId));
-        return "outCampaign";
+        return "inCampaign";
     }
     
-    @RequestMapping("/out")
-    public String outCampaignPage(Map<String, Object> model,
+    @RequestMapping("/in")
+    public String in(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "strategyId") Long strategyId,
             RedirectAttributes ras) throws Exception {
@@ -504,7 +505,27 @@ public class EventController extends WebController {
         model.put("strategy", strategyService.getStrategy(strategyId,cabinetId));
         model.put("аctiveMap", groupService.getActiveGroupMap(strategyId,cabinetId));
         model.put("errors", strategyService.getErrors());
-        return "outEvent";
+        return "inEvent";
+    }
+    
+     @RequestMapping("/inCall")
+    public String inCall(Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "moduleId") Long moduleId,
+            RedirectAttributes ras) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        User user = authManager.getCurrentUser();
+        
+        Long userId = user.getUserId();
+        Module md=moduleService.getModule(moduleId);
+        if(md!=null){
+            if(md.getCabinet().getId().equals(cabinetId)){
+               eventService.registerInCall(md, user);
+               model.put("error",eventService.getErrors());
+            }
+        }        
+        return "inEvent";
     }
     
 

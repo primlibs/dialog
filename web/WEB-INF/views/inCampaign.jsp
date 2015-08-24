@@ -28,7 +28,7 @@
                     <th>Сценарии</th>
                 </tr>
                 <c:forEach var="camp" items="${campaigns}" varStatus="myIndex">
-                    <tr style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/out?strategyId=${camp.getStrategyId()}"/>'">
+                    <tr style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/in?strategyId=${camp.getStrategyId()}"/>'">
                         <td>${myIndex.count}</td>
                         <td> ${camp.getStrategyName()} </td>
 

@@ -11,6 +11,7 @@ import dao.EventDao;
 import dao.CampaignDao;
 import dao.EventCommentDao;
 import dao.FailReasonDao;
+import dao.InCallDao;
 import dao.ModuleDao;
 import dao.ModuleEventClientDao;
 import dao.PersonalCabinetDao;
@@ -22,6 +23,7 @@ import entities.Campaign;
 import entities.FailReason;
 import entities.Event;
 import entities.EventComment;
+import entities.InCall;
 import entities.Module;
 import entities.ModuleEventClient;
 import entities.PersonalCabinet;
@@ -102,12 +104,15 @@ public class EventService extends PrimService {
 
     @Autowired
     private TagService tagService;
-    
+
     @Autowired
     private AdminService adminService;
 
     @Autowired
     private ModuleEventClientDao moduleEventClientDao;
+    
+     @Autowired
+    private InCallDao inCallDao;
 
     public String numericName(Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
@@ -134,7 +139,7 @@ public class EventService extends PrimService {
         }
         return new ArrayList();
     }
-    
+
     public List<Strategy> getOutStrategies(Long cabinetId) {
         //fail
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
@@ -191,7 +196,7 @@ public class EventService extends PrimService {
             addError("Вы не можете добавлять больше кампаний в связи с ограничениями тарифа");
         }
     }
-    
+
     public void closeCampaign(Long campaignId,Long pkId){
         if(campaignId!=null&&pkId!=null){
             Campaign c = campaignDao.getCampaign(campaignId, pkId);
@@ -211,7 +216,7 @@ public class EventService extends PrimService {
             }
         }
     }
-    
+
     public void openClosedCampaign(Long campaignId,Long pkId){
         if(campaignId!=null&&pkId!=null){
             Campaign c = campaignDao.getCampaign(campaignId, pkId);
@@ -231,7 +236,7 @@ public class EventService extends PrimService {
             }
         }
     }
-    
+
     public void delete(Event ev){
         for(ModuleEventClient mec:ev.getModuleEventClientList()){
             moduleEventClientDao.delete(mec);
@@ -277,10 +282,10 @@ public class EventService extends PrimService {
         int r = 0;
         rowhead.createCell(r++).setCellValue("Номер уникальный");
         rowhead.createCell(r++).setCellValue("Клиент");
-        
+
         rowhead.createCell(r++).setCellValue("Телефон");
         rowhead.createCell(r++).setCellValue("Коментарий");
-        
+
         /*rowhead.createCell(r++).setCellValue("Имя контактного лица");
         rowhead.createCell(r++).setCellValue("Имя лица принимающего решение");
         rowhead.createCell(r++).setCellValue("Телефон л.п.р.");
@@ -586,7 +591,7 @@ public class EventService extends PrimService {
                 }
 
                 ///получить количество нераспределенных, сравить с количеством поданных - если поданных больше - ошибка
-                //в цикле для каждогоо элемента appointMap распределить на пользователя пока 
+                //в цикле для каждогоо элемента appointMap распределить на пользователя пока
                 //остаются заявки вывести объект который сообщит сколько на кого было распределено
                 /*for (int i = 0; i < clientNumArray.length; i++) {
                  String df = clientNumArray[i];
@@ -736,8 +741,8 @@ public class EventService extends PrimService {
         return null;
 
     }
-    
-    
+
+
 
     //клиенты назначение юзерам не обработанные
     public HashMap<Long, String> userAssignedClientNotProcessed(Long campaignId, Long cabinetId) {
@@ -1141,11 +1146,11 @@ public class EventService extends PrimService {
         }
         return cus;
     }
-    
+
     public List<User>getUserWithAssignsList(Long campaignId,Long pkId){
         return eventDao.getUserWithAssignsList(campaignId, pkId);
     }
-    
+
     public LinkedHashMap<Long,User> getUserWithAssignsMap(Long campaignId,Long pkId){
         LinkedHashMap<Long,User>res=new LinkedHashMap();
         for(User u:eventDao.getUserWithAssignsList(campaignId, pkId)){
@@ -1214,7 +1219,7 @@ public class EventService extends PrimService {
             addError("ИД кампании не передан");
         }
     }
-    
+
     public HSSFWorkbook getEventClientXls(Long campaignId,Integer assigned,Integer processed,Long pkId) throws Exception{
         List<Event>result=getEventFilter(campaignId,pkId,assigned,processed);
         /*if(!result.isEmpty()){
@@ -1242,7 +1247,7 @@ public class EventService extends PrimService {
         n++;
         for(Event ev:result){
             HSSFRow rowbody = sheet.createRow((short) n);
-            
+
             String date = "";
             if(ev.getSetStatusDate()!=null){
                 date = DateAdapter.formatByDate(ev.getSetStatusDate(), DateAdapter.FULL_FORMAT);
@@ -1277,10 +1282,10 @@ public class EventService extends PrimService {
     /*public LinkedHashMap<Long,HashMap<String,String>>GetCampaignResultReportData(List<Long> campaignIds,Long PkId){
      List<Object> daoRes = eventDao.getUserAndAssignedAndSuccAndFailedByaDateAndCampaign(campaignIds, PkId);
      for(Object o:daoRes){
-            
+
      }
      }*/
-    
+
     private boolean isCampaignClosed(Campaign c){
         if(Objects.equals(c.getStatus(), Campaign.CLOSE)){
             addError("Кампания закрыта");
@@ -1289,7 +1294,20 @@ public class EventService extends PrimService {
             return true;
         }
     }
-    
-    
+
+    public void registerInCall( Module md,User us){
+        InCall ic = new InCall();
+                ic.setModule(md);
+                ic.setCabinet(md.getCabinet());
+                ic.setStrategy(md.getStrategy());
+                ic.setUser(us);
+                ic.setAddDate(new Date());
+                if(validate(ic)){
+                   inCallDao.save(ic); 
+                }
+                
+              
+    }
+
 
 }

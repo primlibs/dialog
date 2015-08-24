@@ -14,7 +14,7 @@
     <ul class="nav navbar-nav">
                <li><a href="<c:url value="/Event/campaign"/>">Мои звонки</a></li>
                <li><a href="<c:url value="/Event/postponedEvents"/>">Перенесенные</a></li>
-               <li><a href="<c:url value="/Event/outCampaign"/>">Входящие</a></li>   
+               <li><a href="<c:url value="/Event/inCampaign"/>">Входящие</a></li>   
     </ul> 
     <%@include file="/WEB-INF/jsp/menuright.jsp" %>
 </div>   
