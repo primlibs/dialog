@@ -50,6 +50,9 @@ public class Strategy extends PrimEntity {
     @NotNull(message = "Наименование сценария не указано")
     @NotBlank(message = "Наименование сценария не указано")
     private String strategyName;
+    
+    @Column(name = "isin")
+    private String isin;
 
     @Column(name = "delete_date")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -118,16 +121,6 @@ public class Strategy extends PrimEntity {
         this.deleteDate = deleteDate;
     }
 
-    /*public List<Group> getActiveGroupList() {
-
-        List<Group> activeGroupList = new ArrayList();
-        for (Group group : groupList) {
-            if (group.getDeleteDate() == null) {
-                activeGroupList.add(group);
-            }
-        }
-        return activeGroupList;
-    }*/
 
     public List<Campaign> getEventList() {
         return campaigns;
@@ -159,6 +152,14 @@ public class Strategy extends PrimEntity {
 
     public void setFailReasons(List<FailReason> failReasons) {
         this.failReasons = failReasons;
+    }
+
+    public String getIsin() {
+        return isin;
+    }
+
+    public void setIsin(String isin) {
+        this.isin = isin;
     }
 
 }

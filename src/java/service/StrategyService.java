@@ -57,7 +57,7 @@ public class StrategyService extends PrimService {
     @Autowired
     private AdminService adminService;
 
-    public void saveStrategy(String strategyName, Long cabinetId) {
+    public void saveStrategy(String strategyName, Long cabinetId,Boolean in) {
         if(adminService.tarifIsNotExpired(cabinetId)){
             PersonalCabinet pk = personalCabinetDao.find(cabinetId);
             List<Strategy> strategyList = getActiveStrategyList(cabinetId);
@@ -74,6 +74,9 @@ public class StrategyService extends PrimService {
                 Strategy strategy = new Strategy();
                 strategy.setStrategyName(strategyName);
                 strategy.setCabinet(pk);
+                if(in==true){
+                    strategy.setIsin("in");
+                }
                 if (validate(strategy)) {
                     strategyDao.save(strategy);
                 }
@@ -131,7 +134,7 @@ public class StrategyService extends PrimService {
         Strategy str = strategyDao.find(strategyId);
         if(!name.equals("")){
             Boolean exists = false;
-            for (Strategy strat : str.getCabinet().getActiveStrategyList()) {
+            for (Strategy strat : str.getCabinet().getInActiveStrategyList()) {
                 if (strat.getStrategyName().equalsIgnoreCase(name)) {
                     exists = true;
                     break;

@@ -48,13 +48,20 @@ public class StrategyController extends WebController {
     @RequestMapping("/show")
     public String showStrategyListPage(Map<String, Object> model, HttpServletRequest request,
             @RequestParam(value = "strategyName", required = false) String strategyName,
+            @RequestParam(value = "type", required = false) String type,
             String submit) throws Exception {
 
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-
+        Boolean inStr=false;
         if (submit != null) {
-            strategyService.saveStrategy(strategyName, cabinetId);
+            if(type!=null){
+                if(type.equals("in")){
+                    inStr=true;
+                }
+            }
+            
+            strategyService.saveStrategy(strategyName, cabinetId,inStr);
             if (strategyService.getErrors().isEmpty()) {
                 model.put("message", "Сценарий " + strategyName + " создан");
             }

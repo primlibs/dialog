@@ -112,10 +112,20 @@ public class PersonalCabinet extends PrimEntity {
         return strategyList;
     }
     
-    public List<Strategy> getActiveStrategyList() {
+    public List<Strategy> getInActiveStrategyList() {
         List<Strategy> res = new ArrayList();
         for(Strategy str:strategyList){
-            if(str.getDeleteDate()==null){
+            if(str.getDeleteDate()==null&&str.getIsin()==null){
+                res.add(str);
+            }
+        }
+        return res;
+    }
+    
+    public List<Strategy> getOutActiveStrategyList() {
+        List<Strategy> res = new ArrayList();
+        for(Strategy str:strategyList){
+            if(str.getDeleteDate()==null&&str.getIsin()!=null){
                 res.add(str);
             }
         }

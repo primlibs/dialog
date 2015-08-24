@@ -128,9 +128,9 @@ public class EventService extends PrimService {
         //fail
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
         if (pk != null) {
-            return pk.getStrategyList();
+            return pk.getInActiveStrategyList();
         } else {
-            addError("Сценарий не найден по id " + cabinetId);
+            addError("Личный кабинет не найден по id " + cabinetId);
         }
         return new ArrayList();
     }

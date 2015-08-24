@@ -24,6 +24,10 @@
         <div class="form-group">
             <form action="<c:url value="/Strategy/show" />"  method="post"> 
                 <input class="span5" id="appendedInputButton" name="strategyName" style="width: 256px " size="16" type="text" value="${strategyName}">
+                <select name="type"  class="form-control">
+                    <option value="out">Исходящий</option>
+                    <option value="in">Входящий</option>
+                </select>
                 <button type="submit" name="submit" class="btn btn-primary">Добавить</button>
             </form>
         </div>
@@ -32,6 +36,7 @@
                 <tr>
                     <th>${myIndex.index}#</th>
                     <th>Наименование</th>
+                    <th>Тип</th>
                     <th></th>
                 </tr>
                 <c:forEach var="strategy" items="${StrategyList}" varStatus="myIndex">
@@ -39,6 +44,16 @@
                     <tr>
                         <td>${myIndex.count}</td>
                         <td><div style="cursor: pointer;display: inline;" ondblclick="location = '<c:url value="/Strategy/strategy?strategyId=${strategy.strategyId}"/>'"> ${strategy.strategyName} </div></td>
+                        <td> <c:choose>
+                                <c:when test="${strategy.getIsin() eq null}">
+                                    Исходящий
+                                </c:when>
+                                <c:otherwise>
+                                    Входящий
+                                </c:otherwise>
+                            </c:choose>
+                            
+                        </td>
                         <td><a href="#" id="${strategy.strategyId}" class="btn btn-danger btn-xs deletinghref"
                                data-toggle="modal"
                                data-target="#deleteWindow">Удалить</a></td>
