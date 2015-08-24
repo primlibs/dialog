@@ -158,8 +158,14 @@ public class StrategyService extends PrimService {
         }
     }
 
-    public Strategy getStrategy(Long strategyId) {
+    public Strategy getStrategy(Long strategyId,Long lkId) {
         Strategy str = strategyDao.find(strategyId);
+        if(str!=null){
+            if(!str.getCabinet().getId().equals(lkId)){
+                str=null;
+                addError("Сценарий не принадлежит кабинету");
+            }
+        }
         return str;
     }
     

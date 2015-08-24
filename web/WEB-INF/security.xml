@@ -40,11 +40,14 @@
         <intercept-url pattern="/Event/badFinish" access="hasAnyRole('user', 'admin')" />
         <intercept-url pattern="/Event/goodFinish" access="hasAnyRole('user', 'admin')" />
         <intercept-url pattern="/Event/postponeEvent" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Event/postponedEvents" access="hasAnyRole('user', 'admin')" />
+                <intercept-url pattern="/Event/postponedEvents" access="hasAnyRole('user', 'admin')" />
         <intercept-url pattern="/Event/updateClientFromUser" access="hasAnyRole('user', 'admin')" />
         <intercept-url pattern="/Event/writeModuleInHistory" access="hasAnyRole('user', 'admin')" />
         <intercept-url pattern="/Event/campaign" access="hasAnyRole('user', 'admin')" />
         <intercept-url pattern="/Event/eventProcessing" access="hasAnyRole('user', 'admin')" />
+        <intercept-url pattern="/Event/outCampaign" access="hasAnyRole('user', 'admin')" />
+        <intercept-url pattern="/Event/out" access="hasAnyRole('user', 'admin')" />
+        
         <intercept-url pattern="/Client/changeUserCampaignAssignation" access="hasAnyRole('user', 'admin')" />
         <intercept-url pattern="/Client/updateclient" access="hasAnyRole('user', 'admin')" />
         <intercept-url pattern="/Strategy/changegroupname" access="hasAnyRole('user', 'admin')" />

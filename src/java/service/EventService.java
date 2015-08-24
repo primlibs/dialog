@@ -134,6 +134,17 @@ public class EventService extends PrimService {
         }
         return new ArrayList();
     }
+    
+    public List<Strategy> getOutStrategies(Long cabinetId) {
+        //fail
+        PersonalCabinet pk = personalCabinetDao.find(cabinetId);
+        if (pk != null) {
+            return pk.getOutActiveStrategyList();
+        } else {
+            addError("Личный кабинет не найден по id " + cabinetId);
+        }
+        return new ArrayList();
+    }
 
     public LinkedHashMap<Campaign, HashMap<String, String>> getCampaignsWithCountInfos(/*Date dateFrom,Date dateTo,Boolean closed,*/ Long pkId) {
         LinkedHashMap<Campaign, HashMap<String, String>> res = new LinkedHashMap();

@@ -461,7 +461,7 @@ public class EventController extends WebController {
         model.put("failReasons", eventService.getAllFailReasons(strategyId));
         model.put("campaign", eventService.getCampaign(campaignId));
         //model.put("errors", eventService.getErrors());
-        model.put("strategy", strategyService.getStrategy(strategyId));
+        model.put("strategy", strategyService.getStrategy(strategyId,cabinetId));
         model.put("аctiveMap", groupService.getActiveGroupMap(strategyId,cabinetId));
         errors.addAll(eventService.getErrors());
         model.put("errors", errors);
@@ -476,11 +476,37 @@ public class EventController extends WebController {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         User user = authManager.getCurrentUser();
         Long userId = user.getUserId();
-
-        //model.put("campaigns", eventService.userShowPageEventClientList(cabinetId, userId));
         model.put("campaigns", eventService.userShowPageEventClientList(cabinetId, userId));
         return "campaign";
     }
+    
+    @RequestMapping("/outCampaign")
+    public String outCampaignPage(Map<String, Object> model,
+            HttpServletRequest request,
+            RedirectAttributes ras) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        User user = authManager.getCurrentUser();
+        Long userId = user.getUserId();
+        model.put("campaigns",eventService.getOutStrategies(cabinetId));
+        return "outCampaign";
+    }
+    
+    @RequestMapping("/out")
+    public String outCampaignPage(Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "strategyId") Long strategyId,
+            RedirectAttributes ras) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        User user = authManager.getCurrentUser();
+        Long userId = user.getUserId();
+        model.put("strategy", strategyService.getStrategy(strategyId,cabinetId));
+        model.put("аctiveMap", groupService.getActiveGroupMap(strategyId,cabinetId));
+        model.put("errors", strategyService.getErrors());
+        return "outEvent";
+    }
+    
 
     @RequestMapping("updateClientFromUser")
     @ResponseBody
