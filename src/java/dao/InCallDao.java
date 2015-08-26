@@ -38,10 +38,37 @@ public class InCallDao extends Dao<InCall> {
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("strategyId", strategyId);
         if (from != null) {
-            query.setParameter("from", DateAdapter.getDateFromString(DateAdapter.getDateInMysql(from)));
+            query.setParameter("from", DateAdapter.getDateFromString(DateAdapter.getDateInMysql(DateAdapter.getStartOfDate(from))));
         }
         if (to != null) {
-            query.setParameter("to", DateAdapter.getDateFromString(DateAdapter.getDateInMysql(to)));
+            query.setParameter("to", DateAdapter.getDateFromString(DateAdapter.getDateInMysql(DateAdapter.getEndOfDate(to))));
+        }
+        return query.list();
+    }
+    
+    public List<InCall> getReportDetail(Long moduleId, Date from, Date to,Long userId) {
+        String hql = "from InCall inc where inc.module.moduleId=:moduleId ";
+        if (from != null) {
+            hql += " and inc.addDate>:from ";
+        }
+        if (to != null) {
+            hql += " and inc.addDate<=:to ";
+        }
+        if(userId!=null){
+            hql += " and inc.user.userId=:userId ";
+        }
+        hql += " order by inc.addDate asc ";
+
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("moduleId", moduleId);
+        if (from != null) {
+            query.setParameter("from", DateAdapter.getDateFromString(DateAdapter.getDateInMysql(DateAdapter.getStartOfDate(from))));
+        }
+        if (to != null) {
+            query.setParameter("to", DateAdapter.getDateFromString(DateAdapter.getDateInMysql(DateAdapter.getEndOfDate(to))));
+        }
+        if(userId!=null){
+            query.setParameter("userId", userId);
         }
         return query.list();
     }

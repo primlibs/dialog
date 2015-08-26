@@ -1316,5 +1316,9 @@ public class EventService extends PrimService {
         }
         return result;
     }
+    
+    public List<InCall> getReportDetail(Long moduleId,Date from,Date to,Long userId){
+        return inCallDao.getReportDetail(moduleId,from,to,userId);
+    }
 
 }

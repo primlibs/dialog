@@ -43,7 +43,7 @@
                             <c:forEach var="strategy" items="${strategyList}">
                                 <c:choose>
                                     <c:when test="${strategy.strategyId eq param.strategyId}">
-                                        <option value="$${strategy.strategyId}" selected>${strategy.strategyName}</option>
+                                        <option value="${strategy.strategyId}" selected>${strategy.strategyName}</option>
                                     </c:when>
                                     <c:otherwise>
                                         <option value="${strategy.strategyId}">${strategy.strategyName}</option>
@@ -65,13 +65,13 @@
                 <form class="form-inline btn-group" action="/Event/inCallReport" method="post">
                     <div class="bootstrap-select">
                         <div class="input-group date" id="datetimepicker1">
-                            <input type="text" name="from" class="form-control" value="<c:if test="${not empty param.from}"><fmt:formatDate type="HH.mm.yyyy" value="${param.from}"/></c:if>" />
+                            <input type="text" name="from" class="form-control" value="<c:if test="${not empty dateFrom}"><fmt:formatDate pattern="dd.MM.yyyy" value="${dateFrom}"/></c:if>" />
                             <span class="input-group-addon">
                                 <i class="glyphicon glyphicon-calendar glyphicon-nonescaped"></i>
                             </span>
                         </div>
                         <div class="input-group date" id="datetimepicker2">
-                            <input type="text" name="to" class="form-control" value="<c:if test="${not empty param.to}"><fmt:formatDate type="HH.mm.yyyy" value="${param.to}"/></c:if>"/>
+                            <input type="text" name="to" class="form-control" value="<c:if test="${not empty dateTo}"><fmt:formatDate pattern="dd.MM.yyyy" value="${dateTo}"/></c:if>"/>
                             <span class="input-group-addon">
                                 <i class="glyphicon glyphicon-calendar glyphicon-nonescaped"></i>
                             </span>
@@ -81,13 +81,14 @@
                     </div>
                 </form>
             </div>
-
-
+                        
+            <fmt:formatDate pattern="dd.MM.yyyy" value="${dateFrom}" var="dtfrm"/>
+            <fmt:formatDate pattern="dd.MM.yyyy" value="${dateTo}" var="dtto"/>
 
             <div class="row ">   <table class="table table-bordered table-hover">
                     <tr><th>Модуль</th><th>Количество</th></tr>
                             <c:forEach var="entry"  items="${reportMap}">
-                        <tr><td>${entry.key.moduleName}</td><td>${entry.value}</td></tr>
+                        <tr><td>${entry.key.moduleName}</td><td  ondblclick="location = '<c:url value="/Event/inCallReportDetail?strategyId=${entry.key.strategy.strategyId}&moduleId=${entry.key.moduleId}&from=${dtfrm}&to=${dtto}"/>'">${entry.value}</td></tr>
                     </c:forEach>
                 </table>
             </div>

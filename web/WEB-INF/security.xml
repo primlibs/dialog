@@ -48,7 +48,7 @@
         <intercept-url pattern="/Event/inCampaign" access="hasAnyRole('user', 'admin')" />
         <intercept-url pattern="/Event/in" access="hasAnyRole('user', 'admin')" />
         <intercept-url pattern="/Event/inCall" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Event/inCallReport" access="hasAnyRole('admin')" />
+
         
         <intercept-url pattern="/Client/changeUserCampaignAssignation" access="hasAnyRole('user', 'admin')" />
         <intercept-url pattern="/Client/updateclient" access="hasAnyRole('user', 'admin')" />

@@ -550,7 +550,53 @@ public class EventController extends WebController {
                 model.put("errors", strategyService.getErrors());
             }
         }
+        if(from!=null){
+            model.put("dateFrom",from);
+        }
+        if(to!=null){
+            model.put("dateTo",to);
+        }
         return "inCallReport";
+    }
+    
+    
+    @RequestMapping("/inCallReportDetail")
+    public String inCallReportDetail(Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "strategyId") Long strategyId,
+            @RequestParam(value = "moduleId") Long moduleId,
+            @RequestParam(value = "userId",required = false) Long userId,
+            @RequestParam(value = "from",required = false) Date from,
+            @RequestParam(value = "to",required = false) Date to,
+            RedirectAttributes ras) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        User user = authManager.getCurrentUser();
+        
+        Strategy str = strategyService.getStrategy(strategyId, cabinetId);
+            if(strategyService.getErrors().isEmpty()){
+                if(str!=null&&str.getIsin()!=null){
+                    model.put("аctiveMap",groupService.getActiveGroupMap(strategyId, cabinetId));
+                    Module md=moduleService.getModule(moduleId);
+                    if(md!=null&&md.getStrategy().getId().equals(str.getId())){
+                         model.put("module",md);
+                        model.put("inCallList",eventService.getReportDetail(moduleId, from, to, userId));
+                    }else{
+                        model.put("errors", "Модуль недоступен");
+                    }                    
+                }else{
+                    model.put("errors", "Сценарий недоступен");
+                }
+            }else{
+                model.put("errors", strategyService.getErrors());
+            }
+        if(from!=null){
+            model.put("dateFrom",from);
+        }
+        if(to!=null){
+            model.put("dateTo",to);
+        }
+        return "inCallReportDetail";
     }
     
     
