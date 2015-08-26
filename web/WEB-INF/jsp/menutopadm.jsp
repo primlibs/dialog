@@ -20,8 +20,14 @@
         <ul class="dropdown-menu">
                 <li><a href="<c:url value="/Event/campaign"/>">Текущие</a></li>
                 <li><a href="<c:url value="/Event/postponedEvents"/>">Перенесенные</a></li>
-            </ul></li>
-        <li><a href="<c:url value="/Event/inCampaign"/>">Входящие</a></li>    
+            </ul></li>   
+        <li class="dropdown"><a href="#" data-toggle="dropdown"  class="dropdown-toggle" >Входящие <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="<c:url value="/Event/inCampaign"/>">Звонки</a></li>
+                <li><a href="<c:url value="/Event/inCallReport"/>">Отчетность</a></li>
+            </ul>                    
+        </li>
+        
         <li class="dropdown"><a href="#" data-toggle="dropdown"  class="dropdown-toggle" >Настройки <span class="caret"></span></a>
             <ul class="dropdown-menu">
                 <li><a href="<c:url value="/User/userList"/>">Пользователи</a></li>

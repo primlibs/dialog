@@ -10,8 +10,8 @@ import controllers.parent.WebController;
 import entities.CabinetUser;
 import entities.Campaign;
 import entities.Event;
-import entities.InCall;
 import entities.Module;
+import entities.Strategy;
 import entities.User;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,10 +54,9 @@ public class EventController extends WebController {
 
     @Autowired
     private EventService eventService;
-    
-    /*@Autowired
-    private EventDao eventDao;*/
 
+    /*@Autowired
+     private EventDao eventDao;*/
     @Autowired
     private GroupService groupService;
 
@@ -69,46 +68,46 @@ public class EventController extends WebController {
 
     @Autowired
     private StrategyService strategyService;
-    
+
     @Autowired
     private ReportService reportService;
-    
+
     @Autowired
     private UserService userService;
 
     @Autowired
     private ClientService clientService;
-    
+
     @Autowired
     private TagService tagService;
 
     @RequestMapping("/campaignList")
     public String showCampaigns(Map<String, Object> model,
             /*@RequestParam(value = "dateFrom", required = false) Date dateFrom,
-            @RequestParam(value = "dateTo", required = false) Date dateTo,
-            @RequestParam(value = "closed", required = false) String closed,*/
+             @RequestParam(value = "dateTo", required = false) Date dateTo,
+             @RequestParam(value = "closed", required = false) String closed,*/
             HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
-        
+
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         /*boolean showClosed = false;
-        if(closed!=null){
-            showClosed=true;
-        }
+         if(closed!=null){
+         showClosed=true;
+         }
         
-        if(dateFrom==null){
-            Calendar c = Calendar.getInstance();
-            c.set(Calendar.DAY_OF_MONTH, 1);
-            dateFrom=DateAdapter.getDateFromString(DateAdapter.formatByDate(c.getTime(),DateAdapter.SMALL_FORMAT));
-        }
-        if(dateTo==null){
-            dateTo=DateAdapter.getDateFromString(DateAdapter.formatByDate(new Date(),DateAdapter.SMALL_FORMAT));
-        }*/
+         if(dateFrom==null){
+         Calendar c = Calendar.getInstance();
+         c.set(Calendar.DAY_OF_MONTH, 1);
+         dateFrom=DateAdapter.getDateFromString(DateAdapter.formatByDate(c.getTime(),DateAdapter.SMALL_FORMAT));
+         }
+         if(dateTo==null){
+         dateTo=DateAdapter.getDateFromString(DateAdapter.formatByDate(new Date(),DateAdapter.SMALL_FORMAT));
+         }*/
 
         model.put("campaignsWithCountInfosMap", eventService.getCampaignsWithCountInfos(/*dateFrom,dateTo,showClosed,*/cabinetId));
         model.put("errors", eventService.getErrors());
         /*model.put("dateFrom", dateFrom);
-        model.put("dateTo", dateTo);*/
+         model.put("dateTo", dateTo);*/
         return "campaignList";
     }
 
@@ -157,7 +156,7 @@ public class EventController extends WebController {
         ras.addFlashAttribute("errors", errors);
         return "redirect:/Event/campaignList";
     }
-    
+
     @RequestMapping("/closeCampaign")
     public String closeCampaign(Map<String, Object> model,
             HttpServletRequest request,
@@ -170,7 +169,7 @@ public class EventController extends WebController {
         ras.addAttribute("campaignId", campaignId);
         return "redirect:/Event/campaignSpecification";
     }
-    
+
     @RequestMapping("/openCampaign")
     public String openCampaign(Map<String, Object> model,
             HttpServletRequest request,
@@ -188,9 +187,9 @@ public class EventController extends WebController {
     public String showCampaignSpecification(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "campaignId") Long campaignId,
-            @RequestParam(value = "dateFrom", required=false) Date dateFrom,
-            @RequestParam(value = "dateTo", required=false) Date dateTo,
-            @RequestParam(value = "wropen", required=false) Integer wropen) throws Exception {
+            @RequestParam(value = "dateFrom", required = false) Date dateFrom,
+            @RequestParam(value = "dateTo", required = false) Date dateTo,
+            @RequestParam(value = "wropen", required = false) Integer wropen) throws Exception {
 
         List<String> errors = (List<String>) model.get("errors");
         if (errors == null) {
@@ -200,7 +199,7 @@ public class EventController extends WebController {
 
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
-        model.put("participatedUsers",eventService.getUserWithAssignsList(campaignId,cabinetId));
+        model.put("participatedUsers", eventService.getUserWithAssignsList(campaignId, cabinetId));
         //model.put("participatedCUsers",eventService.getSurnameSortedCUListForCampaignSpecification(campaignId,cabinetId));
         model.put("cabinetUserList", eventService.getActiveMakingCallsUsers(cabinetId));
         model.put("userAssignedClient", eventService.userAssignedClient(campaignId, cabinetId));
@@ -215,25 +214,25 @@ public class EventController extends WebController {
         model.put("unassignedEventList", eventService.getUnassignedEvent(campaignId, cabinetId));
         Campaign campaign = eventService.getCampaign(campaignId);
         model.put("campaign", campaign);
-        
-        model.put("moduleReportData",reportService.getDataByModules(campaignId,cabinetId));
-        model.put("workReportData",reportService.getDataForWorkReport(cabinetId,campaignId,dateFrom,dateTo));
-        model.put("failReasonReportData",reportService.getDataForFailReasonReport(campaignId,cabinetId));
-        if(dateFrom==null){
-            dateFrom=campaign.getCreationDate();
+
+        model.put("moduleReportData", reportService.getDataByModules(campaignId, cabinetId));
+        model.put("workReportData", reportService.getDataForWorkReport(cabinetId, campaignId, dateFrom, dateTo));
+        model.put("failReasonReportData", reportService.getDataForFailReasonReport(campaignId, cabinetId));
+        if (dateFrom == null) {
+            dateFrom = campaign.getCreationDate();
         }
-        if(dateTo==null){
-            if(campaign.getEndDate()!=null){
-                dateTo=campaign.getEndDate();
-            }else{
-                dateTo=new Date();
+        if (dateTo == null) {
+            if (campaign.getEndDate() != null) {
+                dateTo = campaign.getEndDate();
+            } else {
+                dateTo = new Date();
             }
         }
-        model.put("wropen",wropen);
-        model.put("dateFrom",DateAdapter.formatByDate(dateFrom, DateAdapter.SMALL_FORMAT));
-        model.put("dateTo",DateAdapter.formatByDate(dateTo, DateAdapter.SMALL_FORMAT));
+        model.put("wropen", wropen);
+        model.put("dateFrom", DateAdapter.formatByDate(dateFrom, DateAdapter.SMALL_FORMAT));
+        model.put("dateTo", DateAdapter.formatByDate(dateTo, DateAdapter.SMALL_FORMAT));
         model.put("tags", tagService.getAllActiveTags(cabinetId));
-        
+
         errors.addAll(eventService.getErrors());
         errors.addAll(reportService.getErrors());
         model.put("errors", errors);
@@ -253,14 +252,14 @@ public class EventController extends WebController {
             @RequestParam(value = "fileXls") MultipartFile fileXls,
             String checkbox, HttpServletRequest request,
             @RequestParam(value = "campaignId") Long campaignId,
-            @RequestParam(value = "tagIds",required = false) Long[] tagIds,
+            @RequestParam(value = "tagIds", required = false) Long[] tagIds,
             RedirectAttributes ras) throws Exception {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         Boolean update = false;
         if (checkbox != null) {
             update = true;
         }
-        eventService.readXls(fileXls,tagIds, cabinetId, campaignId, update);
+        eventService.readXls(fileXls, tagIds, cabinetId, campaignId, update);
         ras.addAttribute("campaignId", campaignId);
         ras.addFlashAttribute("errors", eventService.getErrors());
         if (eventService.getErrors().isEmpty()) {
@@ -298,7 +297,7 @@ public class EventController extends WebController {
         if (errors == null) {
             errors = new ArrayList();
         }
-        
+
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
         model.put("eventAllAppoint", eventService.eventAppointAll(campaignId, cabinetId));
@@ -345,10 +344,10 @@ public class EventController extends WebController {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         List<String> errors = (List<String>) model.get("errors");
-        if(errors==null){
-            errors=new ArrayList();
+        if (errors == null) {
+            errors = new ArrayList();
         }
-        
+
         model.put("events", eventService.getEventFilter(campaignId, cabinetId, assigned, processed));
         //errors.add("finalEvsCount="+eventService.getEventFilter(campaignId, cabinetId, assigned, processed).size()+";");
         model.put("campaign", eventService.getCampaign(campaignId));
@@ -361,51 +360,51 @@ public class EventController extends WebController {
         model.put("errors", errors);
         return "eventClient";
     }
-    
+
     @RequestMapping("/eventClientXLS")
     public void geteventClientXLS(Map<String, Object> model,
             HttpServletResponse response,
             @RequestParam(value = "campaignId") Long campaignId,
             @RequestParam(value = "assigned", required = false) Integer assigned,
             @RequestParam(value = "processed", required = false) Integer processed,
-            HttpServletRequest request) throws IOException, Exception{
+            HttpServletRequest request) throws IOException, Exception {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        
-        if(assigned==null){
-            assigned=0;
+
+        if (assigned == null) {
+            assigned = 0;
         }
-        if(processed==null){
-            processed=0;
+        if (processed == null) {
+            processed = 0;
         }
-        String fileName ="campaign_report_";
+        String fileName = "campaign_report_";
         Campaign c = eventService.getCampaign(campaignId);
-        fileName+=c.getId();
-        if(assigned==-2){
-            fileName+="_assigned";
-        }else if(assigned==-1){
-            fileName+="_notassigned";
-        }else if(assigned==0){
-            fileName+="_notchosen";
-        }else{
-            User u= userService.getUser(Long.valueOf(assigned));
-            fileName+="_"+u.getEmail();
+        fileName += c.getId();
+        if (assigned == -2) {
+            fileName += "_assigned";
+        } else if (assigned == -1) {
+            fileName += "_notassigned";
+        } else if (assigned == 0) {
+            fileName += "_notchosen";
+        } else {
+            User u = userService.getUser(Long.valueOf(assigned));
+            fileName += "_" + u.getEmail();
         }
-        
-        if(processed==-4){
-            fileName+="_performed";
-        }else if(processed==-3){
-            fileName+="_failed";
-        }else if(processed==-2){
-            fileName+="_successful";
-        }else if(processed==-1){
-            fileName+="_notperformed";
-        }else if(processed==0){
-            fileName+="_notchosen";
+
+        if (processed == -4) {
+            fileName += "_performed";
+        } else if (processed == -3) {
+            fileName += "_failed";
+        } else if (processed == -2) {
+            fileName += "_successful";
+        } else if (processed == -1) {
+            fileName += "_notperformed";
+        } else if (processed == 0) {
+            fileName += "_notchosen";
         }
 
         response.setContentType("application/octet-stream");
-        response.setHeader("Content-Disposition", "attachment; filename="+fileName+".xls");
-        eventService.getEventClientXls(campaignId,assigned,processed,cabinetId).write(response.getOutputStream());
+        response.setHeader("Content-Disposition", "attachment; filename=" + fileName + ".xls");
+        eventService.getEventClientXls(campaignId, assigned, processed, cabinetId).write(response.getOutputStream());
         //eventService.getXls().write(response.getOutputStream());
     }
 
@@ -436,8 +435,8 @@ public class EventController extends WebController {
             @RequestParam(value = "eventId", required = false) Long eventId,
             HttpServletRequest request,
             RedirectAttributes ras) throws Exception {
-        List<String>errors = (List<String>)model.get("errors");
-        if(errors==null){
+        List<String> errors = (List<String>) model.get("errors");
+        if (errors == null) {
             errors = new ArrayList();
         }
         lk.dataByUserAndCompany(request, model);
@@ -462,8 +461,8 @@ public class EventController extends WebController {
         model.put("failReasons", eventService.getAllFailReasons(strategyId));
         model.put("campaign", eventService.getCampaign(campaignId));
         //model.put("errors", eventService.getErrors());
-        model.put("strategy", strategyService.getStrategy(strategyId,cabinetId));
-        model.put("аctiveMap", groupService.getActiveGroupMap(strategyId,cabinetId));
+        model.put("strategy", strategyService.getStrategy(strategyId, cabinetId));
+        model.put("аctiveMap", groupService.getActiveGroupMap(strategyId, cabinetId));
         errors.addAll(eventService.getErrors());
         model.put("errors", errors);
         return "event";
@@ -480,7 +479,7 @@ public class EventController extends WebController {
         model.put("campaigns", eventService.userShowPageEventClientList(cabinetId, userId));
         return "campaign";
     }
-    
+
     @RequestMapping("/inCampaign")
     public String inCampaignPage(Map<String, Object> model,
             HttpServletRequest request,
@@ -489,10 +488,10 @@ public class EventController extends WebController {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         User user = authManager.getCurrentUser();
         Long userId = user.getUserId();
-        model.put("campaigns",eventService.getOutStrategies(cabinetId));
+        model.put("campaigns", eventService.getOutStrategies(cabinetId));
         return "inCampaign";
     }
-    
+
     @RequestMapping("/in")
     public String in(Map<String, Object> model,
             HttpServletRequest request,
@@ -502,13 +501,13 @@ public class EventController extends WebController {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         User user = authManager.getCurrentUser();
         Long userId = user.getUserId();
-        model.put("strategy", strategyService.getStrategy(strategyId,cabinetId));
-        model.put("аctiveMap", groupService.getActiveGroupMap(strategyId,cabinetId));
+        model.put("strategy", strategyService.getStrategy(strategyId, cabinetId));
+        model.put("аctiveMap", groupService.getActiveGroupMap(strategyId, cabinetId));
         model.put("errors", strategyService.getErrors());
         return "inEvent";
     }
-    
-     @RequestMapping("/inCall")
+
+    @RequestMapping("/inCall")
     public String inCall(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "moduleId") Long moduleId,
@@ -516,41 +515,68 @@ public class EventController extends WebController {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         User user = authManager.getCurrentUser();
-        
+
         Long userId = user.getUserId();
-        Module md=moduleService.getModule(moduleId);
-        if(md!=null){
-            if(md.getCabinet().getId().equals(cabinetId)){
-               eventService.registerInCall(md, user);
-               model.put("error",eventService.getErrors());
+        Module md = moduleService.getModule(moduleId);
+        if (md != null) {
+            if (md.getCabinet().getId().equals(cabinetId)) {
+                eventService.registerInCall(md, user);
+                model.put("error", eventService.getErrors());
             }
-        }        
+        }
         return "inEvent";
     }
+
+    @RequestMapping("/inCallReport")
+    public String inCallReport(Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "strategyId",required = false) Long strategyId,
+            @RequestParam(value = "from",required = false) Date from,
+            @RequestParam(value = "to",required = false) Date to,
+            RedirectAttributes ras) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        User user = authManager.getCurrentUser();
+        model.put("strategyList",eventService.getOutStrategies(cabinetId) );
+        if(strategyId!=null){
+            Strategy str = strategyService.getStrategy(strategyId, cabinetId);
+            if(strategyService.getErrors().isEmpty()){
+                if(str.getIsin()!=null){
+                    model.put("reportMap",eventService.inCallReport(strategyId, from, to));
+                }else{
+                    model.put("errors", "Сценарий недоступен");
+                }
+            }else{
+                model.put("errors", strategyService.getErrors());
+            }
+        }
+        return "inCallReport";
+    }
+    
     
 
     @RequestMapping("updateClientFromUser")
     @ResponseBody
-    public JsonResponse updateClientOrEvent(Map<String, Object> model, @RequestParam(value = "eventId",required = false) Long eventId,
-            @RequestParam(value = "clientId") Long clientId, @RequestParam(value = "param") String param, 
+    public JsonResponse updateClientOrEvent(Map<String, Object> model, @RequestParam(value = "eventId", required = false) Long eventId,
+            @RequestParam(value = "clientId") Long clientId, @RequestParam(value = "param") String param,
             @RequestParam(value = "newVal") String newVal, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
 
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        
+
         JsonResponse res = JsonResponse.getInstance();
 
-        clientService.updateClientField(param, clientId,eventId, newVal,cabinetId);
-        List<String>errs=(List<String>)model.get("errors");
-        if(errs==null){
-            errs=new ArrayList();
+        clientService.updateClientField(param, clientId, eventId, newVal, cabinetId);
+        List<String> errs = (List<String>) model.get("errors");
+        if (errs == null) {
+            errs = new ArrayList();
         }
-        List<String>serviceErrs=clientService.getErrors();
-        if(serviceErrs==null){
-            serviceErrs=new ArrayList();
+        List<String> serviceErrs = clientService.getErrors();
+        if (serviceErrs == null) {
+            serviceErrs = new ArrayList();
         }
         errs.addAll(serviceErrs);
-        
+
         if (errs.isEmpty()) {
             res.setStatus(Boolean.TRUE);
             //return StringAdapter.getString(true);
@@ -568,26 +594,25 @@ public class EventController extends WebController {
     }
 
     /*@RequestMapping("writeModuleInHistory")
-    @ResponseBody
-    public String writeModuleInHistory(Map<String, Object> model, @RequestParam(value = "moduleId") Long moduleId, @RequestParam(value = "eventId") Long eventId, @RequestParam(value = "date") Long datelong, HttpServletRequest request) throws Exception {
-        lk.dataByUserAndCompany(request, model);
-        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        User user = authManager.getCurrentUser();
-        Date date = new Date(datelong);
-        boolean performed = eventService.writeModuleInHistory(date, user.getId(), cabinetId, moduleId, eventId);
-        return StringAdapter.getString(date);
-    }*/
-
+     @ResponseBody
+     public String writeModuleInHistory(Map<String, Object> model, @RequestParam(value = "moduleId") Long moduleId, @RequestParam(value = "eventId") Long eventId, @RequestParam(value = "date") Long datelong, HttpServletRequest request) throws Exception {
+     lk.dataByUserAndCompany(request, model);
+     Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+     User user = authManager.getCurrentUser();
+     Date date = new Date(datelong);
+     boolean performed = eventService.writeModuleInHistory(date, user.getId(), cabinetId, moduleId, eventId);
+     return StringAdapter.getString(date);
+     }*/
     @RequestMapping("/badFinish")
     public String badFinish(Map<String, Object> model, @RequestParam(value = "eventId") Long eventId,
-            @RequestParam(value = "failReasonId") Long failReasonId,@RequestParam(value = "campaignId") Long campaignId,
-            @RequestParam(value = "comment") String finalComment,@RequestParam(value = "modules",required = false) Long[] modules,
-            @RequestParam(value = "dates",required = false) Long[] dates,RedirectAttributes ras, HttpServletRequest request) throws Exception {
+            @RequestParam(value = "failReasonId") Long failReasonId, @RequestParam(value = "campaignId") Long campaignId,
+            @RequestParam(value = "comment") String finalComment, @RequestParam(value = "modules", required = false) Long[] modules,
+            @RequestParam(value = "dates", required = false) Long[] dates, RedirectAttributes ras, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         User user = authManager.getCurrentUser();
-        
-        eventService.badFinish(modules,dates,cabinetId,eventId, failReasonId, finalComment);
+
+        eventService.badFinish(modules, dates, cabinetId, eventId, failReasonId, finalComment);
 
         ras.addFlashAttribute("errors", eventService.getErrors());
         ras.addAttribute("campaignId", campaignId);
@@ -596,17 +621,17 @@ public class EventController extends WebController {
 
     @RequestMapping("/goodFinish")
     public String goodFinish(Map<String, Object> model, @RequestParam(value = "eventId") Long eventId,
-            @RequestParam(value = "successDate") Date successDate,@RequestParam(value = "campaignId") Long campaignId,
-            @RequestParam(value = "comment") String finalComment,@RequestParam(value = "modules",required = false) Long[] modules,
-            @RequestParam(value = "dates",required = false) Long[] dates,RedirectAttributes ras, HttpServletRequest request) throws Exception {
+            @RequestParam(value = "successDate") Date successDate, @RequestParam(value = "campaignId") Long campaignId,
+            @RequestParam(value = "comment") String finalComment, @RequestParam(value = "modules", required = false) Long[] modules,
+            @RequestParam(value = "dates", required = false) Long[] dates, RedirectAttributes ras, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         User user = authManager.getCurrentUser();
         /*if (finalComment.equals("")) {
-            finalComment = "Без комментариев";
-        }*/
+         finalComment = "Без комментариев";
+         }*/
         //Date successDate = new Date(successLongDate);
-        eventService.goodFinish(modules,dates,cabinetId,eventId, successDate, finalComment);
+        eventService.goodFinish(modules, dates, cabinetId, eventId, successDate, finalComment);
 
         ras.addFlashAttribute("errors", eventService.getErrors());
         ras.addAttribute("campaignId", campaignId);
@@ -615,13 +640,13 @@ public class EventController extends WebController {
 
     @RequestMapping("/postponeEvent")
     public String postponeEvent(Map<String, Object> model, @RequestParam(value = "eventId") Long eventId,
-            @RequestParam(value = "postponeDate") Date postponeDate,@RequestParam(value = "campaignId") Long campaignId,
-            @RequestParam(value = "comment") String finalComment,@RequestParam(value = "modules",required = false) Long[] modules,
-            @RequestParam(value = "dates",required = false) Long[] dates,RedirectAttributes ras, HttpServletRequest request) throws Exception {
+            @RequestParam(value = "postponeDate") Date postponeDate, @RequestParam(value = "campaignId") Long campaignId,
+            @RequestParam(value = "comment") String finalComment, @RequestParam(value = "modules", required = false) Long[] modules,
+            @RequestParam(value = "dates", required = false) Long[] dates, RedirectAttributes ras, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         //Date successDate = new Date(successLongDate);
-        eventService.postponeEvent(modules,dates,cabinetId,eventId, postponeDate, finalComment);
+        eventService.postponeEvent(modules, dates, cabinetId, eventId, postponeDate, finalComment);
 
         ras.addFlashAttribute("errors", eventService.getErrors());
         ras.addAttribute("campaignId", campaignId);
@@ -635,7 +660,7 @@ public class EventController extends WebController {
         User user = authManager.getCurrentUser();
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
-        model.put("postponedEvents", eventService.getPostponedEvents(dateFrom, dateTo,user.getId(), cabinetId));
+        model.put("postponedEvents", eventService.getPostponedEvents(dateFrom, dateTo, user.getId(), cabinetId));
         model.put("errors", eventService.getErrors());
         return "postponedEvents";
     }
@@ -661,13 +686,13 @@ public class EventController extends WebController {
     @RequestMapping("/assignOneEvent")
     public String assignOneEvent(Map<String, Object> model, @RequestParam(value = "userId", required = false) Long userId, @RequestParam(value = "campaignId") Long campaignId,
             @RequestParam(value = "eventId") Long eventId, RedirectAttributes ras, HttpServletRequest request) throws Exception {
-        List<String>errors = (List<String>)model.get("errors");
-        if(errors==null){
-            errors=new ArrayList();
+        List<String> errors = (List<String>) model.get("errors");
+        if (errors == null) {
+            errors = new ArrayList();
         }
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        eventService.assignOneEvent(userId, eventId,cabinetId);
+        eventService.assignOneEvent(userId, eventId, cabinetId);
         ras.addAttribute("campaignId", campaignId);
         ras.addAttribute("assigned", userId);
         errors.addAll(eventService.getErrors());
@@ -686,136 +711,136 @@ public class EventController extends WebController {
         model.put("errors", eventService.getErrors());
         return "assignOneEvent";
     }
-    
+
     @RequestMapping("/changeUserCampaignAssignation")
     public String changeUserCampaignAssignation(Map<String, Object> model, @RequestParam(value = "campaignId") Long campaignId,
-             @RequestParam(value = "userFromId", required = false) Long userFromId,@RequestParam(value = "userToId",required = false) Long userToId, RedirectAttributes ras, HttpServletRequest request) throws Exception{
+            @RequestParam(value = "userFromId", required = false) Long userFromId, @RequestParam(value = "userToId", required = false) Long userToId, RedirectAttributes ras, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         eventService.changeUserCampaignAssignation(campaignId, userFromId, userToId, cabinetId);
-        ras.addFlashAttribute("errors",eventService.getErrors());
+        ras.addFlashAttribute("errors", eventService.getErrors());
         ras.addAttribute("campaignId", campaignId);
         return "redirect:/Event/campaignSpecification";
     }
-    
+
     @RequestMapping("/moduleReportDetalisation")
     public String moduleReportDetalisation(Map<String, Object> model, @RequestParam(value = "campaignId") Long campaignId,
-             @RequestParam(value = "moduleId",required = false) Long moduleId, RedirectAttributes ras, HttpServletRequest request) throws Exception{
+            @RequestParam(value = "moduleId", required = false) Long moduleId, RedirectAttributes ras, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         model.put("events", reportService.getEventDetalisationByModuleId(moduleId, campaignId, cabinetId));
-        model.put("module",moduleService.getModule(moduleId));
-        model.put("campaign",eventService.getCampaign(campaignId));
+        model.put("module", moduleService.getModule(moduleId));
+        model.put("campaign", eventService.getCampaign(campaignId));
         return "failModuleReportDetalisation";
     }
-    
+
     @RequestMapping("/moduleReportDetalisationXLS")
     public void moduleReportDetalisationXLS(Map<String, Object> model,
             @RequestParam(value = "campaignId") Long campaignId,
-             @RequestParam(value = "moduleId",required = false) Long moduleId,
-             RedirectAttributes ras, 
-            HttpServletResponse response, 
-            HttpServletRequest request) throws Exception{
+            @RequestParam(value = "moduleId", required = false) Long moduleId,
+            RedirectAttributes ras,
+            HttpServletResponse response,
+            HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        String fileName = "module_report_on_"+campaignId;
-        
-        response.setHeader("Content-Disposition", "attachment; filename="+fileName+".xls");
+        String fileName = "module_report_on_" + campaignId;
+
+        response.setHeader("Content-Disposition", "attachment; filename=" + fileName + ".xls");
         reportService.getModuleReportDetalisationXls(moduleId, campaignId, cabinetId).write(response.getOutputStream());
     }
-    
+
     @RequestMapping("/workReportDetalisation")
     public String workReportDetalisation(Map<String, Object> model, @RequestParam(value = "campaignId") Long campaignId,
-             @RequestParam(value = "userId",required = false) Long userId,
-             @RequestParam(value = "dateFrom",required = false) Date dateFrom,
-             @RequestParam(value = "dateTo",required = false) Date dateTo,
-             @RequestParam(value = "status",required = false) Integer status,
-             RedirectAttributes ras, HttpServletRequest request) throws Exception{
+            @RequestParam(value = "userId", required = false) Long userId,
+            @RequestParam(value = "dateFrom", required = false) Date dateFrom,
+            @RequestParam(value = "dateTo", required = false) Date dateTo,
+            @RequestParam(value = "status", required = false) Integer status,
+            RedirectAttributes ras, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        model.put("events", reportService.getDataForWorkDetalisation(status,dateFrom,dateTo,userId, campaignId, cabinetId));
-        model.put("user",userService.getUser(userId));
+        model.put("events", reportService.getDataForWorkDetalisation(status, dateFrom, dateTo, userId, campaignId, cabinetId));
+        model.put("user", userService.getUser(userId));
         model.put("campaign", eventService.getCampaign(campaignId));
-        model.put("errors",reportService.getErrors());
+        model.put("errors", reportService.getErrors());
         model.put("userId", userId);
         model.put("status", status);
         model.put("dateFrom", dateFrom);
         model.put("dateTo", dateTo);
         return "workReportDetalisation";
     }
-    
+
     @RequestMapping("/workReportDetalisationXLS")
-    public void workReportDetalisationXLS(Map<String, Object> model, 
-            HttpServletResponse response, 
+    public void workReportDetalisationXLS(Map<String, Object> model,
+            HttpServletResponse response,
             HttpServletRequest request,
             @RequestParam(value = "campaignId") Long campaignId,
-             @RequestParam(value = "userId",required = false) Long userId,
-             @RequestParam(value = "dateFrom",required = false) Date dateFrom,
-             @RequestParam(value = "dateTo",required = false) Date dateTo,
-             @RequestParam(value = "status",required = false) Integer status) throws Exception {
-        
+            @RequestParam(value = "userId", required = false) Long userId,
+            @RequestParam(value = "dateFrom", required = false) Date dateFrom,
+            @RequestParam(value = "dateTo", required = false) Date dateTo,
+            @RequestParam(value = "status", required = false) Integer status) throws Exception {
+
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         response.setContentType("application/octet-stream");
-        
-        String fileName = "work_report_on_"+campaignId+"_"+StringAdapter.getString(dateFrom)+"-"+StringAdapter.getString(dateTo);
-        
-        if(userId!=null){
-            fileName+="_"+userService.getUser(userId).getEmail();
-        }else{
-            fileName+="_all";
+
+        String fileName = "work_report_on_" + campaignId + "_" + StringAdapter.getString(dateFrom) + "-" + StringAdapter.getString(dateTo);
+
+        if (userId != null) {
+            fileName += "_" + userService.getUser(userId).getEmail();
+        } else {
+            fileName += "_all";
         }
-        
-        response.setHeader("Content-Disposition", "attachment; filename="+fileName+".xls");
-        reportService.getWorkReportDetalisationXls(status,dateFrom,dateTo,userId, campaignId, cabinetId).write(response.getOutputStream());
+
+        response.setHeader("Content-Disposition", "attachment; filename=" + fileName + ".xls");
+        reportService.getWorkReportDetalisationXls(status, dateFrom, dateTo, userId, campaignId, cabinetId).write(response.getOutputStream());
     }
-    
+
     @RequestMapping("/failReasonReportDetalisation")
     public String failReasonReportDetalisation(Map<String, Object> model, @RequestParam(value = "campaignId") Long campaignId,
-             @RequestParam(value = "failReasonId",required = false) Long failReasonId,
-             RedirectAttributes ras, HttpServletRequest request) throws Exception{
+            @RequestParam(value = "failReasonId", required = false) Long failReasonId,
+            RedirectAttributes ras, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         model.put("events", reportService.getDataForFailReasonDeatlisation(failReasonId, campaignId, cabinetId));
         model.put("campaign", eventService.getCampaign(campaignId));
         model.put("failReasonId", failReasonId);
-        model.put("errors",reportService.getErrors());
+        model.put("errors", reportService.getErrors());
         return "failReasonReportDetalisation";
     }
-    
+
     @RequestMapping("/failReasonReportDetalisationXLS")
-    public void failReasonReportDetalisationXLS(Map<String, Object> model, 
-            HttpServletResponse response, 
+    public void failReasonReportDetalisationXLS(Map<String, Object> model,
+            HttpServletResponse response,
             HttpServletRequest request,
             @RequestParam(value = "campaignId") Long campaignId,
-             @RequestParam(value = "failReasonId",required = false) Long failReasonId,
-             RedirectAttributes ras) throws Exception{
+            @RequestParam(value = "failReasonId", required = false) Long failReasonId,
+            RedirectAttributes ras) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         response.setContentType("application/octet-stream");
-        
-        String fileName = "fail_reason_report_on_"+campaignId;
-        
-        response.setHeader("Content-Disposition", "attachment; filename="+fileName+".xls");
+
+        String fileName = "fail_reason_report_on_" + campaignId;
+
+        response.setHeader("Content-Disposition", "attachment; filename=" + fileName + ".xls");
         reportService.getFailReasonReportDetalisationXls(failReasonId, campaignId, cabinetId).write(response.getOutputStream());
     }
-    
+
     @RequestMapping("setShowModulesWithText")
     @ResponseBody
     public JsonResponse setShowModulesWithText(Map<String, Object> model,
-            @RequestParam(value = "campaignId",required = false) Long campaignId,
-            @RequestParam(value = "show",required = false) String show, HttpServletRequest request) throws Exception {
+            @RequestParam(value = "campaignId", required = false) Long campaignId,
+            @RequestParam(value = "show", required = false) String show, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
 
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        
+
         JsonResponse res = JsonResponse.getInstance();
-        
-        eventService.setShowModulesWithText(Boolean.valueOf(show),campaignId,cabinetId);
-        List<String>errs=(List<String>)model.get("errors");
-        if(errs==null){
-            errs=new ArrayList();
+
+        eventService.setShowModulesWithText(Boolean.valueOf(show), campaignId, cabinetId);
+        List<String> errs = (List<String>) model.get("errors");
+        if (errs == null) {
+            errs = new ArrayList();
         }
-        
+
         if (errs.isEmpty()) {
             res.setStatus(Boolean.TRUE);
         } else {
@@ -831,18 +856,16 @@ public class EventController extends WebController {
         //res.setMessage(s);
         return res;
     }
-    
-    
-    /*@RequestMapping("/summarizedModuleReport")
-    public String showModuleReport(Map<String, Object> model,@RequestParam(value = "campaignId") Long campaignId, RedirectAttributes ras, HttpServletRequest request) throws Exception {
-        lk.dataByUserAndCompany(request, model);
-        Long cabinetId = (long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        
-        model.put("reportData",reportService.getDataByModules(campaignId,cabinetId));
-        //model.put("users",reportService.getUserList(cabinetId));
-        //model.put("modules", moduleService.getAllModulesMap(cabinetId));
-        model.put("errors", reportService.getErrors());
-        return "moduleReport";
-    }*/
 
+    /*@RequestMapping("/summarizedModuleReport")
+     public String showModuleReport(Map<String, Object> model,@RequestParam(value = "campaignId") Long campaignId, RedirectAttributes ras, HttpServletRequest request) throws Exception {
+     lk.dataByUserAndCompany(request, model);
+     Long cabinetId = (long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        
+     model.put("reportData",reportService.getDataByModules(campaignId,cabinetId));
+     //model.put("users",reportService.getUserList(cabinetId));
+     //model.put("modules", moduleService.getAllModulesMap(cabinetId));
+     model.put("errors", reportService.getErrors());
+     return "moduleReport";
+     }*/
 }

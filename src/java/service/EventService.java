@@ -1309,5 +1309,12 @@ public class EventService extends PrimService {
               
     }
 
+    public LinkedHashMap<Module, Object> inCallReport(Long strategyId,Date from,Date to){
+        LinkedHashMap<Module, Object> result = new LinkedHashMap();
+        for (Object[] o : inCallDao.getReport(strategyId,from,to)) {
+            result.put((Module) o[0], o[1]);
+        }
+        return result;
+    }
 
 }
