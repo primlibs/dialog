@@ -91,7 +91,7 @@
                                 <td><fmt:formatDate type="date" value="${entry.key.creationDate}"/></td>
                                 <td><fmt:formatDate type="date" value="${entry.key.endDate}"/></td>
                                 <c:if test="${entry.key.status== 1}">
-                                    <td>Закрыто</td>
+                                    <td>Закрыта</td>
                                 </c:if>
                                 <c:if test="${entry.key.status== 0}">
                                     <td>Активна</td>
