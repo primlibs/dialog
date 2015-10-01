@@ -32,15 +32,13 @@
                 <th>  </th>
             </tr>
             <c:forEach var="pk" items="${pkList}" varStatus="myIndex">
+                <tr>
                 <c:if test="${pk.inTwoWeek()eq true}">
-                    <tr style="cursor: pointer;" class="danger" ondblclick="location = '<c:url value="/Lk/administrating?pkId=${pk.pkId}"/>'">
+                    <td style="cursor: pointer;" class="danger" ondblclick="location = '<c:url value="/Lk/administrating?pkId=${pk.pkId}"/>'">${pk.pkId}</td>>
                 </c:if>  
                 <c:if test="${pk.inTwoWeek()eq false}">
-                    <tr style="cursor: pointer;" ondblclick="location = '<c:url value="/Lk/administrating?pkId=${pk.pkId}"/>'">
+                    <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Lk/administrating?pkId=${pk.pkId}"/>'"> ${pk.pkId}</td>>
                 </c:if>         
-                        
-                        
-                    <td> ${pk.pkId} </td>
                     <td><fmt:formatDate type="date" value="${pk.beginDate}"/></td>
                     <td> ${pk.company} </td>
                     <td> ${pk.getTarifName()} </td>
