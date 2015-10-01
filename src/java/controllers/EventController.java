@@ -224,7 +224,9 @@ public class EventController extends WebController {
                 dateFrom = campaign.getCreationDate();
             }else{
                 Calendar cl = Calendar.getInstance();
-                cl.setFirstDayOfWeek(Calendar.MONDAY);
+                cl.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+                cl.set(Calendar.HOUR_OF_DAY, 0);
+                cl.set(Calendar.MINUTE, 0);
                 dateFrom = cl.getTime();
             }
         }
