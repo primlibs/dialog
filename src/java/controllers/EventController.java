@@ -15,6 +15,7 @@ import entities.Strategy;
 import entities.User;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -219,7 +220,13 @@ public class EventController extends WebController {
         model.put("workReportData", reportService.getDataForWorkReport(cabinetId, campaignId, dateFrom, dateTo));
         model.put("failReasonReportData", reportService.getDataForFailReasonReport(campaignId, cabinetId));
         if (dateFrom == null) {
-            dateFrom = campaign.getCreationDate();
+            if (campaign.getEndDate() != null) {
+                dateFrom = campaign.getCreationDate();
+            }else{
+                Calendar cl = Calendar.getInstance();
+                cl.setFirstDayOfWeek(Calendar.MONDAY);
+                dateFrom = cl.getTime();
+            }
         }
         if (dateTo == null) {
             if (campaign.getEndDate() != null) {

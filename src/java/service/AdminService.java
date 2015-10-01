@@ -39,7 +39,7 @@ public class AdminService extends PrimService {
     TarifDao tarifDao;
 
     public List<PersonalCabinet> getPkList() {
-        return pkDao.getAll();
+        return pkDao.getCabinetList();
     }
 
     public PersonalCabinet getPk(Long pkId) {

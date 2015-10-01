@@ -22,6 +22,7 @@
         <table class="table table-bordered table-hover">
             <tr>
                 <th> ИД </th>
+                <th> Дата регистрации </th>
                 <th> Организация </th>
                 <th> Тариф </th>
                 <th> Дата окончания </th>
@@ -32,6 +33,7 @@
                 <tr style="cursor: pointer;" ondblclick="location = '<c:url value="/Lk/administrating?pkId=${pk.pkId}"/>'">
                     
                     <td> ${pk.pkId} </td>
+                    <td><fmt:formatDate type="date" value="${pk.beginDate}"/></td>
                     <td> ${pk.company} </td>
                     <td> ${pk.getTarifName()} </td>
                     <td><fmt:formatDate type="date" value="${pk.endDate}"/></td>

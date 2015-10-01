@@ -63,4 +63,10 @@ public class PersonalCabinetDao extends Dao<PersonalCabinet> {
         return query.list();
     }
 
+    public List<PersonalCabinet> getCabinetList() {
+        String queryString = "from PersonalCabinet order by endDate asc";
+        Query query = getCurrentSession().createQuery(queryString);
+        return query.list();
+    }
+    
 }
