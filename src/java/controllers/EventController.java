@@ -217,7 +217,7 @@ public class EventController extends WebController {
         model.put("campaign", campaign);
 
         model.put("moduleReportData", reportService.getDataByModules(campaignId, cabinetId));
-        model.put("workReportData", reportService.getDataForWorkReport(cabinetId, campaignId, dateFrom, dateTo));
+        
         model.put("failReasonReportData", reportService.getDataForFailReasonReport(campaignId, cabinetId));
         if (dateFrom == null) {
             if (campaign.getEndDate() != null) {
@@ -235,6 +235,7 @@ public class EventController extends WebController {
                 dateTo = new Date();
             }
         }
+        model.put("workReportData", reportService.getDataForWorkReport(cabinetId, campaignId, dateFrom, dateTo));
         model.put("wropen", wropen);
         model.put("dateFrom", DateAdapter.formatByDate(dateFrom, DateAdapter.SMALL_FORMAT));
         model.put("dateTo", DateAdapter.formatByDate(dateTo, DateAdapter.SMALL_FORMAT));

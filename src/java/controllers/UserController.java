@@ -187,15 +187,22 @@ public class UserController extends WebController {
         
         User thisUser = authManager.getCurrentUser();
         
-        /*if (cabinetUserId != null ) {
-            userService.deleteUser(cabinetUserId);
-        }*/
-        
         userService.deleteUser(cabinetUserIdtoDelete,cabinetUserIdtoAssign,thisUser.getId(),cabinetId);
 
-        /*model.put("cabinetUserList", userService.cabinetUserList(cabinetId));
-        model.put("errors", userService.getErrors());
-        return "userList";*/
+        ras.addFlashAttribute(ERRORS_LIST_NAME, userService.getErrors());
+        return "redirect:/User/userList";
+    }
+    
+    @RequestMapping("/nullPass")
+    public String nullPass(Map<String, Object> model, HttpServletRequest request,@RequestParam(value = "cabinetUserId") Long cabinetUserId,
+            @RequestParam(value = "userId") Long userId,RedirectAttributes ras) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        
+        User thisUser = authManager.getCurrentUser();
+        
+        userService.nullPass(cabinetUserId,userId,cabinetId);
+
         ras.addFlashAttribute(ERRORS_LIST_NAME, userService.getErrors());
         return "redirect:/User/userList";
     }

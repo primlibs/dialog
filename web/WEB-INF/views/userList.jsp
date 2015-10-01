@@ -35,6 +35,7 @@
                 <th>Роль</th>
                 <th>Участие в кампаниях</th>
                 <th></th>
+                <th></th>
             </tr>
             <c:forEach var="cabinetUser" items="${cabinetUserList}" varStatus="myIndex">
 
@@ -51,6 +52,8 @@
                     <c:if test="${cabinetUser.makesCalls==null}"><c:set var="makesCalls" value="Нет" /></c:if>
                     <td class="${updatebleClass}" name="makingCalls" data-cabinetUserId="${cabinetUser.cabinetUserId}">${makesCalls}</td>
                     <!--<td><div style="cursor: pointer;display: inline;" ondblclick="location = '<c:url value="/User/deleteUser?cabinetUserId=${cabinetUser.cabinetUserId}&userId=${cabinetUser.user.userId}"/>'" >Удалить</div></td>-->
+                    
+                    <td><a class="btn btn-danger" href="<c:url  value="/User/nullPass?cabinetUserId=${cabinetUser.cabinetUserId}&userId=${cabinetUser.user.userId}"/>">Скинуть пароль</a> </td>
                     <td><a href="#" id="${cabinetUser.cabinetUserId}" class="btn btn-danger deletinghref"
                                         data-cuid="${cabinetUser.cabinetUserId}"
                                         data-toggle="modal"

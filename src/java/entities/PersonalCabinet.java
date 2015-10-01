@@ -7,6 +7,7 @@ package entities;
 
 import entities.parent.PrimEntity;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
@@ -290,6 +291,19 @@ public class PersonalCabinet extends PrimEntity {
             name=tarif.getName();
         }
         return name;
+    }
+    
+    public Boolean inTwoWeek(){
+        if(endDate!=null){
+            Calendar cl=Calendar.getInstance();
+            Calendar dt=Calendar.getInstance();
+            dt.setTime(endDate);
+            cl.add(Calendar.DAY_OF_MONTH, 14);
+            if(dt.before(cl)){
+                return true;
+            }
+        }
+        return false;
     }
 
 }

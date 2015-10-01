@@ -438,6 +438,18 @@ public class UserService extends PrimService {
             addError("Пользователь не найден по ИД: " + cabinetUserIdtoDelete);
         }
     }
+    
+     public void nullPass(Long cabinetUserId, Long userId, Long pkId) {
+         CabinetUser cu = cabinetUserDao.find(cabinetUserId);
+         if(cu.getCabinet().getId().equals(pkId)&&cu.getUser().getId().equals(userId)){
+             User us = userDao.find(userId);
+             us.setPassword(AuthManager.md5Custom(DEFAULT_PASS));
+             userDao.update(us);
+         }else{
+             addError("Пользователь не принадлежит кабинету");
+         }
+
+    }
 
     private boolean isThisUserNotTheLastAdmin(CabinetUser deletingCu, Long pkId) {
         if (deletingCu.getUserRole().equals("admin")) {
