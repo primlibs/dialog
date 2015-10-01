@@ -191,4 +191,9 @@ public class AdminService extends PrimService {
         return false;
     }
 
+     public void delete(Long pkId) {
+         PersonalCabinet pk = pkDao.find(pkId);
+         pkDao.delete(pk);
+     }
+    
 }

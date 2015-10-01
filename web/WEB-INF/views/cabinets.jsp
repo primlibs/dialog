@@ -29,6 +29,7 @@
                 <th> email </th>
                 <th> Телефон </th>
                 <th> Пользователи </th>
+                <th>  </th>
             </tr>
             <c:forEach var="pk" items="${pkList}" varStatus="myIndex">
                 <c:if test="${pk.inTwoWeek()eq true}">
@@ -52,6 +53,7 @@
                     <c:if test="${pk.getCabinetUserList() eq null}">
                         <td> 0</td>
                     </c:if>
+                     <td><a class="btn btn-danger" href="<c:url  value="/Lk/setEndDate?pkId=${pk.pkId}"/>">Удалить</a> </td>    
                 </tr>
             </c:forEach>
         </table>

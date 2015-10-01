@@ -119,6 +119,17 @@ public class LkController extends WebController{
         }
     }
     
+    @RequestMapping("/delete")
+    public String delete(Map<String, Object> model,@RequestParam(value = "pkId")Long pkId, HttpServletRequest request) throws Exception {
+        dataByUserAndCompany(request, model);
+        if(isSuperAdmin()){
+            adminService.delete(pkId);
+            return "redirect:/cabinets";
+        }else{
+            return "redirect:/";
+        }
+    }
+    
     @RequestMapping("/administrating")
     public String administrating(Map<String, Object> model,
             @RequestParam(value = "pkId")Long pkId,
