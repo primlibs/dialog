@@ -34,10 +34,10 @@
             <c:forEach var="pk" items="${pkList}" varStatus="myIndex">
                 <tr>
                 <c:if test="${pk.inTwoWeek()eq true}">
-                    <td style="cursor: pointer;" class="danger" ondblclick="location = '<c:url value="/Lk/administrating?pkId=${pk.pkId}"/>'">${pk.pkId}</td>>
+                    <td style="cursor: pointer;" class="danger" ondblclick="location = '<c:url value="/Lk/administrating?pkId=${pk.pkId}"/>'">${pk.pkId}</td>
                 </c:if>  
                 <c:if test="${pk.inTwoWeek()eq false}">
-                    <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Lk/administrating?pkId=${pk.pkId}"/>'"> ${pk.pkId}</td>>
+                    <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Lk/administrating?pkId=${pk.pkId}"/>'"> ${pk.pkId}</td>
                 </c:if>         
                     <td><fmt:formatDate type="date" value="${pk.beginDate}"/></td>
                     <td> ${pk.company} </td>
@@ -51,7 +51,7 @@
                     <c:if test="${pk.getCabinetUserList() eq null}">
                         <td> 0</td>
                     </c:if>
-                     <td><a class="btn btn-danger" href="<c:url  value="/Lk/setEndDate?pkId=${pk.pkId}"/>">Удалить</a> </td>    
+                     <td><a class="btn btn-danger" href="<c:url  value="/Lk/delete?pkId=${pk.pkId}"/>" onclick="return confirm('Вы уврены?')">Удалить</a> </td>    
                 </tr>
             </c:forEach>
         </table>
