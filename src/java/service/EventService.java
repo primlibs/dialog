@@ -1031,7 +1031,7 @@ public class EventService extends PrimService {
     public List<Event> getPostponedEvents(Date dateFrom, Date dateTo,Long userId, Long pkId) {
         if (dateTo == null) {
             Calendar cl = Calendar.getInstance();
-            cl.set(Calendar.DATE, cl.getActualMaximum(Calendar.DATE));
+            cl.add(Calendar.YEAR, 15);
             dateTo = cl.getTime();
         }
         if (dateFrom == null) {
