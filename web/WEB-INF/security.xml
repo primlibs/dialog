@@ -36,24 +36,24 @@
         <intercept-url pattern="/Tarif/create" access="hasAnyRole('user', 'admin')" /> 
         <intercept-url pattern="/Tarif/delete" access="hasAnyRole('user', 'admin')" />  
         
-        <intercept-url pattern="/Event/event" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Event/badFinish" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Event/goodFinish" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Event/postponeEvent" access="hasAnyRole('user', 'admin')" />
+        <intercept-url pattern="/Event/event" access="hasAnyRole('user', 'admin','observer')" />
+        <intercept-url pattern="/Event/badFinish" access="hasAnyRole('user', 'admin','observer')" />
+        <intercept-url pattern="/Event/goodFinish" access="hasAnyRole('user', 'admin','observer')" />
+        <intercept-url pattern="/Event/postponeEvent" access="hasAnyRole('user', 'admin','observer')" />
                 <intercept-url pattern="/Event/postponedEvents" access="hasAnyRole('user', 'admin')" />
         <intercept-url pattern="/Event/updateClientFromUser" access="hasAnyRole('user', 'admin')" />
         <intercept-url pattern="/Event/writeModuleInHistory" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Event/campaign" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Event/eventProcessing" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Event/inCampaign" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Event/in" access="hasAnyRole('user', 'admin')" />
+        <intercept-url pattern="/Event/campaign" access="hasAnyRole('user', 'admin','observer')" />
+        <intercept-url pattern="/Event/eventProcessing" access="hasAnyRole('user', 'admin','observer')" />
+        <intercept-url pattern="/Event/inCampaign" access="hasAnyRole('user', 'admin','observer')" />
+        <intercept-url pattern="/Event/in" access="hasAnyRole('user', 'admin','observer')" />
         <intercept-url pattern="/Event/inCall" access="hasAnyRole('user', 'admin')" />
         <intercept-url pattern="/Event/campaignList" access="hasAnyRole('observer', 'admin')" />
         <intercept-url pattern="/Event/campaignSpecification" access="hasAnyRole('observer', 'admin')" />
         <intercept-url pattern="/Event/eventClient" access="hasAnyRole('observer', 'admin')" />
         <intercept-url pattern="/Event/eventClientXLS" access="hasAnyRole('observer', 'admin')" />
         <intercept-url pattern="/Event/inCallReport" access="hasAnyRole('observer', 'admin')" />
-        
+        <intercept-url pattern="/Event/inCallReportDetail" access="hasAnyRole('observer', 'admin')" />
         
         <intercept-url pattern="/Client/changeUserCampaignAssignation" access="hasAnyRole('user', 'admin')" />
         <intercept-url pattern="/Client/updateclient" access="hasAnyRole('user', 'admin')" />

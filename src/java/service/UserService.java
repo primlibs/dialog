@@ -184,6 +184,7 @@ public class UserService extends PrimService {
                         cu.setUserRole("admin");
                     }else if(newVal.equals("Наблюдатель")){
                         cu.setUserRole("observer");
+                        cu.setMakesCalls(null);
                     }
                     cuRole = true;
                     break;
