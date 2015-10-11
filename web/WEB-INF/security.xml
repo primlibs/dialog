@@ -40,7 +40,7 @@
         <intercept-url pattern="/Event/badFinish" access="hasAnyRole('user', 'admin','observer')" />
         <intercept-url pattern="/Event/goodFinish" access="hasAnyRole('user', 'admin','observer')" />
         <intercept-url pattern="/Event/postponeEvent" access="hasAnyRole('user', 'admin','observer')" />
-                <intercept-url pattern="/Event/postponedEvents" access="hasAnyRole('user', 'admin')" />
+                <intercept-url pattern="/Event/postponedEvents" access="hasAnyRole('user', 'admin','observer')" />
         <intercept-url pattern="/Event/updateClientFromUser" access="hasAnyRole('user', 'admin')" />
         <intercept-url pattern="/Event/writeModuleInHistory" access="hasAnyRole('user', 'admin')" />
         <intercept-url pattern="/Event/campaign" access="hasAnyRole('user', 'admin','observer')" />
