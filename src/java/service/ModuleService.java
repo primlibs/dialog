@@ -82,10 +82,11 @@ public class ModuleService extends PrimService {
         if(moduleId!=null){
             Module module = moduleDao.find(moduleId);
             if (module != null) {
+                 Date date = new Date();
                 Group g = module.getGroup();
                 if(!module.getModuleEventClientList().isEmpty()){
                     List<String>names= getExistingModuleNames(module.getGroup().getId(),pkId);
-                    Date date = new Date();
+                   
                     String name = module.getModuleName();
                     boolean valid = false;
                     String newName=name+dmb+0+dme;
@@ -99,7 +100,10 @@ public class ModuleService extends PrimService {
                         moduleDao.update(module);
                     }
                 }else{
-                    moduleDao.delete(module);
+                     module.setDeleteDate(date);
+                    if(validate(module)){
+                        moduleDao.update(module);
+                    }
                 }
                 updatePositionsAndGetAvailable(g.getId(),pkId);
             } else {

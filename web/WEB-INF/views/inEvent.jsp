@@ -55,7 +55,7 @@
                         <div class="col-md-3" >
                             <table style="width: 100%;">
                                 <c:forEach var="entry"  items="${аctiveMap}" >
-                                    <tr style="background: moccasin;cursor: pointer;" class="groupwithmodules" data-groupid="${entry.key.groupId}"><td style="text-align: center;">Группа ${entry.key.groupName}:</td> </tr>
+                                    <tr style="background: moccasin;cursor: pointer;" class="groupwithmodules" data-groupid="${entry.key.groupId}"><td style="text-align: center;">${entry.key.groupName}:</td> </tr>
                                         <c:forEach var="module" items="${entry.value}" >
                                             <tr><td><span style="display: block;cursor: pointer;color: slategrey" class="showableModule hidingModule checkIn" data-groupid="${entry.key.groupId}" id="${module.moduleId}">
                                                     ${module.moduleName}
