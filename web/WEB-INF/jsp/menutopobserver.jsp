@@ -14,10 +14,8 @@
     <ul class="nav navbar-nav">
         <li><a href="<c:url value="/Event/campaignList"/>">Кампании</a></li>
 
-        <li class="dropdown"><a href="#" data-toggle="dropdown"  class="dropdown-toggle" >Входящие <span class="caret"></span></a>
-
-                <li><a href="<c:url value="/Event/inCallReport"/>">Отчетность</a></li>              
-        </li>
+        <li><a href="<c:url value="/Event/inCallReport"/>">Отчетность</a></li>              
+ 
         
 
         
