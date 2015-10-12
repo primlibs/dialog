@@ -58,6 +58,18 @@ public class CabinetUser extends PrimEntity {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date deleteDate;
 
+    @JoinColumn(name = "campaign_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Index(name="campaignIndex")
+    private Campaign campaign;
+    
+    
+    
+    
+    
+    
+    
+    
     public Long getCabinetUserId() {
         return cabinetUserId;
     }

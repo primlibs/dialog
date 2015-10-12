@@ -156,7 +156,7 @@ public class UserService extends PrimService {
                 case "makingCalls":
                     if (newVal.equals("Нет")) {
                         if (eventDao.getPostponedEvents(user.getId(), pkId).isEmpty()) {
-                            for (Event ev : eventDao.getActiveEvents(pkId, pkId)) {
+                            for (Event ev : eventDao.getActiveEvents(user.getId(), pkId)) {
                                 ev.setUser(null);
                                 ev.setStatus(Event.UNASSIGNED);
                                 if (validate(ev)) {

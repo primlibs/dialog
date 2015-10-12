@@ -201,8 +201,11 @@ public class EventController extends WebController {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
         model.put("participatedUsers", eventService.getUserWithAssignsList(campaignId, cabinetId));
-        //model.put("participatedCUsers",eventService.getSurnameSortedCUListForCampaignSpecification(campaignId,cabinetId));
+
         model.put("cabinetUserList", eventService.getActiveMakingCallsUsers(cabinetId));
+       
+        
+        
         model.put("userAssignedClient", eventService.userAssignedClient(campaignId, cabinetId));
         model.put("deleteble", true/*eventService.isDeleteble(campaignId, cabinetId)*/);
 
@@ -215,6 +218,7 @@ public class EventController extends WebController {
         model.put("unassignedEventList", eventService.getUnassignedEvent(campaignId, cabinetId));
         Campaign campaign = eventService.getCampaign(campaignId);
         model.put("campaign", campaign);
+        model.put("observerList", campaign.getObservers());
 
         model.put("moduleReportData", reportService.getDataByModules(campaignId, cabinetId));
         

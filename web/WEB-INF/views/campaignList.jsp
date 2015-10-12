@@ -46,20 +46,7 @@
                     <c:set var="checked" value="checked"/>
                 </c:if>
 
-<!--<form class="form-inline" action="<c:url value="/Event/campaignList" />"  method="post"> 
-    Старт кампании с
-    <div class="input-group date">
-        <input type="text" name="dateFrom" id="datetimepicker1" class="form-control" value=${dateFrom}>
-    </div>
-      по  
-      <div class="input-group date">
-        <input type="text" name="dateTo" id="datetimepicker2" class="form-control" value=${dateTo}>
-      </div>
-      <label>
-        <input id="closed" type="checkbox" ${checked}> в том числе закрытые
-    </label>
-        <button type="submit" name="submit" class="btn btn-primary"> Выбрать </button>
-</form>-->
+
             </div>
             <div class="row ">    
                 <table class="table table-bordered table-hover">

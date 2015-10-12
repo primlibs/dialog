@@ -18,17 +18,17 @@
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
         <script src="<c:url value="/js/myJsOnViews/campaignSpecification.js" />"></script>
         <script type="text/javascript">
-            $(function() {
+            $(function () {
                 //Установим для виджета русскую локаль с помощью параметра language и значения ru
                 $('#datetimepicker2').datetimepicker(
                         {language: 'ru',
-                        viewMode: 'days',
-                        pickTime: false}
+                            viewMode: 'days',
+                            pickTime: false}
                 );
                 $('#datetimepicker1').datetimepicker(
                         {language: 'ru',
-                        viewMode: 'days',
-                        pickTime: false}
+                            viewMode: 'days',
+                            pickTime: false}
                 );
             });
         </script>
@@ -45,18 +45,18 @@
                     <span class='label label-info' id="upload-file-info"></span>
                 </div>
                 <c:if test="${not empty tags}">
-                    <c:set var="size" value="5"/>
-                    <c:if test="${tags.size()<5}">
-                    <c:set var="size" value="${tags.size()}"/>
+                    <c:set var="size" value="3"/>
+                    <c:if test="${tags.size()<3}">
+                        <c:set var="size" value="${tags.size()}"/>
                     </c:if>
-                <div class="form-group">
-                    Тэги:
-                    <select multiple name="tagIds" size="${size}" class="form-control">
-                        <c:forEach var="tag" items="${tags}">
-                            <option value="${tag.tagId}">${tag.name}</option>
-                        </c:forEach>
-                    </select>
-                </div>
+                    <div class="form-group">
+                        Тэги:
+                        <select multiple name="tagIds" size="${size}" class="form-control">
+                            <c:forEach var="tag" items="${tags}">
+                                <option value="${tag.tagId}">${tag.name}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
                 </c:if>
                 <div class="form-group">
                     <input  type="checkbox" name="checkbox" value="agree"> &nbsp;Обновлять клиентов 
@@ -67,26 +67,50 @@
                 </div>
             </form>
         </div>
-            <div class="row form-group form-inline">
+        <div class="row form-group form-inline">
             <div class="checkbox">
-        <label>
-            <input id="showModulesWithText" type="checkbox" data-campaignid="${campaign.campaignId}" value="${campaign.getShowModulesWithTextCheck()}" ${campaign.getShowModulesWithTextCheck()}> Показывать полный текст модулей
-        </label>
+                <label>
+                    <input id="showModulesWithText" type="checkbox" data-campaignid="${campaign.campaignId}" value="${campaign.getShowModulesWithTextCheck()}" ${campaign.getShowModulesWithTextCheck()}> Показывать полный текст модулей
+                </label>
             </div>
             <a style="margin-left: 10px;margin-right: 10px;" href="<c:url value="/Event/eventShowAllAppoint?campaignId=${campaign.campaignId}"/>" class="btn btn-primary" role="button">Распределить клиентов</a>
-            
+
             <a href="#" style="float: right;" class="btn btn-danger deletinghref" role="button"
-                                        data-toggle="modal"
-                                        data-target="#deleteWindow">Удалить</a>
-            
+               data-toggle="modal"
+               data-target="#deleteWindow">Удалить</a>
+
             <c:if test="${!campaign.isClosed()}">
-            <a href="<c:url value="/Event/closeCampaign?campaignId=${campaign.campaignId}"/>" style="float: right;margin-right: 10px;" class="btn btn-danger deletinghref" role="button">Закрыть</a>
+                <a href="<c:url value="/Event/closeCampaign?campaignId=${campaign.campaignId}"/>" style="float: right;margin-right: 10px;" class="btn btn-danger deletinghref" role="button">Закрыть</a>
             </c:if>
             <c:if test="${campaign.isClosed()}">
-            <a href="<c:url value="/Event/openCampaign?campaignId=${campaign.campaignId}"/>" style="float: right;margin-right: 10px;" class="btn btn-warning deletinghref" role="button">Открыть</a>
+                <a href="<c:url value="/Event/openCampaign?campaignId=${campaign.campaignId}"/>" style="float: right;margin-right: 10px;" class="btn btn-warning deletinghref" role="button">Открыть</a>
             </c:if>
-            
-            </div>
+        </div>
+
+        <div class="row form-group">
+            <form style="float: left;" class="form-inline" action="<c:url value="/Event/addObserver" />" method="post">
+                <c:if test="${not empty cabinetUserList}">
+                    <div class="form-group">
+                        Тэги:
+                        <select name="tagIds"  class="form-control">
+                            <c:forEach var="usr" items="${cabinetUserList}">
+                                <option value="${usr.cabinetUserId}">${usr.user.surname} ${usr.user.name}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                </c:if>
+                <div class="form-group">
+                    <input type="hidden" name="campaignId" value=${param.campaignId}>
+                    <input class="btn btn-primary" type="submit" value="Добавить наблюдателя">
+                </div>      
+            </form>
+            <c:if test="${not empty observerList}">
+                <c:forEach var="observer" items="${observerList}">
+                    <a href="<c:url value="/Event/delObserver?observerId=${observer.cabinetUserId}&campaignId=${param.campaignId}"/>" style="float: right;margin-right: 10px;" class="btn btn-danger deletinghref" role="button">${observer.user.surname} ${observer.user.name}</a>
+                </c:forEach>>
+            </c:if>         
+        </div>
+
         <table class="table table-bordered table-hover" style="margin-top: 20px;">
 
             <tr>
@@ -110,7 +134,7 @@
             <c:set var="assignedProcessedSuccessEventsCount" value="0" />
             <c:set var="assignedProcessedFailedEventsCount" value="0" />
             <c:forEach var="user"  items="${participatedUsers}" >
-                
+
                 <tr>
                     <td>${user.surname} ${user.name} </td>
                     <c:if test="${number== 1}">
@@ -191,11 +215,11 @@
                     <th> Модуль </th>
                     <th> Отрицательные исходы(%*) </th></tr>
                         <c:forEach var="entry" items="${moduleReportData.entrySet()}">
-                            
+
                     <tr style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/moduleReportDetalisation?campaignId=${campaign.campaignId}&moduleId=${entry.getKey().moduleId}"/>'"><td>${entry.getKey().getModuleName()}</td>
                         <td>${entry.getValue()}</td></tr>
-                    
-                    </c:forEach>
+
+                </c:forEach>
             </table>
         </c:if>
         <h5 id="workReportTumblr" style="cursor: pointer;">Отчет по работе</h5> 
@@ -230,21 +254,21 @@
                     <th>Успешно</th>
                     <th>Все</th>
                         <c:forEach var="entry" items="${workReportData.entrySet()}">
-                        <c:if test="${not empty entry.getKey()}">
-                        <tr>
-                            <td>${entry.getKey().getShortName()}</td>
-                            <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&userId=${entry.getKey().getId()}&dateFrom=${dateFrom}&dateTo=${dateTo}&status=1"/>'">${entry.getValue().get("postponed")}</td>
-                            <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&userId=${entry.getKey().getId()}&dateFrom=${dateFrom}&dateTo=${dateTo}&status=4"/>'">${entry.getValue().get("failed")}</td>
-                            <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&userId=${entry.getKey().getId()}&dateFrom=${dateFrom}&dateTo=${dateTo}&status=5"/>'">${entry.getValue().get("successful")}</td>
-                            <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&userId=${entry.getKey().getId()}&dateFrom=${dateFrom}&dateTo=${dateTo}&status="/>'">${entry.getValue().get("all")}</td></tr>
-                        </c:if>
+                            <c:if test="${not empty entry.getKey()}">
+                            <tr>
+                                <td>${entry.getKey().getShortName()}</td>
+                                <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&userId=${entry.getKey().getId()}&dateFrom=${dateFrom}&dateTo=${dateTo}&status=1"/>'">${entry.getValue().get("postponed")}</td>
+                                <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&userId=${entry.getKey().getId()}&dateFrom=${dateFrom}&dateTo=${dateTo}&status=4"/>'">${entry.getValue().get("failed")}</td>
+                                <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&userId=${entry.getKey().getId()}&dateFrom=${dateFrom}&dateTo=${dateTo}&status=5"/>'">${entry.getValue().get("successful")}</td>
+                                <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&userId=${entry.getKey().getId()}&dateFrom=${dateFrom}&dateTo=${dateTo}&status="/>'">${entry.getValue().get("all")}</td></tr>
+                            </c:if>
                         </c:forEach>
-                        <tr>
+                    <tr>
                         <td>Итого:</td>
-                            <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&userId=&dateFrom=${dateFrom}&dateTo=${dateTo}&status=1"/>'">${workReportData.get(null).get("postponed")}</td>
-                            <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&userId=&dateFrom=${dateFrom}&dateTo=${dateTo}&status=4"/>'">${workReportData.get(null).get("failed")}</td>
-                            <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&userId=&dateFrom=${dateFrom}&dateTo=${dateTo}&status=5"/>'">${workReportData.get(null).get("successful")}</td>
-                            <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&userId=&dateFrom=${dateFrom}&dateTo=${dateTo}&status="/>'">${workReportData.get(null).get("all")}</td></tr>
+                        <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&userId=&dateFrom=${dateFrom}&dateTo=${dateTo}&status=1"/>'">${workReportData.get(null).get("postponed")}</td>
+                        <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&userId=&dateFrom=${dateFrom}&dateTo=${dateTo}&status=4"/>'">${workReportData.get(null).get("failed")}</td>
+                        <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&userId=&dateFrom=${dateFrom}&dateTo=${dateTo}&status=5"/>'">${workReportData.get(null).get("successful")}</td>
+                        <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&userId=&dateFrom=${dateFrom}&dateTo=${dateTo}&status="/>'">${workReportData.get(null).get("all")}</td></tr>
                 </table>
             </div>
         </c:if>
@@ -256,31 +280,31 @@
             <table id="failReasonReport" class="table table-bordered table-hover hidden" style="margin-top: 20px;">
                 <tr><th>Причина</th>
                     <th>Количество</th></tr>
-                <c:forEach var="entry" items="${failReasonReportData.entrySet()}">
-                    <c:if test="${not empty entry.getKey()}">
-                    <tr style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/failReasonReportDetalisation?campaignId=${campaign.campaignId}&failReasonId=${entry.getKey().getId()}"/>'"><td>${entry.getKey().getName()}</td>
-                        <td>${entry.getValue()}</td></tr>
-                    </c:if>
-                </c:forEach>
+                        <c:forEach var="entry" items="${failReasonReportData.entrySet()}">
+                            <c:if test="${not empty entry.getKey()}">
+                        <tr style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/failReasonReportDetalisation?campaignId=${campaign.campaignId}&failReasonId=${entry.getKey().getId()}"/>'"><td>${entry.getKey().getName()}</td>
+                            <td>${entry.getValue()}</td></tr>
+                        </c:if>
+                    </c:forEach>
                 <tr style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/failReasonReportDetalisation?campaignId=${campaign.campaignId}"/>'">
-                        <td>Всего:</td>
-                        <td>${failReasonReportData.get(null)}</td></tr>
+                    <td>Всего:</td>
+                    <td>${failReasonReportData.get(null)}</td></tr>
             </table>
         </c:if>
     </body>
     <div class="modal fade" id="deleteWindow" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                                <h4 class="modal-title" id="myModalLabel">Удалить кампанию со всей информацией о ней?</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <a href="<c:url value="/Event/deleteCampaign?campaignId=${campaign.campaignId}"/>" class="btn btn-large btn-danger" role="button">удалить</a>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title" id="myModalLabel">Удалить кампанию со всей информацией о ней?</h4>
+                </div>
+                <div class="modal-body">
+                    <a href="<c:url value="/Event/deleteCampaign?campaignId=${campaign.campaignId}"/>" class="btn btn-large btn-danger" role="button">удалить</a>
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-    
+                </div>
+            </div>
+        </div>
+    </div>
+
 </html>
