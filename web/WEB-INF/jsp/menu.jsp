@@ -17,8 +17,3 @@
     <%@include file="/WEB-INF/jsp/menutopadm.jsp" %>
     
 </c:if>
-
-<c:if test="${role=='observer'}">
-    <%@include file="/WEB-INF/jsp/menutopobserver.jsp" %>
-    
-</c:if>

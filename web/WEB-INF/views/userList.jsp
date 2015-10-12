@@ -47,7 +47,6 @@
                     <td class="changebleUserListParam" name="patronymic" data-cabinetUserId="${cabinetUser.cabinetUserId}">${cabinetUser.user.patronymic}</td>
                     <c:if test="${cabinetUser.userRole=='admin'}"><c:set var="rusRole" value="Администратор" /><c:set var="updatebleClass" value="changebleUserListParam" /></c:if>
                     <c:if test="${cabinetUser.userRole=='user'}"><c:set var="rusRole" value="Пользователь" /><c:set var="updatebleClass" value="" /></c:if>
-                    <c:if test="${cabinetUser.userRole=='observer'}"><c:set var="rusRole" value="Наблюдатель" /><c:set var="updatebleClass" value="changebleUserListParam"  /></c:if>
                     <td class="changebleUserListParam" name="userRole" data-cabinetUserId="${cabinetUser.cabinetUserId}">${rusRole}</td>
                     <c:if test="${cabinetUser.makesCalls==1}"><c:set var="makesCalls" value="Да" /></c:if>
                     <c:if test="${cabinetUser.makesCalls==null}"><c:set var="makesCalls" value="Нет" /></c:if>
