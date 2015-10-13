@@ -77,10 +77,6 @@ public class Campaign extends PrimEntity {
     @LazyCollection(LazyCollectionOption.TRUE)
     @OneToMany(mappedBy = "campaign")
     private List<Event> events;
-    
-    @LazyCollection(LazyCollectionOption.TRUE)
-    @OneToMany(mappedBy = "campaign")
-    private List<CabinetUser> observers;
 
     @Override
     public Long getId() {
@@ -139,9 +135,6 @@ public class Campaign extends PrimEntity {
         return events;
     }
     
-    public List<CabinetUser> getObservers() {
-        return observers;
-    }
 
     public void setEvents(List<Event> events) {
         this.events = events;

@@ -218,7 +218,7 @@ public class EventController extends WebController {
         model.put("unassignedEventList", eventService.getUnassignedEvent(campaignId, cabinetId));
         Campaign campaign = eventService.getCampaign(campaignId);
         model.put("campaign", campaign);
-        model.put("observerList", campaign.getObservers());
+
 
         model.put("moduleReportData", reportService.getDataByModules(campaignId, cabinetId));
         
