@@ -76,7 +76,7 @@ public class Event extends PrimEntity {
     @Index(name="statusIndex")
     private Integer status;
 
-    @Column(name = "comment")
+    @Column(name = "comment",columnDefinition="TEXT")
     private String comment;
     
     @Column(name = "final_comment")

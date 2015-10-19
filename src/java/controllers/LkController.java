@@ -145,27 +145,7 @@ public class LkController extends WebController{
             errors.addAll(adminService.getErrors());
             if(pk!=null){
                 String tarifInfo=tarifService.getTarifInfo(pkId);
-                //String tarifInfo="Нет назначенного тарифа";
-                /*Tarif t = pk.getTarif();
-                if(t!=null){
-                    String date = "не установлена";
-                    if(pk.getEndDate()!=null){
-                        date = DateAdapter.formatByDate(pk.getEndDate(), DateAdapter.SMALL_FORMAT);
-                    }
-                    String u = StringAdapter.getString(t.getUserCount());
-                    if(u.equals("")){
-                       u="не ограничено";
-                    }
-                    String camps = StringAdapter.getString(t.getCampaignCount());
-                    if(camps.equals("")){
-                       camps="не ограничено";
-                    }
-                    String cls = StringAdapter.getString(t.getClientCount());
-                    if(cls.equals("")){
-                       cls="не ограничено";
-                    }
-                    tarifInfo="Тариф: "+t.getName()+", дата окончания:"+date+", пользователей:"+u+", кампаний:"+camps+", клиентов:"+cls+".";
-                }*/
+                model.put("cabUserList", pk.getActiveCabinetUserList());
                 model.put("tarifInfo", tarifInfo);
                 model.put("pk", pk);
                 model.put("tarifs",tarifService.getAllTarifs());

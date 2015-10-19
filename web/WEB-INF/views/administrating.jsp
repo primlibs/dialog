@@ -43,7 +43,8 @@
                     <input class="btn btn-primary" type="submit" value="Установить">
             </form>
         </c:if>
-        <p>Установить дату окончания:<form class="form form-group form-inline" action="<c:url value="/Lk/setEndDate"/>" method="post">
+        <p> Установить дату окончания:
+        <form class="form form-group form-inline" action="<c:url value="/Lk/setEndDate"/>" method="post">
             <div class="form-group">
                 <div class="input-group date">
                     <input type="text" name="newDate" id="datetimepicker" class="form-control" placeholder="Дата окончания" value="${newDate}"/>
@@ -52,5 +53,14 @@
             <input type="hidden" name="pkId" value="${pk.pkId}"/>
             <input class="btn btn-primary" type="submit" value="Установить">
         </form>
-    </body>
+    </p>
+
+    <c:if test="${not empty cabUserList}">
+        <table class="table table-bordered table-hover">
+            <c:forEach var="cuser" items="${cabUserList}">
+                <tr><td>${cuser.user.email}</td><td>${cuser.user.surname} ${cuser.user.name}</td><td>${cuser.userRole}</td></tr>
+            </c:forEach> 
+        </table>
+    </c:if>
+</body>
 </html>
