@@ -6,10 +6,12 @@
 package dao;
 
 import dao.parent.Dao;
-import entities.Event;
 import entities.Group;
+import entities.Module;
+import entities.ModuleEventClient;
 import java.util.List;
 import org.hibernate.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -19,6 +21,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class GroupDao extends Dao<Group>{
 
+    @Autowired
+    ModuleDao moduleDao;
+    
+    @Autowired
+    ModuleEventClientDao moduleeventClientDao;
+    
+    
     @Override
     public Class getSupportedClass() {
        return Group.class;
@@ -48,6 +57,18 @@ public class GroupDao extends Dao<Group>{
         query.setParameter("strategyId", strategyId);
         Long res =(Long)query.uniqueResult();
         return res;
+    }
+    
+    public void delete(Group group) {
+        List<ModuleEventClient> moduleEVCLList = group.getModuleEventClientList();
+        for (ModuleEventClient mecl : moduleEVCLList) {
+             moduleeventClientDao.delete(mecl);
+        }
+        List<Module> moduleList = group.getModuleList();
+        for (Module ml : moduleList) {
+             moduleDao.delete(ml);
+        }
+        getCurrentSession().delete(group);
     }
     
 }

@@ -9,6 +9,8 @@ import dao.parent.Dao;
 import entities.Client;
 import entities.Campaign;
 import entities.Event;
+import entities.EventComment;
+import entities.FailReason;
 import entities.PersonalCabinet;
 import entities.User;
 import java.util.Calendar;
@@ -18,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.hibernate.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import support.DateAdapter;
 import support.StringAdapter;
@@ -28,6 +31,9 @@ import support.StringAdapter;
  */
 @Repository
 public class EventDao extends Dao<Event> {
+    
+    @Autowired
+    EventCommentDao eventCommentDao;
 
     @Override
     public Class getSupportedClass() {
@@ -458,21 +464,12 @@ public class EventDao extends Dao<Event> {
         return query.list();
     }
     
-    /*public List<Object> getUserAndAssignedAndSuccAndFailedByaDateAndCampaign(List<Long>campaignIds,Long pkId){
-        HashMap<String,Object>paramMap=new HashMap();
-        
-        String hql = "select distinct(ev.user),sum(case when ev.status=:succsessful then 1 else 0 end),sum(case when ev.status=:failed then 1 else 0 end) from Event ev "
-                + "where ev.cabinet.pkId=:pkId";
-        if(campaignIds!=null&&!campaignIds.isEmpty()){
-            paramMap.put("campaignIds",campaignIds);
-            hql+=" and ev.campaignId in (:campaignIds)";
+   public void delete(Event event) {
+        List<EventComment> commentList = event.getEventComments();
+        for (EventComment cml : commentList) {
+             eventCommentDao.delete(cml);
         }
-        Query query = getCurrentSession().createQuery(hql);
-        for(Map.Entry<String,Object> entry:paramMap.entrySet()){
-            query.setParameterList(entry.getKey(), (List<Long>)entry.getValue());
-        }
-        query.setParameter("pkId", pkId);
-        return query.list();
-    }*/
+        getCurrentSession().delete(event);
+    }
     
 }

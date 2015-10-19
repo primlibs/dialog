@@ -124,7 +124,7 @@ public class LkController extends WebController{
         dataByUserAndCompany(request, model);
         if(isSuperAdmin()){
             adminService.delete(pkId);
-            return "redirect:/cabinets";
+            return "redirect:/LK/cabinets";
         }else{
             return "redirect:/";
         }
