@@ -73,7 +73,7 @@
                         <iframe width="560" height="315" src="https://www.youtube.com/embed/G0eIbWXek-Q" frameborder="0" allowfullscreen></iframe>
                     </div>-->
                 </div>
-                <h1><a href="#" data-toggle="modal" data-target="#infowindow" class="label label-warning">Попробовать Диалог </a></h1>
+                <h1><a href="#" data-toggle="modal" data-target="#registrationwindow" class="label label-warning">Попробовать Диалог </a></h1>
 
             </div>
         </div>    
@@ -157,7 +157,7 @@
 					туроператоры, салоны красоты, страховые компании, телекоммуникационные компании, коллекторские агентства</p>
 				</h3>
 			</div>
-            <h1><a href="#" data-toggle="modal" data-target="#infowindow" style="float: right;" class="label label-danger ">Демо-версия на 14 дней бесплатно </a></h1>
+            <h1><a href="#" data-toggle="modal" data-target="#registrationwindow" style="float: right;" class="label label-danger ">Демо-версия на 14 дней бесплатно </a></h1>
         </div>
 		
         <div class="container" style="margin-top: 20px;">
@@ -176,7 +176,7 @@
 
                             </div>
                             <p>Строимость: <strong>бесплатно</strong></p>
-                            <p><a href="#" class="btn btn-default btn-lg" data-toggle="modal" data-target="#infowindow" style="background-color: #ccc;" role="button">Получить Диалог</a></p>
+                            <p><a href="#" class="btn btn-default btn-lg" data-toggle="modal" data-target="#registrationwindow" style="background-color: #ccc;" role="button">Получить Диалог</a></p>
                         </div>
                     </div>
                 </div>
@@ -192,7 +192,7 @@
 
                             </div>
                             <p>Строимость: <strong>25 000 р.</strong></p>
-                            <p><a href="#" class="btn btn-success btn-lg" data-toggle="modal" data-target="#infowindow" role="button">Получить Диалог</a></p>
+                            <p><a href="#" class="btn btn-success btn-lg" data-toggle="modal" data-target="#registrationwindow" role="button">Получить Диалог</a></p>
                         </div>
                     </div>
                 </div>
@@ -209,7 +209,7 @@
 
                             </div>
                             <p>Строимость: <strong>70 000 р.</strong></p>
-                            <p><a href="#" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#infowindow" role="button">Получить Диалог</a></p>
+                            <p><a href="#" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#registrationwindow" role="button">Получить Диалог</a></p>
                         </div>
                     </div>
                 </div>
@@ -226,7 +226,7 @@
 
                             </div>
                             <p>Строимость: <strong>120 000 р.</strong></p>
-                            <p><a href="#" data-toggle="modal" data-target="#infowindow" class="btn btn-warning btn-lg" role="button">Получить Диалог</a></p>
+                            <p><a href="#" data-toggle="modal" data-target="#registrationwindow" class="btn btn-warning btn-lg" role="button">Получить Диалог</a></p>
                         </div>
                     </div>
                 </div>
