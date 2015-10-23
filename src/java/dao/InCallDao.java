@@ -73,4 +73,13 @@ public class InCallDao extends Dao<InCall> {
         return query.list();
     }
 
+    public List<InCall> getFromStrategy(Long stratId) {
+        String hql = "from InCall inc where inc.strategy.strategyId=:stratId ";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("stratId", stratId);
+        return query.list();
+    }
+    
+    
+    
 }

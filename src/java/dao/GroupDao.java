@@ -7,6 +7,7 @@ package dao;
 
 import dao.parent.Dao;
 import entities.Group;
+import entities.InCall;
 import entities.Module;
 import entities.ModuleEventClient;
 import java.util.List;
@@ -26,6 +27,8 @@ public class GroupDao extends Dao<Group>{
     
     @Autowired
     ModuleEventClientDao moduleeventClientDao;
+    
+
     
     
     @Override
@@ -64,6 +67,7 @@ public class GroupDao extends Dao<Group>{
         for (ModuleEventClient mecl : moduleEVCLList) {
              moduleeventClientDao.delete(mecl);
         }
+        
         List<Module> moduleList = group.getModuleList();
         for (Module ml : moduleList) {
              moduleDao.delete(ml);

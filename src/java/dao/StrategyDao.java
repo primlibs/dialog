@@ -10,6 +10,7 @@ import entities.Campaign;
 import entities.Event;
 import entities.FailReason;
 import entities.Group;
+import entities.InCall;
 import entities.Strategy;
 import java.util.List;
 import org.hibernate.Query;
@@ -31,9 +32,12 @@ public class StrategyDao extends Dao<Strategy> {
 
     @Autowired
     EventDao eventDao;
-    
+
     @Autowired
     GroupDao groupDao;
+
+    @Autowired
+    InCallDao inCallDao;
 
     @Override
     public Class getSupportedClass() {
@@ -60,6 +64,12 @@ public class StrategyDao extends Dao<Strategy> {
         for (FailReason flres : flrList) {
             flDao.delete(flres);
         }
+
+        List<InCall> inCallList = inCallDao.getFromStrategy(str.getStrategyId());
+        for (InCall inc : inCallList) {
+            inCallDao.delete(inc);
+        }
+
         List<Group> grlist = str.getGroupList();
         for (Group group : grlist) {
             groupDao.delete(group);
