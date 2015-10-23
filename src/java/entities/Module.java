@@ -60,7 +60,8 @@ public class Module extends PrimEntity {
     @NotBlank(message = "Поле Название модуля не может быть пустым")
     private String moduleName;
 
-    @Column(name = "body", columnDefinition="TEXT")
+    
+    @Column(name = "body", columnDefinition="MEDIUMTEXT")
     private String bodyText;
     
     @Column(name = "position")
