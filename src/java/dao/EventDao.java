@@ -11,6 +11,7 @@ import entities.Campaign;
 import entities.Event;
 import entities.EventComment;
 import entities.FailReason;
+import entities.ModuleEventClient;
 import entities.PersonalCabinet;
 import entities.User;
 import java.util.Calendar;
@@ -35,6 +36,9 @@ public class EventDao extends Dao<Event> {
     @Autowired
     EventCommentDao eventCommentDao;
 
+    @Autowired
+    ModuleEventClientDao moduleeventClientDao;
+    
     @Override
     public Class getSupportedClass() {
         return Event.class;
@@ -468,6 +472,11 @@ public class EventDao extends Dao<Event> {
         List<EventComment> commentList = event.getEventComments();
         for (EventComment cml : commentList) {
              eventCommentDao.delete(cml);
+        }
+        
+        List<ModuleEventClient> moduleEVCLList = event.getModuleEventClientList();
+        for (ModuleEventClient mecl : moduleEVCLList) {
+             moduleeventClientDao.delete(mecl);
         }
         getCurrentSession().delete(event);
     }
