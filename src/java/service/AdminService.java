@@ -6,6 +6,7 @@
 package service;
 
 import dao.CabinetUserDao;
+import dao.ClientDao;
 import dao.PersonalCabinetDao;
 import dao.StrategyDao;
 import dao.TagDao;
@@ -51,6 +52,9 @@ public class AdminService extends PrimService {
 
     @Autowired
     TarifDao tarifDao;
+    
+    @Autowired
+    ClientDao clientDao;
 
     public List<PersonalCabinet> getPkList() {
         return pkDao.getCabinetList();
@@ -219,10 +223,17 @@ public class AdminService extends PrimService {
                 tagDao.delete(tg);
             }
 
+            List<Client> cllist = pkDao.getClientList(pkId);
+            for (Client cl : cllist) {
+                clientDao.delete(cl);
+            }
+            
+            
             List<CabinetUser> lku = pk.getCabinetUserList();
             for (CabinetUser cu : lku) {
                 cuDao.delete(cu);
             }
+
             pkDao.delete(pk);
         }
         
