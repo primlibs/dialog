@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import service.CabinetUserService;
 import service.ClientService;
 import service.EventService;
 import service.GroupService;
@@ -81,6 +82,9 @@ public class EventController extends WebController {
 
     @Autowired
     private TagService tagService;
+    
+    @Autowired
+    private CabinetUserService cabinetUserService;
 
     @RequestMapping("/campaignList")
     public String showCampaigns(Map<String, Object> model,
@@ -219,7 +223,7 @@ public class EventController extends WebController {
         Campaign campaign = eventService.getCampaign(campaignId);
         model.put("campaign", campaign);
 
-
+        model.put("observerList", eventService.getCampaignObserver(campaignId, cabinetId));
         model.put("moduleReportData", reportService.getDataByModules(campaignId, cabinetId));
         
         model.put("failReasonReportData", reportService.getDataForFailReasonReport(campaignId, cabinetId));
@@ -252,6 +256,36 @@ public class EventController extends WebController {
         model.put("errors", errors);
         return "campaignSpecification";
     }
+    
+    
+    @RequestMapping("/addObserver")
+    public String addObserver(Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam("campaignId") Long campaignId,
+            @RequestParam("cabinetUserId") Long cabinetUserId,
+            RedirectAttributes ras) throws Exception {
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        if(cabinetUserService.existInCabinet(cabinetUserId, cabinetId)){
+            eventService.saveObserver(campaignId, cabinetId, cabinetUserId);
+        }
+        ras.addFlashAttribute("errors", eventService.getErrors());
+        ras.addAttribute("campaignId", campaignId);
+        return "redirect:/Event/campaignSpecification";
+    }
+    
+    @RequestMapping("/delObserver")
+    public String delObserver(Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam("campaignId") Long campaignId,
+            @RequestParam("campaignObserverId") Long campaignObserverId,
+            RedirectAttributes ras) throws Exception {
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        eventService.delObserver(campaignId,cabinetId,campaignObserverId);
+        ras.addFlashAttribute("errors", eventService.getErrors());
+        ras.addAttribute("campaignId", campaignId);
+        return "redirect:/Event/campaignSpecification";
+    }
+
 
     @RequestMapping("/getShapeExcel")
     public void getShapeExcel(Map<String, Object> model, HttpServletResponse response, HttpServletRequest request) throws Exception {

@@ -9,6 +9,7 @@ import dao.CabinetUserDao;
 import dao.ClientDao;
 import dao.EventDao;
 import dao.CampaignDao;
+import dao.CampaignObserverDao;
 import dao.EventCommentDao;
 import dao.FailReasonDao;
 import dao.InCallDao;
@@ -20,6 +21,7 @@ import dao.UserDao;
 import entities.CabinetUser;
 import entities.Client;
 import entities.Campaign;
+import entities.CampaignObserver;
 import entities.FailReason;
 import entities.Event;
 import entities.EventComment;
@@ -113,6 +115,9 @@ public class EventService extends PrimService {
     
      @Autowired
     private InCallDao inCallDao;
+     
+    @Autowired
+    private CampaignObserverDao campaignObserverDao; 
 
     public String numericName(Long cabinetId) {
         PersonalCabinet pk = personalCabinetDao.find(cabinetId);
@@ -1321,4 +1326,27 @@ public class EventService extends PrimService {
         return inCallDao.getReportDetail(moduleId,from,to,userId);
     }
 
+    
+    public List<CampaignObserver> getCampaignObserver(Long campaignId,Long pkId){
+        return campaignObserverDao.getByCampaign(campaignId, pkId);
+    }
+    
+    public void saveObserver(Long campaignId,Long pkId,Long cabinetUserId){
+        CampaignObserver co = new CampaignObserver();
+        co.setCabinet(personalCabinetDao.find(pkId));
+        co.setCampaign(campaignDao.getCampaign(campaignId, pkId));
+        co.setUser(cabinetUserDao.getCUByIdAndCabinet(cabinetUserId, pkId).getUser());
+        if(validate(co)){
+            campaignObserverDao.save(co);
+        }
+    }
+    
+    public void delObserver(Long campaignId,Long pkId,Long campaignObserverId){
+        CampaignObserver co = campaignObserverDao.find(campaignObserverId);
+        if(co!=null&& co.getCabinet().getId().equals(pkId)&&co.getCampaign().getCampaignId().equals(campaignId)){
+            campaignObserverDao.delete(co);
+        }
+        
+    }
+    
 }

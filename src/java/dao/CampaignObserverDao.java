@@ -24,10 +24,19 @@ public class CampaignObserverDao extends Dao<CampaignObserver> {
     }
 
 
-    public List<CampaignObserver> getByUserAndCabinet(Long userId, Long pkId) {
+    public List<CampaignObserver> getByUser(Long userId, Long pkId) {
         String hql = "from CampaignObserver co where co.user.userId=:userId and co.cabinet.pkId=:pkId";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("userId", userId);
+        query.setParameter("pkId", pkId);
+        return query.list();
+    }
+    
+    
+    public List<CampaignObserver> getByCampaign(Long campaignId,Long pkId) {
+        String hql = "from CampaignObserver co where co.campaign.campaignId=:campaignId and co.cabinet.pkId=:pkId";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("campaignId", campaignId);
         query.setParameter("pkId", pkId);
         return query.list();
     }

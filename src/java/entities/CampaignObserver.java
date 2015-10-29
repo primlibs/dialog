@@ -28,7 +28,7 @@ public class CampaignObserver extends PrimEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "campaign_observerr_id")
+    @Column(name = "campaign_observer_id")
     private Long campaignObserverId;
 
     @JoinColumn(name = "user_id")
@@ -40,7 +40,7 @@ public class CampaignObserver extends PrimEntity {
     @JoinColumn(name = "campaign_id")
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
-    @Index(name = "cabinetIndex")
+    @Index(name = "campaignIndex")
     private Campaign campaign;
 
     @JoinColumn(name = "personal_cabinet_id")

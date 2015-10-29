@@ -106,8 +106,8 @@
             </form>
             <c:if test="${not empty observerList}">
                 <c:forEach var="observer" items="${observerList}">
-                    <a href="<c:url value="/Event/delObserver?observerId=${observer.cabinetUserId}&campaignId=${param.campaignId}"/>" style="float: right;margin-right: 10px;" class="btn btn-danger deletinghref" role="button">${observer.user.surname} ${observer.user.name}</a>
-                </c:forEach>>
+                    <a href="<c:url value="/Event/delObserver?observerId=${observer.campaignObserverId}&campaignId=${param.campaignId}"/>" style="float: right;margin-right: 10px;" class="btn btn-danger deletinghref" role="button">${observer.user.surname} ${observer.user.name}</a>
+                </c:forEach>
             </c:if>         
         </div>
 

@@ -83,7 +83,12 @@ public class CabinetUserService extends PrimService {
         return culist.get(0).getUserRole();
     }
     
-    
+    public Boolean existInCabinet(Long cabinetUserId,Long pkId){
+        if(cabinetUserDao.getCUByIdAndCabinet(cabinetUserId, pkId)!=null){
+            return true;
+        }
+        return false;
+    }
     
     
     
