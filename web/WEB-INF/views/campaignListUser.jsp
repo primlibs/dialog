@@ -36,8 +36,6 @@
 
         <div class="row "><h3>Кампании</h3>
 
-            <div class="form-group">
-                <a href="<c:url value="/Event/createCampaign"/>" class="btn btn-primary" role="button">Создать кампанию</a>
             </div>
             <div class="row ">    
                 <table class="table table-bordered table-hover">
@@ -74,9 +72,6 @@
                                 <c:if test="${entry.key.status== 0}">
                                     <td>Активна</td>
                                 </c:if>
-                                <%--
-                                <td ondblclick="location = '<c:url value="/User/deleteUser?cabinetUserId=${cabinetUser.cabinetUserId}&userId=${cabinetUser.user.userId}"/>'" >Удалить</td>
-                                --%>
                             </tr>
                         </c:forEach>
                     </c:if>

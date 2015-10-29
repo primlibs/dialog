@@ -34,14 +34,23 @@
                 </library>
                 <library dirs="200">
                     <file>${file.reference.jackson-annotations-2.5.0.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
                     <file>${file.reference.jackson-core-2.5.0.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
                     <file>${file.reference.jackson-databind-2.5.0.jar}</file>
+                </library>
+                <library dirs="200">
+                    <file>${file.reference.jackson-annotations-2.5.0.jar-1}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library dirs="200">
+                    <file>${file.reference.jackson-core-2.5.0.jar-1}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library dirs="200">
+                    <file>${file.reference.jackson-databind-2.5.0.jar-1}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
@@ -138,7 +147,6 @@
                 </library>
                 <library dirs="200">
                     <file>${file.reference.hibernate-validator-annotation-processor-4.3.2.Final.jar-1}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
                     <file>${file.reference.javax.persistence-2.0.3.jar-1}</file>

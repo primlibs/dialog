@@ -156,9 +156,9 @@ public class EventService extends PrimService {
         return new ArrayList();
     }
 
-    public LinkedHashMap<Campaign, HashMap<String, String>> getCampaignsWithCountInfos(/*Date dateFrom,Date dateTo,Boolean closed,*/ Long pkId) {
+    public LinkedHashMap<Campaign, HashMap<String, String>> getCampaignsWithCountInfos(Long pkId,User us) {
         LinkedHashMap<Campaign, HashMap<String, String>> res = new LinkedHashMap();
-        LinkedHashMap<Long, HashMap<String, String>> countMap = eventDao.getFinishedAndUnassignedEventCountsInCampaignsAsMap(/*dateFrom,dateTo,closed,*/pkId);
+        LinkedHashMap<Long, HashMap<String, String>> countMap = eventDao.getFinishedAndUnassignedEventCountsInCampaignsAsMap(pkId);
         for (Campaign c : campaignDao.getAllCampaigns(pkId)) {
             HashMap<String, String> InfoMap = countMap.get(c.getId());
             if (InfoMap == null) {
@@ -166,10 +166,19 @@ public class EventService extends PrimService {
                 InfoMap.put("finishedCount", "0");
                 InfoMap.put("unassignedCount", "0");
             }
-            res.put(c, InfoMap);
+            if(us!=null){
+                if(!campaignObserverDao.getByUsrAngCampaign(c.getCampaignId(), pkId, us.getId()).isEmpty()){
+                    res.put(c, InfoMap);
+                }
+            }else{
+                res.put(c, InfoMap);
+            }
+            
         }
         return res;
     }
+    
+    
 
     public void createCampaign(String name, Long strategyId, Long cabinetId) {
         if(adminService.mayAddCampaign(cabinetId)){
@@ -1337,7 +1346,9 @@ public class EventService extends PrimService {
         co.setCampaign(campaignDao.getCampaign(campaignId, pkId));
         co.setUser(cabinetUserDao.getCUByIdAndCabinet(cabinetUserId, pkId).getUser());
         if(validate(co)){
-            campaignObserverDao.save(co);
+            if(campaignObserverDao.getByUsrAngCampaign(campaignId, pkId,cabinetUserDao.getCUByIdAndCabinet(cabinetUserId, pkId).getUser().getId()).isEmpty()){
+                campaignObserverDao.save(co);
+            }
         }
     }
     

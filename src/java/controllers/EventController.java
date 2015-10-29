@@ -82,38 +82,27 @@ public class EventController extends WebController {
 
     @Autowired
     private TagService tagService;
-    
+
     @Autowired
     private CabinetUserService cabinetUserService;
 
     @RequestMapping("/campaignList")
     public String showCampaigns(Map<String, Object> model,
-            /*@RequestParam(value = "dateFrom", required = false) Date dateFrom,
-             @RequestParam(value = "dateTo", required = false) Date dateTo,
-             @RequestParam(value = "closed", required = false) String closed,*/
             HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
+        Long pkId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        User us=authManager.getCurrentUser();
+        String role = cabinetUserService.getUserRole(us.getId(), pkId);
+        if (role.equals("admin") || role.equals("superadmin")) {
+            model.put("campaignsWithCountInfosMap", eventService.getCampaignsWithCountInfos(pkId, null));
+            model.put("errors", eventService.getErrors());
+            return "campaignList";
+        } else {
+            model.put("campaignsWithCountInfosMap", eventService.getCampaignsWithCountInfos(pkId, us));
+            model.put("errors", eventService.getErrors());
+            return "campaignListUser";
+        }
 
-        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        /*boolean showClosed = false;
-         if(closed!=null){
-         showClosed=true;
-         }
-        
-         if(dateFrom==null){
-         Calendar c = Calendar.getInstance();
-         c.set(Calendar.DAY_OF_MONTH, 1);
-         dateFrom=DateAdapter.getDateFromString(DateAdapter.formatByDate(c.getTime(),DateAdapter.SMALL_FORMAT));
-         }
-         if(dateTo==null){
-         dateTo=DateAdapter.getDateFromString(DateAdapter.formatByDate(new Date(),DateAdapter.SMALL_FORMAT));
-         }*/
-
-        model.put("campaignsWithCountInfosMap", eventService.getCampaignsWithCountInfos(/*dateFrom,dateTo,showClosed,*/cabinetId));
-        model.put("errors", eventService.getErrors());
-        /*model.put("dateFrom", dateFrom);
-         model.put("dateTo", dateTo);*/
-        return "campaignList";
     }
 
     @RequestMapping("/createCampaign")
@@ -125,7 +114,6 @@ public class EventController extends WebController {
     ) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-
         if (strategyId != null) {
             eventService.createCampaign(name, strategyId, cabinetId);
             if (eventService.getErrors().isEmpty()) {
@@ -207,9 +195,7 @@ public class EventController extends WebController {
         model.put("participatedUsers", eventService.getUserWithAssignsList(campaignId, cabinetId));
 
         model.put("cabinetUserList", eventService.getActiveMakingCallsUsers(cabinetId));
-       
-        
-        
+
         model.put("userAssignedClient", eventService.userAssignedClient(campaignId, cabinetId));
         model.put("deleteble", true/*eventService.isDeleteble(campaignId, cabinetId)*/);
 
@@ -225,12 +211,12 @@ public class EventController extends WebController {
 
         model.put("observerList", eventService.getCampaignObserver(campaignId, cabinetId));
         model.put("moduleReportData", reportService.getDataByModules(campaignId, cabinetId));
-        
+
         model.put("failReasonReportData", reportService.getDataForFailReasonReport(campaignId, cabinetId));
         if (dateFrom == null) {
             if (campaign.getEndDate() != null) {
                 dateFrom = campaign.getCreationDate();
-            }else{
+            } else {
                 Calendar cl = Calendar.getInstance();
                 cl.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
                 cl.set(Calendar.HOUR_OF_DAY, 0);
@@ -256,8 +242,7 @@ public class EventController extends WebController {
         model.put("errors", errors);
         return "campaignSpecification";
     }
-    
-    
+
     @RequestMapping("/addObserver")
     public String addObserver(Map<String, Object> model,
             HttpServletRequest request,
@@ -265,14 +250,14 @@ public class EventController extends WebController {
             @RequestParam("cabinetUserId") Long cabinetUserId,
             RedirectAttributes ras) throws Exception {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        if(cabinetUserService.existInCabinet(cabinetUserId, cabinetId)){
+        if (cabinetUserService.existInCabinet(cabinetUserId, cabinetId)) {
             eventService.saveObserver(campaignId, cabinetId, cabinetUserId);
         }
         ras.addFlashAttribute("errors", eventService.getErrors());
         ras.addAttribute("campaignId", campaignId);
         return "redirect:/Event/campaignSpecification";
     }
-    
+
     @RequestMapping("/delObserver")
     public String delObserver(Map<String, Object> model,
             HttpServletRequest request,
@@ -280,12 +265,11 @@ public class EventController extends WebController {
             @RequestParam("campaignObserverId") Long campaignObserverId,
             RedirectAttributes ras) throws Exception {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        eventService.delObserver(campaignId,cabinetId,campaignObserverId);
+        eventService.delObserver(campaignId, cabinetId, campaignObserverId);
         ras.addFlashAttribute("errors", eventService.getErrors());
         ras.addAttribute("campaignId", campaignId);
         return "redirect:/Event/campaignSpecification";
     }
-
 
     @RequestMapping("/getShapeExcel")
     public void getShapeExcel(Map<String, Object> model, HttpServletResponse response, HttpServletRequest request) throws Exception {
@@ -578,76 +562,73 @@ public class EventController extends WebController {
     @RequestMapping("/inCallReport")
     public String inCallReport(Map<String, Object> model,
             HttpServletRequest request,
-            @RequestParam(value = "strategyId",required = false) Long strategyId,
-            @RequestParam(value = "from",required = false) Date from,
-            @RequestParam(value = "to",required = false) Date to,
+            @RequestParam(value = "strategyId", required = false) Long strategyId,
+            @RequestParam(value = "from", required = false) Date from,
+            @RequestParam(value = "to", required = false) Date to,
             RedirectAttributes ras) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         User user = authManager.getCurrentUser();
-        model.put("strategyList",eventService.getOutStrategies(cabinetId) );
-        if(strategyId!=null){
+        model.put("strategyList", eventService.getOutStrategies(cabinetId));
+        if (strategyId != null) {
             Strategy str = strategyService.getStrategy(strategyId, cabinetId);
-            if(strategyService.getErrors().isEmpty()){
-                if(str.getIsin()!=null){
-                    model.put("reportMap",eventService.inCallReport(strategyId, from, to));
-                }else{
+            if (strategyService.getErrors().isEmpty()) {
+                if (str.getIsin() != null) {
+                    model.put("reportMap", eventService.inCallReport(strategyId, from, to));
+                } else {
                     model.put("errors", "Сценарий недоступен");
                 }
-            }else{
+            } else {
                 model.put("errors", strategyService.getErrors());
             }
         }
-        if(from!=null){
-            model.put("dateFrom",from);
+        if (from != null) {
+            model.put("dateFrom", from);
         }
-        if(to!=null){
-            model.put("dateTo",to);
+        if (to != null) {
+            model.put("dateTo", to);
         }
         return "inCallReport";
     }
-    
-    
+
     @RequestMapping("/inCallReportDetail")
     public String inCallReportDetail(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "strategyId") Long strategyId,
             @RequestParam(value = "moduleId") Long moduleId,
-            @RequestParam(value = "userId",required = false) Long userId,
-            @RequestParam(value = "from",required = false) Date from,
-            @RequestParam(value = "to",required = false) Date to,
+            @RequestParam(value = "userId", required = false) Long userId,
+            @RequestParam(value = "from", required = false) Date from,
+            @RequestParam(value = "to", required = false) Date to,
             RedirectAttributes ras) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         User user = authManager.getCurrentUser();
-        
+
         Strategy str = strategyService.getStrategy(strategyId, cabinetId);
-            if(strategyService.getErrors().isEmpty()){
-                if(str!=null&&str.getIsin()!=null){
-                    model.put("аctiveMap",groupService.getActiveGroupMap(strategyId, cabinetId));
-                    Module md=moduleService.getModule(moduleId);
-                    if(md!=null&&md.getStrategy().getId().equals(str.getId())){
-                         model.put("module",md);
-                        model.put("inCallList",eventService.getReportDetail(moduleId, from, to, userId));
-                    }else{
-                        model.put("errors", "Модуль недоступен");
-                    }                    
-                }else{
-                    model.put("errors", "Сценарий недоступен");
+        if (strategyService.getErrors().isEmpty()) {
+            if (str != null && str.getIsin() != null) {
+                model.put("аctiveMap", groupService.getActiveGroupMap(strategyId, cabinetId));
+                Module md = moduleService.getModule(moduleId);
+                if (md != null && md.getStrategy().getId().equals(str.getId())) {
+                    model.put("module", md);
+                    model.put("inCallList", eventService.getReportDetail(moduleId, from, to, userId));
+                } else {
+                    model.put("errors", "Модуль недоступен");
                 }
-            }else{
-                model.put("errors", strategyService.getErrors());
+            } else {
+                model.put("errors", "Сценарий недоступен");
             }
-        if(from!=null){
-            model.put("dateFrom",from);
+        } else {
+            model.put("errors", strategyService.getErrors());
         }
-        if(to!=null){
-            model.put("dateTo",to);
+        if (from != null) {
+            model.put("dateFrom", from);
+        }
+        if (to != null) {
+            model.put("dateTo", to);
         }
         return "inCallReportDetail";
     }
-    
-    
 
     @RequestMapping("updateClientFromUser")
     @ResponseBody

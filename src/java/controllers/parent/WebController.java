@@ -50,46 +50,12 @@ public class WebController {
         model.put("dateFormatter", new DateFormatter());
     }
 
-    
-/*
-    protected void _deleteFile(Long fileId) {
-        fileService.delete(fileId);
-    }
-
-    protected void _getFile(HttpServletResponse response, Long fileId) throws IOException {
-        File file = fileService.getFile(fileId);
-        String fileName = fileService.getTransliterateFileName(fileId);
-        response.setContentType("application/octet-stream");
-        response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
-        IOUtils.copy(new FileInputStream(file), response.getOutputStream());
-    }
-
-    protected void _getFile(HttpServletResponse response, String fileName, byte[] bytes) throws IOException {
-        response.setContentType("application/octet-stream");
-        response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
-        response.getOutputStream().write(bytes);
-    }
-*/
-  
 
     @InitBinder
     public void standartInitBinder(WebDataBinder binder) {
         binder.registerCustomEditor(Date.class, dateEditor);
     }
   
-
-
- 
-
-    /*protected void addErrors(Map<String, Object> model, List<String>newErrors) {
-        List<String> errors = (List<String>)model.get(ERRORS_LIST_NAME);
-        if(errors==null){
-            errors=new ArrayList();
-        }
-        errors.addAll(newErrors);
-        model.put(ERRORS_LIST_NAME, errors);
-    }
-*/
     protected void addErrors(RedirectAttributes ra, ServiceResult res) {
         ra.addFlashAttribute(ERRORS_LIST_NAME, res.getErrors());
     }
