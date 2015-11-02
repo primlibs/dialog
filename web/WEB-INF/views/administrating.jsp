@@ -66,7 +66,7 @@
         <h3>Кампании</h3>
         <table class="table table-bordered table-hover">
             <c:forEach var="camp" items="${campaignList}">
-                <tr><td>${camp.name}</td><td> ${camp.isClosed()}</td><td>${camp.getEvents().size()}</td></tr>
+                <tr><td>${camp.key.name}</td><td> ${camp.key.isClosed()}</td><td>${camp.key.getEvents().size()}</td></tr>
             </c:forEach> 
         </table>
     </c:if>
