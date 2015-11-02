@@ -7,6 +7,7 @@ package controllers;
 
 import controllers.parent.WebController;
 import entities.CabinetUser;
+import entities.Campaign;
 import entities.PersonalCabinet;
 import entities.User;
 import java.io.UnsupportedEncodingException;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.AdminService;
 import service.CabinetUserService;
+import service.EventService;
 import service.TarifService;
 
 /**
@@ -43,6 +45,9 @@ public class LkController extends WebController{
     
     @Autowired
     private TarifService tarifService;
+    
+    @Autowired
+    private EventService eventService;
 
     @Transactional
     @RequestMapping(value = {"/lk"})
@@ -149,6 +154,8 @@ public class LkController extends WebController{
                 model.put("tarifInfo", tarifInfo);
                 model.put("pk", pk);
                 model.put("tarifs",tarifService.getAllTarifs());
+                model.put("campaignList",eventService.getCampaignsWithCountInfos(pkId, null));
+                model.put("inCall",eventService.getAllInCall(pkId).size());
                 return "administrating";
             }else{
                 errors.add("Личный кабинет с ид "+pkId+" не найден.");

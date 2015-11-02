@@ -80,6 +80,13 @@ public class InCallDao extends Dao<InCall> {
         return query.list();
     }
     
+    public List<InCall> getFromPersonalCabinet(Long pkId) {
+        String hql = "from InCall inc where inc.cabinet.pkId=:pkId ";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("pkId", pkId);
+        return query.list();
+    }
+    
     
     
 }

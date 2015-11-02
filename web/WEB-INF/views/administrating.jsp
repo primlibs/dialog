@@ -62,5 +62,16 @@
             </c:forEach> 
         </table>
     </c:if>
+    <c:if test="${not empty campaignList}">
+        <h3>Кампании</h3>
+        <table class="table table-bordered table-hover">
+            <c:forEach var="camp" items="${campaignList}">
+                <tr><td>${camp.name}</td><td> ${camp.isClosed()}</td><td>${camp.getEvents().size()}</td></tr>
+            </c:forEach> 
+        </table>
+    </c:if>
+    <c:if test="${not empty inCall}">
+        <h3>Входящие - ${inCall}</h3>
+    </c:if>
 </body>
 </html>
