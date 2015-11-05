@@ -192,55 +192,65 @@ public class EventController extends WebController {
 
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
 
-        model.put("participatedUsers", eventService.getUserWithAssignsList(campaignId, cabinetId));
+        User us=authManager.getCurrentUser();
+        String role = cabinetUserService.getUserRole(us.getId(), cabinetId);
+        if (role.equals("admin") || role.equals("superadmin")||eventService.isObserver(us.getId(), cabinetId,campaignId)) {
 
-        model.put("cabinetUserList", eventService.getActiveMakingCallsUsers(cabinetId));
+            model.put("participatedUsers", eventService.getUserWithAssignsList(campaignId, cabinetId));
 
-        model.put("userAssignedClient", eventService.userAssignedClient(campaignId, cabinetId));
-        model.put("deleteble", true/*eventService.isDeleteble(campaignId, cabinetId)*/);
+            model.put("cabinetUserList", eventService.getActiveMakingCallsUsers(cabinetId));
 
-        model.put("userAssignedClientProcessedSuccess", eventService.userAssignedClientProcessedSuccess(campaignId, cabinetId));
-        model.put("userAssignedClientProcessedFails", eventService.userAssignedClientProcessedFails(campaignId, cabinetId));
-        model.put("userAssignedClientProcessed", eventService.userAssignedClientProcessed(campaignId, cabinetId));
-        model.put("userAssignedClientNotProcessed", eventService.userAssignedClientNotProcessed(campaignId, cabinetId));
+            model.put("userAssignedClient", eventService.userAssignedClient(campaignId, cabinetId));
+            model.put("deleteble", true/*eventService.isDeleteble(campaignId, cabinetId)*/);
 
-        model.put("eventList", eventService.getEventList(campaignId, cabinetId));
-        model.put("unassignedEventList", eventService.getUnassignedEvent(campaignId, cabinetId));
-        Campaign campaign = eventService.getCampaign(campaignId);
-        model.put("campaign", campaign);
+            model.put("userAssignedClientProcessedSuccess", eventService.userAssignedClientProcessedSuccess(campaignId, cabinetId));
+            model.put("userAssignedClientProcessedFails", eventService.userAssignedClientProcessedFails(campaignId, cabinetId));
+            model.put("userAssignedClientProcessed", eventService.userAssignedClientProcessed(campaignId, cabinetId));
+            model.put("userAssignedClientNotProcessed", eventService.userAssignedClientNotProcessed(campaignId, cabinetId));
 
-        model.put("observerList", eventService.getCampaignObserver(campaignId, cabinetId));
-        model.put("moduleReportData", reportService.getDataByModules(campaignId, cabinetId));
+            model.put("eventList", eventService.getEventList(campaignId, cabinetId));
+            model.put("unassignedEventList", eventService.getUnassignedEvent(campaignId, cabinetId));
+            Campaign campaign = eventService.getCampaign(campaignId);
+            model.put("campaign", campaign);
 
-        model.put("failReasonReportData", reportService.getDataForFailReasonReport(campaignId, cabinetId));
-        if (dateFrom == null) {
-            if (campaign.getEndDate() != null) {
-                dateFrom = campaign.getCreationDate();
-            } else {
-                Calendar cl = Calendar.getInstance();
-                cl.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-                cl.set(Calendar.HOUR_OF_DAY, 0);
-                cl.set(Calendar.MINUTE, 0);
-                dateFrom = cl.getTime();
+            model.put("observerList", eventService.getCampaignObserver(campaignId, cabinetId));
+            model.put("moduleReportData", reportService.getDataByModules(campaignId, cabinetId));
+
+            model.put("failReasonReportData", reportService.getDataForFailReasonReport(campaignId, cabinetId));
+            if (dateFrom == null) {
+                if (campaign.getEndDate() != null) {
+                    dateFrom = campaign.getCreationDate();
+                } else {
+                    Calendar cl = Calendar.getInstance();
+                    cl.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+                    cl.set(Calendar.HOUR_OF_DAY, 0);
+                    cl.set(Calendar.MINUTE, 0);
+                    dateFrom = cl.getTime();
+                }
+            }
+            if (dateTo == null) {
+                if (campaign.getEndDate() != null) {
+                    dateTo = campaign.getEndDate();
+                } else {
+                    dateTo = new Date();
+                }
+            }
+            model.put("workReportData", reportService.getDataForWorkReport(cabinetId, campaignId, dateFrom, dateTo));
+            model.put("wropen", wropen);
+            model.put("dateFrom", DateAdapter.formatByDate(dateFrom, DateAdapter.SMALL_FORMAT));
+            model.put("dateTo", DateAdapter.formatByDate(dateTo, DateAdapter.SMALL_FORMAT));
+            model.put("tags", tagService.getAllActiveTags(cabinetId));
+
+            errors.addAll(eventService.getErrors());
+            errors.addAll(reportService.getErrors());
+            model.put("errors", errors);
+            if(role.equals("user")){
+                return "campaignSpecificationUser";
+            }else{
+                 return "campaignSpecification";
             }
         }
-        if (dateTo == null) {
-            if (campaign.getEndDate() != null) {
-                dateTo = campaign.getEndDate();
-            } else {
-                dateTo = new Date();
-            }
-        }
-        model.put("workReportData", reportService.getDataForWorkReport(cabinetId, campaignId, dateFrom, dateTo));
-        model.put("wropen", wropen);
-        model.put("dateFrom", DateAdapter.formatByDate(dateFrom, DateAdapter.SMALL_FORMAT));
-        model.put("dateTo", DateAdapter.formatByDate(dateTo, DateAdapter.SMALL_FORMAT));
-        model.put("tags", tagService.getAllActiveTags(cabinetId));
-
-        errors.addAll(eventService.getErrors());
-        errors.addAll(reportService.getErrors());
-        model.put("errors", errors);
-        return "campaignSpecification";
+        return "redirect:/Event/campaignList";
     }
 
     @RequestMapping("/addObserver")

@@ -1364,4 +1364,13 @@ public class EventService extends PrimService {
         
     }
     
+    public boolean isObserver(Long userId,Long pkId,Long campaignId){
+        List<CampaignObserver> coList= campaignObserverDao.getByUsrAngCampaign(campaignId, pkId, userId);
+        if(!coList.isEmpty()){
+            return true;
+        }
+        return false;
+        
+    }
+    
 }

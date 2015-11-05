@@ -46,7 +46,6 @@
                 <th rowspan="2">Не назначено</th>
                 <th colspan="3">Завершено</th>
                 <th rowspan="2">Не завершено</th>
-                <th rowspan="2">Изменить назначение</th>
             </tr>
             <tr>
                 <th>Успешно</th>
@@ -64,16 +63,16 @@
                 <tr>
                     <td>${user.surname} ${user.name} </td>
                     <c:if test="${number== 1}">
-                        <td class ="for" rowspan="${participatedUsers.size()}"><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}"/>'" > ${eventList.size()} </div></td>
+                        <td class ="for" rowspan="${participatedUsers.size()}"><div style="cursor: pointer;display: inline-block;"  > ${eventList.size()} </div></td>
                     </c:if>
-                    <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=${user.getUserId()}"/>'"> ${userAssignedClient.get(user.getUserId())}</div></td>
+                    <td><div style="cursor: pointer;display: inline-block;" > ${userAssignedClient.get(user.getUserId())}</div></td>
                     <c:if test="${number== 1}">
-                        <td rowspan="${participatedUsers.size()}"><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=-1"/>'" >${unassignedEventList.size()}</div></td>
+                        <td rowspan="${participatedUsers.size()}"><div style="cursor: pointer;display: inline-block;"  >${unassignedEventList.size()}</div></td>
                         </c:if>
-                    <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=${user.getUserId()}&processed=-2"/>'"> ${userAssignedClientProcessedSuccess.get(user.getUserId())}</div></td>
-                    <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=${user.getUserId()}&processed=-3"/>'" > ${userAssignedClientProcessedFails.get(user.getUserId())}</div></td>
-                    <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=${user.getUserId()}&processed=-4"/>'"> ${userAssignedClientProcessed.get(user.getUserId())}</div></td>
-                    <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=${user.getUserId()}&processed=-1"/>'" > ${userAssignedClientNotProcessed.get(user.getUserId())}</div></td>
+                    <td><div style="cursor: pointer;display: inline-block;" > ${userAssignedClientProcessedSuccess.get(user.getUserId())}</div></td>
+                    <td><div style="cursor: pointer;display: inline-block;"  > ${userAssignedClientProcessedFails.get(user.getUserId())}</div></td>
+                    <td><div style="cursor: pointer;display: inline-block;" > ${userAssignedClientProcessed.get(user.getUserId())}</div></td>
+                    <td><div style="cursor: pointer;display: inline-block;" > ${userAssignedClientNotProcessed.get(user.getUserId())}</div></td>
                         <c:set var="assignedEventsCount" value="${assignedEventsCount+userAssignedClient.get(user.getUserId())}" />
                         <c:set var="assignedNotProcessedEventsCount" value="${assignedNotProcessedEventsCount+userAssignedClientNotProcessed.get(user.getUserId())}" />
                         <c:set var="assignedProcessedEventsCount" value="${assignedProcessedEventsCount+userAssignedClientProcessed.get(user.getUserId())}" />
@@ -86,14 +85,14 @@
 
             <tr>
                 <td> Итого:</td>
-                <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=0"/>'">${eventList.size()}</div></td>
-                <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=-2"/>'">  ${assignedEventsCount}</div></td>
-                <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&assigned=-1"/>'">  ${unassignedEventList.size()}</div></td>
+                <td><div style="cursor: pointer;display: inline-block;" >${eventList.size()}</div></td>
+                <td><div style="cursor: pointer;display: inline-block;" >  ${assignedEventsCount}</div></td>
+                <td><div style="cursor: pointer;display: inline-block;" >  ${unassignedEventList.size()}</div></td>
 
-                <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&processed=-2"/>'"> ${assignedProcessedSuccessEventsCount}</div></td>
-                <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&processed=-3"/>'"> ${assignedProcessedFailedEventsCount}</div></td>
-                <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&processed=-4"/>'"> ${assignedProcessedEventsCount}</div></td>
-                <td><div style="cursor: pointer;display: inline-block;" ondblclick="location = '<c:url value="/Event/eventClient?campaignId=${campaign.campaignId}&processed=-1"/>'"> ${assignedNotProcessedEventsCount}</div></td>
+                <td><div style="cursor: pointer;display: inline-block;" > ${assignedProcessedSuccessEventsCount}</div></td>
+                <td><div style="cursor: pointer;display: inline-block;" > ${assignedProcessedFailedEventsCount}</div></td>
+                <td><div style="cursor: pointer;display: inline-block;" > ${assignedProcessedEventsCount}</div></td>
+                <td><div style="cursor: pointer;display: inline-block;" > ${assignedNotProcessedEventsCount}</div></td>
                
             </tr>
         </table>
@@ -110,7 +109,7 @@
                     <th> Отрицательные исходы(%*) </th></tr>
                         <c:forEach var="entry" items="${moduleReportData.entrySet()}">
 
-                    <tr style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/moduleReportDetalisation?campaignId=${campaign.campaignId}&moduleId=${entry.getKey().moduleId}"/>'"><td>${entry.getKey().getModuleName()}</td>
+                    <tr style="cursor: pointer;" ><td>${entry.getKey().getModuleName()}</td>
                         <td>${entry.getValue()}</td></tr>
 
                 </c:forEach>
@@ -151,18 +150,18 @@
                             <c:if test="${not empty entry.getKey()}">
                             <tr>
                                 <td>${entry.getKey().getShortName()}</td>
-                                <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&userId=${entry.getKey().getId()}&dateFrom=${dateFrom}&dateTo=${dateTo}&status=1"/>'">${entry.getValue().get("postponed")}</td>
-                                <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&userId=${entry.getKey().getId()}&dateFrom=${dateFrom}&dateTo=${dateTo}&status=4"/>'">${entry.getValue().get("failed")}</td>
-                                <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&userId=${entry.getKey().getId()}&dateFrom=${dateFrom}&dateTo=${dateTo}&status=5"/>'">${entry.getValue().get("successful")}</td>
-                                <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&userId=${entry.getKey().getId()}&dateFrom=${dateFrom}&dateTo=${dateTo}&status="/>'">${entry.getValue().get("all")}</td></tr>
+                                <td style="cursor: pointer;" >${entry.getValue().get("postponed")}</td>
+                                <td style="cursor: pointer;" >${entry.getValue().get("failed")}</td>
+                                <td style="cursor: pointer;" >${entry.getValue().get("successful")}</td>
+                                <td style="cursor: pointer;" >${entry.getValue().get("all")}</td></tr>
                             </c:if>
                         </c:forEach>
                     <tr>
                         <td>Итого:</td>
-                        <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&userId=&dateFrom=${dateFrom}&dateTo=${dateTo}&status=1"/>'">${workReportData.get(null).get("postponed")}</td>
-                        <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&userId=&dateFrom=${dateFrom}&dateTo=${dateTo}&status=4"/>'">${workReportData.get(null).get("failed")}</td>
-                        <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&userId=&dateFrom=${dateFrom}&dateTo=${dateTo}&status=5"/>'">${workReportData.get(null).get("successful")}</td>
-                        <td style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/workReportDetalisation?campaignId=${campaign.campaignId}&userId=&dateFrom=${dateFrom}&dateTo=${dateTo}&status="/>'">${workReportData.get(null).get("all")}</td></tr>
+                        <td style="cursor: pointer;" >${workReportData.get(null).get("postponed")}</td>
+                        <td style="cursor: pointer;" >${workReportData.get(null).get("failed")}</td>
+                        <td style="cursor: pointer;" >${workReportData.get(null).get("successful")}</td>
+                        <td style="cursor: pointer;" >${workReportData.get(null).get("all")}</td></tr>
                 </table>
             </div>
         </c:if>
@@ -176,29 +175,16 @@
                     <th>Количество</th></tr>
                         <c:forEach var="entry" items="${failReasonReportData.entrySet()}">
                             <c:if test="${not empty entry.getKey()}">
-                        <tr style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/failReasonReportDetalisation?campaignId=${campaign.campaignId}&failReasonId=${entry.getKey().getId()}"/>'"><td>${entry.getKey().getName()}</td>
+                        <tr style="cursor: pointer;" ><td>${entry.getKey().getName()}</td>
                             <td>${entry.getValue()}</td></tr>
                         </c:if>
                     </c:forEach>
-                <tr style="cursor: pointer;" ondblclick="location = '<c:url value="/Event/failReasonReportDetalisation?campaignId=${campaign.campaignId}"/>'">
+                <tr style="cursor: pointer;" >
                     <td>Всего:</td>
                     <td>${failReasonReportData.get(null)}</td></tr>
             </table>
         </c:if>
     </body>
-    <div class="modal fade" id="deleteWindow" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                    <h4 class="modal-title" id="myModalLabel">Удалить кампанию со всей информацией о ней?</h4>
-                </div>
-                <div class="modal-body">
-                    <a href="<c:url value="/Event/deleteCampaign?campaignId=${campaign.campaignId}"/>" class="btn btn-large btn-danger" role="button">удалить</a>
 
-                </div>
-            </div>
-        </div>
-    </div>
 
 </html>
