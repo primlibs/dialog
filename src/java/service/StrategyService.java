@@ -155,7 +155,7 @@ public class StrategyService extends PrimService {
                         for(Module md:gp.getModuleList()){
                             if(md.getDeleteDate()==null){
                                 Long mdId=moduleService.saveModule(grId, md.getModuleName(), pkId);
-                                moduleService.addBodyText(mdId, type, pkId);
+                                moduleService.addBodyText(mdId, md.getBodyText(), pkId);
                             }
                         }
                     }else{

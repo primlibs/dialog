@@ -43,7 +43,7 @@
                 <li><a href="<c:url value="/Lk/cabinets"/>">Кабинеты</a></li>
             </ul></li>
         </c:if>
-        <li><a href="#" class="btn btn-primary learn"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a></li>
+        <li><a href="#" class="btn btn-default learn" style="border:0px solid transparent"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a></li>
     </ul> 
     <%@include file="/WEB-INF/jsp/menuright.jsp" %>
     
