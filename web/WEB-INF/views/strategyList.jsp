@@ -38,6 +38,7 @@
                     <th>Наименование</th>
                     <th>Тип</th>
                     <th></th>
+                    <th></th>
                 </tr>
                 <c:forEach var="strategy" items="${StrategyList}" varStatus="myIndex">
 
@@ -52,16 +53,40 @@
                                     Входящий
                                 </c:otherwise>
                             </c:choose>
-                            
+
                         </td>
+                        <td><a href="#" id="${strategy.strategyId}" name="${strategy.strategyName}" class="btn btn-warning btn-xs copyhref"
+                               data-toggle="modal"
+                               data-target="#copyWindow">Копировать</a></td>
                         <td><a href="#" id="${strategy.strategyId}" class="btn btn-danger btn-xs deletinghref"
                                data-toggle="modal"
                                data-target="#deleteWindow">Удалить</a></td>
-                   <!--<td><div style="cursor: pointer;display: inline;" ondblclick="location = '<c:url value="/Strategy/deleteStrategy?strategyId=${strategy.strategyId}"/>'">Удалить</div></td>-->
+
                     </tr>
                 </c:forEach>
             </table>
         </div>
+        <div class="modal fade" id="copyWindow" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title" id="myModalLabel">Копировать сценарий</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="deleteTagForm" action="<c:url value="/Strategy/copy"/>" method="post">
+                            <input type="hidden" name="strategyIdToCopy" value="">
+                            <input type="text" id = "nameval" class="form-control" name="strategyName" value="">
+                            <select name="type"  class="form-control">
+                                <option value="out">Исходящий</option>
+                                <option value="in">Входящий</option>
+                            </select>
+                            <p><input class="btn btn-warning" type="submit" value="Копировать">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>            
         <div class="modal fade" id="deleteWindow" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -71,7 +96,7 @@
                     </div>
                     <div class="modal-body">
                         <form id="deleteTagForm" action="<c:url value="/Strategy/deleteStrategy"/>" method="post">
-                                <input type="hidden" name="strategyIdtoDelete" value="">
+                            <input type="hidden" name="strategyIdtoDelete" value="">
                             <p><input class="btn btn-danger" type="submit" value="Удалить">
                         </form>
                     </div>
@@ -79,7 +104,15 @@
             </div>
         </div>
         <script>
-            $('.deletinghref').click(function() {
+            $('.copyhref').click(function () {
+                var cuid = $(this).attr('id');
+                $('[name = strategyIdToCopy]').val(cuid);
+                var cuNm = $(this).attr('name');
+                $('#nameval').val(cuNm);
+            });
+        </script>
+        <script>
+            $('.deletinghref').click(function () {
                 var cuid = $(this).attr('id');
                 $('[name = strategyIdtoDelete]').val(cuid);
             });

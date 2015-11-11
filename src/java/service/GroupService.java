@@ -163,9 +163,10 @@ public class GroupService extends PrimService {
         return groupDao.find(groupId);
     }
 
-    public void saveGroup(Long strategyId,
+    public Long saveGroup(Long strategyId,
             String groupName,
             Long pkId) {
+        Long  result=null;
         if(adminService.tarifIsNotExpired(pkId)){
             Boolean exists = false;
             for (Group group : groupDao.getActiveGroups(strategyId, pkId)) {
@@ -185,6 +186,7 @@ public class GroupService extends PrimService {
                 gr.setPosition(pos);
                 if (validate(gr)) {
                     groupDao.save(gr);
+                    result=gr.getGroupId();
                 }
             } else {
                 addError("Такая группа уже есть");
@@ -192,6 +194,7 @@ public class GroupService extends PrimService {
         }else{
             addError("Не удалось добваить группу в связи с ограничениями тарифа");
         }
+        return result;
     }
 
     private Long updatePositionsAndGetAvailable(Long strategyId, Long pkId) {

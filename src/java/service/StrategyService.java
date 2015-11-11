@@ -56,8 +56,12 @@ public class StrategyService extends PrimService {
     
     @Autowired
     private AdminService adminService;
+    
+    @Autowired
+    private ModuleService moduleService;
 
-    public void saveStrategy(String strategyName, Long cabinetId,Boolean in) {
+    public Long saveStrategy(String strategyName, Long cabinetId,Boolean in) {
+        Long result=null;
         if(adminService.tarifIsNotExpired(cabinetId)){
             PersonalCabinet pk = personalCabinetDao.find(cabinetId);
             List<Strategy> strategyList = getActiveStrategyList(cabinetId);
@@ -79,6 +83,7 @@ public class StrategyService extends PrimService {
                 }
                 if (validate(strategy)) {
                     strategyDao.save(strategy);
+                    result=strategy.getId();
                 }
                 if (getErrors().isEmpty()) {
                     ArrayList<String> failReasons = new ArrayList<>();
@@ -102,6 +107,7 @@ public class StrategyService extends PrimService {
         }else{
             addError("Не удалось добваить сценарий в связи с ограничениями тарифа");
         }
+        return result;
     }
 
     public List<Strategy> getActiveStrategyList(Long cabinetId) {
@@ -129,6 +135,43 @@ public class StrategyService extends PrimService {
             addError("Сценарий не найден по ИД: " + strategyId);
         }
     }
+    
+    public void copyStrategy(Long strategyId,Long pkId,String name, String type) {
+        Strategy strategy = strategyDao.find(strategyId);
+        Long stratId=null;
+        if (strategy != null) {
+            if(type!=null&&type.equals("out")){
+                stratId=saveStrategy(name, pkId, Boolean.FALSE);
+            }else{
+                stratId=saveStrategy(name, pkId, Boolean.TRUE);
+            }
+            if(stratId==null){
+                addError("Ид стратегии не определен");
+            }
+            if(getErrors().isEmpty()){
+                for(Group gp:strategy.getGroupList()){
+                    Long grId=groupService.saveGroup(stratId, gp.getGroupName(), pkId);
+                    if(grId!=null){
+                        for(Module md:gp.getModuleList()){
+                            if(md.getDeleteDate()==null){
+                                Long mdId=moduleService.saveModule(grId, md.getModuleName(), pkId);
+                                moduleService.addBodyText(mdId, type, pkId);
+                            }
+                        }
+                    }else{
+                        addError("Ид добавленной группы не определен");
+                    }
+                }
+            }
+        } else {
+            addError("Сценарий не найден по ИД: " + strategyId);
+        }
+    }
+    
+    
+    
+    
+    
 
     public void renameStrategy(Long strategyId, String name) {
         Strategy str = strategyDao.find(strategyId);

@@ -316,4 +316,21 @@ public class StrategyController extends WebController {
         return res;
     }
     
+    @RequestMapping("/copy")
+    public String copy(Map<String, Object> model,HttpServletRequest request,
+            @RequestParam(value = "strategyIdToCopy") Long strategyIdToCopy, 
+            @RequestParam(value = "strategyName") String strategyName,
+            @RequestParam(value = "type") String type,RedirectAttributes ras) throws Exception{
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        Strategy str=strategyService.findStrategy(strategyIdToCopy);
+        if(str!=null){
+            if(str.getCabinet().getPkId().equals(cabinetId)){
+                strategyService.copyStrategy(strategyIdToCopy,cabinetId,strategyName,type);
+            }
+        }
+        ras.addFlashAttribute("errors", strategyService.getErrors());
+        return "redirect:/Strategy/show";
+    }
+    
 }

@@ -130,7 +130,7 @@ public class ModuleService extends PrimService {
         Module module = moduleDao.find(moduleId);
         
         if (module != null) {
-            if(!module.getModuleEventClientList().isEmpty()){
+            if(module.getModuleEventClientList()!=null&&!module.getModuleEventClientList().isEmpty()){
                 Module nm=new Module();
                 nm.setBodyText(bodyText);
                 nm.setCabinet(module.getCabinet());
@@ -147,7 +147,6 @@ public class ModuleService extends PrimService {
                 module.setBodyText(bodyText);
                 if (validate(module)) {
                     moduleDao.update(module);
-                    //return moduleId;
                 }
             }
             

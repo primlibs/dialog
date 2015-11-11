@@ -51,7 +51,14 @@ public abstract class Dao<T> {
     }
 
     public T find(Long id) {
-        return (T) getCurrentSession().get(getSupportedClass(), id);
+        if (id != null) {
+            T obj = (T) getCurrentSession().get(getSupportedClass(), id);
+            if (obj != null) {
+                getCurrentSession().evict(obj);
+            }
+            return obj;
+        }
+        return null;
     }
     protected Criteria getCriteriaDistinctRoot(Class cl) {
       Criteria crit = getCurrentSession().createCriteria(cl);
