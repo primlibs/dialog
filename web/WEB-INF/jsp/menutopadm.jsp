@@ -43,7 +43,7 @@
                 <li><a href="<c:url value="/Lk/cabinets"/>">Кабинеты</a></li>
             </ul></li>
         </c:if>
-        <a href="#" class="btn btn-primary learn"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a>
+        <li><a href="#" class="btn btn-primary learn"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a></li>
     </ul> 
     <%@include file="/WEB-INF/jsp/menuright.jsp" %>
     
@@ -206,7 +206,7 @@
 $(document).ready(function(){
   $(".learn").click(function(){
     $("#learning").modal('show');
-	$(".first").click();
+
   });
 });
 </script>
@@ -238,7 +238,7 @@ $(document).ready(function(){
   });
 });
 </script>
-<script type="text/javascript">
+<!-- script type="text/javascript">
 $(document).ready(function(){
   $(".first").click(function(){
 		var content=$("#step0").html();
@@ -247,17 +247,8 @@ $(document).ready(function(){
 		$("#stephead").html(0);
   });
 });
-</script>
+</script -->
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 </div>  
