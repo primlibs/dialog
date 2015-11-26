@@ -19,7 +19,7 @@ import org.hibernate.validator.constraints.NotBlank;
 @Entity
 @Table(name = "rights")
 public class Right extends PrimEntity {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "right_id")
@@ -45,6 +45,9 @@ public class Right extends PrimEntity {
     @NotNull
     public Date addDate;
 
+    @Column(name="changeable")
+    public Integer changeable;
+    
     @Override
     public Long getId() {
         return getRightId();
@@ -97,6 +100,20 @@ public class Right extends PrimEntity {
     public void setAddDate(Date addDate) {
         this.addDate = addDate;
     }  
+
+    public Integer getChangeable() {
+        return changeable;
+    }
+
+    public void setChangeable(Integer changeable) {
+        this.changeable = changeable;
+    }
     
+    public boolean isChangeable(){
+        if(this.changeable!=null){
+            return true;
+        }
+        return false;
+    }
     
 }

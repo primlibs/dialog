@@ -33,7 +33,7 @@ public class RightService extends PrimService {
     public List<Right> getRights() {
         return rightDao.getAllAsc("actionDescription");
     }
-
+    
     public void update(RightStack rst) throws Exception {
        List<Right> lri=getRights();
        
@@ -77,8 +77,6 @@ public class RightService extends PrimService {
                rightDao.delete(rightDao.find(baseDel));
            }
        }
-    }
+    }  
     
-    
-
 }
