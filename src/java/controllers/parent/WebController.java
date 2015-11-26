@@ -91,8 +91,10 @@ public class WebController {
     private void rightOn(Map<String, Object> model, HttpServletRequest request) throws Exception {
         userRights = RightStack.getInstance("controllers.");
         systemRights = RightStack.getInstance("controllers.");
-        createRightsFromApp();
         findActiveUser();
+        if(currentUser.isSuperAdmin()){
+            createRightsFromApp();
+        }
         createUserRight();
         model.put("SERVICE_currentUser", currentUser);
         model.put("SERVICE_userRights", userRights);
