@@ -64,7 +64,6 @@ public class GroupController extends WebController {
 
         ras.addAttribute("errors", moduleService.getErrors());
         ras.addAttribute("strategyId", strategyId);
-      // ras.addAttribute("groupId", groupId);
         return "redirect:/Strategy/strategy";
     }
 

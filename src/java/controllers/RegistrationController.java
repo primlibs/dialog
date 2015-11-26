@@ -29,61 +29,6 @@ public class RegistrationController extends WebController {
     @Autowired
     private UserService userService;
 
-    /*@Autowired
-    private AuthManager authManager;*/
-
-    /*@RequestMapping(value = {"/registration"})
-    public String showRegistrationPage(Map<String, Object> model, String submit, String checkbox,
-            String company, String email, String phone, String password, String confirmPassword, String name, String surname, String patronymic,
-            String emailCompany,RedirectAttributes ras) {
-
-        if (submit != null) {
-            if (checkbox != null) {
-                if (password.equals(confirmPassword)) {
-                    userService.save(null, email, null, password, null, null, null, null);
-                    if (userService.getErrors().isEmpty()) {
-                        ras.addFlashAttribute("username", email);
-                        ras.addFlashAttribute("password",password);
-                       // ras.addFlashAttribute("action","j_spring_security_check");
-                        //ras.addAttribute("username", email);
-                        //ras.addAttribute("password",password);
-                        //ras.addAttribute("action","j_spring_security_check");
-                        
-                        //authRequest.setAuthenticated(true);
-                        //AuthenticationManager am = new SampleAuthenticationManager();
-                        //am.authenticate(authRequest);
-                        //authRequest.
-                        //authRequest.setAuthenticated(true);
-                        //SecurityContextHolder.getContext().setAuthentication(authRequest);
-                        setDetails(request, authRequest);
-                        this.getAuthenticationManager().authenticate(authRequest);
-                        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(email, password);
-                        support.AfterRegistrationAuthenticationManager am = new support.AfterRegistrationAuthenticationManager();
-                        SecurityContextHolder.getContext().setAuthentication(am.authenticate(authRequest));
-                        SecurityContext context = SecurityContextHolder.getContext();
-                        Authentication authentication = new UsernamePasswordAuthenticationToken(email, password);
-                        
-                        SecurityContextHolder.getContext().setAuthentication(authentication);
-                        
-                        return "redirect:/Registration/successRegistration";
-                    } else {
-                        model.put("errors", userService.getErrors());
-                    }
-                } else {
-                    userService.addError("Пароли не совпадают");
-                    model.put("errors", userService.getErrors());
-
-                }
-            } else {
-                model.put("errors", "Ознакомтесь и согласитесь с условиями");
-            }
-        } else {
-            model.put("errors", userService.getErrors());
-        }
-
-        return "registration";
-    }*/
-    
     @RequestMapping(value = {"/registration"})
     public String showRegistrationPage(Map<String, Object> model,
             HttpServletRequest request,

@@ -27,6 +27,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.parent.PrimService;
@@ -544,4 +546,26 @@ public class UserService extends PrimService {
         }
     }
 
+    
+    public static String getUserName() {
+        String username;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails) principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
+        return username;
+    }
+
+    public User getCurrentUser() throws Exception {
+        User user=new User();
+        user.setEmail(getUserName());
+        List<User> userList = userDao.find(user);
+        if(!userList.isEmpty()){
+            return userList.get(0);
+        }
+        return null;
+    }
 }

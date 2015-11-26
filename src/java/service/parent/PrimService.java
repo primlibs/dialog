@@ -107,6 +107,13 @@ public class PrimService {
         return serviceResult.getErrors();
     }
     
+    public boolean hasErrors(){
+        if(serviceResult.getErrors()!= null && !serviceResult.getErrors().isEmpty()){
+            return true;
+        }
+        return false;
+    }
+    
     public String getErrorsAsString(){
         String err="";
         for(String e:serviceResult.getErrors()){

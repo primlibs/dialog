@@ -7,7 +7,6 @@ package controllers;
 
 import controllers.parent.WebController;
 import entities.CabinetUser;
-import entities.Campaign;
 import entities.PersonalCabinet;
 import entities.User;
 import java.io.UnsupportedEncodingException;

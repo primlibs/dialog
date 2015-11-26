@@ -10,6 +10,8 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -60,6 +62,14 @@ public abstract class Dao<T> {
         }
         return null;
     }
+    
+    public List<T> find(T obj) {
+        Criteria cr = getCurrentSession().createCriteria(getSupportedClass());
+        cr.add(Example.create(obj).excludeZeroes());
+        return cr.list();
+    }
+    
+    
     protected Criteria getCriteriaDistinctRoot(Class cl) {
       Criteria crit = getCurrentSession().createCriteria(cl);
       crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
@@ -70,4 +80,22 @@ public abstract class Dao<T> {
       return Restrictions.or( Restrictions.isNull(fieldName), Restrictions.eq(fieldName, false) );
   }
 
+  public List<T> getAllAsc(String... order) {
+        Criteria cr = getCurrentSession().createCriteria(getSupportedClass());
+        for (String ordPosition : order) {
+            cr.addOrder(Order.asc(ordPosition));
+        }
+        cr.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        return cr.list();
+    }
+
+    public List<T> getAllDesc(String... order) {
+        Criteria cr = getCurrentSession().createCriteria(getSupportedClass());
+        for (String ordPosition : order) {
+            cr.addOrder(Order.desc(ordPosition));
+        }
+        cr.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        return cr.list();
+    }
+  
 }

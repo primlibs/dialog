@@ -25,6 +25,7 @@ import service.ClientService;
 import service.EventService;
 import service.TagService;
 import support.JsonResponse;
+import support.commons.Right;
 
 /**
  *
@@ -45,6 +46,7 @@ public class ClientController extends WebController {
     private TagService tagService;
 
     @RequestMapping("/clientList")
+    @Right(description = "Клиенты - показать список/поиск",name = "clientList")
     public String showClientList(Map<String, Object> model, HttpServletRequest request,@RequestParam(value = "uid", required = false) String uid,
             @RequestParam(value = "adress", required = false) String adress,@RequestParam(value = "nameCompany", required = false) String nameCompany,
             @RequestParam(value = "name", required = false) String name,@RequestParam(value = "phone", required = false) String phone,
@@ -82,6 +84,7 @@ public class ClientController extends WebController {
     }
     
     @RequestMapping("/getXls")
+    @Right(description = "Клиенты - скачать в Excel",name = "getXls")
     public void getXls(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response,
             @RequestParam(value = "uid", required = false) String uid,@RequestParam(value = "tagCrossing", required = false) String tagCrossing,
             @RequestParam(value = "adress", required = false) String adress,@RequestParam(value = "nameCompany", required = false) String nameCompany,
@@ -105,6 +108,7 @@ public class ClientController extends WebController {
     }
     
     @RequestMapping("/oneClient")
+    @Right(description = "Клиенты - просмотр карточки",name = "oneClient")
     public String showOneClient(Map<String, Object> model,@RequestParam(value = "clientId") Long clientId,@RequestParam(value = "eventId", required = false) Long eventId, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
      
@@ -127,6 +131,7 @@ public class ClientController extends WebController {
     }
     
     @RequestMapping("/addTag")
+    @Right(description = "Клиенты - добавить признак",name = "addTag")
     public String addTagToClient(Map<String, Object> model,@RequestParam(value = "clientId") Long clientId,@RequestParam(value = "tags", required = false) Long[] tagIds,@RequestParam(value = "eventId", required = false) Long eventId, HttpServletRequest request,RedirectAttributes ras) throws Exception {
         lk.dataByUserAndCompany(request, model);
      
@@ -151,6 +156,7 @@ public class ClientController extends WebController {
     }
     
     @RequestMapping("/deleteTag")
+    @Right(description = "Клиенты - удалить признак",name = "deleteTag")
     public String deleteTagFromClient(Map<String, Object> model,@RequestParam(value = "clientId") Long clientId,
             @RequestParam(value = "tagId", required = false) Long tagId,
             @RequestParam(value = "eventId", required = false) Long eventId, 
@@ -174,6 +180,7 @@ public class ClientController extends WebController {
     
     @RequestMapping("/updateclient")
     @ResponseBody
+    @Right(description = "Клиенты - обновить данные",name = "updateсlient")
     public JsonResponse updateClient(Map<String, Object> model,@RequestParam(value = "clientid") Long clientId,@RequestParam(value = "parametr") String parametr,
             @RequestParam(value = "newval") String newVal,HttpServletRequest request,RedirectAttributes ras) throws Exception {
         lk.dataByUserAndCompany(request, model);
@@ -195,6 +202,7 @@ public class ClientController extends WebController {
     }
     
     @RequestMapping("/delete")
+    @Right(description = "Клиенты - удалить",name = "delete")
     public String deleteClient(Map<String, Object> model,@RequestParam(value = "clientIdtoDelete") Long clientId,
             @RequestParam(value = "uid", required = false) String uid,
             @RequestParam(value = "adress", required = false) String adress,@RequestParam(value = "nameCompany", required = false) String nameCompany,

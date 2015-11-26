@@ -42,6 +42,7 @@ import support.AuthManager;
 import support.DateAdapter;
 import support.JsonResponse;
 import support.StringAdapter;
+import support.commons.Right;
 
 /**
  *
@@ -87,6 +88,7 @@ public class EventController extends WebController {
     private CabinetUserService cabinetUserService;
 
     @RequestMapping("/campaignList")
+    @Right(description = "Кампании - список",name = "campaignList")
     public String showCampaigns(Map<String, Object> model,
             HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
@@ -106,6 +108,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/createCampaign")
+    @Right(description = "Кампании - создание",name = "createCampaign")
     public String createCampaign(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "name", required = false) String name,
@@ -128,6 +131,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/deleteCampaign")
+    @Right(description = "Кампании - удаление",name = "deleteCampaign")
     public String deleteCampaign(Map<String, Object> model, HttpServletRequest request,
             @RequestParam(value = "campaignId", required = false) Long campaignId, RedirectAttributes ras) throws Exception {
         lk.dataByUserAndCompany(request, model);
@@ -151,6 +155,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/closeCampaign")
+    @Right(description = "Кампании - закрытие",name = "closeCampaign")
     public String closeCampaign(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "campaignId", required = false) Long campaignId,
@@ -164,6 +169,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/openCampaign")
+    @Right(description = "Кампании - открытие",name = "openCampaign")
     public String openCampaign(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "campaignId", required = false) Long campaignId,
@@ -177,6 +183,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/campaignSpecification")
+    @Right(description = "Кампании - просмотр отчетности",name = "campaignSpecification")
     public String showCampaignSpecification(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "campaignId") Long campaignId,
@@ -254,6 +261,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/addObserver")
+    @Right(description = "Кампании - добавить наблюдателя",name = "addObserver")
     public String addObserver(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam("campaignId") Long campaignId,
@@ -269,6 +277,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/delObserver")
+    @Right(description = "Кампании - удалить наблюдателя",name = "delObserver")
     public String delObserver(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam("campaignId") Long campaignId,
@@ -282,6 +291,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/getShapeExcel")
+    @Right(description = "Кампании - получить форму для загрузки клиентов",name = "getShapeExcel")
     public void getShapeExcel(Map<String, Object> model, HttpServletResponse response, HttpServletRequest request) throws Exception {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         response.setContentType("application/octet-stream");
@@ -290,6 +300,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/setXls")
+    @Right(description = "Кампании - загрузить клиентов",name = "setXls")
     public String setXls(Map<String, Object> model,
             @RequestParam(value = "fileXls") MultipartFile fileXls,
             String checkbox, HttpServletRequest request,
@@ -312,6 +323,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/eventAppointSave")
+    @Right(description = "Кампании - распределить клиентов",name = "eventAppoint")
     public String saveAppointEvent(Map<String, Object> model,
             @RequestParam(value = "campaignId") Long campaignId,
             @RequestParam(value = "arrayClientIdUserId") String[] arrayClientIdUserId,
@@ -330,6 +342,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/eventShowAllAppoint")
+    @Right(description = "Кампании - распределить клиентов",name = "eventAppoint")
     public String showAllAppointEvent(Map<String, Object> model,
             @RequestParam(value = "campaignId") Long campaignId,
             RedirectAttributes ras,
@@ -352,6 +365,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/eventAppointSaveAll")
+    @Right(description = "Кампании - распределить клиентов",name = "eventAppoint")
     public String saveAllAppointEvent(Map<String, Object> model,
             @RequestParam(value = "campaignId") Long campaignId,
             @RequestParam(value = "clientNum", required = false) String[] clientNumArray,
@@ -377,6 +391,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/eventClient")
+    @Right(description = "Кампании - детализация отчетов",name = "eventClient")
     public String eventClient(Map<String, Object> model,
             @RequestParam(value = "campaignId") Long campaignId,
             @RequestParam(value = "assigned", required = false) Integer assigned,
@@ -391,7 +406,6 @@ public class EventController extends WebController {
         }
 
         model.put("events", eventService.getEventFilter(campaignId, cabinetId, assigned, processed));
-        //errors.add("finalEvsCount="+eventService.getEventFilter(campaignId, cabinetId, assigned, processed).size()+";");
         model.put("campaign", eventService.getCampaign(campaignId));
         model.put("cabinetUserList", eventService.getActiveMakingCallsUsers(cabinetId));
         model.put("assignedMap", getAssignedMap(eventService.getActiveMakingCallsUsers(cabinetId)));
@@ -404,6 +418,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/eventClientXLS")
+    @Right(description = "Кампании - скачать детализацию отчетов",name = "eventClientXLS")
     public void geteventClientXLS(Map<String, Object> model,
             HttpServletResponse response,
             @RequestParam(value = "campaignId") Long campaignId,
@@ -472,6 +487,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/event")
+    @Right(description = "Звонки - совершать исходящие",name = "event")
     public String eventPage(Map<String, Object> model,
             @RequestParam(value = "campaignId") Long campaignId,
             @RequestParam(value = "eventId", required = false) Long eventId,
@@ -493,12 +509,10 @@ public class EventController extends WebController {
                 ras.addFlashAttribute("message", eventService.getMessages());
                 return "redirect:/Event/campaign";
             }
-            //eventService.clearHistory(ev.getEventId(),cabinetId);
             model.put("event", ev);
         } else {
             Event ev = eventService.getAvailableEventById(eventId);
             model.put("event", ev);
-            //eventService.clearHistory(ev.getEventId(),cabinetId);
         }
         model.put("failReasons", eventService.getAllFailReasons(strategyId));
         model.put("campaign", eventService.getCampaign(campaignId));
@@ -511,6 +525,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/campaign")
+    @Right(description = "Звонки - совершать исходящие",name = "event")
     public String campaignPage(Map<String, Object> model,
             HttpServletRequest request,
             RedirectAttributes ras) throws Exception {
@@ -523,6 +538,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/inCampaign")
+    @Right(description = "Звонки - совершать входящие",name = "inCampaign")
     public String inCampaignPage(Map<String, Object> model,
             HttpServletRequest request,
             RedirectAttributes ras) throws Exception {
@@ -535,6 +551,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/in")
+    @Right(description = "Звонки - совершать входящие",name = "inCampaign")
     public String in(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "strategyId") Long strategyId,
@@ -550,6 +567,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/inCall")
+    @Right(description = "Звонки - совершать входящие",name = "inCampaign")
     public String inCall(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "moduleId") Long moduleId,
@@ -570,6 +588,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/inCallReport")
+    @Right(description = "Звонки - отчет по входящим",name = "inCallReport")
     public String inCallReport(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "strategyId", required = false) Long strategyId,
@@ -602,6 +621,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/inCallReportDetail")
+    @Right(description = "Звонки - отчет по входящим",name = "inCallReport")
     public String inCallReportDetail(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "strategyId") Long strategyId,
@@ -641,6 +661,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("updateClientFromUser")
+    @Right(description = "Звонки - совершать исходящие",name = "event")
     @ResponseBody
     public JsonResponse updateClientOrEvent(Map<String, Object> model, @RequestParam(value = "eventId", required = false) Long eventId,
             @RequestParam(value = "clientId") Long clientId, @RequestParam(value = "param") String param,
@@ -678,17 +699,9 @@ public class EventController extends WebController {
         }
     }
 
-    /*@RequestMapping("writeModuleInHistory")
-     @ResponseBody
-     public String writeModuleInHistory(Map<String, Object> model, @RequestParam(value = "moduleId") Long moduleId, @RequestParam(value = "eventId") Long eventId, @RequestParam(value = "date") Long datelong, HttpServletRequest request) throws Exception {
-     lk.dataByUserAndCompany(request, model);
-     Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-     User user = authManager.getCurrentUser();
-     Date date = new Date(datelong);
-     boolean performed = eventService.writeModuleInHistory(date, user.getId(), cabinetId, moduleId, eventId);
-     return StringAdapter.getString(date);
-     }*/
+
     @RequestMapping("/badFinish")
+    @Right(description = "Звонки - совершать исходящие",name = "event")
     public String badFinish(Map<String, Object> model, @RequestParam(value = "eventId") Long eventId,
             @RequestParam(value = "failReasonId") Long failReasonId, @RequestParam(value = "campaignId") Long campaignId,
             @RequestParam(value = "comment") String finalComment, @RequestParam(value = "modules", required = false) Long[] modules,
@@ -705,6 +718,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/goodFinish")
+    @Right(description = "Звонки - совершать исходящие",name = "event")
     public String goodFinish(Map<String, Object> model, @RequestParam(value = "eventId") Long eventId,
             @RequestParam(value = "successDate") Date successDate, @RequestParam(value = "campaignId") Long campaignId,
             @RequestParam(value = "comment") String finalComment, @RequestParam(value = "modules", required = false) Long[] modules,
@@ -724,6 +738,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/postponeEvent")
+    @Right(description = "Звонки - совершать исходящие",name = "event")
     public String postponeEvent(Map<String, Object> model, @RequestParam(value = "eventId") Long eventId,
             @RequestParam(value = "postponeDate") Date postponeDate, @RequestParam(value = "campaignId") Long campaignId,
             @RequestParam(value = "comment") String finalComment, @RequestParam(value = "modules", required = false) Long[] modules,
@@ -739,6 +754,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/postponedEvents")
+    @Right(description = "Звонки - совершать исходящие",name = "event")
     public String showPostponedEvents(Map<String, Object> model, @RequestParam(value = "dateTo", required = false) Date dateTo,
             @RequestParam(value = "dateFrom", required = false) Date dateFrom, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
@@ -751,6 +767,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/assignEvent")
+    @Right(description = "Переназначить",name = "assignEvent")
     public String assignEvent(Map<String, Object> model,
             @RequestParam(value = "campaignId") Long campaignId,
             @RequestParam(value = "arrayClientIdUserId") String[] arrayClientIdUserId,
@@ -769,6 +786,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/assignOneEvent")
+    @Right(description = "Переназначить",name = "assignEvent")
     public String assignOneEvent(Map<String, Object> model, @RequestParam(value = "userId", required = false) Long userId, @RequestParam(value = "campaignId") Long campaignId,
             @RequestParam(value = "eventId") Long eventId, RedirectAttributes ras, HttpServletRequest request) throws Exception {
         List<String> errors = (List<String>) model.get("errors");
@@ -786,6 +804,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/showAssigningOneEvent")
+    @Right(description = "Переназначить",name = "assignEvent")
     public String showAssigningOneEvent(Map<String, Object> model, @RequestParam(value = "campaignId") Long campaignId,
             @RequestParam(value = "eventId") Long eventId, RedirectAttributes ras, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
@@ -798,6 +817,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/changeUserCampaignAssignation")
+    @Right(description = "Переназначить",name = "assignEvent")
     public String changeUserCampaignAssignation(Map<String, Object> model, @RequestParam(value = "campaignId") Long campaignId,
             @RequestParam(value = "userFromId", required = false) Long userFromId, @RequestParam(value = "userToId", required = false) Long userToId, RedirectAttributes ras, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
@@ -809,6 +829,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/moduleReportDetalisation")
+    @Right(description = "Кампании - детализация отчетов",name = "eventClient")
     public String moduleReportDetalisation(Map<String, Object> model, @RequestParam(value = "campaignId") Long campaignId,
             @RequestParam(value = "moduleId", required = false) Long moduleId, RedirectAttributes ras, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
@@ -820,6 +841,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/moduleReportDetalisationXLS")
+    @Right(description = "Кампании - скачать детализацию отчетов",name = "eventClientXLS")
     public void moduleReportDetalisationXLS(Map<String, Object> model,
             @RequestParam(value = "campaignId") Long campaignId,
             @RequestParam(value = "moduleId", required = false) Long moduleId,
@@ -835,6 +857,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/workReportDetalisation")
+    @Right(description = "Кампании - детализация отчетов",name = "eventClient")
     public String workReportDetalisation(Map<String, Object> model, @RequestParam(value = "campaignId") Long campaignId,
             @RequestParam(value = "userId", required = false) Long userId,
             @RequestParam(value = "dateFrom", required = false) Date dateFrom,
@@ -855,6 +878,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/workReportDetalisationXLS")
+    @Right(description = "Кампании - скачать детализацию отчетов",name = "eventClientXLS")
     public void workReportDetalisationXLS(Map<String, Object> model,
             HttpServletResponse response,
             HttpServletRequest request,
@@ -880,6 +904,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/failReasonReportDetalisation")
+    @Right(description = "Кампании - детализация отчетов",name = "eventClient")
     public String failReasonReportDetalisation(Map<String, Object> model, @RequestParam(value = "campaignId") Long campaignId,
             @RequestParam(value = "failReasonId", required = false) Long failReasonId,
             RedirectAttributes ras, HttpServletRequest request) throws Exception {
@@ -893,6 +918,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("/failReasonReportDetalisationXLS")
+    @Right(description = "Кампании - скачать детализацию отчетов",name = "eventClientXLS")
     public void failReasonReportDetalisationXLS(Map<String, Object> model,
             HttpServletResponse response,
             HttpServletRequest request,
@@ -910,6 +936,7 @@ public class EventController extends WebController {
     }
 
     @RequestMapping("setShowModulesWithText")
+     @Right(description = "Кампании - установить предварительный просмотр диалога",name = "setShowModulesWithText")
     @ResponseBody
     public JsonResponse setShowModulesWithText(Map<String, Object> model,
             @RequestParam(value = "campaignId", required = false) Long campaignId,
@@ -936,21 +963,7 @@ public class EventController extends WebController {
             }
             res.setMessage(err);
         }
-        //String s = res.getMessage();
-        //s+=":"+show+":"+Boolean.valueOf(show)+":";
-        //res.setMessage(s);
         return res;
     }
 
-    /*@RequestMapping("/summarizedModuleReport")
-     public String showModuleReport(Map<String, Object> model,@RequestParam(value = "campaignId") Long campaignId, RedirectAttributes ras, HttpServletRequest request) throws Exception {
-     lk.dataByUserAndCompany(request, model);
-     Long cabinetId = (long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        
-     model.put("reportData",reportService.getDataByModules(campaignId,cabinetId));
-     //model.put("users",reportService.getUserList(cabinetId));
-     //model.put("modules", moduleService.getAllModulesMap(cabinetId));
-     model.put("errors", reportService.getErrors());
-     return "moduleReport";
-     }*/
 }
