@@ -132,6 +132,7 @@
             tinymce.init({
                 selector: "textarea",
                 theme: "modern",
+                height: '400px',
                 menubar: false,
                 toolbar_items_size: 'small',
                 language: 'ru',
