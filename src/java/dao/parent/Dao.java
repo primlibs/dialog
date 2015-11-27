@@ -31,8 +31,8 @@ public abstract class Dao<T> {
     }
 
     public void deleteObj(final T obj) {
-    getCurrentSession().delete(obj);
-  }
+        getCurrentSession().delete(obj);
+    }
     
     public void save(T obj) {
         getCurrentSession().save(obj);

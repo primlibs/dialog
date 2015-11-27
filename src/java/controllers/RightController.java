@@ -38,6 +38,7 @@ public class RightController extends WebController {
     @RequestMapping(value = {"/showAllSystemRights"})
     @Right(description="Права - модерация структуры",name="showAllSystemRights")
     public String showAllSystemRights(HttpServletRequest request, Map<String, Object> model) throws Exception{
+        lk.dataByUserAndCompany(request, model);
         User user=userService.getCurrentUser();
         List<entities.Right> listRight=new ArrayList();
         if(user!=null && user.isSuperAdmin()){
