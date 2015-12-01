@@ -49,6 +49,7 @@ public abstract class Dao<T> {
     }
 
     public void delete(T obj) {
+        getCurrentSession().evict(obj);
         getCurrentSession().delete(obj);
     }
 
