@@ -74,7 +74,7 @@ public class StrategyDao extends Dao<Strategy> {
         for (Group group : grlist) {
             groupDao.delete(group);
         }
-        getCurrentSession().delete(str);
+        super.delete(str);
     }
 
 }
