@@ -29,10 +29,6 @@ public abstract class Dao<T> {
     protected Session getCurrentSession() {
         return sessionFactory.getCurrentSession();
     }
-
-    public void deleteObj(final T obj) {
-        getCurrentSession().delete(obj);
-    }
     
     public void save(T obj) {
         getCurrentSession().save(obj);
@@ -49,7 +45,7 @@ public abstract class Dao<T> {
     }
 
     public void delete(T obj) {
-        getCurrentSession().evict(obj);
+        obj=(T) getCurrentSession().merge(obj);
         getCurrentSession().delete(obj);
     }
 

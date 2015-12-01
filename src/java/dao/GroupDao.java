@@ -72,7 +72,7 @@ public class GroupDao extends Dao<Group>{
         for (Module ml : moduleList) {
              moduleDao.delete(ml);
         }
-        getCurrentSession().delete(group);
+        delete(group);
     }
     
 }
