@@ -37,7 +37,7 @@ public class PrimService {
 
     protected <T extends PrimEntity> void _delete(Long id, Dao<T> dao) {
         T obj = dao.find(id);
-        dao.deleteObj(obj);
+        dao.delete(obj);
     }
     
     protected <T extends PrimEntity> void _save(T ent, Dao<T> dao) {
