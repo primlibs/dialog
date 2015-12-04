@@ -31,7 +31,7 @@ public class RightService extends PrimService {
 
 
     public List<Right> getRights() {
-        return rightDao.getAllAsc("actionDescription");
+        return rightDao.getAllAsc("changeable","actionDescription");
     }
     
     public void update(RightStack rst) throws Exception {
@@ -78,5 +78,15 @@ public class RightService extends PrimService {
            }
        }
     }  
+    
+     public void change(Long rightId) throws Exception {
+         Right rt = rightDao.find(rightId);
+         if(rt.isChangeable==true){
+             rt.setChangeable(null);
+         }else{
+             rt.setChangeable(1);
+         }
+         rightDao.update(rt);
+     }
     
 }

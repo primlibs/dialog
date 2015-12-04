@@ -49,4 +49,15 @@ public class RightController extends WebController {
         return "showAllSystemRights";
     }
     
+    @RequestMapping(value = {"/change"})
+    @Right(description="Права - изменение",name="change")
+    public String change(HttpServletRequest request, Map<String, Object> model,@RequestParam("rightId") Long rightId) throws Exception{
+        lk.dataByUserAndCompany(request, model);
+        User user=userService.getCurrentUser();
+        if(user!=null && user.isSuperAdmin()){
+           RightService.change(rightId);
+        }
+        return "redirect:/Right/showAllSystemRights";
+    }
+    
 }
