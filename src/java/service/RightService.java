@@ -81,7 +81,7 @@ public class RightService extends PrimService {
     
      public void change(Long rightId) throws Exception {
          Right rt = rightDao.find(rightId);
-         if(rt.isChangeable==true){
+         if(rt.isChangeable()==true){
              rt.setChangeable(null);
          }else{
              rt.setChangeable(1);
