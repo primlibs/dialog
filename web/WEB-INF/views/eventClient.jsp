@@ -66,7 +66,7 @@
                 <tr>
                     <th style="max-width: 3%;">№</th>
                     <th>Уникальный номер</th>
-                    <th>Клиент</th>
+                    <th>Клиент наименование</th>
                     <th style="max-width: 10%;">Контактное лицо</th>
                     <th style="max-width: 10%;">Телефон К.Л.</th>
                     <th style="max-width: 10%;">Л.П.Р.</th>
