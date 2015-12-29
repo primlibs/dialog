@@ -75,15 +75,16 @@
             </div>
             <a style="margin-left: 10px;margin-right: 10px;" href="<c:url value="/Event/eventShowAllAppoint?campaignId=${campaign.campaignId}"/>" class="btn btn-primary" role="button">Распределить клиентов</a>
 
-            <a href="#" style="float: right;" class="btn btn-danger deletinghref" role="button"
-               data-toggle="modal"
-               data-target="#deleteWindow">Удалить</a>
+
 
             <c:if test="${!campaign.isClosed()}">
                 <a href="<c:url value="/Event/closeCampaign?campaignId=${campaign.campaignId}"/>" style="float: right;margin-right: 10px;" class="btn btn-danger deletinghref" role="button">Закрыть</a>
             </c:if>
             <c:if test="${campaign.isClosed()}">
                 <a href="<c:url value="/Event/openCampaign?campaignId=${campaign.campaignId}"/>" style="float: right;margin-right: 10px;" class="btn btn-warning deletinghref" role="button">Открыть</a>
+                <a href="#" style="float: right;" class="btn btn-danger deletinghref" role="button"
+                data-toggle="modal"
+                data-target="#deleteWindow">Удалить</a>
             </c:if>
         </div>
 
