@@ -82,6 +82,7 @@
             </c:if>
             <c:if test="${campaign.isClosed()}">
                 <a href="<c:url value="/Event/openCampaign?campaignId=${campaign.campaignId}"/>" style="float: right;margin-right: 10px;" class="btn btn-warning deletinghref" role="button">Открыть</a>
+                
                 <a href="#" style="float: right;" class="btn btn-danger deletinghref" role="button"
                 data-toggle="modal"
                 data-target="#deleteWindow">Удалить</a>
