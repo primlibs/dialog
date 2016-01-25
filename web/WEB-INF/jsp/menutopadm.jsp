@@ -43,6 +43,9 @@
                 <li><a href="<c:url value="/Lk/cabinets"/>">Кабинеты</a></li>
             </ul></li>
         </c:if>
+        <c:if test="${superadmin eq 'superadmin'}">
+            <li><a href="<c:url value="/Task/taskList"/>">Задачи</a></li>
+        </c:if>    
         <li><a href="#" class="btn btn-default learn" style="border:0px solid transparent"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a></li>
     </ul> 
     <%@include file="/WEB-INF/jsp/menuright.jsp" %>
