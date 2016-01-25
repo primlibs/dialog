@@ -19,10 +19,7 @@ import org.springframework.stereotype.Service;
 import service.parent.PrimService;
 import support.StringAdapter;
 
-/**
- *
- * @author Юрий
- */
+
 @Service
 @Transactional
 @Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -36,7 +33,7 @@ public class TaskService extends PrimService {
 
     
     public List<Task> getTaskList(Date from,Date to,Long pkId){
-        return taskDao.getActiveTask(Date from,Date to,Long pkId);
+        return taskDao.getActiveTask(from,to, pkId); 
     }
     
     

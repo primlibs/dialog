@@ -23,7 +23,7 @@ public class TaskDao extends Dao<Task>{
        return Task.class;
     }
     
-    public List<Group> getActiveTask(Date from,Date to,Long pkId){
+    public List<Task> getActiveTask(Date from,Date to,Long pkId){
         String hql = "from Task where cabinet.pkId=:pkId and performDate > :dateFrom and performDate < :dateTo";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("pkId", pkId);
