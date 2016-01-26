@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import service.TaskService;
+import service.UserService;
 import support.DateAdapter;
 
 
@@ -24,15 +25,18 @@ public class TaskController extends WebController {
     @Autowired
     private TaskService taskService;
 
+    @Autowired
+    private UserService userService;
 
     @RequestMapping("/taskList")
     public String taskList(Map<String, Object> model,
             
-            HttpServletRequest request) throws Exception {
+        HttpServletRequest request) throws Exception {
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         Date from=DateAdapter.getStartOfDate(new Date());
         Date to=DateAdapter.getEndOfDate(new Date());
-        taskService.getTaskList(from,to,cabinetId);
+        model.put("userMap",userService.getMakingCallsAndParticipatedUsersMap(cabinetId));
+        model.put("taskList",taskService.getTaskList(from,to,cabinetId));
         model.put("errors", taskService.getErrors());
         return "taskList";
     }
