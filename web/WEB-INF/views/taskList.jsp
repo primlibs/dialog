@@ -11,7 +11,7 @@
         <%@include file="/WEB-INF/jsp/error.jsp" %> 
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
         <div class="row ">
-        <h3>Задачи</h3>
+            <h3>Задачи</h3>
         </div>
 
         <div class="form-group">
@@ -48,9 +48,14 @@
                                     <input class="form-control" id="fNm" type="text" name="name" placeholder="Название"/>
                                 </div>
                                 <div class="form-group">
-                                    <label for="dtm1">Дата выполнения</label>    
-                                    <input class="form-control" type="text" name="taskDate" id="fDtm1" placeholder="Дата выполнения"/>
-                                </div>
+                                    <label for="dtm1">Дата выполнения</label>   
+                                    <div class="input-group date" id="dtm1">
+                                        <input class="form-control" type="text" name="taskDate" id="fDtm1" placeholder="Дата выполнения"/>
+                                        <span class="input-group-addon">
+                                            <i class="glyphicon glyphicon-calendar glyphicon-nonescaped"></i>
+                                        </span>
+                                    </div>
+                                 </div>   
                                 <div class="form-group">
                                     <label for="fPr">Исполнитель</label>      
                                     <select class="form-control" name="performerId" id="fPr">
@@ -75,7 +80,7 @@
             });
         </script>
         <script type="text/javascript">
-           $(document).ready(function () {
+            $(document).ready(function () {
                 //Установим для виджета русскую локаль с помощью параметра language и значения ru
                 $('#dtm1').datetimepicker(
                         {language: 'ru'}
