@@ -11,7 +11,7 @@
         <%@include file="/WEB-INF/jsp/error.jsp" %> 
         <%@include file="/WEB-INF/jsp/message.jsp" %> 
         <div class="row ">
-            <h3>Задачи</h3>
+        <h3>Задачи</h3>
         </div>
 
         <div class="form-group">
@@ -42,14 +42,24 @@
                     </div>
                     <div class="modal-body content" style="min-height:400px;" pos="0">
                         <div class="col-md-12">
-                            <form class="form-control" action="">
-                                <input class="form-control" type="text" name="name"/>
-                                <input class="form-control" type="text" name="taskDate"/>
-                                <select class="form-control" name="performerId">
-                                    <c:forEach var="entity" items="${userMap}">
-                                        <option value="${entity.key}">${entity.value.surname} ${entity.value.name}</option>
-                                    </c:forEach>
-                                </select>
+                            <form class="form " role="form" action="#" method="POST">
+                                <div class="form-group">
+                                    <label for="fNm">Название</label>    
+                                    <input class="form-control" id="fNm" type="text" name="name" placeholder="Название"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="dtm1">Дата выполнения</label>    
+                                    <input class="form-control" type="text" name="taskDate" id="fDtm1" placeholder="Дата выполнения"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="fPr">Исполнитель</label>      
+                                    <select class="form-control" name="performerId" id="fPr">
+                                        <c:forEach var="entity" items="${userMap}">
+                                            <option value="${entity.key}">${entity.value.surname} ${entity.value.name}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>  
+                                <input class="form-control btn btn-primary" type="submit" name="submit" value="Создать"/>
                             </form>
                         </div>
                     </div>
@@ -64,6 +74,13 @@
                 });
             });
         </script>
-
+        <script type="text/javascript">
+           $(document).ready(function () {
+                //Установим для виджета русскую локаль с помощью параметра language и значения ru
+                $('#dtm1').datetimepicker(
+                        {language: 'ru'}
+                );
+            });
+        </script>
     </body>
 </html>
