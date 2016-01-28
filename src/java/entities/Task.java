@@ -57,7 +57,6 @@ public class Task extends PrimEntity {
     
     
     @Column(name = "close_type")
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Integer closeType;
 
     @Column(name = "perform_date")
