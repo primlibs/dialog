@@ -2,6 +2,8 @@ $(function () {
 
     $('.showableModule').click(function () {
         showModule($(this).attr('id'));
+        $('.showableModule').css("font-weight","normal");
+        $(this).css("font-weight","Bold");
     });
 
     $('.checkIn').click(function () {
