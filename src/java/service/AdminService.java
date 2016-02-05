@@ -7,6 +7,7 @@ package service;
 
 import dao.CabinetUserDao;
 import dao.ClientDao;
+import dao.ModuleEventClientDao;
 import dao.PersonalCabinetDao;
 import dao.StrategyDao;
 import dao.TagDao;
@@ -14,6 +15,7 @@ import dao.TarifDao;
 import entities.CabinetUser;
 import entities.Campaign;
 import entities.Client;
+import entities.ModuleEventClient;
 import entities.PersonalCabinet;
 import entities.Strategy;
 import entities.Tag;
@@ -46,6 +48,9 @@ public class AdminService extends PrimService {
 
     @Autowired
     StrategyDao stratDao;
+    
+    @Autowired
+    ModuleEventClientDao moduleEventClientDao;
 
     @Autowired
     TagDao tagDao;
@@ -211,8 +216,14 @@ public class AdminService extends PrimService {
 
     public void delete(Long pkId) {
         PersonalCabinet pk = pkDao.find(pkId);
-
+ 
         if (pk != null) {
+            List<ModuleEventClient> mdEkList = pk.getModuleEventClientList();
+            for (ModuleEventClient mec : mdEkList) {
+                moduleEventClientDao.delete(mec);
+            }
+            
+            
             List<Strategy> strList = pk.getStrategyList();
             for (Strategy str : strList) {
                 stratDao.delete(str);
