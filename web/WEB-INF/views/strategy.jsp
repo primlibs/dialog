@@ -73,7 +73,7 @@
                                     <tr class="sortableModule${group.getId()}" id="${group.getId()}_${module.position}" data-position="${modulePosition}" data-moduleid="${module.moduleId}" style="cursor: pointer;">
                                             <c:set var="modulePosition" value="${modulePosition+1}"></c:set>
                                         <td><span style="cursor: pointer;" ondblclick="location = '<c:url value="/Strategy/showModule?moduleId=${module.moduleId}&strategyId=${group.strategy.strategyId}"/>'">
-                                                <span data-method="changemodulename" data-moduleid="${module.moduleId}" name="modulename_${module.moduleId}" id="${module.moduleId}" style="color:${module.hexcolor}">${module.moduleName}</span>
+                                                <span data-method="changemodulename" data-moduleid="${module.moduleId}" name="modulename_${module.moduleId}" id="${module.moduleId}" style="color:#${module.hexcolor}">${module.moduleName}</span>
                                             </span></td>
                                         <td><input type="text" class="pick-a-color form-control" moduleId="${module.moduleId}"></td>     
                                         <td><a class="btn btn-warning btn-xs changingbtn" id="modulename_${module.moduleId}" href="#">Изменить</a></td> 
@@ -141,13 +141,12 @@
             $(".pick-a-color").on("change", function () {
               $('#'+$(this).attr('moduleId')).css('color','#'+$(this).val());
               var moduleId=$(this).attr('moduleId');
-              var newColor='#'+$(this).val();
+              var newColor=$(this).val();
               $.ajax({
                     url: "../Strategy/updateModuleHexcolor?moduleId=" + moduleId + "&newColor=" + newColor,
                     dataType: "json",
                     cache: false,
                     success: function (json) {
-                         alert("Dct так: " + json);
                     },
                     error: function (json) {
                         alert("Что-то пошло не так: " + json);
