@@ -138,7 +138,7 @@
 
         </script>
         <script type="text/javascript">
-            $(".pick-a-color input").on("change", function () {
+            $(".pick-a-color").on("change", function () {
               alert($(this).val());
             });
         </script>    
