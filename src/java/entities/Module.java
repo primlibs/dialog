@@ -66,6 +66,9 @@ public class Module extends PrimEntity {
     
     @Column(name = "position")
     private Long position;
+    
+    @Column(name = "hexcolor")
+    private String hexcolor;
 
     @Column(name = "delete_date")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -152,4 +155,14 @@ public class Module extends PrimEntity {
         this.position = position;
     }
 
+    public String getHexcolor() {
+        return hexcolor;
+    }
+
+    public void setHexcolor(String hexcolor) {
+        this.hexcolor = hexcolor;
+    }
+
+    
+    
 }

@@ -130,12 +130,18 @@
         <script>$('.deletingmodulehref').click(function(){var cuid = $(this).attr('id');$('[name = moduleIdtoDelete]').val(cuid);});</script>
         <script>$('.deletinggrouphref').click(function(){var cuid = $(this).attr('id');$('[name = groupIdtoDelete]').val(cuid);});</script>
         <script type="text/javascript">
-
             $(document).ready(function () {
-             $(".pick-a-color").pickAColor();
+             $(".pick-a-color").pickAColor({
+                 showHexInput            : false
+             });
             });
 
         </script>
+        <script type="text/javascript">
+            $(".pick-a-color input").on("change", function () {
+              alert($(this).val());
+            });
+        </script>    
         <script type="text/javascript">
             tinymce.init({
                 selector: "textarea",
