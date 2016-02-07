@@ -283,6 +283,20 @@ public class ModuleService extends PrimService {
         }
     }
     
+    public void changeColor(Long moduleId,String color,Long pkId){
+        Module module = moduleDao.find(moduleId);
+        if(module!=null){
+            if(module.getCabinet().getId().equals(pkId)){
+                module.setHexcolor(color);
+                if(validate(module)){
+                    moduleDao.update(module);
+                }
+            }
+        }
+        
+    }
+    
+    
     private Long updatePositionsAndGetAvailable(Long groupId, Long pkId) {
         long i = 1;
         for (Module m : moduleDao.getActiveModules(groupId, pkId)) {

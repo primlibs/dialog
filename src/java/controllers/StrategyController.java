@@ -8,6 +8,8 @@ package controllers;
 import static controllers.LkController.CABINET_ID_SESSION_NAME;
 import controllers.parent.WebController;
 import entities.Strategy;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import service.ModuleService;
 import service.StrategyService;
 import support.JsonResponse;
 import support.StringAdapter;
+import support.commons.Right;
 
 /**
  *
@@ -332,5 +335,43 @@ public class StrategyController extends WebController {
         ras.addFlashAttribute("errors", strategyService.getErrors());
         return "redirect:/Strategy/show";
     }
+    
+    
+    @RequestMapping("updateModuleHexcolor")
+    @ResponseBody
+    public JsonResponse updateClientOrEvent(Map<String, Object> model, @RequestParam(value = "moduleId", required = false) Long moduleId,
+            @RequestParam(value = "newColor") String newColor, HttpServletRequest request) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+
+        Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+
+        JsonResponse res = JsonResponse.getInstance();
+
+        moduleService.changeColor(moduleId, newColor, cabinetId);
+        List<String> errs = (List<String>) model.get("errors");
+        if (errs == null) {
+            errs = new ArrayList();
+        }
+        List<String> serviceErrs = moduleService.getErrors();
+        if (serviceErrs == null) {
+            serviceErrs = new ArrayList();
+        }
+        errs.addAll(serviceErrs);
+
+        if (errs.isEmpty()) {
+            res.setStatus(Boolean.TRUE);
+            return res;
+        } else {
+            res.setStatus(Boolean.FALSE);
+            String err = "";
+            for (String s : errs) {
+                err += s + "; ";
+            }
+            //return "Ошибка: " + err;
+            res.setMessage(err);
+            return res;
+        }
+    }
+
     
 }

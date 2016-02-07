@@ -65,7 +65,7 @@
                                 <c:forEach var="entry"  items="${аctiveMap}" >
                                     <tr style="background: moccasin;cursor:pointer;" class="fullshowgroupwithmodules" data-fullshowgroupid="${entry.key.groupId}"><td style="text-align: center;"> ${entry.key.groupName}:</td> </tr>
                                         <c:forEach var="module" items="${entry.value}" >
-                                            <tr><td><span style="display: block;cursor: pointer;color: slategrey" class="showableModule hidingModule" data-fullshowgroupid="${entry.key.groupId}" id="${module.moduleId}">
+                                            <tr><td><span style="display: block;cursor: pointer;color: slategrey" class="showableModule hidingModule" data-fullshowgroupid="${entry.key.groupId}" id="${module.moduleId}" style="color:${module.hexcolor}">
                                                    ${module.moduleName}<!--<a href="<c:url value="/Event/eventProcessing?campaignId=${param.campaignId}&groupId=${entry.key.groupId}&moduleId=${module.moduleId}&eventId=${event.eventId}"/>">${module.moduleName}</a>-->
                                                     </span></td></tr>
                                             <tr><td style="text-align: justify;" class="hidingModule" data-fullshowgroupid="${entry.key.groupId}">${module.bodyText}</td></tr>
