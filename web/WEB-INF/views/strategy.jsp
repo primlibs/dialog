@@ -69,18 +69,19 @@
                                     <input type="hidden" form="addingModuleForm_${myIndex.count}" name="strategyId" value=${group.strategy.strategyId}>
                                     <button type="submit" form="addingModuleForm_${myIndex.count}" name="submit" class="btn btn-primary btn-xs">Добавить модуль</button></td></tr>
                                     <c:set var="modulePosition" value="1"></c:set>
-                                    <c:forEach var="module" items="${groupMap.get(group)}">
-                                <tr class="sortableModule${group.getId()}" id="${group.getId()}_${module.position}" data-position="${modulePosition}" data-moduleid="${module.moduleId}" style="cursor: pointer;">
-                                    <c:set var="modulePosition" value="${modulePosition+1}"></c:set>
-                                    <td><span style="cursor: pointer;" ondblclick="location = '<c:url value="/Strategy/showModule?moduleId=${module.moduleId}&strategyId=${group.strategy.strategyId}"/>'">
-                                            <span data-method="changemodulename" data-moduleid="${module.moduleId}" name="modulename_${module.moduleId}" id="${module.moduleId}">${module.moduleName}</span>
-                                        </span></td>
-                                    <td><a class="btn btn-warning btn-xs changingbtn" id="modulename_${module.moduleId}" href="#">Изменить</a></td> 
-                                    <td><a href="#" id="${module.moduleId}" class="btn btn-primary btn-xs deletingmodulehref"
-                               data-toggle="modal"
-                               data-target="#deleteWindow1">Удалить</a></td>
-                                    <!--<td><a class="btn btn-primary btn-xs" role="button" href='<c:url value="/Group/deleteModule?moduleId=${module.moduleId}&groupId=${group.groupId}&strategyId=${group.strategy.strategyId}"/>'>Удалить</a></td>-->
-                                </tr>
+                                <c:forEach var="module" items="${groupMap.get(group)}">
+                                    <tr class="sortableModule${group.getId()}" id="${group.getId()}_${module.position}" data-position="${modulePosition}" data-moduleid="${module.moduleId}" style="cursor: pointer;">
+                                            <c:set var="modulePosition" value="${modulePosition+1}"></c:set>
+                                        <td><span style="cursor: pointer;" ondblclick="location = '<c:url value="/Strategy/showModule?moduleId=${module.moduleId}&strategyId=${group.strategy.strategyId}"/>'">
+                                                <span data-method="changemodulename" data-moduleid="${module.moduleId}" name="modulename_${module.moduleId}" id="${module.moduleId}">${module.moduleName}</span>
+                                            </span></td>
+                                        <td><input type="text" class="pick-a-color form-control"></td>     
+                                        <td><a class="btn btn-warning btn-xs changingbtn" id="modulename_${module.moduleId}" href="#">Изменить</a></td> 
+                                        <td><a href="#" id="${module.moduleId}" class="btn btn-primary btn-xs deletingmodulehref"
+                                    data-toggle="modal"
+                                    data-target="#deleteWindow1">Удалить</a></td>
+                                        <!--<td><a class="btn btn-primary btn-xs" role="button" href='<c:url value="/Group/deleteModule?moduleId=${module.moduleId}&groupId=${group.groupId}&strategyId=${group.strategy.strategyId}"/>'>Удалить</a></td>-->
+                                    </tr>
                                 </c:forEach>
                         </table>
                     </c:forEach>
@@ -128,6 +129,13 @@
         </div>
         <script>$('.deletingmodulehref').click(function(){var cuid = $(this).attr('id');$('[name = moduleIdtoDelete]').val(cuid);});</script>
         <script>$('.deletinggrouphref').click(function(){var cuid = $(this).attr('id');$('[name = groupIdtoDelete]').val(cuid);});</script>
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+             $(".pick-a-color").pickAColor();
+            });
+
+        </script>
         <script type="text/javascript">
             tinymce.init({
                 selector: "textarea",

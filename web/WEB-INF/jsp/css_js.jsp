@@ -16,7 +16,7 @@
 <link href="<c:url value='/css/bootstrap-datetimepicker.min.css'/>" rel="stylesheet" media="screen">
 <link rel="stylesheet" type="text/css" href=<c:url value='/css/body.css'/> >
 <link rel="stylesheet" type="text/css" href=<c:url value='/css/dialog.css'/> >
-
+<link rel="stylesheet" type="text/css" href=<c:url value='/css/pick-a-color-1.2.3.min.css'/> >
 
 <!--    js -->
 <script src="<c:url value='/js/jquery-1.11.2.min.js'/>"> </script>
@@ -26,5 +26,7 @@
 <script src="<c:url value='/js/dropdown.js'/>"> </script>
 <script src="<c:url value="/js/myJsOnViews/updateParam.js" />"></script>
 <script src="<c:url value='/js/jquery-ui.js'/>"> </script>
+<script src="<c:url value='/js/pick-a-color-1.2.3.min.js'/>"> </script>
+<script src="<c:url value='/js/jstinycolor-0.9.15.min.js'/>"> </script>
 
 
