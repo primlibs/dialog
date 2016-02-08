@@ -95,7 +95,7 @@ public class CabinetUserService extends PrimService {
     }
     
     public Boolean isUserInCabinet(Long userId,Long pkId){
-        return cabinetUserDao.isUserInCabinet(Long userId,Long pkId);
+        return cabinetUserDao.isUserInCabinet(userId,pkId);
     }
     
 }
