@@ -10,7 +10,6 @@ import dao.PersonalCabinetDao;
 import entities.CabinetUser;
 import entities.PersonalCabinet;
 import entities.User;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,6 +94,8 @@ public class CabinetUserService extends PrimService {
         return false;
     }
     
-    
+    public Boolean isUserInCabinet(Long userId,Long pkId){
+        return cabinetUserDao.isUserInCabinet(Long userId,Long pkId);
+    }
     
 }

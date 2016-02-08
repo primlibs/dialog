@@ -64,5 +64,16 @@ public class CabinetUserDao extends Dao<CabinetUser> {
         return (CabinetUser)query.uniqueResult();
     }
 
+    public boolean isUserInCabinet(Long userId,Long pkId){
+        String hql = "from CabinetUser cu where cu.cabinet.pkId=:pkId and cu.user.userId=:userId and cu.deleteDate is null";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("pkId", pkId);
+        query.setParameter("userId", userId);
+        if(query.list().isEmpty()){
+            return false;
+        }
+        return true;
+    }
+    
 
 }

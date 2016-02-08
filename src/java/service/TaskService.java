@@ -30,6 +30,9 @@ public class TaskService extends PrimService {
 
     @Autowired 
     private PersonalCabinetDao personalCabinetDao;
+    
+    @Autowired 
+    private CabinetUserService cabinetUserService;
 
     
     public List<Task> getTaskList(Date from,Date to,Long pkId){
@@ -103,11 +106,16 @@ public class TaskService extends PrimService {
     
     public void save(String name, User performer,Date performDate, Long pkId) {
         if (StringAdapter.NotNull(name,performer,performDate,pkId)) {
-            Task task= new Task();
-            task.setName(name);
-            task.setPerformer(performer);
-            task.setPerformDate(performDate);
-            taskDao.update(task);
+            if(cabinetUserService.isUserInCabinet(performer.getUserId(),pkId)){
+                Task task= new Task();
+                task.setName(name);
+                task.setPerformer(performer);
+                task.setPerformDate(performDate);
+                task.setCabinet(personalCabinetDao.find(pkId));
+                taskDao.save(task);
+            }else{
+                addError("Не найден пользователь");
+            }  
         } else {
             addError("Один из параметров не передан");
         }
