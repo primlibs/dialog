@@ -10,7 +10,7 @@
 
 
 
-<div class="navbar" style="margin-bottom: 0px">
+<div class="navbar" style="margin-bottom: 0px;border-bottom: solid black 1px;">
     <ul class="nav navbar-nav">
                <li><a href="<c:url value="/Event/campaignList"/>">Кампании</a></li>
                <li><a href="<c:url value="/Event/campaign"/>">Мои звонки</a></li>
