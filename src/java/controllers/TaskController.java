@@ -31,11 +31,15 @@ public class TaskController extends WebController {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private LkController lk;
 
     @RequestMapping("/taskList")
     @Right(description = "Задачи",name = "task")
-    public String taskList(Map<String, Object> model,
+    public String taskList(Map<String, Object> model,    
         HttpServletRequest request) throws Exception {
+        lk.dataByUserAndCompany(request, model);
         Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
         Date from=DateAdapter.getStartOfDate(new Date());
         Date to=DateAdapter.getEndOfDate(new Date());
@@ -52,6 +56,7 @@ public class TaskController extends WebController {
         @RequestParam(value = "taskDate", required = false) Date taskDate,  
         @RequestParam(value = "performerId", required = false) Long performerId,
         RedirectAttributes ras) throws Exception {
+            lk.dataByUserAndCompany(request, model);
             Long cabinetId = (Long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
             User us=userService.getUser(performerId);
             taskService.save(name, currentUser, taskDate, cabinetId);
