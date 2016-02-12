@@ -72,7 +72,7 @@
                         <iframe width="560" height="315" src="https://www.youtube.com/embed/G0eIbWXek-Q" frameborder="0" allowfullscreen></iframe>
                     </div>-->
                 </div>
-                <h1><a href="#" data-toggle="modal" data-target="#registrationwindow" class="label label-warning">Попробовать Диалог </a></h1>
+                <h1><a href="#" data-toggle="modal" data-target="#registrationwindow" class="label label-warning">Попробуйте Диалог </a></h1>
 
             </div>
         </div>    
