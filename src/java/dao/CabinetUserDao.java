@@ -50,7 +50,7 @@ public class CabinetUserDao extends Dao<CabinetUser> {
     }
     
     public List<CabinetUser> getMakingCallsCabUsers(Long pkId){
-        String hql = "from CabinetUser cu where cu.cabinet.pkId=:pkId and cu.makesCalls=1 and cu.deleteDate is null";
+        String hql = "from CabinetUser cu where cu.cabinet.pkId=:pkId and cu.makesCalls=1 and cu.deleteDate is null order by cu.user.surname";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("pkId", pkId);
         return query.list();
