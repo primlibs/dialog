@@ -156,7 +156,7 @@
                 <h1><a href="#" data-toggle="modal" data-target="#registrationwindow" style="float: right;" class="label label-danger ">Демо-версия на 14 дней бесплатно </a></h1>
             </div>
 
-
+            
 
 
             <div class="container" style="margin-top: 20px;background: url('/img/guaranteebg.png') repeat-x 0 0;color: #444;">
@@ -180,17 +180,9 @@
             </div>    
 
 
-
-
-
-
-
-
-
-
-
-
-
+            <div class="container" style="margin-top: 20px;">
+                <h3 style="color:black;">Позвоните сейчас по телефону +7(342)259-56-57 и узнайте, сколько денег вы заработаете с помощью Диалога</h3>
+            </div>    
 
             <div class="container" style="margin-top: 20px;">
                 <div class="page-header"><h2>Стоимость</h2></div>
@@ -284,10 +276,6 @@
                     </div>
                 </div>           
 
-            </div>
-            
-            <div class="container" style="margin-top: 20px;">
-                <h3 style="color:black;">Позвоните сейчас по телефону +7(342)259-56-57 и узнайте, сколько денег вы заработаете с помощью Диалога</h3>
             </div>
             
             <div class="container" style="margin-top: 20px;">
