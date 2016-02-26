@@ -15,6 +15,7 @@
     
     <http auto-config='true' use-expressions="true" >
         <intercept-url pattern="/login.jsp" access="hasAnyRole('ROLE_ANONYMOUS')" />
+        <intercept-url pattern="/confidence.jsp" access="hasAnyRole('ROLE_ANONYMOUS')" />
         <intercept-url pattern="/prim" access="hasAnyRole('ROLE_ANONYMOUS')" />
         <intercept-url pattern="/Prim" access="hasAnyRole('ROLE_ANONYMOUS')" />
         <intercept-url pattern="/PRIM" access="hasAnyRole('ROLE_ANONYMOUS')" />
