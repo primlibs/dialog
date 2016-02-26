@@ -287,7 +287,7 @@
             </div>
             
             <div class="container" style="margin-top: 20px;">
-                <h3 style="color:black;">Позвоните сейчас по телефону +7(342)259-56-57 и задайте любые вопросы</h3>
+                <h3 style="color:black;">Позвоните сейчас по телефону +7(342)259-56-57 и узнайте, сколько денег вы заработаете с помощью Диалога</h3>
             </div>
             
             <div class="container" style="margin-top: 20px;">
