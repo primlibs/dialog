@@ -265,8 +265,6 @@
 
                 </div>
 
-
-
                 <div class="container" style="margin-top: 20px;">
                     <div class="page-header"><h1><a href="#" id="sale" class="label label-danger">Хотите скидку?</a></h1></div>
                     <div class="saletoggle collapse col-lg-12" style="border-bottom: 1px solid #eee;">
@@ -286,12 +284,12 @@
                     </div>
                 </div>           
 
-
-
-
-
-
             </div>
+            
+            <div class="container" style="margin-top: 20px;">
+                <h3 style="color:black;">Позвоните сейчас по телефону +7(342)259-56-57 и задайте любые вопросы</h3>
+            </div>
+            
             <div class="container" style="margin-top: 20px;">
                 <nav class="navbar navbar-default navbar-static-bottom">
                     <p class="col-lg-4 txt text-center navbar-text">© ООО Прим 2015</p>
