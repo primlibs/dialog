@@ -269,8 +269,8 @@
             </div>
             <div class="container" style="margin-top: 20px;">
                 <nav class="navbar navbar-default navbar-static-bottom">
-                    <p class="col-lg-4 txt text-center navbar-text">© ООО Прим 2015 +7(342)259-56-57<!--<a href="#" class="navbar-link">Контакты </a>--></p>
-                    <p class="col-lg-4 txt text-center navbar-text"><a href="/confidence.jsp">Политика конфиденциальности</a></p>
+                    <p class="col-lg-4 txt text-center navbar-text">© ООО Прим 2015</p>
+                    <p class="col-lg-3 txt text-center navbar-text"><a href="/confidence.jsp">Политика конфиденциальности</a></p>
                     <p class="col-lg-4 txt text-center navbar-text">+7(342)259-56-57</p>
                 </nav>
             </div>
