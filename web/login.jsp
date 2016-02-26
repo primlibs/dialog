@@ -16,7 +16,7 @@
         <link href="./css/dialog.css" rel="stylesheet" type="text/css" >
         <link rel="shortcut icon" href="./img/icon(D).png">
     </head>
-    <body >
+    <body style="color:#777">
         <script src="<c:url value='/js/jquery-1.11.2.min.js'/>"></script>
         <script src="<c:url value='/js/bootstrap.js'/>"></script>
         <div class="jumbotron" style="background-color: #5bc0de;background-color: #5bc0de;background-image: url(./img/mmc.jpg);margin-bottom: 0px; background-position: 0% 25%;      background-size: cover;      background-repeat: no-repeat;      color: white; ">
@@ -159,7 +159,7 @@
 
 
 
-            <div class="container" style="margin-top: 20px;background: url('/img/guaranteebg.png') repeat-x 0 0;color: white;">
+            <div class="container" style="margin-top: 20px;background: url('/img/guaranteebg.png') repeat-x 0 0;color: #444;">
                 <div class="page-header"><h2>Наши гарантии</h2></div>
                 <div style='border-bottom: 1px solid #eee;'>
                     <h3>
