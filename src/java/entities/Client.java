@@ -46,10 +46,10 @@ public class Client extends PrimEntity {
     @Index(name="cabinetIndex")
     private PersonalCabinet cabinet;
 
-    @Column(name = "name_secretary")
+    @Column(name = "name_secretary",columnDefinition="TEXT")
     private String nameSecretary;
 
-    @Column(name = "name_lpr")
+    @Column(name = "name_lpr",columnDefinition="TEXT")
     private String nameLpr;
 
     @Column(name = "name_company")
@@ -61,7 +61,7 @@ public class Client extends PrimEntity {
     @Column(name = "phone_lpr")
     private String phoneLpr;
 
-    @Column(name = "address")
+    @Column(name = "address",columnDefinition="TEXT")
     private String address;
 
     @LazyCollection(LazyCollectionOption.TRUE)
@@ -72,7 +72,7 @@ public class Client extends PrimEntity {
     @OneToMany(mappedBy = "client")
     private List<ClientTagLink> tagLinks;*/
     
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "client_tags",
             joinColumns = @JoinColumn(name = "client_id", referencedColumnName = "client_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "tag_id"))
