@@ -44,6 +44,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -577,6 +578,46 @@ public class EventService extends PrimService {
             return residueMap;
         } else {
             addError("Нет доступных пользователей");
+            return null;
+        }
+    }
+    
+    
+    //распределить назначенных всех клиентов по юзерам
+    public LinkedHashMap<Long, Integer> eventReassignAppointAll(Long campaignId,Long userFromId, Long cabinetId) {
+        if(getCampaign(campaignId)!=null&&getCampaign(campaignId).getCabinet().getPkId().equals(cabinetId)){
+            Map<Long,String> hs=userAssignedClientNotProcessed(campaignId, cabinetId);
+            int clienttoAssigned=0;
+            if(userFromId!=null){
+                String cts=hs.get(userFromId);
+                if(cts!=null){
+                    clienttoAssigned=Integer.valueOf(cts);
+                }
+            }
+            int users = getActiveMakingCallsUsers(cabinetId).size();
+            List<CabinetUser> cabinetUserList = getActiveMakingCallsUsers(cabinetId);
+            if (users != 0) {
+                int clientOneUser = clienttoAssigned / users; //деление
+                int endClientUser = clienttoAssigned % users; // остаток
+
+                LinkedHashMap<Long, Integer> residueMap = new LinkedHashMap<>();
+
+                for (CabinetUser cabinetUser : cabinetUserList) {
+                    Long userId = cabinetUser.getUser().getUserId();
+                    int eventPoint = clientOneUser;
+                    if (endClientUser > 0) {
+                        eventPoint += 1;
+                        endClientUser--;
+                    }
+                    residueMap.put(userId, eventPoint);
+                }
+                return residueMap;
+            } else {
+                addError("Нет доступных пользователей");
+                return null;
+            }
+        }else{
+            addError("Кампания не принадлежит вашему личному кабинету");
             return null;
         }
     }
@@ -1126,6 +1167,69 @@ public class EventService extends PrimService {
             addError("Ошибка личного кабинета! Обратитесь в техническую поддержку!");
         }
     }
+    
+    
+    public void changeAllUsersCampaignAssignation(Long campaignId, Long userFromId,String[] clientNumArray, Long[] userIdArray, Long pkId) {
+        if (pkId != null&&getCampaign(campaignId)!=null&&getCampaign(campaignId).getCabinet().getPkId().equals(pkId)) {
+            List<Event> evs;
+            if (userFromId != null) {
+                evs = eventDao.getAssignedNotClosedUserEvents(campaignId, userFromId, pkId);
+            } else {
+                evs = eventDao.getEventListNotProcessed(campaignId, pkId);
+            }
+            
+            if (userIdArray != null && clientNumArray != null) {
+                LinkedHashMap<Long, Integer> userIdCountAssignedMap = new LinkedHashMap();
+                List<Event> eventsForUpdate = new ArrayList();
+                PersonalCabinet pk = personalCabinetDao.find(pkId);
+                int summClient = 0;
+                if (userIdArray.length > 0 && evs.size() > 0 && clientNumArray.length > 0) {
+                    for (int i = 0; i < userIdArray.length; i++) {
+                        if (clientNumArray.length >= i) {
+                            int count = StringAdapter.toInteger(clientNumArray[i]);
+                            summClient += count;
+                            userIdCountAssignedMap.put(userIdArray[i], count);
+                        } else {
+                            userIdCountAssignedMap.put(userIdArray[i], 0);
+                        }
+                    }
+                    int sindx = 0;
+                    if (summClient <= evs.size()) {
+                        for (Long userId : userIdCountAssignedMap.keySet()) {
+                            Integer eventsCountToAssign = userIdCountAssignedMap.get(userId);
+                            User user = userDao.getUserBelongsPk(pk, userId);
+                            if (user != null) {
+                                for (int supCount = 0; supCount < eventsCountToAssign; supCount++) {
+                                    Event ev = evs.get(sindx);
+                                    if (ev != null && supCount < eventsCountToAssign) {
+                                        ev.setUser(user);
+                                        ev.setStatus(Event.ASSIGNED);
+                                        if (validate(ev)) {
+                                            eventsForUpdate.add(ev);
+                                            sindx++;
+                                        }
+                                    }
+                                }
+                            } else {
+                                addError("Ошибка! Пользователь id:" + userId + " не принадлежит к личному кабинету!");
+                            }
+                        }
+                        for (Event ev : eventsForUpdate) {
+                            eventDao.update(ev);
+                            User u = ev.getUser();
+                            addEventComment("Звонок назначен на " + u.getShortName() + "(" + u.getEmail() + ")", EventComment.ASSIGN, ev, pkId);
+                        }
+                    } else {
+                        addError("Количество клиентов " + summClient + " больше количества не назначенных: " + evs.size());
+                    }
+                }
+            }
+        } else {
+            addError("Ошибка личного кабинета! Обратитесь в техническую поддержку!");
+        }
+    }
+    
+    
 
     public Event getAvailableEventById(Long eventId) {
         Event ev = eventDao.find(eventId);

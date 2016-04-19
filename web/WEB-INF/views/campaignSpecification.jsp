@@ -1,8 +1,4 @@
-<%-- 
-    Document   : campaignSpecification
-    Created on : 30.04.2015, 13:15:22
-    Author     : Юрий
---%>
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -192,6 +188,7 @@
                         <form id="reassignEvents" action="<c:url value="/Event/changeUserCampaignAssignation" />" method="post">
                             <select name="userToId">
                                 <option value="">Снять назначения с удалением информации о переносах</option>
+                                <option value="-1">Перераспределить между пользователями</option>
                                 <c:forEach var="cabinetUser"  items="${cabinetUserList}" >
                                     <option value="${cabinetUser.user.userId}">${cabinetUser.user.surname} ${cabinetUser.user.name} - ${cabinetUser.user.email}</option>
                                 </c:forEach>

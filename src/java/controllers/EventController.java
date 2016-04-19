@@ -822,12 +822,49 @@ public class EventController extends WebController {
             @RequestParam(value = "userFromId", required = false) Long userFromId, @RequestParam(value = "userToId", required = false) Long userToId, RedirectAttributes ras, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        eventService.changeUserCampaignAssignation(campaignId, userFromId, userToId, cabinetId);
-        ras.addFlashAttribute("errors", eventService.getErrors());
-        ras.addAttribute("campaignId", campaignId);
-        return "redirect:/Event/campaignSpecification";
+        if(userToId!=null&&userToId.equals(-1)){
+            ras.addAttribute("campaignId", campaignId);
+            ras.addAttribute("userFromId", userFromId);
+            return "redirect:/Event/changeAllUsersCampaignAssignation";
+        }else{
+            eventService.changeUserCampaignAssignation(campaignId, userFromId, userToId, cabinetId);
+            ras.addFlashAttribute("errors", eventService.getErrors());
+            ras.addAttribute("campaignId", campaignId);
+            return "redirect:/Event/campaignSpecification";
+        }
     }
-
+    
+    @RequestMapping("/changeAllUsersCampaignAssignation")
+    @Right(description = "Переназначить",name = "assignEvent")
+    public String changeAllUsersCampaignAssignation(Map<String, Object> model, @RequestParam(value = "campaignId") Long campaignId,
+            @RequestParam(value = "userFromId", required = false) Long userFromId,
+            @RequestParam(value = "clientNum", required = false) String[] clientNumArray,
+            @RequestParam(value = "userId", required = false) Long[] userIdArray,
+            @RequestParam(value = "usSubmit", required = false) String usSubmit, RedirectAttributes ras, HttpServletRequest request) throws Exception {
+        lk.dataByUserAndCompany(request, model);
+        Long cabinetId = (long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
+        if(usSubmit!=null&&usSubmit.equals("submit")){
+            eventService.changeAllUsersCampaignAssignation(campaignId, userFromId, clientNumArray,userIdArray, cabinetId);
+            ras.addFlashAttribute("errors", eventService.getErrors());
+            ras.addAttribute("campaignId", campaignId);
+            return "redirect:/Event/campaignSpecification";
+        }else{
+            LinkedHashMap<Long, Integer> ls=eventService.eventReassignAppointAll(campaignId,userFromId,cabinetId);
+            int count=0;
+            for(Long lg:ls.keySet()){
+                count+=ls.get(lg);   
+            }
+            model.put("eventAllAppoint", ls);
+            model.put("clientCount", count);
+            model.put("campaign", eventService.getCampaign(campaignId));
+            model.put("userFromId", userFromId);
+            model.put("cabinetUserList", eventService.getActiveMakingCallsUsers(cabinetId));
+            model.put("errors", eventService.getErrors());
+            return "reassignUsersCampaign";
+        }
+    }
+    
+   
     @RequestMapping("/moduleReportDetalisation")
     @Right(description = "Кампании - детализация отчетов",name = "eventClient")
     public String moduleReportDetalisation(Map<String, Object> model, @RequestParam(value = "campaignId") Long campaignId,
