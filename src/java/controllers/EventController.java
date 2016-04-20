@@ -822,7 +822,7 @@ public class EventController extends WebController {
             @RequestParam(value = "userFromId", required = false) Long userFromId, @RequestParam(value = "userToId", required = false) Long userToId, RedirectAttributes ras, HttpServletRequest request) throws Exception {
         lk.dataByUserAndCompany(request, model);
         Long cabinetId = (long) request.getSession().getAttribute(CABINET_ID_SESSION_NAME);
-        if(userToId!=null&&userToId.equals(-1)){
+        if(userToId!=null&&userToId.equals(new Long(-1))){
             ras.addAttribute("campaignId", campaignId);
             ras.addAttribute("userFromId", userFromId);
             return "redirect:/Event/changeAllUsersCampaignAssignation";
