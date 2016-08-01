@@ -916,6 +916,15 @@ public class EventService extends PrimService {
         List<FailReason> failReasons = str.getFailReasons();
         return failReasons;
     }
+    
+    public List<FailReason> getActiveFailReasons(Long strategyId) {
+        Strategy str = strategyDao.find(strategyId);
+        List<FailReason> failReasons = new ArrayList();
+        if(str!=null){
+            failReasons =failReasonDao.getActiveFailReasons(str.getStrategyId());
+        }
+        return failReasons;
+    }
 
     public boolean writeModuleInHistory(Date date, Long cabinetId, Long moduleId, Long eventId) {
         boolean performed = false;
