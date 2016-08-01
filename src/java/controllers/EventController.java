@@ -514,7 +514,7 @@ public class EventController extends WebController {
             Event ev = eventService.getAvailableEventById(eventId);
             model.put("event", ev);
         }
-        model.put("failReasons", eventService.getAllFailReasons(strategyId));
+        model.put("failReasons", eventService.getActiveFailReasons(strategyId));
         model.put("campaign", eventService.getCampaign(campaignId));
         //model.put("errors", eventService.getErrors());
         model.put("strategy", strategyService.getStrategy(strategyId, cabinetId));
